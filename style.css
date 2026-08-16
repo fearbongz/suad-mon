@@ -196,7 +196,6 @@ img{max-width:100%;display:block;}
   background-color:var(--lavender-100);background-repeat:no-repeat;
   background-position:center;background-size:contain;
 }
-.ti-icon-wrap.icon-tile{background-size:auto 175%;background-position:top center;}
 .today-item .ti-body{flex:1;min-width:0;}
 .today-item .ti-title-row{display:flex;align-items:center;gap:8px;flex-wrap:wrap;}
 .today-item h3{font-size:1.02rem;color:#4a3560;font-weight:700;}
@@ -218,13 +217,14 @@ img{max-width:100%;display:block;}
 /* ---- quick tiles ---- */
 .tile-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-bottom:26px;}
 .tile{
-  background:none;border:none;border-radius:18px;
-  padding:0;box-shadow:var(--shadow-sm);overflow:hidden;
-  display:block;line-height:0;
+  background:var(--white);border:none;border-radius:18px;
+  padding:0 0 10px;box-shadow:var(--shadow-sm);overflow:hidden;
+  display:flex;flex-direction:column;align-items:center;gap:6px;
   transition:transform .15s;
 }
 .tile:active{transform:scale(.94);}
-.tile img{width:100%;display:block;border-radius:18px;}
+.tile img{width:100%;display:block;}
+.tile span{font-size:.76rem;font-weight:700;color:var(--ink);line-height:1.25;text-align:center;padding:0 4px;}
 
 /* ---- streak ---- */
 .goal-label{font-size:.78rem;color:var(--ink-faint);font-weight:600;}
@@ -285,7 +285,6 @@ img{max-width:100%;display:block;}
   background-color:var(--lavender-100);background-repeat:no-repeat;
   background-position:center;background-size:contain;
 }
-.pc-icon-wrap.icon-tile{background-size:auto 175%;background-position:top center;}
 .prayer-card .pc-body{flex:1;min-width:0;}
 .prayer-card h3{font-size:.95rem;color:#4a3560;font-weight:700;}
 .prayer-card .pc-meta{display:flex;gap:8px;margin-top:5px;flex-wrap:wrap;}

@@ -222,12 +222,6 @@ function computeStreak(){
 
 function findPrayer(id){ return PRAYERS.find(p=>p.id===id); }
 
-// the quick-tile icon crops (tile1-4.png) have their Thai label baked into
-// the bottom of the image, so when reused as a small icon elsewhere we render
-// them as a zoomed-in background-image (see .icon-tile in style.css) to crop
-// out the label and show just the icon artwork.
-function iconClass(path){ return path.includes("tile") ? "icon-tile" : ""; }
-
 /* ---------------- HERO GREETING / QUOTE ---------------- */
 function renderHero(){
   const h = new Date().getHours();
@@ -257,7 +251,7 @@ function renderCarousel(){
   const dots = document.getElementById("todayDots");
   car.innerHTML = featured.map(p=>`
     <div class="today-item">
-      <div class="ti-icon-wrap ${iconClass(p.icon)}" style="background-image:url('${p.icon}')"></div>
+      <div class="ti-icon-wrap" style="background-image:url('${p.icon}')"></div>
       <div class="ti-body">
         <div class="ti-title-row">
           <h3>${p.title}</h3>
@@ -288,8 +282,9 @@ function renderCarousel(){
 function renderTiles(){
   const wrap = document.getElementById("quickTiles");
   wrap.innerHTML = QUICK_TILES.map(t=>`
-    <button class="tile" data-open="${t.id}" aria-label="${t.label}">
-      <img src="${t.icon}" alt="${t.label}">
+    <button class="tile" data-open="${t.id}">
+      <img src="${t.icon}" alt="">
+      <span>${t.label}</span>
     </button>
   `).join("");
   wrap.querySelectorAll("[data-open]").forEach(btn=>{
@@ -376,7 +371,7 @@ function prayerCardHTML(p){
   const isFav = state.favorites.includes(p.id);
   return `
     <button class="prayer-card" data-open="${p.id}">
-      <div class="pc-icon-wrap ${iconClass(p.icon)}" style="background-image:url('${p.icon}')"></div>
+      <div class="pc-icon-wrap" style="background-image:url('${p.icon}')"></div>
       <div class="pc-body">
         <h3>${p.title}</h3>
         <div class="pc-meta">
