@@ -328,9 +328,22 @@ function renderStreak(){
     if(done){ cls+=" done"; content="✓"; }
     else if(isFuture){ cls+=" future"; content=""; }
     if(isToday) cls+=" today";
-    html += `<div class="day-col"><div class="${cls}">${content}</div><span class="day-label">${DOW_TH[i]}</span></div>`;
+    const todayAttr = isToday ? `data-today-toggle="1"` : "";
+    html += `<div class="day-col"><div class="${cls}" ${todayAttr}>${content}</div><span class="day-label">${DOW_TH[i]}</span></div>`;
   }
   week.innerHTML = html;
+
+  const todayCircle = week.querySelector('[data-today-toggle]');
+  if(todayCircle) todayCircle.addEventListener("click", toggleTodayDirect);
+
+  // manual "check in without opening the app's reader" button
+  const doneToday = set.has(todayStr(now));
+  const btn = document.getElementById("checkinBtn");
+  const icon = document.getElementById("checkinIcon");
+  const text = document.getElementById("checkinText");
+  btn.classList.toggle("done", doneToday);
+  icon.textContent = doneToday ? "💗" : "✅";
+  text.textContent = doneToday ? "วันนี้สวดแล้วนะคะ (กดอีกครั้งเพื่อยกเลิก)" : "วันนี้สวดแล้ว ไม่ผ่านแอป กดติ๊กเลย";
 }
 
 /* ---------------- PRAYER LIBRARY ---------------- */
@@ -544,6 +557,35 @@ function restartReader(){
   updateProgress();
 }
 
+// for people who chanted offline (book, other app, in person) and just want
+// to check today off without going through the in-app reader/play flow
+function toggleTodayDirect(){
+  const ds = todayStr();
+  const already = state.completedDates.includes(ds);
+
+  if(already){
+    state.completedDates = state.completedDates.filter(d=>d!==ds);
+    saveState();
+    renderStreak();
+    renderMeritStats();
+    renderCalendar();
+    renderBadges();
+    return;
+  }
+
+  state.completedDates.push(ds);
+  saveState();
+  renderStreak();
+  renderMeritStats();
+  renderCalendar();
+  renderBadges();
+  playChime(880);
+  spawnBurst();
+  document.getElementById("completeMsg").textContent =
+    `บันทึกแล้วค่ะว่าวันนี้สวดมนต์แล้ว วันนี้ครบ ${computeStreak()} วันติดต่อกันค่ะ`;
+  document.getElementById("completeModal").classList.add("open");
+}
+
 function markComplete(){
   const ds = todayStr();
   const already = state.completedDates.includes(ds);
@@ -696,6 +738,10 @@ function bindBell(){
   });
 }
 
+function bindCheckin(){
+  document.getElementById("checkinBtn").addEventListener("click", toggleTodayDirect);
+}
+
 /* ---------------- INIT ---------------- */
 function renderAll(){
   renderHero();
@@ -716,5 +762,6 @@ document.addEventListener("DOMContentLoaded", ()=>{
   bindReaderControls();
   bindSearch();
   bindBell();
+  bindCheckin();
   initSettings();
 });

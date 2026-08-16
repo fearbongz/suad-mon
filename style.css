@@ -245,6 +245,16 @@ img{max-width:100%;display:block;}
 .day-badge.future{background:#f2eef7;color:#d9cee3;}
 .day-label{font-size:.68rem;color:var(--ink-faint);font-weight:600;}
 .streak-hint{margin-top:14px;font-size:.82rem;color:var(--ink-soft);text-align:center;}
+.checkin-btn{
+  display:flex;align-items:center;justify-content:center;gap:8px;
+  width:100%;margin-top:14px;padding:12px;border-radius:18px;
+  background:var(--pink-50);border:1.6px dashed var(--pink-300);
+  color:var(--pink-600);font-weight:700;font-size:.86rem;
+  transition:transform .15s,background .2s;
+}
+.checkin-btn:active{transform:scale(.97);}
+.checkin-btn.done{background:var(--pink-100);border-style:solid;color:var(--pink-600);}
+.day-badge.today{cursor:pointer;}
 .note-block{background:var(--yellow-100);border-radius:var(--radius-md);padding:14px 16px;margin-bottom:10px;}
 .note-block p{font-size:.78rem;color:#8a713a;line-height:1.6;}
 
