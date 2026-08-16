@@ -217,14 +217,19 @@ img{max-width:100%;display:block;}
 /* ---- quick tiles ---- */
 .tile-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-bottom:26px;}
 .tile{
-  background:var(--white);border:none;border-radius:18px;
-  padding:0 0 10px;box-shadow:var(--shadow-sm);overflow:hidden;
-  display:flex;flex-direction:column;align-items:center;gap:6px;
+  position:relative;background:none;border:none;border-radius:18px;
+  padding:0;box-shadow:var(--shadow-sm);overflow:hidden;
+  display:block;line-height:0;
   transition:transform .15s;
 }
 .tile:active{transform:scale(.94);}
 .tile img{width:100%;display:block;}
-.tile span{font-size:.76rem;font-weight:700;color:var(--ink);line-height:1.25;text-align:center;padding:0 4px;}
+.tile span{
+  position:absolute;left:0;right:0;bottom:10px;
+  font-size:.76rem;font-weight:700;line-height:1.25;text-align:center;padding:0 6px;
+  color:#6a2fb0;
+  text-shadow:0 1px 0 rgba(255,255,255,.6), 0 0 6px rgba(255,255,255,.5);
+}
 
 /* ---- streak ---- */
 .goal-label{font-size:.78rem;color:var(--ink-faint);font-weight:600;}
