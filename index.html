@@ -1,0 +1,274 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>สวดมนต์ทุกวัน</title>
+<meta name="theme-color" content="#f3c9e6">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🪷</text></svg>">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Mali:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400;1,600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<div class="app-shell" id="appShell">
+
+  <!-- ================= HERO / HEADER ================= -->
+  <header class="hero" id="hero">
+    <div class="hero-sparkles" aria-hidden="true">
+      <span class="spark s1">✦</span><span class="spark s2">✧</span><span class="spark s3">✦</span>
+      <span class="spark s4">⋆</span><span class="spark s5">✧</span><span class="spark s6">✦</span>
+      <span class="flower f1">✿</span><span class="flower f2">❀</span>
+    </div>
+
+    <img class="hero-moon" src="assets/moon.png" alt="" aria-hidden="true">
+
+    <button class="bell-btn" id="bellBtn" aria-label="การแจ้งเตือน">
+      <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="#7c5cad" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M18 8a6 6 0 0 0-12 0c0 7-3 9-3 9h18s-3-2-3-9"></path>
+        <path d="M13.73 21a2 2 0 0 1-3.46 0"></path>
+      </svg>
+      <span class="bell-dot"></span>
+    </button>
+
+    <img class="hero-illust" src="assets/illustration.png" alt="น้องพนมมือสวดมนต์บนดอกบัว">
+
+    <div class="hero-text">
+      <h1 id="greetingText">สวัสดีตอนเช้า <span class="heart">💗</span></h1>
+      <p id="greetingSub">ขอให้วันนี้เป็นวันที่ดีนะคะ <span>💛</span></p>
+
+      <div class="quote-card">
+        <span class="quote-mark">“</span>
+        <p class="quote-text" id="quoteText">การให้ธรรมะ ชนะการให้ทั้งปวง</p>
+        <p class="quote-by" id="quoteBy">- พุทธพจน์ -</p>
+        <span class="quote-heart">💗</span>
+      </div>
+    </div>
+  </header>
+
+  <!-- ================= MAIN CONTENT ================= -->
+  <main class="content">
+
+    <!-- ---------- HOME / DASHBOARD SCREEN ---------- -->
+    <section class="screen active" id="screen-home">
+
+      <div class="card today-card">
+        <div class="card-head">
+          <h2>⭐ บทสวดวันนี้</h2>
+          <button class="link-btn" data-nav="prayers">ดูทั้งหมด <span>›</span></button>
+        </div>
+
+        <div class="carousel" id="todayCarousel"></div>
+        <div class="dots" id="todayDots"></div>
+      </div>
+
+      <div class="section-title">
+        <h2>💗 สวดบ่อย ใช้ได้ทุกวัน</h2>
+      </div>
+      <div class="tile-grid" id="quickTiles"></div>
+
+      <div class="card streak-card">
+        <div class="card-head">
+          <h2>🔥 สวดต่อเนื่อง</h2>
+          <span class="goal-label">⭐ เป้าหมาย <span id="goalDays">21</span> วัน</span>
+        </div>
+        <div class="streak-body">
+          <div class="streak-count">
+            <span class="num" id="streakNum">0</span>
+            <span class="unit">วัน</span>
+            <span class="cheer" id="streakCheer">เริ่มต้นวันนี้เลยนะคะ</span>
+          </div>
+          <div class="streak-week" id="streakWeek"></div>
+        </div>
+        <p class="streak-hint">สวดวันนี้ต่ออีกนิด เพื่อสิ่งดี ๆ ในชีวิตนะคะ 💗</p>
+      </div>
+
+      <div class="note-block">
+        <p>🪷 บทสวดในแอปนี้เป็น <b>ฉบับย่อ</b> เพื่อการฝึกใช้งานแอปเท่านั้น แนะนำให้ตรวจสอบความถูกต้องกับหนังสือสวดมนต์ฉบับสมบูรณ์ก่อนใช้สวดจริงนะคะ 🙏</p>
+      </div>
+    </section>
+
+    <!-- ---------- PRAYER LIBRARY SCREEN ---------- -->
+    <section class="screen" id="screen-prayers">
+      <h2 class="page-title">📖 บทสวดทั้งหมด</h2>
+
+      <div class="search-wrap">
+        <span class="search-icon">🔍</span>
+        <input type="text" id="searchInput" placeholder="ค้นหาบทสวด...">
+      </div>
+
+      <div class="chip-row" id="chipRow"></div>
+
+      <div class="prayer-list" id="prayerList"></div>
+    </section>
+
+    <!-- ---------- MY MERIT / STATS SCREEN ---------- -->
+    <section class="screen" id="screen-merit">
+      <h2 class="page-title">💗 บุญของฉัน</h2>
+
+      <div class="merit-hero">
+        <div class="merit-stat">
+          <span class="merit-num" id="meritStreak">0</span>
+          <span class="merit-label">วันติดต่อกัน 🔥</span>
+        </div>
+        <div class="merit-stat">
+          <span class="merit-num" id="meritTotal">0</span>
+          <span class="merit-label">ครั้งที่สวดทั้งหมด</span>
+        </div>
+        <div class="merit-stat">
+          <span class="merit-num" id="meritFav">0</span>
+          <span class="merit-label">บทสวดโปรด</span>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-head"><h2>🗓️ ปฏิทินการสวดมนต์</h2></div>
+        <div class="calendar" id="calendar"></div>
+      </div>
+
+      <div class="card">
+        <div class="card-head"><h2>🏅 เหรียญตรารางวัล</h2></div>
+        <div class="badge-grid" id="badgeGrid"></div>
+      </div>
+
+      <div class="card">
+        <div class="card-head"><h2>🩷 บทสวดที่บันทึกไว้</h2></div>
+        <div class="prayer-list" id="favList"></div>
+        <p class="empty-hint" id="favEmpty">ยังไม่มีบทสวดโปรด ลองกดรูปหัวใจที่บทสวดที่ชอบดูนะคะ</p>
+      </div>
+    </section>
+
+    <!-- ---------- SETTINGS SCREEN ---------- -->
+    <section class="screen" id="screen-settings">
+      <h2 class="page-title">⚙️ ตั้งค่า</h2>
+
+      <div class="card settings-card">
+        <div class="settings-row">
+          <div>
+            <p class="settings-title">🔤 ขนาดตัวอักษรบทสวด</p>
+            <p class="settings-desc">ปรับให้อ่านสบายตาตามที่ชอบ</p>
+          </div>
+        </div>
+        <div class="size-options" id="fontSizeOptions">
+          <button data-size="small">เล็ก</button>
+          <button data-size="medium" class="active">กลาง</button>
+          <button data-size="large">ใหญ่</button>
+        </div>
+      </div>
+
+      <div class="card settings-card">
+        <div class="settings-row">
+          <div>
+            <p class="settings-title">⏰ เตือนสวดมนต์ทุกวัน</p>
+            <p class="settings-desc">ตั้งเวลาที่อยากให้แอปเตือนใจคุณ</p>
+          </div>
+          <label class="switch">
+            <input type="checkbox" id="reminderToggle">
+            <span class="slider"></span>
+          </label>
+        </div>
+        <input type="time" id="reminderTime" class="time-input" value="19:00">
+      </div>
+
+      <div class="card settings-card">
+        <div class="settings-row">
+          <div>
+            <p class="settings-title">🎯 เป้าหมายสวดต่อเนื่อง</p>
+            <p class="settings-desc">ตั้งเป้าจำนวนวันที่อยากทำให้ได้</p>
+          </div>
+        </div>
+        <div class="size-options" id="goalOptions">
+          <button data-goal="7">7 วัน</button>
+          <button data-goal="21" class="active">21 วัน</button>
+          <button data-goal="30">30 วัน</button>
+        </div>
+      </div>
+
+      <div class="card settings-card">
+        <button class="danger-btn" id="resetBtn">🗑️ ล้างข้อมูลการสวดมนต์ทั้งหมด</button>
+      </div>
+
+      <p class="about-text">🪷 ทำด้วยใจ สำหรับคนที่อยากสวดมนต์ทุกวัน ✨<br>เวอร์ชันทดลอง</p>
+    </section>
+
+  </main>
+
+  <!-- ================= PRAYER READER OVERLAY ================= -->
+  <div class="reader-overlay" id="readerOverlay">
+    <div class="reader-panel">
+      <div class="reader-top">
+        <button class="icon-btn" id="readerBack" aria-label="ย้อนกลับ">
+          <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="#7c5cad" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M15 18l-6-6 6-6"/></svg>
+        </button>
+        <span class="reader-cat" id="readerCat">หมวดหมู่</span>
+        <button class="icon-btn fav-btn" id="readerFav" aria-label="บันทึกบทสวดโปรด">🤍</button>
+      </div>
+
+      <h2 class="reader-title" id="readerTitle">ชื่อบทสวด</h2>
+      <p class="reader-desc" id="readerDesc"></p>
+
+      <div class="reader-meta">
+        <span>⏱ <span id="readerDuration">-</span></span>
+        <span>👤 สวดแล้ว <span id="readerPop">-</span> ครั้ง</span>
+      </div>
+
+      <div class="reader-progress"><div class="reader-progress-bar" id="readerProgressBar"></div></div>
+
+      <div class="reader-text" id="readerText"></div>
+
+      <div class="reader-controls">
+        <button class="ctrl-btn" id="readerRestart" aria-label="เริ่มใหม่">
+          <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="1 4 1 10 7 10"/><path d="M3.51 15a9 9 0 1 0 2.13-9.36L1 10"/></svg>
+        </button>
+        <button class="play-btn" id="readerPlay" aria-label="เล่น/หยุด">
+          <svg id="playIcon" viewBox="0 0 24 24" width="30" height="30" fill="currentColor"><polygon points="6 3 20 12 6 21 6 3"/></svg>
+          <svg id="pauseIcon" viewBox="0 0 24 24" width="30" height="30" fill="currentColor" style="display:none"><rect x="6" y="4" width="4" height="16" rx="1"/><rect x="14" y="4" width="4" height="16" rx="1"/></svg>
+        </button>
+        <button class="ctrl-btn" id="readerDone" aria-label="สวดจบแล้ว">
+          <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ================= COMPLETE MODAL ================= -->
+  <div class="complete-modal" id="completeModal">
+    <div class="complete-card">
+      <div class="complete-emoji">🪷✨</div>
+      <h2>อนุโมทนาบุญด้วยนะคะ</h2>
+      <p id="completeMsg">สวดครบแล้ววันนี้ 1 บท เก่งมากค่ะ</p>
+      <button id="completeClose">รับทราบค่ะ 💗</button>
+    </div>
+  </div>
+
+  <!-- ================= BOTTOM NAV ================= -->
+  <nav class="bottom-nav">
+    <button class="nav-item" data-nav="home">
+      <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 11l9-8 9 8"/><path d="M5 10v10h14V10"/></svg>
+      <span>หน้าแรก</span>
+    </button>
+    <button class="nav-item" data-nav="prayers">
+      <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 5.5S4 4 8 4s6 1.5 6 1.5v14S12 18 8 18s-6 1.5-6 1.5v-14Z"/><path d="M22 5.5S20 4 16 4s-6 1.5-6 1.5v14S12 18 16 18s6 1.5 6 1.5v-14Z"/></svg>
+      <span>บทสวด</span>
+    </button>
+    <button class="nav-item nav-main active" data-nav="home">
+      <span class="nav-main-circle"><img src="assets/navlotus.png" alt=""></span>
+      <span>สวดมนต์</span>
+    </button>
+    <button class="nav-item" data-nav="merit">
+      <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20.8 4.6c-1.7-1.7-4.4-1.7-6.1 0L12 7.3 9.3 4.6c-1.7-1.7-4.4-1.7-6.1 0-1.7 1.7-1.7 4.4 0 6.1L12 19.4l8.8-8.7c1.7-1.7 1.7-4.4 0-6.1z"/></svg>
+      <span>บุญของฉัน</span>
+    </button>
+    <button class="nav-item" data-nav="settings">
+      <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.7 1.7 0 0 0 .3 1.9l.1.1a2 2 0 1 1-2.8 2.8l-.1-.1a1.7 1.7 0 0 0-1.9-.3 1.7 1.7 0 0 0-1 1.5V21a2 2 0 1 1-4 0v-.1a1.7 1.7 0 0 0-1-1.6 1.7 1.7 0 0 0-1.9.3l-.1.1a2 2 0 1 1-2.8-2.8l.1-.1a1.7 1.7 0 0 0 .3-1.9 1.7 1.7 0 0 0-1.5-1H3a2 2 0 1 1 0-4h.1a1.7 1.7 0 0 0 1.6-1 1.7 1.7 0 0 0-.3-1.9l-.1-.1a2 2 0 1 1 2.8-2.8l.1.1a1.7 1.7 0 0 0 1.9.3H9a1.7 1.7 0 0 0 1-1.5V3a2 2 0 1 1 4 0v.1a1.7 1.7 0 0 0 1 1.5 1.7 1.7 0 0 0 1.9-.3l.1-.1a2 2 0 1 1 2.8 2.8l-.1.1a1.7 1.7 0 0 0-.3 1.9V9a1.7 1.7 0 0 0 1.5 1H21a2 2 0 1 1 0 4h-.1a1.7 1.7 0 0 0-1.5 1z"/></svg>
+      <span>ตั้งค่า</span>
+    </button>
+  </nav>
+
+</div>
+
+<script src="app.js"></script>
+</body>
+</html>
