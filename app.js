@@ -1559,11 +1559,13 @@ function bindAssistant(){
   assistantContinuous.checked = Boolean(state.continuousOn);
 
   let assistantFocusOrder = [...document.querySelectorAll('[data-assistant-group="focus"] .active')].map(item=>item.dataset.value);
+  let assistantFocusPrayerOrder = [];
   const selectedFocuses = ()=>assistantFocusOrder.filter(value=>document.querySelector(`[data-assistant-group="focus"] button[data-value="${value}"]`)?.classList.contains("active"));
   const selectedPrayers = ()=>{
     if(assistantMode==="prayers") return assistantPrayerOrder.filter(id=>picker.querySelector(`button[data-value="${id}"]`)?.classList.contains("active")).map(findPrayer).filter(Boolean);
-    const ids = selectedFocuses().flatMap(focus=>focusRecommendations[focus] || []);
-    return [...new Set(ids)].map(findPrayer).filter(Boolean);
+    const ids = [...new Set(selectedFocuses().flatMap(focus=>focusRecommendations[focus] || []))];
+    assistantFocusPrayerOrder = [...assistantFocusPrayerOrder.filter(id=>ids.includes(id)),...ids.filter(id=>!assistantFocusPrayerOrder.includes(id))];
+    return assistantFocusPrayerOrder.map(findPrayer).filter(Boolean);
   };
   const refreshAssistantPreview = ()=>{
     const prayers = selectedPrayers();
@@ -1585,16 +1587,17 @@ function bindAssistant(){
     document.getElementById("assistantPreviewTitle").textContent = title;
     document.getElementById("assistantPreviewDuration").textContent = prayers.length ? `ใช้เวลาประมาณ ${totalMinutes} นาที` : "ยังไม่ได้เลือกบทสวด";
     const prayerList = document.getElementById("assistantPrayerList");
-    prayerList.innerHTML = prayers.length ? prayers.map((prayer,index)=>`<li class="${assistantMode==="prayers" ? "sortable" : ""}" data-prayer-id="${prayer.id}" draggable="${assistantMode==="prayers"}"><span>${index+1}</span><b class="assistant-prayer-name">${prayer.title}</b><small>${prayer.duration}</small>${assistantMode==="prayers" ? '<i class="assistant-drag-handle" aria-label="ลากเพื่อเรียงลำดับ">⠿</i>' : ""}</li>`).join("") : '<li class="assistant-empty">เลือกบทสวดเพื่อเพิ่มลงในชุด</li>';
+    prayerList.innerHTML = prayers.length ? prayers.map((prayer,index)=>`<li class="sortable" data-prayer-id="${prayer.id}" draggable="true"><span>${index+1}</span><b class="assistant-prayer-name">${prayer.title}</b><small>${prayer.duration}</small><i class="assistant-drag-handle" aria-label="ลากเพื่อเรียงลำดับ">⠿</i></li>`).join("") : '<li class="assistant-empty">เลือกบทสวดเพื่อเพิ่มลงในชุด</li>';
     bindAssistantPreviewSorting(prayerList);
   };
 
   const syncPrayerOrderFromPreview = list=>{
-    assistantPrayerOrder = [...list.querySelectorAll("li[data-prayer-id]")].map(item=>item.dataset.prayerId);
+    const reorderedIds = [...list.querySelectorAll("li[data-prayer-id]")].map(item=>item.dataset.prayerId);
+    if(assistantMode==="prayers") assistantPrayerOrder = reorderedIds;
+    else assistantFocusPrayerOrder = reorderedIds;
     refreshAssistantPreview();
   };
   const bindAssistantPreviewSorting = list=>{
-    if(assistantMode!=="prayers") return;
     let draggedItem = null;
     list.querySelectorAll("li.sortable").forEach(item=>{
       item.addEventListener("dragstart",event=>{ draggedItem=item; item.classList.add("dragging"); event.dataTransfer.effectAllowed="move"; });
@@ -1686,6 +1689,7 @@ function bindAssistant(){
       document.getElementById("assistantCreate").innerHTML = '<span>✦</span> สร้างชุดสวดของฉัน <small>เริ่มต้นสวดได้ทันที</small>';
       document.querySelectorAll('[data-assistant-group="focus"] button.active').forEach(button=>button.classList.remove("active"));
       assistantFocusOrder = [];
+      assistantFocusPrayerOrder = [];
       picker.querySelectorAll("button.active").forEach(button=>button.classList.remove("active"));
       assistantPrayerOrder = [];
       searchInput.value = "";
