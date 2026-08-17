@@ -17,7 +17,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Mali:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400;1,600&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="style.css?v=20260817-6">
+<link rel="stylesheet" href="style.css?v=20260817-7">
 </head>
 <body>
 
@@ -274,6 +274,15 @@
     </section>
 
     <!-- ---------- PERSONAL PRAYER ASSISTANT ---------- -->
+    <section class="screen" id="screen-merit-garden">
+      <div class="merit-garden-coming-soon">
+        <div class="merit-garden-icon" aria-hidden="true">🌳</div>
+        <h2>สวนบุญ</h2>
+        <p>พื้นที่แห่งความดีของคุณ</p>
+        <span>Coming soon</span>
+      </div>
+    </section>
+
     <section class="screen" id="screen-assistant">
       <div class="assistant-intro">
         <h2>ผู้ช่วยจัดชุดสวดมนต์ส่วนตัว <span>✨</span></h2>
@@ -395,6 +404,10 @@
       <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 5.5S4 4 8 4s6 1.5 6 1.5v14S12 18 8 18s-6 1.5-6 1.5v-14Z"/><path d="M22 5.5S20 4 16 4s-6 1.5-6 1.5v14S12 18 16 18s6 1.5 6 1.5v-14Z"/></svg>
       <span>บทสวด</span>
     </button>
+    <button class="nav-item" data-nav="assistant">
+      <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m12 3 1.2 3.8L17 8l-3.8 1.2L12 13l-1.2-3.8L7 8l3.8-1.2Z"/><path d="m18 14 .8 2.2L21 17l-2.2.8L18 20l-.8-2.2L15 17l2.2-.8Z"/><path d="M4 16h7M7.5 12.5v7"/></svg>
+      <span>ผู้ช่วย</span>
+    </button>
     <button class="nav-item nav-main active" id="mainPrayerBtn">
       <span class="nav-main-circle"><img src="assets/navlotus.png" alt=""></span>
       <span>สวดมนต์</span>
@@ -403,9 +416,9 @@
       <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20.8 4.6c-1.7-1.7-4.4-1.7-6.1 0L12 7.3 9.3 4.6c-1.7-1.7-4.4-1.7-6.1 0-1.7 1.7-1.7 4.4 0 6.1L12 19.4l8.8-8.7c1.7-1.7 1.7-4.4 0-6.1z"/></svg>
       <span>บุญของฉัน</span>
     </button>
-    <button class="nav-item" data-nav="assistant">
-      <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m12 3 1.2 3.8L17 8l-3.8 1.2L12 13l-1.2-3.8L7 8l3.8-1.2Z"/><path d="m18 14 .8 2.2L21 17l-2.2.8L18 20l-.8-2.2L15 17l2.2-.8Z"/><path d="M4 16h7M7.5 12.5v7"/></svg>
-      <span>ผู้ช่วย</span>
+    <button class="nav-item" data-nav="merit-garden">
+      <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22v-7"/><path d="M8 22h8"/><path d="M12 15c-4 0-7-2.2-7-5.2C5 7.1 7.1 5 9.7 5c.5-2 2.2-3 4.1-3 2.5 0 4.5 1.8 4.5 4.2 1.6.7 2.7 2.2 2.7 4 0 2.8-2.6 4.8-6 4.8Z"/></svg>
+      <span>สวนบุญ</span>
     </button>
     <button class="nav-item" data-nav="settings">
       <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.7 1.7 0 0 0 .3 1.9l.1.1a2 2 0 1 1-2.8 2.8l-.1-.1a1.7 1.7 0 0 0-1.9-.3 1.7 1.7 0 0 0-1 1.5V21a2 2 0 1 1-4 0v-.1a1.7 1.7 0 0 0-1-1.6 1.7 1.7 0 0 0-1.9.3l-.1.1a2 2 0 1 1-2.8-2.8l.1-.1a1.7 1.7 0 0 0 .3-1.9 1.7 1.7 0 0 0-1.5-1H3a2 2 0 1 1 0-4h.1a1.7 1.7 0 0 0 1.6-1 1.7 1.7 0 0 0-.3-1.9l-.1-.1a2 2 0 1 1 2.8-2.8l.1.1a1.7 1.7 0 0 0 1.9.3H9a1.7 1.7 0 0 0 1-1.5V3a2 2 0 1 1 4 0v.1a1.7 1.7 0 0 0 1 1.5 1.7 1.7 0 0 0 1.9-.3l.1-.1a2 2 0 1 1 2.8 2.8l-.1.1a1.7 1.7 0 0 0-.3 1.9V9a1.7 1.7 0 0 0 1.5 1H21a2 2 0 1 1 0 4h-.1a1.7 1.7 0 0 0-1.5 1z"/></svg>
@@ -415,6 +428,6 @@
 
 </div>
 
-<script src="app.js?v=20260817-6"></script>
+<script src="app.js?v=20260817-7"></script>
 </body>
 </html>

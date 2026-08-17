@@ -707,7 +707,7 @@ img{max-width:100%;display:block;}
 }
 .nav-item{
   background:none;border:none;display:flex;flex-direction:column;align-items:center;gap:4px;
-  color:var(--ink-faint);font-size:.68rem;font-weight:700;padding:4px 6px;flex:1;
+  min-width:0;color:var(--ink-faint);font-size:.62rem;font-weight:700;padding:4px 1px;flex:1;
 }
 .nav-item.active{color:var(--pink-500);}
 .nav-item svg{color:inherit;}
@@ -719,6 +719,11 @@ img{max-width:100%;display:block;}
 }
 .nav-main-circle img{width:100%;height:100%;object-fit:cover;}
 .nav-main span:last-child{color:var(--pink-500);}
+.merit-garden-coming-soon{min-height:52vh;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:32px 20px;text-align:center;color:var(--lavender-600);}
+.merit-garden-icon{width:100px;height:100px;display:flex;align-items:center;justify-content:center;border-radius:50%;background:linear-gradient(145deg,#f4eaff,#fff4f8);box-shadow:0 10px 28px rgba(130,83,180,.14);font-size:3.5rem;}
+.merit-garden-coming-soon h2{margin-top:18px;font-size:1.7rem;}
+.merit-garden-coming-soon p{margin-top:5px;color:var(--ink-soft);font-size:.9rem;}
+.merit-garden-coming-soon span{margin-top:16px;padding:8px 18px;border-radius:20px;background:var(--lavender-100);color:var(--lavender-600);font-size:.8rem;font-weight:700;letter-spacing:.04em;}
 
 /* sparkle burst */
 .burst-emoji{position:fixed;font-size:1.4rem;pointer-events:none;z-index:70;animation:burst 1s ease-out forwards;}
