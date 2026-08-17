@@ -17,7 +17,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Mali:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400;1,600&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="style.css?v=20260817-2">
+<link rel="stylesheet" href="style.css?v=20260817-3">
 </head>
 <body>
 
@@ -123,7 +123,7 @@
           <button class="my-prayer-back" id="myPrayerBack" type="button">‹ กลับไปชุดสวดของฉัน</button>
           <div class="my-prayer-detail-head"><h3 id="myPrayerDetailTitle">ชุดสวดของฉัน</h3><small id="myPrayerDetailMeta"></small></div>
           <div class="my-prayer-detail-list" id="myPrayerDetailList"></div>
-          <div class="my-prayer-detail-actions delete-only"><button type="button" id="myPrayerDeleteSet">ลบชุดสวด</button></div>
+          <div class="my-prayer-detail-actions"><button type="button" id="myPrayerDeleteSet">ลบชุดสวด</button><button type="button" id="myPrayerEditSet">แก้ไขชุดสวด</button></div>
         </div>
       </div>
     </section>
@@ -361,6 +361,7 @@
         </div>
       </div>
 
+      <div class="reader-set-nav" id="readerSetNav"><button type="button" id="readerSetPrev"><span>‹</span><small>บทก่อนหน้า</small><b id="readerSetPrevName">-</b></button><p><small>บทสวดของฉัน</small><b id="readerSetPosition">1 / 1</b></p><button type="button" id="readerSetNext"><small>บทถัดไป</small><b id="readerSetNextName">-</b><span>›</span></button></div>
       <label class="reader-continuous"><img src="assets/prayer-lotus.png" alt=""><span><b>สวดต่อเนื่อง</b><small>เปิดเพื่อสวดบทต่อเนื่องอัตโนมัติ</small></span><input type="checkbox" id="continuousToggle"><i></i></label>
     </div>
     </section>
@@ -414,6 +415,6 @@
 
 </div>
 
-<script src="app.js?v=20260817-2"></script>
+<script src="app.js?v=20260817-3"></script>
 </body>
 </html>

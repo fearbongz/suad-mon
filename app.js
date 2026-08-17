@@ -907,7 +907,13 @@ function renderMyPrayerSetEditor(){
   document.getElementById("myPrayerDetailMeta").textContent = `${prayers.length} บท`;
   const list = document.getElementById("myPrayerDetailList");
   list.innerHTML = prayers.map((prayer,index)=>`<button class="my-prayer-item" data-open="${prayer.id}"><i>${index+1}</i><img src="${getPrayerIcon(prayer)}" alt=""><span><b>${prayer.title}</b><small>${prayer.duration}</small></span><em>›</em></button>`).join("");
-  list.querySelectorAll("[data-open]").forEach(button=>button.addEventListener("click",()=>openReader(button.dataset.open)));
+  list.querySelectorAll("[data-open]").forEach(button=>button.addEventListener("click",()=>openReaderFromSet(button.dataset.open)));
+}
+
+function openReaderFromSet(prayerId){
+  activeReaderSequence = editingPrayerSetDraft.map(findPrayer).filter(Boolean).map(prayer=>prayer.id);
+  activeReaderSequenceIndex = activeReaderSequence.indexOf(prayerId);
+  openReader(prayerId,{preserveSequence:true});
 }
 
 function deleteMyPrayerSet(setId){
@@ -1062,9 +1068,12 @@ let readerTimer = null;
 let currentLine = 0;
 let isPlaying = false;
 let activeReaderTab = "prayer";
+let activeReaderSequence = [];
+let activeReaderSequenceIndex = -1;
 const LINE_SECONDS = 3.2;
 
-function openReader(id){
+function openReader(id,options={}){
+  if(!options.preserveSequence){ activeReaderSequence=[]; activeReaderSequenceIndex=-1; }
   currentPrayer = findPrayer(id);
   if(!currentPrayer) return;
   currentLine = 0;
@@ -1083,10 +1092,32 @@ function openReader(id){
   setReaderTab("prayer");
   updateProgress();
   setPlayIcon(false);
+  updateReaderSetNav();
 
   showScreen("reader");
   document.querySelectorAll(".nav-item").forEach(b=>b.classList.remove("active"));
   document.getElementById("mainPrayerBtn").classList.add("active");
+}
+
+function updateReaderSetNav(){
+  const nav = document.getElementById("readerSetNav");
+  const hasSequence = activeReaderSequence.length > 0 && activeReaderSequenceIndex >= 0;
+  nav.classList.toggle("open",hasSequence);
+  if(!hasSequence) return;
+  const previous = findPrayer(activeReaderSequence[activeReaderSequenceIndex-1]);
+  const next = findPrayer(activeReaderSequence[activeReaderSequenceIndex+1]);
+  document.getElementById("readerSetPosition").textContent = `${activeReaderSequenceIndex+1} / ${activeReaderSequence.length}`;
+  document.getElementById("readerSetPrevName").textContent = previous?.title || "บทแรก";
+  document.getElementById("readerSetNextName").textContent = next?.title || "บทสุดท้าย";
+  document.getElementById("readerSetPrev").disabled = !previous;
+  document.getElementById("readerSetNext").disabled = !next;
+}
+
+function navigateReaderSet(direction){
+  const nextIndex = activeReaderSequenceIndex + direction;
+  if(nextIndex < 0 || nextIndex >= activeReaderSequence.length) return;
+  activeReaderSequenceIndex = nextIndex;
+  openReader(activeReaderSequence[nextIndex],{preserveSequence:true});
 }
 
 function setReaderTab(tab){
@@ -1275,6 +1306,7 @@ function showScreen(name){
 
   if(name==="merit"){ renderMeritStats(); renderCalendar(); renderBadges(); renderFavList(); }
   if(name==="prayers") setPrayerLibraryTab(activeLibraryTab);
+  if(name==="assistant") document.getElementById("assistantResult")?.classList.remove("show");
 }
 
 /* ---------------- SETTINGS ---------------- */
@@ -1448,6 +1480,8 @@ function bindReaderControls(){
   document.getElementById("readerRestart").addEventListener("click", restartReader);
   document.getElementById("readerPrev").addEventListener("click", ()=> stepReader(-1));
   document.getElementById("readerNext").addEventListener("click", ()=> stepReader(1));
+  document.getElementById("readerSetPrev").addEventListener("click",()=>navigateReaderSet(-1));
+  document.getElementById("readerSetNext").addEventListener("click",()=>navigateReaderSet(1));
   document.getElementById("readerDone").addEventListener("click", ()=> stepReader(1));
   document.getElementById("readerFav").addEventListener("click", ()=> toggleFavorite(currentPrayer.id));
   document.getElementById("completeClose").addEventListener("click", ()=>{
@@ -1590,6 +1624,13 @@ function bindAssistant(){
       result.textContent = existingSet ? `✨ อัปเดตชุดสวด ${prayers.length} บทเรียบร้อยแล้ว` : `✨ บันทึกชุดสวด ${prayers.length} บทแล้ว ดูได้ที่ บทสวด > บทสวดของฉัน`;
       editingAssistantSetId = null;
       document.getElementById("assistantCreate").innerHTML = '<span>✦</span> สร้างชุดสวดของฉัน <small>เริ่มต้นสวดได้ทันที</small>';
+      document.querySelectorAll('[data-assistant-group="focus"] button.active').forEach(button=>button.classList.remove("active"));
+      picker.querySelectorAll("button.active").forEach(button=>button.classList.remove("active"));
+      searchInput.value = "";
+      picker.querySelectorAll("button").forEach(button=>button.hidden=false);
+      refreshAssistantPreview();
+      setPrayerLibraryTab("mine");
+      showScreen("prayers");
     }else result.textContent = "กรุณาเลือกเป้าหมายหรือบทสวดอย่างน้อย 1 รายการค่ะ";
     result.classList.add("show");
   });
@@ -1600,6 +1641,7 @@ function bindPrayerLibrary(){
   document.querySelectorAll("#prayerLibraryTabs button").forEach(button=>button.addEventListener("click",()=>setPrayerLibraryTab(button.dataset.libraryTab)));
   document.getElementById("myPrayerBack").addEventListener("click",renderMyPrayerSets);
   document.getElementById("myPrayerDeleteSet").addEventListener("click",()=>deleteMyPrayerSet(editingPrayerSetId));
+  document.getElementById("myPrayerEditSet").addEventListener("click",()=>editPrayerSetInAssistant(editingPrayerSetId));
 }
 
 /* ---------------- INIT ---------------- */
