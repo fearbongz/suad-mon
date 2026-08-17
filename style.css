@@ -183,18 +183,11 @@ img{max-width:100%;display:block;}
 .page-title{font-size:1.3rem;color:var(--lavender-600);font-weight:700;padding:18px 4px 14px;}
 
 /* today-card now stretches down to also hold the "สวดบ่อย" quick-tiles,
-   one continuous soft gradient panel instead of two separate white cards
-   (colors sampled from the reference gradient background image) */
+   one continuous white panel instead of two separate cards */
 .today-card{
   position:relative;overflow:hidden;
-  background:linear-gradient(135deg,#f1e3fb 0%,#fdf3e9 45%,#ffeef8 100%);
+  background:var(--white);
 }
-.today-card-sparkle{
-  position:absolute;color:#fff;font-size:14px;text-shadow:0 0 6px rgba(180,150,220,.5);
-  animation:twinkle 3.4s ease-in-out infinite;pointer-events:none;
-}
-.today-card-sparkle.s1{top:16px;left:18px;}
-.today-card-sparkle.s2{top:200px;left:30px;font-size:11px;animation-delay:1.2s;}
 
 /* ---- today carousel ---- */
 .carousel{display:flex;gap:14px;overflow-x:auto;scroll-snap-type:x mandatory;padding-bottom:4px;-ms-overflow-style:none;scrollbar-width:none;}
