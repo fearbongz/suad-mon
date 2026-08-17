@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>สวดมนต์ทุกวัน</title>
 <meta name="theme-color" content="#f3c9e6">
-<link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🪷</text></svg>">
+<link rel="icon" type="image/png" href="assets/favicon.png">
 
 <!-- Add-to-home-screen: makes the icon + splash look like a real app -->
 <link rel="manifest" href="manifest.webmanifest">
@@ -33,12 +33,11 @@
 
     <img class="hero-moon" src="assets/moon.png" alt="" aria-hidden="true">
 
-    <button class="bell-btn" id="bellBtn" aria-label="การแจ้งเตือน">
-      <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="#7c5cad" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-        <path d="M18 8a6 6 0 0 0-12 0c0 7-3 9-3 9h18s-3-2-3-9"></path>
-        <path d="M13.73 21a2 2 0 0 1-3.46 0"></path>
+    <button class="bell-btn" id="bellBtn" aria-label="ตั้งค่า">
+      <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="#8f68c7" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <circle cx="12" cy="12" r="3"></circle>
+        <path d="M19.4 15a1.7 1.7 0 0 0 .3 1.9l.1.1a2 2 0 1 1-2.8 2.8l-.1-.1a1.7 1.7 0 0 0-1.9-.3 1.7 1.7 0 0 0-1 1.5V21a2 2 0 1 1-4 0v-.1a1.7 1.7 0 0 0-1-1.6 1.7 1.7 0 0 0-1.9.3l-.1.1a2 2 0 1 1-2.8-2.8l.1-.1a1.7 1.7 0 0 0 .3-1.9 1.7 1.7 0 0 0-1.5-1H3a2 2 0 1 1 0-4h.1a1.7 1.7 0 0 0 1.6-1 1.7 1.7 0 0 0-.3-1.9l-.1-.1a2 2 0 1 1 2.8-2.8l.1.1a1.7 1.7 0 0 0 1.9.3H9a1.7 1.7 0 0 0 1-1.5V3a2 2 0 1 1 4 0v.1a1.7 1.7 0 0 0 1 1.5 1.7 1.7 0 0 0 1.9-.3l.1-.1a2 2 0 1 1 2.8 2.8l-.1.1a1.7 1.7 0 0 0-.3 1.9V9a1.7 1.7 0 0 0 1.5 1H21a2 2 0 1 1 0 4h-.1a1.7 1.7 0 0 0-1.5 1Z"></path>
       </svg>
-      <span class="bell-dot"></span>
     </button>
 
     <img class="hero-illust" src="assets/illustration.png" alt="น้องพนมมือสวดมนต์บนดอกบัว">
@@ -48,7 +47,7 @@
       <p id="greetingSub">ขอให้วันนี้เป็นวันที่ดีนะคะ <span>💛</span></p>
 
       <div class="quote-card">
-        <span class="quote-mark">“</span>
+        <span class="quote-mark" style="font-size: 3.05rem; font-weight: 400;">❝</span>
         <p class="quote-text" id="quoteText">การให้ธรรมะ ชนะการให้ทั้งปวง</p>
         <p class="quote-by" id="quoteBy">- พุทธพจน์ -</p>
         <span class="quote-heart">💗</span>
@@ -98,7 +97,7 @@
       </div>
 
       <div class="note-block">
-        <p>🪷 บทสวดในแอปนี้เป็น <b>ฉบับย่อ</b> เพื่อการฝึกใช้งานแอปเท่านั้น แนะนำให้ตรวจสอบความถูกต้องกับหนังสือสวดมนต์ฉบับสมบูรณ์ก่อนใช้สวดจริงนะคะ 🙏</p>
+        <p><img class="flower-icon" src="assets/flower-icon.png" alt=""> บทสวดในแอปนี้เป็น <b>ฉบับย่อ</b> เพื่อการฝึกใช้งานแอปเท่านั้น แนะนำให้ตรวจสอบความถูกต้องกับหนังสือสวดมนต์ฉบับสมบูรณ์ก่อนใช้สวดจริงนะคะ 🙏</p>
       </div>
     </section>
 
@@ -120,18 +119,15 @@
     <section class="screen" id="screen-merit">
       <h2 class="page-title">💗 บุญของฉัน</h2>
 
-      <div class="merit-hero">
-        <div class="merit-stat">
-          <span class="merit-num" id="meritStreak">0</span>
-          <span class="merit-label">วันติดต่อกัน 🔥</span>
+      <div class="merit-dashboard">
+        <div class="merit-hero">
+          <div class="merit-stat"><span class="merit-stat-icon"><img src="assets/merit-streak-icon.png" alt=""></span><span class="merit-title">สวดมนต์</span><span class="merit-num" id="meritStreak">0</span><span class="merit-label">วันติดต่อกัน</span></div>
+          <div class="merit-stat"><span class="merit-stat-icon"><img src="assets/merit-total-icon.png" alt=""></span><span class="merit-title">สวดมนต์</span><span class="merit-num" id="meritTotal">0</span><span class="merit-label">ครั้ง</span></div>
+          <div class="merit-stat"><span class="merit-stat-icon"><img src="assets/merit-fav-icon.png" alt=""></span><span class="merit-title">บทสวดโปรด</span><span class="merit-num" id="meritFav">0</span><span class="merit-label">บท</span></div>
         </div>
-        <div class="merit-stat">
-          <span class="merit-num" id="meritTotal">0</span>
-          <span class="merit-label">ครั้งที่สวดทั้งหมด</span>
-        </div>
-        <div class="merit-stat">
-          <span class="merit-num" id="meritFav">0</span>
-          <span class="merit-label">บทสวดโปรด</span>
+        <div class="merit-continuity">
+          <div class="merit-streak-copy"><h3>สวดมนต์ต่อเนื่อง</h3><p><strong id="meritStreakDetail">0</strong> <span>วัน</span></p><small>รักษาความดี<br>อย่างต่อเนื่องนะคะ</small></div>
+          <div class="merit-week-wrap"><div class="merit-week" id="meritWeek"></div><p>ทำต่อไปอีกนิด เก่งมากเลยค่ะ! 💜</p></div>
         </div>
       </div>
 
@@ -145,110 +141,148 @@
         <div class="badge-grid" id="badgeGrid"></div>
       </div>
 
-      <div class="card">
+      <div class="card" id="favoritesSection">
         <div class="card-head"><h2>🩷 บทสวดที่บันทึกไว้</h2></div>
         <div class="prayer-list" id="favList"></div>
         <p class="empty-hint" id="favEmpty">ยังไม่มีบทสวดโปรด ลองกดรูปหัวใจที่บทสวดที่ชอบดูนะคะ</p>
+      </div>
+
+      <div class="card" id="historySection">
+        <div class="card-head"><h2>🕘 ประวัติการสวดล่าสุด</h2></div>
+        <div class="prayer-history" id="prayerHistory"></div>
+        <p class="empty-hint" id="historyEmpty">ยังไม่มีประวัติการสวด เริ่มสวดบทแรกกันเลยนะคะ</p>
       </div>
     </section>
 
     <!-- ---------- SETTINGS SCREEN ---------- -->
     <section class="screen" id="screen-settings">
       <h2 class="page-title">⚙️ ตั้งค่า</h2>
-
-      <div class="card settings-card">
-        <div class="settings-row">
-          <div>
-            <p class="settings-title">🔤 ขนาดตัวอักษรบทสวด</p>
-            <p class="settings-desc">ปรับให้อ่านสบายตาตามที่ชอบ</p>
-          </div>
-        </div>
-        <div class="size-options" id="fontSizeOptions">
-          <button data-size="small">เล็ก</button>
-          <button data-size="medium" class="active">กลาง</button>
-          <button data-size="large">ใหญ่</button>
-        </div>
+      <h3 class="settings-section-title">การใช้งาน</h3>
+      <div class="settings-group">
+        <div class="settings-item"><span class="settings-icon">♧</span><span class="settings-copy"><b>การแจ้งเตือน</b><small>ตั้งเวลาเตือนสวดมนต์ / บทสวดประจำวัน</small></span><label class="switch"><input type="checkbox" id="reminderToggle"><span class="slider"></span></label></div>
+        <div class="settings-item"><span class="settings-icon">◷</span><span class="settings-copy"><b>เวลาสวดมนต์ประจำวัน</b><small>เลือกเวลาที่เหมาะสมสำหรับคุณ</small></span><button type="button" id="timePickerBtn" class="settings-time"><span id="selectedTime">19:00</span></button><input type="hidden" id="reminderTime" value="19:00"><span class="settings-arrow">›</span></div>
+        <div class="settings-item"><span class="settings-icon">♫</span><span class="settings-copy"><b>เสียงประกอบ</b><small>เปิด / ปิดเสียงเพลงและเสียงสวด</small></span><label class="switch"><input type="checkbox" checked><span class="slider"></span></label></div>
+        <div class="settings-item settings-expand"><span class="settings-icon">Aa</span><span class="settings-copy"><b>ขนาดตัวอักษร</b><small>ปรับขนาดตัวอักษรในบทสวด</small></span><span class="settings-value">กลาง</span><span class="settings-arrow">›</span><div class="size-options" id="fontSizeOptions"><button data-size="small">เล็ก</button><button data-size="medium" class="active">กลาง</button><button data-size="large">ใหญ่</button></div></div>
+        <div class="settings-item"><span class="settings-icon">◉</span><span class="settings-copy"><b>ธีมสี</b><small>เลือกธีมสีของแอป</small></span><span class="theme-dots" id="themeOptions"><button data-theme="purple" aria-label="ธีมสีม่วง"></button><button data-theme="pink" aria-label="ธีมสีชมพู"></button><button data-theme="yellow" aria-label="ธีมสีเหลือง"></button><button data-theme="mint" aria-label="ธีมสีเขียวมิ้นต์"></button></span></div>
+        <div class="settings-item settings-expand"><span class="settings-icon">◎</span><span class="settings-copy"><b>เป้าหมายสวดต่อเนื่อง</b><small>ตั้งเป้าจำนวนวันที่อยากทำให้ได้</small></span><span class="settings-value" id="goalValue">21 วัน</span><span class="settings-arrow">›</span><div class="size-options" id="goalOptions"><button data-goal="7">7 วัน</button><button data-goal="21" class="active">21 วัน</button><button data-goal="30">30 วัน</button></div></div>
       </div>
 
-      <div class="card settings-card">
-        <div class="settings-row">
-          <div>
-            <p class="settings-title">⏰ เตือนสวดมนต์ทุกวัน</p>
-            <p class="settings-desc">ตั้งเวลาที่อยากให้แอปเตือนใจคุณ</p>
-          </div>
-          <label class="switch">
-            <input type="checkbox" id="reminderToggle">
-            <span class="slider"></span>
-          </label>
-        </div>
-        <input type="time" id="reminderTime" class="time-input" value="19:00">
+      <h3 class="settings-section-title">เนื้อหาและข้อมูล</h3>
+      <div class="settings-group">
+        <button class="settings-item" data-nav="merit"><span class="settings-icon">♡</span><span class="settings-copy"><b>บุญของฉัน</b><small>ดูประวัติการทำบุญและคะแนนบุญสะสม</small></span><span class="settings-arrow">›</span></button>
+        <button class="settings-item" data-nav="merit" data-scroll-target="favoritesSection"><span class="settings-icon"><svg viewBox="0 0 24 24"><path d="M6 4h12v17l-6-4-6 4Z"/></svg></span><span class="settings-copy"><b>รายการโปรด</b><small>ดูบทสวดและกิจกรรมที่บันทึกไว้</small></span><span class="settings-arrow">›</span></button>
+        <div class="settings-item"><span class="settings-icon"><svg viewBox="0 0 24 24"><path d="M12 3v12m0 0 4-4m-4 4-4-4M5 19h14"/></svg></span><span class="settings-copy"><b>ดาวน์โหลดบทสวด</b><small>ดาวน์โหลดบทสวดไว้ใช้งานแบบออฟไลน์</small></span><span class="settings-arrow">›</span></div>
+        <button class="settings-item" data-nav="merit" data-scroll-target="historySection"><span class="settings-icon"><svg viewBox="0 0 24 24"><path d="M4 8V4m0 0h4M4.7 4.7A9 9 0 1 1 3 14"/><path d="M12 7v5l3 2"/></svg></span><span class="settings-copy"><b>ประวัติการสวด</b><small>ดูประวัติการสวดที่ผ่านมา</small></span><span class="settings-arrow">›</span></button>
+        <div class="settings-item settings-danger"><span class="settings-icon">⌫</span><button id="resetBtn">ล้างข้อมูลการสวดมนต์ทั้งหมด</button></div>
       </div>
 
-      <div class="card settings-card">
-        <div class="settings-row">
-          <div>
-            <p class="settings-title">🎯 เป้าหมายสวดต่อเนื่อง</p>
-            <p class="settings-desc">ตั้งเป้าจำนวนวันที่อยากทำให้ได้</p>
-          </div>
-        </div>
-        <div class="size-options" id="goalOptions">
-          <button data-goal="7">7 วัน</button>
-          <button data-goal="21" class="active">21 วัน</button>
-          <button data-goal="30">30 วัน</button>
-        </div>
+      <h3 class="settings-section-title">อื่น ๆ</h3>
+      <div class="settings-group">
+        <button class="settings-item" data-nav="guide"><span class="settings-icon">?</span><span class="settings-copy"><b>คู่มือการใช้งาน</b></span><span class="settings-arrow">›</span></button>
+        <div class="settings-item"><span class="settings-icon">☆</span><span class="settings-copy"><b>ให้คะแนนแอป</b></span><span class="settings-arrow">›</span></div>
+        <button class="settings-item" data-nav="about"><span class="settings-icon">ⓘ</span><span class="settings-copy"><b>เกี่ยวกับแอป</b></span><small class="settings-version">เวอร์ชัน 1.2.0</small><span class="settings-arrow">›</span></button>
       </div>
-
-      <div class="card settings-card">
-        <button class="danger-btn" id="resetBtn">🗑️ ล้างข้อมูลการสวดมนต์ทั้งหมด</button>
-      </div>
-
-      <p class="about-text">🪷 ทำด้วยใจ สำหรับคนที่อยากสวดมนต์ทุกวัน ✨<br>เวอร์ชันทดลอง</p>
     </section>
 
+    <!-- ---------- USER GUIDE SCREEN ---------- -->
+    <section class="screen" id="screen-guide">
+      <h3 class="guide-heading"><img class="flower-icon" src="assets/flower-icon.png" alt=""> การเริ่มต้นใช้งาน</h3>
+      <div class="guide-steps">
+        <div class="guide-step-card step-1"><span class="step-art"><svg viewBox="0 0 48 48" aria-hidden="true"><rect x="12" y="4" width="24" height="40" rx="4"/><path d="M20 9h8M21 39h6M24 30c-6-2-8-6-8-10 4 0 7 2 8 5 1-3 4-5 8-5 0 4-2 8-8 10Z"/></svg></span><i>1</i><b>เริ่มต้นใช้งาน</b><small>สมัครสมาชิก<br>และตั้งค่าเบื้องต้น</small></div>
+        <div class="guide-step-card step-2"><span class="step-art"><svg viewBox="0 0 48 48" aria-hidden="true"><path d="M5 10c8-2 14 0 19 5 5-5 11-7 19-5v29c-8-2-14 0-19 4-5-4-11-6-19-4Z"/><path d="M24 15v28M24 31c-5-2-7-6-7-10 4 0 6 2 7 5 1-3 3-5 7-5 0 4-2 8-7 10Z"/></svg></span><i>2</i><b>เลือกบทสวด</b><small>ค้นหาบทสวด<br>ที่ต้องการ</small></div>
+        <div class="guide-step-card step-3"><span class="step-art"><svg viewBox="0 0 48 48" aria-hidden="true"><circle cx="24" cy="18" r="13"/><path class="step-fill" d="m21 12 9 6-9 6Z"/><path d="M9 38v-5m6 8V30m6 8v-5m6 8V29m6 9v-5m6 5v-5"/></svg></span><i>3</i><b>สวดมนต์</b><small>ฟังและสวดตาม<br>ได้ง่ายๆ</small></div>
+        <div class="guide-step-card step-4"><span class="step-art"><svg viewBox="0 0 48 48" aria-hidden="true"><path class="step-fill" d="m24 5 5.7 11.6 12.8 1.8-9.3 9.1 2.2 12.8L24 34.2l-11.4 6.1 2.2-12.8-9.3-9.1 12.8-1.8Z"/></svg></span><i>4</i><b>เก็บบุญ</b><small>บันทึกและสะสม<br>บุญของคุณ</small></div>
+        <div class="guide-step-card step-5"><span class="step-art"><svg viewBox="0 0 48 48" aria-hidden="true"><path d="M7 40h34M10 38V28h7v10M21 38V21h7v17M32 38V14h7v24M9 21l9-7 8 3L40 6M34 6h6v6"/></svg></span><i>5</i><b>ติดตามผล</b><small>ดูประวัติและ<br>พัฒนาต่อเนื่อง</small></div>
+      </div>
+      <h3 class="guide-heading"><img class="flower-icon" src="assets/flower-icon.png" alt=""> คู่มือการใช้งาน</h3>
+      <div class="guide-list">
+        <button><span class="guide-icon guide-icon-purple"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="8" r="4"/><path d="M4.5 21a7.5 7.5 0 0 1 15 0"/></svg></span><span><b>1. บัญชีผู้ใช้และการตั้งค่า</b><small>วิธีสมัครสมาชิก เข้าสู่ระบบ แก้ไขข้อมูลส่วนตัว และตั้งค่าการใช้งาน</small></span><i>›</i></button>
+        <button><span class="guide-icon guide-icon-pink"><img src="assets/guide-lotus.png" alt=""></span><span><b>2. บทสวดและหมวดหมู่</b><small>แนะนำประเภทบทสวด วิธีค้นหา และเพิ่มบทสวดที่ชื่นชอบ</small></span><i>›</i></button>
+        <button><span class="guide-icon guide-icon-yellow"><img src="assets/guide-play.png" alt=""></span><span><b>3. การสวดมนต์</b><small>วิธีสวดตาม ตั้งเวลาสวด ฟังก์ชันสวดต่อเนื่อง และตัวช่วยสวด</small></span><i>›</i></button>
+        <button><span class="guide-icon guide-icon-pink"><img src="assets/guide-heart.png" alt=""></span><span><b>4. บุญของฉัน</b><small>การบันทึกบุญ ประวัติการทำบุญ และระบบคะแนนบุญสะสม</small></span><i>›</i></button>
+        <button><span class="guide-icon guide-icon-green"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 20v-6M12 20V9M19 20V4"/></svg></span><span><b>5. รายงานและสถิติ</b><small>ดูสถิติการสวด ความก้าวหน้า และเป้าหมายการทำบุญ</small></span><i>›</i></button>
+        <button><span class="guide-icon guide-icon-blue"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3v13M7 11l5 5 5-5M5 21h14"/></svg></span><span><b>6. อื่น ๆ และการจัดการแอป</b><small>การสำรองข้อมูล ดาวน์โหลด การแจ้งเตือน และค่าที่พบบ่อย</small></span><i>›</i></button>
+      </div>
+      <div class="guide-help"><div><b>ต้องการความช่วยเหลือ?</b><small>หากติดขัด ไม่เข้าใจ ติดต่อทีมงานได้เลย</small><button type="button">💬 ติดต่อทีมงาน</button></div></div>
+    </section>
+
+    <!-- ---------- ABOUT SCREEN ---------- -->
+    <section class="screen" id="screen-about">
+      <h2 class="page-title"><img class="flower-icon" src="assets/flower-icon.png" alt=""> เกี่ยวกับแอป</h2>
+      <div class="about-hero-card"><div><h2>สวดมนต์</h2><p>แอปสวดมนต์และทำบุญ<br>เพื่อชีวิตที่ดีขึ้นในทุกวัน 💗</p><span>เวอร์ชัน 1.2.0</span></div></div>
+      <p class="about-intro">แอปที่จะช่วยให้การสวดมนต์และการทำบุญเป็นเรื่องง่ายและสม่ำเสมอ<br><b>เสริมสิริมงคล จิตใจสงบ พบเจอแต่สิ่งดี ๆ ในชีวิต ✨</b></p>
+      <h3 class="about-heading"><img class="flower-icon" src="assets/flower-icon.png" alt=""> เกี่ยวกับแอป</h3>
+      <div class="about-list">
+        <div><span class="about-list-icon icon-heart"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20.8 5.8c-2.2-2.2-5.8-1.9-7.8.5L12 7.5l-1-1.2c-2-2.4-5.6-2.7-7.8-.5-2.3 2.3-2.1 6 .3 8.2L12 21l8.5-7c2.4-2.2 2.6-5.9.3-8.2Z"/></svg></span><p><b>วัตถุประสงค์</b><small>ส่งเสริมการสวดมนต์ การทำบุญ และการฝึกใจเป็นชีวิตประจำวัน</small></p></div>
+        <div><span class="about-list-icon icon-target"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="13" r="8"/><circle cx="11" cy="13" r="4"/><path d="m13 11 7-7M16 4h4v4"/></svg></span><p><b>เหมาะสำหรับใคร?</b><small>ทุกคนที่ต้องการเสริมสิริมงคล พัฒนาจิตใจ และใช้ชีวิตอย่างมีสติ</small></p></div>
+        <div><span class="about-list-icon icon-shield"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3 5 6v5c0 4.7 2.8 8.1 7 10 4.2-1.9 7-5.3 7-10V6Z"/><path d="m9 12 2 2 4-5"/></svg></span><p><b>ความปลอดภัยของข้อมูล</b><small>เราให้ความสำคัญกับความปลอดภัยของข้อมูลของคุณเป็นอย่างยิ่ง</small></p></div>
+        <div><span class="about-list-icon icon-lock"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="5" y="10" width="14" height="11" rx="2"/><path d="M8 10V7a4 4 0 0 1 8 0v3M12 14v3"/></svg></span><p><b>การใช้งานแบบออฟไลน์</b><small>สามารถดาวน์โหลดบทสวดบางส่วนไว้ใช้งานได้แม้ไม่มีอินเทอร์เน็ต</small></p></div>
+      </div>
+      <h3 class="about-heading"><img class="flower-icon" src="assets/flower-icon.png" alt=""> ข้อมูลแอป</h3>
+      <div class="about-info">
+        <p><span><i class="about-info-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="8"/><path d="M12 11v5M12 8h.01"/></svg></i>เวอร์ชัน</span><b>1.2.0</b></p>
+        <p><span><i class="about-info-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="4" y="6" width="16" height="14" rx="2"/><path d="M8 4v4M16 4v4M4 10h16"/></svg></i>อัปเดตล่าสุด</span><b>20 พฤษภาคม 2567</b></p>
+        <p><span><i class="about-info-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3c3 3 3 15 0 18M12 3c-3 3-3 15 0 18"/></svg></i>ขนาดแอป</span><b>68.5 MB</b></p>
+        <p><span><i class="about-info-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="7" y="3" width="10" height="18" rx="2"/><path d="M10 6h4M11 18h2"/></svg></i>รองรับระบบ</span><b>iOS 12.0 ขึ้นไป / Android 7.0 ขึ้นไป</b></p>
+      </div>
+      <h3 class="about-heading"><img class="flower-icon" src="assets/flower-icon.png" alt=""> นักพัฒนา</h3>
+      <div class="about-developer"><img src="assets/illustration.png" alt="ผู้พัฒนา"><div><b>พัฒนาด้วยใจ เพื่อส่งต่อสิ่งดี ๆ 💗</b><small>หากมีข้อเสนอแนะหรือต้องการให้เราเพิ่มฟีเจอร์อะไร สามารถติดต่อเราได้เลยนะคะ</small><button type="button">✉ ติดต่อเรา</button></div></div>
+    </section>
+
+    <!-- ================= PRAYER READER SCREEN ================= -->
+    <section class="screen reader-overlay" id="screen-reader">
+    <div class="reader-panel">
+      <div class="reader-summary">
+        <img class="reader-image" id="readerImage" src="assets/lamp.png" alt="">
+        <div class="reader-info">
+          <div class="reader-title-row"><h2 class="reader-title" id="readerTitle">ชื่อบทสวด</h2><span class="reader-cat" id="readerCat">หมวดหมู่</span></div>
+          <p class="reader-desc" id="readerDesc"></p>
+          <div class="reader-meta">
+            <span><svg class="meta-icon" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg><span id="readerDuration">-</span></span>
+            <span><svg class="meta-icon meta-person" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="8" r="4"/><path d="M5 21a7 7 0 0 1 14 0Z"/></svg>ยอดสวด <span id="readerPop">-</span> ครั้ง</span>
+          </div>
+        </div>
+        <button class="reader-summary-fav" id="readerFav" aria-label="บันทึกบทสวดโปรด">♡ ยอดนิยม</button>
+      </div>
+
+      <div class="reader-tabs">
+        <button class="active" data-reader-tab="prayer"><span class="tab-lotus" aria-hidden="true"></span>บทสวด</button>
+        <button data-reader-tab="translation"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="5" y="6" width="14" height="14" rx="2"/><path d="M9 6V4h6v2M9 11h6M9 15h4"/></svg>คำแปล</button>
+        <button data-reader-tab="advice"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 18h6M10 22h4M8 14c-1-1-2-3-2-5a6 6 0 0 1 12 0c0 2-1 4-2 5-1 1-1 2-1 3H9c0-1 0-2-1-3Z"/></svg>คำแนะนำ</button>
+      </div>
+
+      <div class="reader-text-wrap">
+        <div class="reader-ribbon" id="readerPrayerHeading">บทสวด</div>
+        <div class="reader-text" id="readerText"></div>
+        <div class="reader-progress"><div class="reader-progress-bar" id="readerProgressBar"></div></div>
+        <div class="reader-time"><span>00:00</span><span>15:00</span></div>
+
+        <div class="reader-controls">
+          <button class="ctrl-btn seek-btn" id="readerRestart" aria-label="ย้อน 10 วินาที"><svg class="seek-svg" viewBox="0 0 32 32"><path d="M9 10H4V5"/><path d="M5 10a12 12 0 1 1-1 10"/><text x="16" y="20">10</text></svg><small>ย้อน 10 วิ</small></button>
+          <button class="ctrl-skip" id="readerPrev" type="button" aria-label="ก่อนหน้า"><svg viewBox="0 0 24 24"><path d="M6 5v14"/><path d="m18 6-9 6 9 6Z"/></svg></button>
+          <button class="play-btn" id="readerPlay" aria-label="เล่น/หยุด"><svg id="playIcon" viewBox="0 0 24 24" width="30" height="30" fill="currentColor"><polygon points="6 3 20 12 6 21 6 3"/></svg><svg id="pauseIcon" viewBox="0 0 24 24" width="30" height="30" fill="currentColor" style="display:none"><rect x="6" y="4" width="4" height="16" rx="1"/><rect x="14" y="4" width="4" height="16" rx="1"/></svg></button>
+          <button class="ctrl-skip" id="readerNext" type="button" aria-label="ถัดไป"><svg viewBox="0 0 24 24"><path d="M18 5v14"/><path d="m6 6 9 6-9 6Z"/></svg></button>
+          <button class="ctrl-btn seek-btn" id="readerDone" aria-label="ข้าม 10 วินาที"><svg class="seek-svg" viewBox="0 0 32 32"><path d="M23 10h5V5"/><path d="M27 10a12 12 0 1 0 1 10"/><text x="16" y="20">10</text></svg><small>ข้าม 10 วิ</small></button>
+        </div>
+      </div>
+
+      <label class="reader-continuous"><img src="assets/prayer-lotus.png" alt=""><span><b>สวดต่อเนื่อง</b><small>เปิดเพื่อสวดบทต่อเนื่องอัตโนมัติ</small></span><input type="checkbox" id="continuousToggle"><i></i></label>
+    </div>
+    </section>
   </main>
 
-  <!-- ================= PRAYER READER OVERLAY ================= -->
-  <div class="reader-overlay" id="readerOverlay">
-    <div class="reader-panel">
-      <div class="reader-top">
-        <button class="icon-btn" id="readerBack" aria-label="ย้อนกลับ">
-          <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="#7c5cad" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M15 18l-6-6 6-6"/></svg>
-        </button>
-        <span class="reader-cat" id="readerCat">หมวดหมู่</span>
-        <button class="icon-btn fav-btn" id="readerFav" aria-label="บันทึกบทสวดโปรด">🤍</button>
-      </div>
-
-      <h2 class="reader-title" id="readerTitle">ชื่อบทสวด</h2>
-      <p class="reader-desc" id="readerDesc"></p>
-
-      <div class="reader-meta">
-        <span>⏱ <span id="readerDuration">-</span></span>
-        <span>👤 สวดแล้ว <span id="readerPop">-</span> ครั้ง</span>
-      </div>
-
-      <div class="reader-progress"><div class="reader-progress-bar" id="readerProgressBar"></div></div>
-
-      <div class="reader-text" id="readerText"></div>
-
-      <div class="reader-controls">
-        <button class="ctrl-btn" id="readerRestart" aria-label="เริ่มใหม่">
-          <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="1 4 1 10 7 10"/><path d="M3.51 15a9 9 0 1 0 2.13-9.36L1 10"/></svg>
-        </button>
-        <button class="play-btn" id="readerPlay" aria-label="เล่น/หยุด">
-          <svg id="playIcon" viewBox="0 0 24 24" width="30" height="30" fill="currentColor"><polygon points="6 3 20 12 6 21 6 3"/></svg>
-          <svg id="pauseIcon" viewBox="0 0 24 24" width="30" height="30" fill="currentColor" style="display:none"><rect x="6" y="4" width="4" height="16" rx="1"/><rect x="14" y="4" width="4" height="16" rx="1"/></svg>
-        </button>
-        <button class="ctrl-btn" id="readerDone" aria-label="สวดจบแล้ว">
-          <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
-        </button>
-      </div>
+  <div class="time-picker-modal" id="timePickerModal">
+    <div class="time-picker-card">
+      <div class="time-picker-icon">◷</div><h2>เลือกเวลาสวดมนต์</h2><p>ตั้งเวลาที่สะดวกสำหรับคุณ</p>
+      <div class="time-picker-fields"><label><span>ชั่วโมง</span><select id="timeHour"></select></label><b>:</b><label><span>นาที</span><select id="timeMinute"></select></label></div>
+      <div class="time-picker-actions"><button type="button" id="timePickerCancel">ยกเลิก</button><button type="button" id="timePickerSave">บันทึกเวลา</button></div>
     </div>
   </div>
 
   <!-- ================= COMPLETE MODAL ================= -->
   <div class="complete-modal" id="completeModal">
     <div class="complete-card">
-      <div class="complete-emoji">🪷✨</div>
+      <div class="complete-emoji"><img class="flower-icon flower-icon-large" src="assets/flower-icon.png" alt="">✨</div>
       <h2>อนุโมทนาบุญด้วยนะคะ</h2>
       <p id="completeMsg">สวดครบแล้ววันนี้ 1 บท เก่งมากค่ะ</p>
       <button id="completeClose">รับทราบค่ะ 💗</button>
@@ -265,7 +299,7 @@
       <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 5.5S4 4 8 4s6 1.5 6 1.5v14S12 18 8 18s-6 1.5-6 1.5v-14Z"/><path d="M22 5.5S20 4 16 4s-6 1.5-6 1.5v14S12 18 16 18s6 1.5 6 1.5v-14Z"/></svg>
       <span>บทสวด</span>
     </button>
-    <button class="nav-item nav-main active" data-nav="home">
+    <button class="nav-item nav-main active" id="mainPrayerBtn">
       <span class="nav-main-circle"><img src="assets/navlotus.png" alt=""></span>
       <span>สวดมนต์</span>
     </button>
