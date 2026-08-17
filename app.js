@@ -867,6 +867,7 @@ let activeLibraryTab = "all";
 let editingPrayerSetId = null;
 let editingPrayerSetDraft = [];
 let editingAssistantSetId = null;
+let assistantPrayerOrder = [];
 
 function renderChips(){
   const row = document.getElementById("chipRow");
@@ -909,6 +910,7 @@ function editPrayerSetInAssistant(setId){
   showScreen("assistant");
   document.querySelector('#assistantModeTabs [data-mode="prayers"]')?.click();
   document.querySelectorAll("#assistantPrayerPicker button.active").forEach(button=>button.classList.remove("active"));
+  assistantPrayerOrder = [];
   set.prayerIds.forEach(prayerId=>document.querySelector(`#assistantPrayerPicker button[data-value="${prayerId}"]`)?.click());
   document.getElementById("assistantPreviewTitle").textContent = set.name;
   document.getElementById("assistantResult").classList.remove("show");
@@ -1556,9 +1558,10 @@ function bindAssistant(){
   document.getElementById("assistantReminderText").textContent = `ทุกวัน ${state.reminderTime || "19:00"} น.`;
   assistantContinuous.checked = Boolean(state.continuousOn);
 
-  const selectedFocuses = ()=>[...document.querySelectorAll('[data-assistant-group="focus"] .active')].map(item=>item.dataset.value);
+  let assistantFocusOrder = [...document.querySelectorAll('[data-assistant-group="focus"] .active')].map(item=>item.dataset.value);
+  const selectedFocuses = ()=>assistantFocusOrder.filter(value=>document.querySelector(`[data-assistant-group="focus"] button[data-value="${value}"]`)?.classList.contains("active"));
   const selectedPrayers = ()=>{
-    if(assistantMode==="prayers") return [...picker.querySelectorAll("button.active")].map(item=>findPrayer(item.dataset.value)).filter(Boolean);
+    if(assistantMode==="prayers") return assistantPrayerOrder.filter(id=>picker.querySelector(`button[data-value="${id}"]`)?.classList.contains("active")).map(findPrayer).filter(Boolean);
     const ids = selectedFocuses().flatMap(focus=>focusRecommendations[focus] || []);
     return [...new Set(ids)].map(findPrayer).filter(Boolean);
   };
@@ -1581,12 +1584,44 @@ function bindAssistant(){
     const title = assistantMode==="prayers" ? (editingSet?.name || time) : focuses.length>1 ? `ชุดสวด ${focuses.length} เป้าหมาย – ${time}` : `ชุดสวด${focusTitle[focuses[0]] || "สิริมงคล"} – ${time}`;
     document.getElementById("assistantPreviewTitle").textContent = title;
     document.getElementById("assistantPreviewDuration").textContent = prayers.length ? `ใช้เวลาประมาณ ${totalMinutes} นาที` : "ยังไม่ได้เลือกบทสวด";
-    document.getElementById("assistantPrayerList").innerHTML = prayers.length ? prayers.map((prayer,index)=>`<li><span>${index+1}</span>${prayer.title}<small>${prayer.duration}</small></li>`).join("") : '<li class="assistant-empty">เลือกบทสวดเพื่อเพิ่มลงในชุด</li>';
+    const prayerList = document.getElementById("assistantPrayerList");
+    prayerList.innerHTML = prayers.length ? prayers.map((prayer,index)=>`<li class="${assistantMode==="prayers" ? "sortable" : ""}" data-prayer-id="${prayer.id}" draggable="${assistantMode==="prayers"}"><span>${index+1}</span><b class="assistant-prayer-name">${prayer.title}</b><small>${prayer.duration}</small>${assistantMode==="prayers" ? '<i class="assistant-drag-handle" aria-label="ลากเพื่อเรียงลำดับ">⠿</i>' : ""}</li>`).join("") : '<li class="assistant-empty">เลือกบทสวดเพื่อเพิ่มลงในชุด</li>';
+    bindAssistantPreviewSorting(prayerList);
+  };
+
+  const syncPrayerOrderFromPreview = list=>{
+    assistantPrayerOrder = [...list.querySelectorAll("li[data-prayer-id]")].map(item=>item.dataset.prayerId);
+    refreshAssistantPreview();
+  };
+  const bindAssistantPreviewSorting = list=>{
+    if(assistantMode!=="prayers") return;
+    let draggedItem = null;
+    list.querySelectorAll("li.sortable").forEach(item=>{
+      item.addEventListener("dragstart",event=>{ draggedItem=item; item.classList.add("dragging"); event.dataTransfer.effectAllowed="move"; });
+      item.addEventListener("dragover",event=>{ event.preventDefault(); if(!draggedItem || draggedItem===item) return; const rect=item.getBoundingClientRect(); list.insertBefore(draggedItem,event.clientY < rect.top+rect.height/2 ? item : item.nextSibling); });
+      item.addEventListener("dragend",()=>{ if(!draggedItem) return; draggedItem.classList.remove("dragging"); draggedItem=null; syncPrayerOrderFromPreview(list); });
+      const handle = item.querySelector(".assistant-drag-handle");
+      handle?.addEventListener("pointerdown",event=>{ if(event.pointerType==="mouse") return; draggedItem=item; item.classList.add("dragging"); handle.setPointerCapture(event.pointerId); event.preventDefault(); });
+      handle?.addEventListener("pointermove",event=>{ if(!draggedItem) return; const target=document.elementFromPoint(event.clientX,event.clientY)?.closest("li[data-prayer-id]"); if(!target || target===draggedItem || target.parentElement!==list) return; const rect=target.getBoundingClientRect(); list.insertBefore(draggedItem,event.clientY < rect.top+rect.height/2 ? target : target.nextSibling); });
+      const finishPointerDrag = event=>{ if(!draggedItem) return; if(handle.hasPointerCapture(event.pointerId)) handle.releasePointerCapture(event.pointerId); draggedItem.classList.remove("dragging"); draggedItem=null; syncPrayerOrderFromPreview(list); };
+      handle?.addEventListener("pointerup",finishPointerDrag);
+      handle?.addEventListener("pointercancel",finishPointerDrag);
+    });
   };
 
   document.querySelectorAll("[data-assistant-group]").forEach(group=>{
     group.querySelectorAll("button").forEach(button=>button.addEventListener("click", ()=>{
-      if(group.dataset.multiple==="true") button.classList.toggle("active");
+      if(group.dataset.multiple==="true"){
+        button.classList.toggle("active");
+        if(group.dataset.assistantGroup==="prayers"){
+          if(button.classList.contains("active")){ if(!assistantPrayerOrder.includes(button.dataset.value)) assistantPrayerOrder.push(button.dataset.value); }
+          else assistantPrayerOrder = assistantPrayerOrder.filter(id=>id!==button.dataset.value);
+        }
+        if(group.dataset.assistantGroup==="focus"){
+          if(button.classList.contains("active")){ if(!assistantFocusOrder.includes(button.dataset.value)) assistantFocusOrder.push(button.dataset.value); }
+          else assistantFocusOrder = assistantFocusOrder.filter(value=>value!==button.dataset.value);
+        }
+      }
       else{
         group.querySelectorAll("button").forEach(item=>item.classList.remove("active"));
         button.classList.add("active");
@@ -1650,7 +1685,9 @@ function bindAssistant(){
       editingAssistantSetId = null;
       document.getElementById("assistantCreate").innerHTML = '<span>✦</span> สร้างชุดสวดของฉัน <small>เริ่มต้นสวดได้ทันที</small>';
       document.querySelectorAll('[data-assistant-group="focus"] button.active').forEach(button=>button.classList.remove("active"));
+      assistantFocusOrder = [];
       picker.querySelectorAll("button.active").forEach(button=>button.classList.remove("active"));
+      assistantPrayerOrder = [];
       searchInput.value = "";
       picker.querySelectorAll("button").forEach(button=>button.hidden=false);
       refreshAssistantPreview();
