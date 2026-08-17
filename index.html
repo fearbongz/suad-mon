@@ -17,7 +17,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Mali:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400;1,600&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="style.css?v=20260817-1">
+<link rel="stylesheet" href="style.css?v=20260817-2">
 </head>
 <body>
 
@@ -40,7 +40,7 @@
       </svg>
     </button>
 
-    <img class="hero-illust" src="assets/illustration.png" alt="น้องพนมมือสวดมนต์บนดอกบัว">
+    <img class="hero-illust" data-gender-hero src="assets/hero-pink-female.png" alt="น้องพนมมือสวดมนต์บนดอกบัว">
 
     <div class="hero-text">
       <h1 id="greetingText">สวัสดีตอนเช้า <span class="heart">💗</span></h1>
@@ -103,16 +103,29 @@
 
     <!-- ---------- PRAYER LIBRARY SCREEN ---------- -->
     <section class="screen" id="screen-prayers">
-      <h2 class="page-title">📖 บทสวดทั้งหมด</h2>
-
-      <div class="search-wrap">
-        <span class="search-icon">🔍</span>
-        <input type="text" id="searchInput" placeholder="ค้นหาบทสวด...">
+      <h2 class="page-title">📖 บทสวด</h2>
+      <div class="prayer-library-tabs" id="prayerLibraryTabs">
+        <button class="active" data-library-tab="all">บทสวดทั้งหมด</button>
+        <button data-library-tab="mine">บทสวดของฉัน</button>
       </div>
-
-      <div class="chip-row" id="chipRow"></div>
-
-      <div class="prayer-list" id="prayerList"></div>
+      <div id="allPrayersPanel">
+        <div class="search-wrap">
+          <span class="search-icon">🔍</span>
+          <input type="text" id="searchInput" placeholder="ค้นหาบทสวด...">
+        </div>
+        <div class="chip-row" id="chipRow"></div>
+        <div class="prayer-list" id="prayerList"></div>
+      </div>
+      <div class="my-prayer-panel" id="myPrayersPanel">
+        <div class="my-prayer-sets" id="myPrayerSets"></div>
+        <p class="my-prayer-empty" id="myPrayerEmpty">ยังไม่มีชุดสวดของฉัน<br><small>สร้างชุดสวดจากเมนูผู้ช่วยได้เลยค่ะ</small></p>
+        <div class="my-prayer-detail" id="myPrayerDetail">
+          <button class="my-prayer-back" id="myPrayerBack" type="button">‹ กลับไปชุดสวดของฉัน</button>
+          <div class="my-prayer-detail-head"><h3 id="myPrayerDetailTitle">ชุดสวดของฉัน</h3><small id="myPrayerDetailMeta"></small></div>
+          <div class="my-prayer-detail-list" id="myPrayerDetailList"></div>
+          <div class="my-prayer-detail-actions delete-only"><button type="button" id="myPrayerDeleteSet">ลบชุดสวด</button></div>
+        </div>
+      </div>
     </section>
 
     <!-- ---------- MY MERIT / STATS SCREEN ---------- -->
@@ -154,9 +167,40 @@
       </div>
     </section>
 
+    <!-- ---------- PROFILE SCREEN ---------- -->
+    <section class="screen profile-screen" id="screen-profile">
+      <h2 class="page-title profile-page-title"><button type="button" data-nav="settings">‹</button> โปรไฟล์ของฉัน</h2>
+      <div class="profile-cover"><button class="profile-back" type="button" data-nav="settings">‹</button><div class="profile-photo"><img data-profile-avatar src="assets/profile-female.png" alt="รูปโปรไฟล์"></div></div>
+      <div class="profile-summary"><h2 id="profileDisplayName">เมตตา มณีจันทร์</h2><p id="profileDisplayBio">ขอให้ทุกวันเป็นวันที่ใจสงบ 💗</p></div>
+      <div class="profile-stats"><div><span><img src="assets/assistant-calm.png" alt=""></span><b id="profileLevel">Level 1</b><small>ระดับสายบุญ</small></div><div><span><img src="assets/profile-points.png" alt=""></span><b id="profilePoints">0</b><small>แต้มบุญสะสม</small></div><div><span><img src="assets/profile-streak.png" alt=""></span><b id="profileStreak">0 วัน</b><small>สวดต่อเนื่อง</small></div></div>
+      <div class="profile-menu settings-group">
+        <button class="settings-item" type="button" id="personalInfoBtn"><span class="settings-icon"><svg viewBox="0 0 24 24"><circle cx="12" cy="8" r="4"/><path d="M5 21a7 7 0 0 1 14 0"/></svg></span><span class="settings-copy"><b>ข้อมูลส่วนตัว</b><small>ชื่อ วันเกิด ตัวละคร</small></span><span class="settings-arrow">›</span></button>
+        <button class="settings-item" type="button"><span class="settings-icon"><svg viewBox="0 0 24 24"><path d="M18 8a6 6 0 0 0-12 0c0 7-3 9-3 9h18s-3-2-3-9M14 21h-4"/></svg></span><span class="settings-copy"><b>การตั้งค่าแจ้งเตือน</b><small>เตือนสวดมนต์และกิจกรรม</small></span><span class="settings-arrow">›</span></button>
+        <button class="settings-item" type="button"><span class="settings-icon"><svg viewBox="0 0 24 24"><path d="M5 10v4M9 7v10M13 4v16M17 8v8M21 10v4"/></svg></span><span class="settings-copy"><b>เสียงและการแสดงผล</b><small>เสียงสวด ธีม และขนาดตัวอักษร</small></span><span class="settings-arrow">›</span></button>
+        <button class="settings-item" type="button"><span class="settings-icon"><svg viewBox="0 0 24 24"><rect x="5" y="10" width="14" height="11" rx="2"/><path d="M8 10V7a4 4 0 0 1 8 0v3"/></svg></span><span class="settings-copy"><b>ความเป็นส่วนตัว</b><small>การแสดงผลข้อมูลและการเข้าถึง</small></span><span class="settings-arrow">›</span></button>
+        <button class="settings-item" type="button"><span class="settings-icon"><svg viewBox="0 0 24 24"><path d="M8 12h8M12 8v8"/><circle cx="12" cy="12" r="8"/></svg></span><span class="settings-copy"><b>เชื่อมต่อบัญชี</b><small>Google, Apple, Email</small></span><span class="settings-arrow">›</span></button>
+        <button class="settings-item" type="button"><span class="settings-icon"><svg viewBox="0 0 24 24"><path d="M5 7h14v13H5Z"/><path d="M9 7V5a3 3 0 0 1 6 0v2M9 11v5M15 11v5"/></svg></span><span class="settings-copy"><b>สมัครสมาชิก</b><small>จัดการแพ็กเกจและการชำระเงิน</small></span><span class="settings-arrow">›</span></button>
+        <button class="settings-item" type="button" data-nav="guide"><span class="settings-icon"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M9.7 9a2.5 2.5 0 1 1 3.7 2.2c-.9.5-1.4 1-1.4 2.3M12 17h.01"/></svg></span><span class="settings-copy"><b>ช่วยเหลือและแนะนำ</b><small>คำถามที่พบบ่อย ติดต่อเรา</small></span><span class="settings-arrow">›</span></button>
+      </div>
+      <div class="profile-inline-edit" id="profileInlineEdit">
+        <div class="profile-edit-head"><button type="button" id="profileEditBack">‹</button><h2>แก้ไขโปรไฟล์</h2><button type="submit" form="profileForm">บันทึก</button></div>
+        <form id="profileForm" class="profile-edit-form">
+          <fieldset><legend>ตัวละคร</legend><div class="profile-gender"><label><input type="radio" name="profileGender" value="หญิง"><span>♀ <b>หญิง</b></span></label><label><input type="radio" name="profileGender" value="ชาย"><span>♂ <b>ชาย</b></span></label></div></fieldset>
+          <div class="profile-field-grid"><label><span>ชื่อ</span><input id="profileFirstName" maxlength="30"></label><label><span>นามสกุล</span><input id="profileLastName" maxlength="30"></label></div>
+          <label><span>ชื่อเล่น (ถ้ามี)</span><input id="profileNameInput" maxlength="30"></label><label><span>วันเกิด</span><input id="profileBirthDate" type="date"></label><label><span>อีเมล</span><input id="profileEmail" type="email" placeholder="name@example.com"></label><label><span>คำอธิบายตัวเอง</span><textarea id="profileMessageInput" maxlength="120" placeholder="สวดมนต์ทุกวัน ใจเบิกบาน บุญงอกงาม 💗"></textarea></label>
+          <fieldset class="profile-theme-field"><legend>เลือกธีมโปรไฟล์</legend><div class="profile-theme-options" id="profileThemeOptions"><button type="button" data-profile-theme="pink"><img src="assets/profile-theme-pink.png" alt=""><span>ชมพูละมุน</span><i>✓</i></button><button type="button" data-profile-theme="purple"><img src="assets/profile-theme-purple.png" alt=""><span>ม่วงฟริ้ง</span><i>✓</i></button><button type="button" data-profile-theme="blue"><img src="assets/profile-theme-blue.png" alt=""><span>ฟ้าใส</span><i>✓</i></button><button type="button" data-profile-theme="green"><img src="assets/profile-theme-green.png" alt=""><span>เขียวสบายตา</span><i>✓</i></button></div></fieldset>
+          <button class="profile-save" type="submit">บันทึกข้อมูล</button>
+        </form>
+      </div>
+    </section>
+
     <!-- ---------- SETTINGS SCREEN ---------- -->
     <section class="screen" id="screen-settings">
       <h2 class="page-title">⚙️ ตั้งค่า</h2>
+      <h3 class="settings-section-title">โปรไฟล์</h3>
+      <div class="settings-group">
+        <button class="settings-item" type="button" id="editProfileBtn"><span class="settings-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="8" r="4"/><path d="M5 21a7 7 0 0 1 14 0"/></svg></span><span class="settings-copy"><b id="settingsProfileName">แก้ไขโปรไฟล์</b><small id="settingsProfileMessage">เพิ่มชื่อและข้อความทักทายของคุณ</small></span><span class="settings-arrow">›</span></button>
+      </div>
       <h3 class="settings-section-title">การใช้งาน</h3>
       <div class="settings-group">
         <div class="settings-item"><span class="settings-icon">♧</span><span class="settings-copy"><b>การแจ้งเตือน</b><small>ตั้งเวลาเตือนสวดมนต์ / บทสวดประจำวัน</small></span><label class="switch"><input type="checkbox" id="reminderToggle"><span class="slider"></span></label></div>
@@ -226,7 +270,58 @@
         <p><span><i class="about-info-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="7" y="3" width="10" height="18" rx="2"/><path d="M10 6h4M11 18h2"/></svg></i>รองรับระบบ</span><b>iOS 12.0 ขึ้นไป / Android 7.0 ขึ้นไป</b></p>
       </div>
       <h3 class="about-heading"><img class="flower-icon" src="assets/flower-icon.png" alt=""> นักพัฒนา</h3>
-      <div class="about-developer"><img src="assets/illustration.png" alt="ผู้พัฒนา"><div><b>พัฒนาด้วยใจ เพื่อส่งต่อสิ่งดี ๆ 💗</b><small>หากมีข้อเสนอแนะหรือต้องการให้เราเพิ่มฟีเจอร์อะไร สามารถติดต่อเราได้เลยนะคะ</small><button type="button">✉ ติดต่อเรา</button></div></div>
+      <div class="about-developer"><img data-gender-hero src="assets/hero-pink-female.png" alt="ผู้พัฒนา"><div><b>พัฒนาด้วยใจ เพื่อส่งต่อสิ่งดี ๆ 💗</b><small>หากมีข้อเสนอแนะหรือต้องการให้เราเพิ่มฟีเจอร์อะไร สามารถติดต่อเราได้เลยนะคะ</small><button type="button">✉ ติดต่อเรา</button></div></div>
+    </section>
+
+    <!-- ---------- PERSONAL PRAYER ASSISTANT ---------- -->
+    <section class="screen" id="screen-assistant">
+      <div class="assistant-intro">
+        <h2>ผู้ช่วยจัดชุดสวดมนต์ส่วนตัว <span>✨</span></h2>
+        <p>ให้เราช่วยจัดชุดสวดมนต์ที่เหมาะกับคุณ พร้อมบทสวดและคำแนะนำ เพื่อสร้างกิจวัตรที่ดีและเหมาะกับคุณที่สุด</p>
+      </div>
+
+      <h3 class="assistant-heading"><img class="flower-icon" src="assets/flower-icon.png" alt=""> 1. เลือกวิธีจัดชุดสวดมนต์</h3>
+      <div class="assistant-mode-tabs" id="assistantModeTabs">
+        <button class="active" data-mode="focus">เลือกสิ่งที่อยากโฟกัส</button>
+        <button data-mode="prayers">เลือกบทสวดเอง</button>
+      </div>
+      <p class="assistant-mode-title" id="assistantModeTitle">เลือกสิ่งที่คุณอยากโฟกัสในช่วงนี้ (เลือกได้หลายข้อ)</p>
+      <div class="assistant-focus-grid" data-assistant-group="focus" data-multiple="true">
+        <button class="active" data-value="เงินและโชคลาภ"><span><img src="assets/assistant-luck.png" alt=""></span><b>เงินและ<br>โชคลาภ</b><i>✓</i></button>
+        <button data-value="งานและความสำเร็จ"><span><img src="assets/assistant-work.png" alt=""></span><b>งานและ<br>ความสำเร็จ</b><i>✓</i></button>
+        <button data-value="ความรักและเมตตา"><span><img src="assets/assistant-love.png" alt=""></span><b>ความรัก<br>เมตตา</b><i>✓</i></button>
+        <button data-value="ใจสงบผ่อนคลาย"><span><img src="assets/assistant-calm.png" alt=""></span><b>ใจสงบ<br>ผ่อนคลาย</b><i>✓</i></button>
+        <button data-value="คุ้มครองปกป้อง"><span><img src="assets/assistant-protect.png" alt=""></span><b>คุ้มครอง<br>ปกป้อง</b><i>✓</i></button>
+        <button data-value="สุขภาพสิริมงคล"><span><img src="assets/assistant-health.png" alt=""></span><b>สุขภาพ<br>สิริมงคล</b><i>✓</i></button>
+        <button data-value="ก่อนนอนหลับสบาย"><span><img src="assets/assistant-night.png" alt=""></span><b>ก่อนนอน<br>หลับสบาย</b><i>✓</i></button>
+        <button data-value="เริ่มต้นวันใหม่"><span><img src="assets/assistant-morning.png" alt=""></span><b>เริ่มต้นวันใหม่<br>สดใสทั้งวัน</b><i>✓</i></button>
+      </div>
+      <label class="assistant-prayer-search" id="assistantPrayerSearchWrap"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="m16 16 4 4"/></svg><input type="search" id="assistantPrayerSearch" placeholder="ค้นหาชื่อบทสวด..." autocomplete="off"></label>
+      <div class="assistant-prayer-picker" id="assistantPrayerPicker" data-assistant-group="prayers" data-multiple="true"></div>
+
+      <h3 class="assistant-heading"><img class="flower-icon" src="assets/flower-icon.png" alt=""> 2. เลือกช่วงเวลาที่คุณสะดวก</h3>
+      <div class="assistant-time-grid" data-assistant-group="time">
+        <button class="active" data-value="กลางคืนก่อนนอน"><span><img src="assets/assistant-night.png" alt=""></span><b>กลางคืน</b><small>ก่อนนอน</small></button>
+        <button data-value="เช้าก่อนเริ่มวัน"><span><img src="assets/assistant-morning.png" alt=""></span><b>เช้า</b><small>ก่อนเริ่มวัน</small></button>
+        <button data-value="กลางวัน"><span><img src="assets/assistant-day.png" alt=""></span><b>กลางวัน</b><small>ช่วงพัก</small></button>
+        <button data-value="เย็น"><span><img src="assets/assistant-evening.png" alt=""></span><b>เย็น</b><small>ก่อนนอน</small></button>
+        <button data-value="กำหนดเอง"><span><img src="assets/assistant-custom-time.png" alt=""></span><b>กำหนดเอง</b><small>เลือกเวลา</small></button>
+      </div>
+
+      <div class="assistant-preview">
+        <div><small>✨ ชุดสวดแนะนำสำหรับคุณ</small><h3 id="assistantPreviewTitle">ชุดสวดเงิน – กลางคืนก่อนนอน</h3><p id="assistantPreviewDuration">ใช้เวลาประมาณ 12 นาที</p></div>
+        <ol id="assistantPrayerList"></ol>
+      </div>
+
+      <h3 class="assistant-heading"><img class="flower-icon" src="assets/flower-icon.png" alt=""> 3. ตั้งค่าเพิ่มเติม (เลือกได้)</h3>
+      <div class="assistant-extra">
+        <button type="button"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="8" r="4"/><path d="M5 21a7 7 0 0 1 14 0"/></svg><b>เลือกเสียง<small>เสียงผู้หญิง</small></b></button>
+        <button type="button"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 18V6l10-2v12"/><circle cx="6" cy="18" r="3"/><circle cx="16" cy="16" r="3"/></svg><b>เสียงประกอบ<small>ระดับเบา ๆ</small></b></button>
+        <button type="button" id="assistantReminder"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M18 8a6 6 0 0 0-12 0c0 7-3 9-3 9h18s-3-2-3-9M14 21h-4"/></svg><b>เตือนให้สวด<small id="assistantReminderText">ทุกวัน 19:00 น.</small></b><i></i></button>
+        <label><span><b>เล่นต่อเนื่องอัตโนมัติ</b><small>เล่นบทถัดไปอัตโนมัติ</small></span><input type="checkbox" id="assistantContinuous"><i></i></label>
+      </div>
+      <button class="assistant-create" id="assistantCreate"><span>✦</span> สร้างชุดสวดของฉัน <small>เริ่มต้นสวดได้ทันที</small></button>
+      <p class="assistant-result" id="assistantResult" aria-live="polite"></p>
     </section>
 
     <!-- ================= PRAYER READER SCREEN ================= -->
@@ -307,6 +402,10 @@
       <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20.8 4.6c-1.7-1.7-4.4-1.7-6.1 0L12 7.3 9.3 4.6c-1.7-1.7-4.4-1.7-6.1 0-1.7 1.7-1.7 4.4 0 6.1L12 19.4l8.8-8.7c1.7-1.7 1.7-4.4 0-6.1z"/></svg>
       <span>บุญของฉัน</span>
     </button>
+    <button class="nav-item" data-nav="assistant">
+      <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m12 3 1.2 3.8L17 8l-3.8 1.2L12 13l-1.2-3.8L7 8l3.8-1.2Z"/><path d="m18 14 .8 2.2L21 17l-2.2.8L18 20l-.8-2.2L15 17l2.2-.8Z"/><path d="M4 16h7M7.5 12.5v7"/></svg>
+      <span>ผู้ช่วย</span>
+    </button>
     <button class="nav-item" data-nav="settings">
       <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.7 1.7 0 0 0 .3 1.9l.1.1a2 2 0 1 1-2.8 2.8l-.1-.1a1.7 1.7 0 0 0-1.9-.3 1.7 1.7 0 0 0-1 1.5V21a2 2 0 1 1-4 0v-.1a1.7 1.7 0 0 0-1-1.6 1.7 1.7 0 0 0-1.9.3l-.1.1a2 2 0 1 1-2.8-2.8l.1-.1a1.7 1.7 0 0 0 .3-1.9 1.7 1.7 0 0 0-1.5-1H3a2 2 0 1 1 0-4h.1a1.7 1.7 0 0 0 1.6-1 1.7 1.7 0 0 0-.3-1.9l-.1-.1a2 2 0 1 1 2.8-2.8l.1.1a1.7 1.7 0 0 0 1.9.3H9a1.7 1.7 0 0 0 1-1.5V3a2 2 0 1 1 4 0v.1a1.7 1.7 0 0 0 1 1.5 1.7 1.7 0 0 0 1.9-.3l.1-.1a2 2 0 1 1 2.8 2.8l-.1.1a1.7 1.7 0 0 0-.3 1.9V9a1.7 1.7 0 0 0 1.5 1H21a2 2 0 1 1 0 4h-.1a1.7 1.7 0 0 0-1.5 1z"/></svg>
       <span>ตั้งค่า</span>
@@ -315,6 +414,6 @@
 
 </div>
 
-<script src="app.js?v=20260817-1"></script>
+<script src="app.js?v=20260817-2"></script>
 </body>
 </html>

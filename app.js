@@ -639,8 +639,8 @@ const PRAYERS = [
 
 const QUICK_TILES = [
   {icon:"assets/tile1.png",label:"สวดมนต์วันเกิด",id:"birthday"},
-  {icon:"assets/tile2.png",label:"แผ่เมตตาให้ตนเอง",id:"metta-self"},
-  {icon:"assets/tile3.png",label:"ขอพร สิ่งศักดิ์สิทธิ์",id:"wish"},
+  {icon:"assets/tile2.png",label:"แผ่เมตตา",id:"metta-self"},
+  {icon:"assets/tile3.png",label:"ขอพร",id:"wish"},
   {icon:"assets/tile4.png",label:"บทสวดยอดนิยม",id:"popular"}
 ];
 
@@ -667,13 +667,16 @@ const DOW_TH = ["จ","อ","พ","พฤ","ศ","ส","อา"]; // Mon..Sun
 
 /* ---------------- STATE (localStorage) ---------------- */
 const STORE_KEY = "suadmon_data_v1";
-const DEFAULT_STATE = { completedDates:[], favorites:[], prayerHistory:[], goal:21, fontSize:"medium", reminderOn:false, reminderTime:"19:00", continuousOn:false, theme:"purple" };
+const DEFAULT_STATE = { completedDates:[], favorites:[], prayerHistory:[], customPrayerSets:[], goal:21, fontSize:"medium", reminderOn:false, reminderTime:"19:00", continuousOn:false, theme:"purple", profileName:"", profileMessage:"", profileFirstName:"", profileLastName:"", profileGender:"หญิง", profileTheme:"pink", profileBirthDate:"", profileEmail:"" };
 function loadState(){
   try{
     const raw = localStorage.getItem(STORE_KEY);
-    if(raw) return {...DEFAULT_STATE,...JSON.parse(raw)};
+    if(raw){
+      const saved = JSON.parse(raw);
+      return {...DEFAULT_STATE,...saved,customPrayerSets:Array.isArray(saved.customPrayerSets)?saved.customPrayerSets:[]};
+    }
   }catch(e){}
-  return {...DEFAULT_STATE,completedDates:[],favorites:[],prayerHistory:[]};
+  return {...DEFAULT_STATE,completedDates:[],favorites:[],prayerHistory:[],customPrayerSets:[]};
 }
 function saveState(){ localStorage.setItem(STORE_KEY, JSON.stringify(state)); }
 let state = loadState();
@@ -705,8 +708,8 @@ function getPrayerIcon(prayer){
   const iconsByCategory = {
     "ทำวัตรเช้า-เย็น":"assets/lamp.png",
     "สวดบูชาพระ":"assets/prayer-lotus.png",
-    "แผ่เมตตา":"assets/prayer-hands.png",
-    "เสริมดวง":"assets/prayer-heart.png"
+    "แผ่เมตตา":"assets/prayer-heart.png",
+    "เสริมดวง":"assets/prayer-hands.png"
   };
   return iconsByCategory[prayer.category] || prayer.icon;
 }
@@ -719,8 +722,10 @@ function renderHero(){
   else if(h>=11 && h<17){ greet="สวัสดีตอนบ่าย"; sub="พักสักครู่ แล้วมาสวดมนต์กันนะคะ"; }
   else if(h>=17 && h<21){ greet="สวัสดีตอนเย็น"; sub="สวดมนต์ก่อนนอน ใจจะสงบขึ้นนะคะ"; }
   else{ greet="ราตรีสวัสดิ์"; sub="สวดมนต์สักนิด แล้วหลับฝันดีนะคะ"; }
-  document.getElementById("greetingText").innerHTML = `${greet} <span class="heart">💗</span>`;
-  document.getElementById("greetingSub").innerHTML = `${sub} <span>💛</span>`;
+  const displayGreeting = state.profileName ? `${greet} คุณ${state.profileName}` : greet;
+  const displaySub = state.profileMessage || sub;
+  document.getElementById("greetingText").innerHTML = `${displayGreeting} <span class="heart">💗</span>`;
+  document.getElementById("greetingSub").innerHTML = `${displaySub} <span>💛</span>`;
 
   const dayOfYear = Math.floor((Date.now() - new Date(new Date().getFullYear(),0,0)) / 86400000);
   const q = QUOTES[dayOfYear % QUOTES.length];
@@ -751,7 +756,7 @@ function renderCarousel(){
           <span><svg class="meta-icon" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg>${p.duration}</span>
           <span><svg class="meta-icon meta-person" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="8" r="4"/><path d="M5 21a7 7 0 0 1 14 0Z"/></svg>${p.popularity.toLocaleString()} ครั้ง</span>
         </div>
-        <button class="go-btn" data-open="${p.id}">สวดเลย <span class="circle">▶</span></button>
+        <button class="go-btn" data-open="${p.id}">สวดเลย <span class="circle"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5v14l11-7Z"/></svg></span></button>
       </div>
     </div>
   `).join("");
@@ -833,6 +838,10 @@ function renderStreak(){
 /* ---------------- PRAYER LIBRARY ---------------- */
 let activeCategory = "ทั้งหมด";
 let searchTerm = "";
+let activeLibraryTab = "all";
+let editingPrayerSetId = null;
+let editingPrayerSetDraft = [];
+let editingAssistantSetId = null;
 
 function renderChips(){
   const row = document.getElementById("chipRow");
@@ -856,6 +865,66 @@ function renderPrayerList(){
   bindPrayerCards(list);
 }
 
+function renderMyPrayerSets(){
+  const wrap = document.getElementById("myPrayerSets");
+  const empty = document.getElementById("myPrayerEmpty");
+  const detail = document.getElementById("myPrayerDetail");
+  const sets = Array.isArray(state.customPrayerSets) ? [...state.customPrayerSets].reverse() : [];
+  detail.classList.remove("open");
+  wrap.style.display = sets.length ? "flex" : "none";
+  empty.style.display = sets.length ? "none" : "block";
+  wrap.innerHTML = sets.map(set=>`<button class="my-set-card" data-set-id="${set.id}"><span class="my-set-icon"><img src="assets/assistant-calm.png" alt=""></span><span class="my-set-copy"><b>${set.name}</b><small>${set.prayerIds.length} บท · ใช้เวลาประมาณ ${set.totalMinutes || 0} นาที</small></span><span class="my-set-arrow">›</span></button>`).join("");
+  wrap.querySelectorAll("[data-set-id]").forEach(button=>button.addEventListener("click",()=>openMyPrayerSet(button.dataset.setId)));
+}
+
+function editPrayerSetInAssistant(setId){
+  const set = (state.customPrayerSets || []).find(item=>String(item.id)===String(setId));
+  if(!set) return;
+  editingAssistantSetId = set.id;
+  showScreen("assistant");
+  document.querySelector('#assistantModeTabs [data-mode="prayers"]')?.click();
+  document.querySelectorAll("#assistantPrayerPicker button.active").forEach(button=>button.classList.remove("active"));
+  set.prayerIds.forEach(prayerId=>document.querySelector(`#assistantPrayerPicker button[data-value="${prayerId}"]`)?.click());
+  document.getElementById("assistantPreviewTitle").textContent = set.name;
+  document.getElementById("assistantResult").classList.remove("show");
+  document.getElementById("assistantCreate").innerHTML = '<span>✦</span> บันทึกการแก้ไข <small>อัปเดตชุดสวดของฉัน</small>';
+}
+
+function openMyPrayerSet(setId){
+  const set = (state.customPrayerSets || []).find(item=>String(item.id)===String(setId));
+  if(!set) return;
+  editingPrayerSetId = set.id;
+  editingPrayerSetDraft = [...set.prayerIds];
+  document.getElementById("myPrayerSets").style.display = "none";
+  document.getElementById("myPrayerEmpty").style.display = "none";
+  document.getElementById("myPrayerDetail").classList.add("open");
+  document.getElementById("myPrayerDetailTitle").textContent = set.name;
+  renderMyPrayerSetEditor();
+}
+
+function renderMyPrayerSetEditor(){
+  const prayers = editingPrayerSetDraft.map(findPrayer).filter(Boolean);
+  document.getElementById("myPrayerDetailMeta").textContent = `${prayers.length} บท`;
+  const list = document.getElementById("myPrayerDetailList");
+  list.innerHTML = prayers.map((prayer,index)=>`<button class="my-prayer-item" data-open="${prayer.id}"><i>${index+1}</i><img src="${getPrayerIcon(prayer)}" alt=""><span><b>${prayer.title}</b><small>${prayer.duration}</small></span><em>›</em></button>`).join("");
+  list.querySelectorAll("[data-open]").forEach(button=>button.addEventListener("click",()=>openReader(button.dataset.open)));
+}
+
+function deleteMyPrayerSet(setId){
+  if(!confirm("ต้องการลบชุดสวดนี้ใช่ไหม?")) return;
+  state.customPrayerSets = (state.customPrayerSets || []).filter(item=>String(item.id)!==String(setId));
+  saveState();
+  renderMyPrayerSets();
+}
+
+function setPrayerLibraryTab(tab){
+  activeLibraryTab = tab;
+  document.querySelectorAll("#prayerLibraryTabs button").forEach(button=>button.classList.toggle("active",button.dataset.libraryTab===tab));
+  document.getElementById("allPrayersPanel").style.display = tab==="all" ? "block" : "none";
+  document.getElementById("myPrayersPanel").classList.toggle("active",tab==="mine");
+  if(tab==="mine") renderMyPrayerSets();
+}
+
 function prayerCardHTML(p){
   const isFav = state.favorites.includes(p.id);
   const prayerIcon = getPrayerIcon(p);
@@ -875,7 +944,7 @@ function prayerCardHTML(p){
       </div>
       <span class="pc-actions">
         <span class="pc-fav ${isFav ? "active" : ""}" data-fav="${p.id}">${isFav ? "♥" : "♡"}</span>
-        <span class="pc-play">▶</span>
+        <span class="pc-play"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5v14l11-7Z"/></svg></span>
       </span>
     </button>
   `;
@@ -1205,6 +1274,7 @@ function showScreen(name){
   window.scrollTo({top:0, behavior:"smooth"});
 
   if(name==="merit"){ renderMeritStats(); renderCalendar(); renderBadges(); renderFavList(); }
+  if(name==="prayers") setPrayerLibraryTab(activeLibraryTab);
 }
 
 /* ---------------- SETTINGS ---------------- */
@@ -1241,6 +1311,56 @@ function initSettings(){
     });
   });
   applyFontSize(state.fontSize);
+
+  const profileNameInput = document.getElementById("profileNameInput");
+  const profileMessageInput = document.getElementById("profileMessageInput");
+  let pendingProfileTheme = state.profileTheme || "pink";
+  const applyProfileImages = (gender,profileTheme=pendingProfileTheme)=>{
+    const isMale = gender === "ชาย";
+    const themeImages = {
+      pink:{female:"assets/hero-pink-female.png",male:"assets/hero-pink-male.png"},
+      purple:{female:"assets/hero-purple-female.png",male:"assets/hero-purple-male.png"},
+      blue:{female:"assets/hero-blue-female.png",male:"assets/hero-blue-male.png"},
+      green:{female:"assets/hero-green-female.png",male:"assets/hero-green-male.png"}
+    };
+    const selectedImages = themeImages[profileTheme] || themeImages.pink;
+    document.querySelectorAll("[data-profile-avatar]").forEach(image=>image.src=isMale ? "assets/profile-male.png" : "assets/profile-female.png");
+    document.querySelectorAll("[data-gender-hero]").forEach(image=>image.src=isMale ? selectedImages.male : selectedImages.female);
+    document.querySelectorAll("#profileThemeOptions button").forEach(button=>button.classList.toggle("active",button.dataset.profileTheme===profileTheme));
+  };
+  const renderProfileSetting = ()=>{
+    document.getElementById("settingsProfileName").textContent = state.profileName || "แก้ไขโปรไฟล์";
+    document.getElementById("settingsProfileMessage").textContent = state.profileMessage || "เพิ่มชื่อและข้อความทักทายของคุณ";
+    document.getElementById("profileDisplayName").textContent = [state.profileFirstName,state.profileLastName].filter(Boolean).join(" ") || state.profileName || "เมตตา มณีจันทร์";
+    document.getElementById("profileDisplayBio").textContent = state.profileMessage || "ขอให้ทุกวันเป็นวันที่ใจสงบ 💗";
+    const meritPoints = (state.prayerHistory || []).reduce((total,item)=>total+(Number(item.points) || 10),0);
+    document.getElementById("profileLevel").textContent = `Level ${Math.floor(meritPoints / 100) + 1}`;
+    document.getElementById("profilePoints").textContent = meritPoints.toLocaleString("th-TH");
+    document.getElementById("profileStreak").textContent = `${computeStreak()} วัน`;
+    pendingProfileTheme = state.profileTheme || "pink";
+    applyProfileImages(state.profileGender || "หญิง",pendingProfileTheme);
+  };
+  renderProfileSetting();
+  document.getElementById("editProfileBtn").addEventListener("click",()=>{
+    renderProfileSetting(); document.querySelector(".profile-menu").style.display="block"; document.getElementById("profileInlineEdit").classList.remove("open"); showScreen("profile");
+  });
+  document.getElementById("personalInfoBtn").addEventListener("click",()=>{
+    document.getElementById("profileFirstName").value=state.profileFirstName||""; document.getElementById("profileLastName").value=state.profileLastName||""; profileNameInput.value=state.profileName||""; profileMessageInput.value=state.profileMessage||""; document.getElementById("profileBirthDate").value=state.profileBirthDate||""; document.getElementById("profileEmail").value=state.profileEmail||"";
+    pendingProfileTheme=state.profileTheme||"pink"; document.querySelectorAll('[name="profileGender"]').forEach(input=>input.checked=input.value===(state.profileGender||"หญิง")); applyProfileImages(state.profileGender||"หญิง",pendingProfileTheme); document.querySelector(".profile-menu").style.display="none"; document.getElementById("profileInlineEdit").classList.add("open");
+  });
+  document.getElementById("profileEditBack").addEventListener("click",()=>{ pendingProfileTheme=state.profileTheme||"pink"; applyProfileImages(state.profileGender||"หญิง",pendingProfileTheme); document.getElementById("profileInlineEdit").classList.remove("open"); document.querySelector(".profile-menu").style.display="block"; });
+  document.querySelectorAll('[name="profileGender"]').forEach(input=>input.addEventListener("change",()=>applyProfileImages(input.value,pendingProfileTheme)));
+  document.querySelectorAll("#profileThemeOptions button").forEach(button=>button.addEventListener("click",()=>{ pendingProfileTheme=button.dataset.profileTheme; applyProfileImages(document.querySelector('[name="profileGender"]:checked')?.value||state.profileGender||"หญิง",pendingProfileTheme); }));
+  document.getElementById("profileForm").addEventListener("submit",event=>{
+    event.preventDefault();
+    state.profileName = profileNameInput.value.trim();
+    state.profileMessage = profileMessageInput.value.trim();
+    state.profileFirstName=document.getElementById("profileFirstName").value.trim(); state.profileLastName=document.getElementById("profileLastName").value.trim(); state.profileGender=document.querySelector('[name="profileGender"]:checked')?.value||"หญิง"; state.profileTheme=pendingProfileTheme; state.profileBirthDate=document.getElementById("profileBirthDate").value; state.profileEmail=document.getElementById("profileEmail").value.trim();
+    saveState();
+    renderProfileSetting();
+    renderHero();
+    document.getElementById("profileInlineEdit").classList.remove("open"); document.querySelector(".profile-menu").style.display="block";
+  });
 
   document.querySelectorAll("#goalOptions button").forEach(btn=>{
     if(Number(btn.dataset.goal)===state.goal) btn.classList.add("active"); else btn.classList.remove("active");
@@ -1284,7 +1404,7 @@ function initSettings(){
 
   document.getElementById("resetBtn").addEventListener("click", ()=>{
     if(confirm("ล้างข้อมูลการสวดมนต์ทั้งหมดใช่ไหมคะ? การกระทำนี้ย้อนกลับไม่ได้")){
-      state = {...DEFAULT_STATE,completedDates:[],favorites:[],prayerHistory:[]};
+      state = {...DEFAULT_STATE,completedDates:[],favorites:[],prayerHistory:[],customPrayerSets:[]};
       saveState();
       applyTheme(state.theme);
       applyFontSize(state.fontSize);
@@ -1354,6 +1474,134 @@ function bindCheckin(){
   document.getElementById("checkinBtn").addEventListener("click", toggleTodayDirect);
 }
 
+function bindAssistant(){
+  let assistantMode = "focus";
+  const focusRecommendations = {
+    "เงินและโชคลาภ":["millionaire-mantra","sivali-worship","lakshmi-worship"],
+    "งานและความสำเร็จ":["maha-chakraphat","wish","ratanattaya-praise"],
+    "ความรักและเมตตา":["metta-self","karaniya-metta-sutta","merit-dedication"],
+    "ใจสงบผ่อนคลาย":["karaniya-metta-sutta","metta-self","bedtime-prayer"],
+    "คุ้มครองปกป้อง":["bahum-mahaka","vesavana-worship","jinapanjara-full"],
+    "สุขภาพสิริมงคล":["ratanattaya-praise","bahum-mahaka","merit-dedication"],
+    "ก่อนนอนหลับสบาย":["bedtime-prayer","metta-self","merit-dedication"],
+    "เริ่มต้นวันใหม่":["namotassa","ratanattaya-praise","maha-chakraphat"]
+  };
+  const picker = document.getElementById("assistantPrayerPicker");
+  const searchWrap = document.getElementById("assistantPrayerSearchWrap");
+  const searchInput = document.getElementById("assistantPrayerSearch");
+  const assistantReminder = document.getElementById("assistantReminder");
+  const assistantContinuous = document.getElementById("assistantContinuous");
+  picker.innerHTML = PRAYERS.filter(prayer=>prayer.id!=="popular").map(prayer=>`<button data-value="${prayer.id}"><img src="${getPrayerIcon(prayer)}" alt=""><b>${prayer.title}</b><i>✓</i></button>`).join("");
+  assistantReminder.classList.toggle("active",Boolean(state.reminderOn));
+  assistantReminder.setAttribute("aria-pressed",String(Boolean(state.reminderOn)));
+  document.getElementById("assistantReminderText").textContent = `ทุกวัน ${state.reminderTime || "19:00"} น.`;
+  assistantContinuous.checked = Boolean(state.continuousOn);
+
+  const selectedFocuses = ()=>[...document.querySelectorAll('[data-assistant-group="focus"] .active')].map(item=>item.dataset.value);
+  const selectedPrayers = ()=>{
+    if(assistantMode==="prayers") return [...picker.querySelectorAll("button.active")].map(item=>findPrayer(item.dataset.value)).filter(Boolean);
+    const ids = selectedFocuses().flatMap(focus=>focusRecommendations[focus] || []);
+    return [...new Set(ids)].map(findPrayer).filter(Boolean);
+  };
+  const refreshAssistantPreview = ()=>{
+    const prayers = selectedPrayers();
+    const focuses = selectedFocuses();
+    const time = document.querySelector('[data-assistant-group="time"] .active')?.dataset.value || "ช่วงที่สะดวก";
+    const totalMinutes = prayers.reduce((sum,prayer)=>sum+(Number.parseInt(prayer.duration,10) || 0),0);
+    const editingSet = (state.customPrayerSets || []).find(item=>String(item.id)===String(editingAssistantSetId));
+    const focusTitle = {
+      "เงินและโชคลาภ":"เงิน",
+      "งานและความสำเร็จ":"งาน",
+      "ความรักและเมตตา":"ความรัก",
+      "ใจสงบผ่อนคลาย":"ใจสงบ",
+      "คุ้มครองปกป้อง":"คุ้มครอง",
+      "สุขภาพสิริมงคล":"สุขภาพ",
+      "ก่อนนอนหลับสบาย":"ก่อนนอน",
+      "เริ่มต้นวันใหม่":"เริ่มวันใหม่"
+    };
+    const title = assistantMode==="prayers" ? (editingSet?.name || time) : focuses.length>1 ? `ชุดสวด ${focuses.length} เป้าหมาย – ${time}` : `ชุดสวด${focusTitle[focuses[0]] || "สิริมงคล"} – ${time}`;
+    document.getElementById("assistantPreviewTitle").textContent = title;
+    document.getElementById("assistantPreviewDuration").textContent = prayers.length ? `ใช้เวลาประมาณ ${totalMinutes} นาที` : "ยังไม่ได้เลือกบทสวด";
+    document.getElementById("assistantPrayerList").innerHTML = prayers.length ? prayers.map((prayer,index)=>`<li><span>${index+1}</span>${prayer.title}<small>${prayer.duration}</small></li>`).join("") : '<li class="assistant-empty">เลือกบทสวดเพื่อเพิ่มลงในชุด</li>';
+  };
+
+  document.querySelectorAll("[data-assistant-group]").forEach(group=>{
+    group.querySelectorAll("button").forEach(button=>button.addEventListener("click", ()=>{
+      if(group.dataset.multiple==="true") button.classList.toggle("active");
+      else{
+        group.querySelectorAll("button").forEach(item=>item.classList.remove("active"));
+        button.classList.add("active");
+      }
+      refreshAssistantPreview();
+    }));
+  });
+  document.querySelectorAll("#assistantModeTabs button").forEach(button=>button.addEventListener("click", ()=>{
+    assistantMode = button.dataset.mode;
+    document.querySelectorAll("#assistantModeTabs button").forEach(item=>item.classList.toggle("active",item===button));
+    document.querySelector('[data-assistant-group="focus"]').style.display = assistantMode==="focus" ? "grid" : "none";
+    picker.classList.toggle("open",assistantMode==="prayers");
+    searchWrap.classList.toggle("open",assistantMode==="prayers");
+    document.getElementById("assistantModeTitle").textContent = assistantMode==="focus" ? "เลือกสิ่งที่คุณอยากโฟกัสในช่วงนี้ (เลือกได้หลายข้อ)" : "เลือกบทสวดที่ต้องการเพิ่มในชุด (เลือกได้หลายบท)";
+    refreshAssistantPreview();
+  }));
+  searchInput.addEventListener("input",()=>{
+    const query = searchInput.value.trim().toLocaleLowerCase("th");
+    picker.querySelectorAll("button").forEach(button=>{
+      const prayer = findPrayer(button.dataset.value);
+      const haystack = `${prayer?.title || ""} ${prayer?.category || ""} ${prayer?.desc || ""}`.toLocaleLowerCase("th");
+      button.hidden = Boolean(query) && !haystack.includes(query);
+    });
+  });
+  assistantReminder.addEventListener("click",()=>{
+    state.reminderOn = !state.reminderOn;
+    assistantReminder.classList.toggle("active",state.reminderOn);
+    assistantReminder.setAttribute("aria-pressed",String(state.reminderOn));
+    const settingsToggle = document.getElementById("reminderToggle");
+    if(settingsToggle) settingsToggle.checked = state.reminderOn;
+    saveState();
+  });
+  assistantContinuous.addEventListener("change",()=>{
+    state.continuousOn = assistantContinuous.checked;
+    const readerToggle = document.getElementById("continuousToggle");
+    if(readerToggle) readerToggle.checked = state.continuousOn;
+    saveState();
+  });
+  document.getElementById("assistantCreate").addEventListener("click", ()=>{
+    const prayers = selectedPrayers();
+    const result = document.getElementById("assistantResult");
+    if(prayers.length){
+      if(!Array.isArray(state.customPrayerSets)) state.customPrayerSets=[];
+      const existingSet = state.customPrayerSets.find(item=>String(item.id)===String(editingAssistantSetId));
+      if(existingSet){
+        existingSet.prayerIds = prayers.map(prayer=>prayer.id);
+        existingSet.totalMinutes = prayers.reduce((sum,prayer)=>sum+(Number.parseInt(prayer.duration,10) || 0),0);
+        existingSet.updatedAt = new Date().toISOString();
+      }else{
+        state.customPrayerSets.push({
+          id:Date.now(),
+          name:document.getElementById("assistantPreviewTitle").textContent,
+          prayerIds:prayers.map(prayer=>prayer.id),
+          totalMinutes:prayers.reduce((sum,prayer)=>sum+(Number.parseInt(prayer.duration,10) || 0),0),
+          createdAt:new Date().toISOString()
+        });
+      }
+      saveState();
+      renderMyPrayerSets();
+      result.textContent = existingSet ? `✨ อัปเดตชุดสวด ${prayers.length} บทเรียบร้อยแล้ว` : `✨ บันทึกชุดสวด ${prayers.length} บทแล้ว ดูได้ที่ บทสวด > บทสวดของฉัน`;
+      editingAssistantSetId = null;
+      document.getElementById("assistantCreate").innerHTML = '<span>✦</span> สร้างชุดสวดของฉัน <small>เริ่มต้นสวดได้ทันที</small>';
+    }else result.textContent = "กรุณาเลือกเป้าหมายหรือบทสวดอย่างน้อย 1 รายการค่ะ";
+    result.classList.add("show");
+  });
+  refreshAssistantPreview();
+}
+
+function bindPrayerLibrary(){
+  document.querySelectorAll("#prayerLibraryTabs button").forEach(button=>button.addEventListener("click",()=>setPrayerLibraryTab(button.dataset.libraryTab)));
+  document.getElementById("myPrayerBack").addEventListener("click",renderMyPrayerSets);
+  document.getElementById("myPrayerDeleteSet").addEventListener("click",()=>deleteMyPrayerSet(editingPrayerSetId));
+}
+
 /* ---------------- INIT ---------------- */
 function renderAll(){
   renderHero();
@@ -1375,5 +1623,7 @@ document.addEventListener("DOMContentLoaded", ()=>{
   bindSearch();
   bindBell();
   bindCheckin();
+  bindAssistant();
+  bindPrayerLibrary();
   initSettings();
 });
