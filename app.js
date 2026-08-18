@@ -2140,7 +2140,7 @@ function bindAssistant(){
     document.getElementById("assistantPreviewTitle").textContent = title;
     document.getElementById("assistantPreviewDuration").textContent = prayers.length ? `ใช้เวลาประมาณ ${totalMinutes} นาที` : "ยังไม่ได้เลือกบทสวด";
     const prayerList = document.getElementById("assistantPrayerList");
-    prayerList.innerHTML = prayers.length ? prayers.map((prayer,index)=>`<li class="sortable" data-prayer-id="${prayer.id}" draggable="true"><span>${index+1}</span><b class="assistant-prayer-name">${prayer.title}</b><small>${prayer.duration}</small><i class="assistant-drag-handle" aria-label="ลากเพื่อเรียงลำดับ">⠿</i></li>`).join("") : '<li class="assistant-empty">เลือกบทสวดเพื่อเพิ่มลงในชุด</li>';
+    prayerList.innerHTML = prayers.length ? prayers.map((prayer,index)=>`<li class="sortable" data-prayer-id="${prayer.id}"><span>${index+1}</span><b class="assistant-prayer-name">${prayer.title}</b><small>${prayer.duration}</small><i class="assistant-drag-handle" role="button" aria-label="ลากเพื่อเรียงลำดับ">⠿</i></li>`).join("") : '<li class="assistant-empty">เลือกบทสวดเพื่อเพิ่มลงในชุด</li>';
     bindAssistantPreviewSorting(prayerList);
   };
 
@@ -2160,12 +2160,27 @@ function bindAssistant(){
   const bindAssistantPreviewSorting = list=>{
     let draggedItem = null;
     list.querySelectorAll("li.sortable").forEach(item=>{
-      item.addEventListener("dragstart",event=>{ draggedItem=item; item.classList.add("dragging"); event.dataTransfer.effectAllowed="move"; });
-      item.addEventListener("dragover",event=>{ event.preventDefault(); if(!draggedItem || draggedItem===item) return; const rect=item.getBoundingClientRect(); list.insertBefore(draggedItem,event.clientY < rect.top+rect.height/2 ? item : item.nextSibling); });
-      item.addEventListener("dragend",()=>{ if(!draggedItem) return; draggedItem.classList.remove("dragging"); draggedItem=null; syncPrayerOrderFromPreview(list); });
       const handle = item.querySelector(".assistant-drag-handle");
-      handle?.addEventListener("pointerdown",event=>{ if(event.pointerType==="mouse") return; draggedItem=item; item.classList.add("dragging"); handle.setPointerCapture(event.pointerId); event.preventDefault(); });
-      handle?.addEventListener("pointermove",event=>{ if(!draggedItem) return; const target=document.elementFromPoint(event.clientX,event.clientY)?.closest("li[data-prayer-id]"); if(!target || target===draggedItem || target.parentElement!==list) return; const rect=target.getBoundingClientRect(); list.insertBefore(draggedItem,event.clientY < rect.top+rect.height/2 ? target : target.nextSibling); });
+      handle?.addEventListener("pointerdown",event=>{
+        if(event.button!==undefined && event.button!==0) return;
+        draggedItem=item;
+        item.classList.add("dragging");
+        handle.setPointerCapture(event.pointerId);
+        window.getSelection()?.removeAllRanges();
+        event.preventDefault();
+      });
+      handle?.addEventListener("pointermove",event=>{
+        if(!draggedItem) return;
+        const edge=56;
+        if(event.clientY<edge) window.scrollBy(0,-Math.min(14,edge-event.clientY));
+        else if(event.clientY>window.innerHeight-edge) window.scrollBy(0,Math.min(14,event.clientY-(window.innerHeight-edge)));
+
+        const siblings=[...list.querySelectorAll("li[data-prayer-id]")].filter(entry=>entry!==draggedItem);
+        const next=siblings.find(entry=>event.clientY < entry.getBoundingClientRect().top + entry.getBoundingClientRect().height/2);
+        if(next) list.insertBefore(draggedItem,next);
+        else list.appendChild(draggedItem);
+        event.preventDefault();
+      });
       const finishPointerDrag = event=>{ if(!draggedItem) return; if(handle.hasPointerCapture(event.pointerId)) handle.releasePointerCapture(event.pointerId); draggedItem.classList.remove("dragging"); draggedItem=null; syncPrayerOrderFromPreview(list); };
       handle?.addEventListener("pointerup",finishPointerDrag);
       handle?.addEventListener("pointercancel",finishPointerDrag);
