@@ -17,7 +17,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Mali:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400;1,600&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="style.css?v=20260818-11">
+<link rel="stylesheet" href="style.css?v=20260818-26">
 </head>
 <body>
 
@@ -268,11 +268,59 @@
 
     <!-- ---------- PERSONAL PRAYER ASSISTANT ---------- -->
     <section class="screen" id="screen-merit-garden">
-      <div class="merit-garden-coming-soon">
-        <div class="merit-garden-icon" aria-hidden="true">🌳</div>
-        <h2>สวนบุญ</h2>
-        <p>พื้นที่แห่งความดีของคุณ</p>
-        <span>Coming soon</span>
+      <div class="garden-hero">
+        <header class="garden-heading">
+          <div><h2><img src="assets/garden-lotus.png" alt=""> สวนบุญของฉัน</h2><p>สวดทุกวัน ใจเบิกบาน บุญงอกงาม 💗</p></div>
+          <button type="button" data-nav="guide">📖 <span>คู่มือ</span></button>
+        </header>
+        <div class="garden-dashboard">
+          <div class="garden-overview">
+            <div class="garden-level-badge"><img src="assets/garden-medal.png" alt="ระดับสวนบุญ"></div>
+            <div><small>ระดับสวนบุญ</small><strong id="gardenLevel">1</strong><b id="gardenLevelName">เมล็ดพันธุ์แห่งบุญ</b></div>
+            <div><small>แต้มบุญสะสม</small><strong id="gardenPoints">0</strong><b id="gardenTarget">จากเป้าหมาย 1,000</b></div>
+            <div class="garden-level-progress"><i id="gardenLevelProgress"></i></div>
+            <button class="garden-gift" type="button" aria-label="ของขวัญ"><img src="assets/garden-gift.png" alt=""></button>
+          </div>
+          <div class="garden-quick-stack">
+            <div class="garden-streak-card"><img src="assets/garden-fire.png" alt=""><strong><span id="gardenStreak">0</span> <small>วัน</small></strong><b>สวดต่อเนื่อง ›</b></div>
+            <button class="garden-water-card" type="button"><img src="assets/garden-watering.png" alt=""><span><b>รดน้ำดอกบัว</b><small>+10 แต้ม</small></span></button>
+            <button class="garden-candle-card" type="button"><img src="assets/lamp.png" alt=""><span><b>จุดตะเกียงบุญ</b><small>+5 แต้ม</small></span></button>
+          </div>
+        </div>
+        <div class="garden-speech">สวดอีกนิดนะ<br><span>ดอกบัวใกล้เบ่งบานแล้ว ✨</span></div>
+        <div class="garden-side-actions">
+          <button type="button"><img src="assets/garden-pavilion.png" alt="">ตกแต่งสวน ›</button>
+          <button type="button" data-nav="profile"><img data-garden-character src="assets/garden-female.png" alt="">ตัวละคร ›</button>
+        </div>
+      </div>
+
+      <div class="garden-content">
+        <section class="garden-card garden-missions">
+          <div class="garden-card-title"><h3>ภารกิจวันนี้ <span>ⓘ</span></h3><small>รีเฟรชภารกิจทุกวัน</small></div>
+          <div class="garden-mission" data-garden-mission="chant"><img src="assets/lamp.png" alt=""><div><b>สวดมนต์อย่างน้อย 1 บท</b><span><i></i></span></div><em><img src="assets/garden-lotus.png" alt="">+10</em><button type="button">รับรางวัล</button></div>
+          <div class="garden-mission" data-garden-mission="metta"><img src="assets/garden-mission-metta.png" alt=""><div><b>แผ่เมตตาให้ตนเองและสรรพสัตว์</b><span><i></i></span></div><em><img src="assets/garden-lotus.png" alt="">+5</em><button type="button">รับรางวัล</button></div>
+          <div class="garden-mission" data-garden-mission="sleep"><img src="assets/garden-mission-night-v2.png" alt=""><div><b>สวดชุดก่อนนอน</b><span><i></i></span></div><em><img src="assets/garden-lotus.png" alt="">+20</em><button type="button" data-garden-pray>ไปสวด</button></div>
+        </section>
+
+        <section class="garden-card garden-next-reward">
+          <h3>รางวัลระดับถัดไป</h3><b>Level <span id="gardenNextLevel">2</span></b>
+          <img src="assets/garden-reward-main.png" alt="ศาลาในสวน">
+          <p>เมื่อถึงระดับนี้ จะปลดล็อก</p>
+          <div class="garden-reward-unlocks"><span><img src="assets/garden-pavilion.png" alt=""><small>ศาลาใหม่</small></span><span><img src="assets/garden-unlock-scene.png" alt=""><small>ฉากน้ำตก</small></span><span><img src="assets/garden-unlock-lotus.png" alt=""><small>ดอกบัวพิเศษ</small></span></div>
+          <button type="button">ดูรางวัลทั้งหมด</button>
+        </section>
+
+        <section class="garden-card garden-unlocks">
+          <h3>สิ่งที่ปลดล็อกแล้ว</h3>
+          <div><article><img src="assets/garden-unlock-lotus.png" alt=""><b>ดอกบัว</b><small>6 / 12</small></article><article><img src="assets/garden-unlock-scene.png" alt=""><b>ฉากสวน</b><small>3 / 8</small></article><article><img class="needs-pink-bg" src="assets/garden-pavilion.png" alt=""><b>ศาลา</b><small>2 / 6</small></article><article><img src="assets/garden-unlock-decoration.png" alt=""><b>ของตกแต่ง</b><small>5 / 15</small></article><article><img class="needs-pink-bg" data-garden-character src="assets/garden-female.png" alt=""><b>ตัวละคร</b><small>2 / 5</small></article><article><img class="needs-pink-bg" src="assets/garden-unlock-lantern.png" alt=""><b>ตะเกียง</b><small>3 / 8</small></article></div>
+        </section>
+
+        <section class="garden-card garden-activity">
+          <h3>กิจกรรมล่าสุด</h3>
+          <div id="gardenActivity"></div>
+        </section>
+
+        <blockquote class="garden-quote"><span class="garden-quote-mark">❝</span>บุญคือความสุข<br>ที่ไม่ขึ้นกับใคร<br>เริ่มต้นที่ใจของเรา <img src="assets/flower-icon.png" alt="ดอกบัว"></blockquote>
       </div>
     </section>
 
@@ -432,6 +480,6 @@
 
 </div>
 
-<script src="app.js?v=20260818-14"></script>
+<script src="app.js?v=20260818-19"></script>
 </body>
 </html>
