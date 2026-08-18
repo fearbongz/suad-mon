@@ -1893,7 +1893,8 @@ function initSettings(){
     document.getElementById("profileDisplayName").textContent = [state.profileFirstName,state.profileLastName].filter(Boolean).join(" ") || state.profileName || "เมตตา มณีจันทร์";
     document.getElementById("profileDisplayBio").textContent = state.profileMessage || "ขอให้ทุกวันเป็นวันที่ใจสงบ 💗";
     const meritPoints = (state.prayerHistory || []).reduce((total,item)=>total+(Number(item.points) || 10),0);
-    document.getElementById("profileLevel").textContent = `Level ${Math.floor(meritPoints / 100) + 1}`;
+    const meritDays = new Set([...(state.completedDates||[]),...(state.prayerHistory||[]).map(item=>todayStr(new Date(item.at)))]).size;
+    document.getElementById("profileLevel").textContent = `Lv.${Math.min(100,Math.floor(meritDays/3)+1)}`;
     document.getElementById("profilePoints").textContent = meritPoints.toLocaleString("th-TH");
     document.getElementById("profileStreak").textContent = `${computeStreak()} วัน`;
     pendingProfileTheme = state.profileTheme || "pink";
@@ -2281,8 +2282,8 @@ const GARDEN_ITEMS = {
   character:{label:"ตัวละคร",image:"assets/garden-female.png"},
   lantern:{label:"ตะเกียง",image:"assets/garden-unlock-lantern.png"}
 };
-function gardenTotals(points){
-  const level=Math.floor(points/1000)+1;
+function gardenTotals(points,levelOverride){
+  const level=levelOverride||Math.floor(points/1000)+1;
   return {level,counts:{lotus:Math.min(12,1+level),scene:Math.min(8,level),pavilion:Math.min(6,Math.max(0,level-1)),decoration:Math.min(15,level*2),character:Math.min(5,1+Math.floor(level/2)),lantern:Math.min(8,Math.max(0,level-1))}};
 }
 function showGardenModal(title,html){
@@ -2312,18 +2313,21 @@ function renderMeritGarden(){
   const history = Array.isArray(state.prayerHistory) ? state.prayerHistory : [];
   const prayerPoints = history.reduce((sum,item)=>sum+(Number(item.points)||10),0);
   const points = prayerPoints + (Number(state.gardenBonus)||0);
-  const level = Math.floor(points/1000)+1;
-  const levelProgress = points%1000;
-  const levelNames = ["เมล็ดพันธุ์แห่งบุญ","ต้นกล้าใจดี","ดอกบัวแรกแย้ม","สวนแห่งเมตตา","ปัญญาเบิกบาน"];
+  const completedDays=new Set([...(state.completedDates||[]),...history.map(item=>todayStr(new Date(item.at)))]).size;
+  const level = Math.min(100,Math.floor(completedDays/3)+1);
+  const levelProgress = level>=100?100:(completedDays%3)/3*100;
+  const levelNames = ["เมล็ดพันธุ์แห่งบุญ","สายน้ำแห่งศรัทธา","ใบไม้แห่งเมตตา","ดอกบัวแห่งความสุข","แสงทองแห่งบุญ","ผู้ดูแลสวนบุญ","จิตใจเบิกบาน","บุญญาบารมี","ปัญญาส่องสว่าง","สวนบุญสมบูรณ์"];
+  const levelTier=Math.min(9,Math.floor((level-1)/10));
   const setText = (id,value)=>{ const el=document.getElementById(id); if(el) el.textContent=value; };
-  setText("gardenLevel",level);
-  setText("gardenLevelName",levelNames[Math.min(level-1,levelNames.length-1)]);
+  setText("gardenLevel",`Lv.${level}`);
+  setText("gardenLevelName",levelNames[levelTier]);
   setText("gardenPoints",points.toLocaleString("th-TH"));
-  setText("gardenTarget",`จากเป้าหมาย ${(level*1000).toLocaleString("th-TH")}`);
-  setText("gardenNextLevel",level+1);
+  setText("gardenTarget",`สวดสะสม ${completedDays.toLocaleString("th-TH")} วัน`);
+  setText("gardenNextLevel",Math.min(100,level+1));
   setText("gardenStreak",computeStreak());
-  const bar=document.getElementById("gardenLevelProgress"); if(bar) bar.style.width=`${levelProgress/10}%`;
-  const totals=gardenTotals(points);
+  const bar=document.getElementById("gardenLevelProgress"); if(bar) bar.style.width=`${levelProgress}%`;
+  const badge=document.querySelector(".garden-level-badge"); if(badge){badge.dataset.levelTier=levelTier;badge.setAttribute("aria-label",`ป้ายระดับ Lv.${level}`);}
+  const totals=gardenTotals(points,level);
   document.querySelectorAll("[data-garden-item]").forEach(card=>{
     const id=card.dataset.gardenItem, count=totals.counts[id]||0;
     card.querySelector("small").textContent=`${count} ชิ้น`;

@@ -20,7 +20,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Mali:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400;1,600&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="style.css?v=20260818-35">
+<link rel="stylesheet" href="style.css?v=20260818-37">
 </head>
 <body>
 
@@ -278,8 +278,8 @@
         </header>
         <div class="garden-dashboard">
           <div class="garden-overview">
-            <div class="garden-level-badge"><img src="assets/garden-medal.png" alt="ระดับสวนบุญ"></div>
-            <div><small>ระดับสวนบุญ</small><strong id="gardenLevel">1</strong><b id="gardenLevelName">เมล็ดพันธุ์แห่งบุญ</b></div>
+            <div class="garden-level-badge" data-level-tier="0" role="img" aria-label="ป้ายระดับสวนบุญ"></div>
+            <div><small>ระดับสวนบุญ</small><strong id="gardenLevel">Lv.1</strong><b id="gardenLevelName">เมล็ดพันธุ์แห่งบุญ</b></div>
             <div><small>แต้มบุญสะสม</small><strong id="gardenPoints">0</strong><b id="gardenTarget">จากเป้าหมาย 1,000</b></div>
             <div class="garden-level-progress"><i id="gardenLevelProgress"></i></div>
             <button class="garden-gift" type="button" data-garden-action="gift" aria-label="ของขวัญ"><img src="assets/garden-gift.png" alt=""></button>
@@ -306,7 +306,7 @@
         </section>
 
         <section class="garden-card garden-next-reward">
-          <h3>รางวัลระดับถัดไป</h3><b>Level <span id="gardenNextLevel">2</span></b>
+          <h3>รางวัลระดับถัดไป</h3><b>Lv.<span id="gardenNextLevel">2</span></b>
           <img src="assets/garden-reward-main.png" alt="ศาลาในสวน">
           <p>เมื่อถึงระดับนี้ จะปลดล็อก</p>
           <div class="garden-reward-unlocks"><span><img src="assets/garden-pavilion.png" alt=""><small>ศาลาใหม่</small></span><span><img src="assets/garden-unlock-scene.png" alt=""><small>ฉากน้ำตก</small></span><span><img src="assets/garden-unlock-lotus.png" alt=""><small>ดอกบัวพิเศษ</small></span></div>
@@ -482,6 +482,6 @@
 
 </div>
 
-<script src="app.js?v=20260818-29"></script>
+<script src="app.js?v=20260818-31"></script>
 </body>
 </html>
