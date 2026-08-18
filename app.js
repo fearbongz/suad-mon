@@ -145,13 +145,16 @@ const PRAYERS = [
   {
     id:"namotassa",
     title:"บทนอบน้อมพระพุทธเจ้า",
+    readerHeading:"บทนอบน้อมพระพุทธเจ้า",
     category:"ทำวัตรเช้า-เย็น",
     icon:"assets/lamp.png",
     duration:"1 นาที",
     popularity:4321,
     desc:"บทตั้งจิตนอบน้อม สวดก่อนบทสวดมนต์บทใด ๆ",
     lines:[
-      "นะโม ตัสสะ ภะคะวะโต อะระหะโต สัมมาสัมพุทธัสสะ (3 จบ)"
+      "นะโม ตัสสะ ภะคะวะโต อะระหะโต สัมมาสัมพุทธัสสะ",
+      "นะโม ตัสสะ ภะคะวะโต อะระหะโต สัมมาสัมพุทธัสสะ",
+      "นะโม ตัสสะ ภะคะวะโต อะระหะโต สัมมาสัมพุทธัสสะ"
     ]
   },
   {
@@ -559,20 +562,12 @@ const PRAYERS = [
     popularity:0,
     desc:"ตามคติฮินดู พระแม่ลักษมีเกี่ยวข้องกับความอุดมสมบูรณ์ ความรุ่งเรือง โชคลาภ และความเป็นมงคล",
     lines:[
-      "คำแนะนำ: เริ่มด้วยการตั้งจิตระลึกถึงพระแม่ แล้วภาวนา “โอม ศรี มหาลักษมีเย นะมะฮา” จะสวด 9 หรือ 108 จบตามกำลังและแนวปฏิบัติที่ศรัทธา",
+      "คำแนะนำ: ตั้งจิตให้สงบและระลึกถึงพระแม่ลักษมีก่อนเริ่มสวด",
       "## มหาลักษมีมนตรา",
-      "โอม ศรี มหาลักษมี เจ นะมะฮา",
-      "โอม ศรี มหาลักษมี เจ นะมะฮา",
-      "โอม ศรี มหาลักษมี เจ นะมะฮา",
-      "คำแนะนำ: นิยมสวด 9 จบ หรือ 108 จบ ตามสะดวก",
-      "## อีกบทหนึ่งที่นิยม",
-      "โอม ชยะ ศรี ลักษมี มาตา",
-      "โอม ชยะ ศรี ลักษมี มาตา",
+      "โอม ศรีม มหาลักษมีไย นะมะห์ (สวด 9 หรือ 108 จบ)",
       "## <span class=\"reader-heading-lotus\"></span> มนตราขอพรพระแม่ลักษมี",
-      "โอม ศรีม หรีม กะลีม",
-      "มหาลักษมี นะมะฮา",
-      "คำแนะนำ: สามารถสวด 9, 27 หรือ 108 จบ",
-      "## <span class=\"reader-heading-lotus\"></span> คำอธิษฐานหลังสวด",
+      "โอม ศรีม หรีม กลีม มหาลักษมีไย นะมะห์ (สวด 9, 27 หรือ 108 จบ)",
+      "## <span class=\"reader-heading-lotus\"></span> คำอธิษฐานหลังสวด (คำแนะนำ)",
       "ข้าพเจ้าขอน้อมบูชาพระแม่ลักษมี",
       "เทวีแห่งความอุดมสมบูรณ์ ความมั่งคั่ง และความเจริญรุ่งเรือง",
       "ขอพระแม่โปรดประทานพรให้ข้าพเจ้ามีความเจริญในหน้าที่การงาน",
@@ -616,14 +611,32 @@ const PRAYERS = [
     readerHeading:"อุทิศส่วนกุศล",
     category:"แผ่เมตตา",
     icon:"assets/prayer-hands.png",
-    duration:"1 นาที",
+    duration:"2 นาที",
     popularity:0,
-    desc:"อุทิศแก่บิดามารดา ครูอาจารย์ ผู้มีพระคุณ ญาติ เจ้ากรรมนายเวร และสรรพสัตว์",
+    desc:"อุทิศส่วนกุศลแก่บิดามารดา ครูอาจารย์ ญาติ เทวดา ผู้ล่วงลับ เจ้ากรรมนายเวร และสรรพสัตว์",
     lines:[
-      "## บทอิทัง เม ญาตีนัง โหตุ",
+      "## อุทิศแก่บิดามารดา",
+      "อิทัง เม มาตาปิตูนัง โหตุ",
+      "สุขิตา โหนตุ มาตาปิตะโร",
+      "## อุทิศแก่ครูอุปัชฌาย์อาจารย์",
+      "อิทัง เม คุรูปัชฌายาจริยานัง โหตุ",
+      "สุขิตา โหนตุ คุรูปัชฌายาจริยา",
+      "## อุทิศแก่ญาติทั้งหลาย",
       "อิทัง เม ญาตีนัง โหตุ",
       "สุขิตา โหนตุ ญาตะโย",
-      "ความหมายโดยย่อ: ขอส่วนบุญนี้จงสำเร็จแก่ญาติทั้งหลายของข้าพเจ้า ขอญาติทั้งหลายของข้าพเจ้าจงมีความสุข"
+      "## อุทิศแก่เทวดาทั้งหลาย",
+      "อิทัง สัพพะเทวะตานัง โหตุ",
+      "สุขิตา โหนตุ สัพเพ เทวา",
+      "## อุทิศแก่ผู้ล่วงลับทั้งหลาย",
+      "อิทัง สัพพะเปตานัง โหตุ",
+      "สุขิตา โหนตุ สัพเพ เปตา",
+      "## อุทิศแก่เจ้ากรรมนายเวรทั้งหลาย",
+      "อิทัง สัพพะเวรีนัง โหตุ",
+      "สุขิตา โหนตุ สัพเพ เวรี",
+      "## อุทิศแก่สรรพสัตว์ทั้งหลาย",
+      "อิทัง สัพพะสัตตานัง โหตุ",
+      "สุขิตา โหนตุ สัพเพ สัตตา",
+      "ความหมายโดยย่อ: ขอส่วนบุญนี้จงสำเร็จแก่บุคคลและสรรพสัตว์ทั้งหลายที่กล่าวมา ขอทั้งหมดทั้งปวงจงมีความสุข"
     ]
   },
   {
@@ -1011,7 +1024,7 @@ const QUICK_TILES = [
   {icon:"assets/tile1.png",label:"สวดมนต์วันเกิด",id:"birthday"},
   {icon:"assets/tile2.png",label:"แผ่เมตตา",id:"metta-self"},
   {icon:"assets/tile3.png",label:"ขอพร",id:"wish"},
-  {icon:"assets/tile4.png",label:"บทสวดที่บันทึกไว้",id:"saved-prayers"}
+  {icon:"assets/tile4.png",label:"บทสวดที่บันทึก",id:"saved-prayers"}
 ];
 
 const QUOTES = [
@@ -1052,7 +1065,7 @@ function saveState(){ localStorage.setItem(STORE_KEY, JSON.stringify(state)); }
 let state = loadState();
 
 /* One-time local test reset requested for today's garden actions. */
-const GARDEN_TEST_RESET_KEY="suadmon_garden_test_reset_20260818_1";
+const GARDEN_TEST_RESET_KEY="suadmon_garden_test_reset_20260818_5";
 if(!localStorage.getItem(GARDEN_TEST_RESET_KEY)){
   const resetDate=(()=>{const d=new Date();return `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,"0")}-${String(d.getDate()).padStart(2,"0")}`;})();
   const actions=Array.isArray(state.gardenActions)?state.gardenActions:[];
@@ -1101,15 +1114,24 @@ function getPrayerIcon(prayer){
 /* ---------------- HERO GREETING / QUOTE ---------------- */
 function renderHero(){
   const h = new Date().getHours();
+  const isMorning = h>=5 && h<11;
+  const isAfternoon = h>=11 && h<17;
+  const isEvening = h>=17 && h<21;
   let greet, sub;
-  if(h>=5 && h<11){ greet="สวัสดีตอนเช้า"; sub="ขอให้วันนี้เป็นวันที่ดีนะคะ"; }
-  else if(h>=11 && h<17){ greet="สวัสดีตอนบ่าย"; sub="พักสักครู่ แล้วมาสวดมนต์กันนะคะ"; }
-  else if(h>=17 && h<21){ greet="สวัสดีตอนเย็น"; sub="สวดมนต์ก่อนนอน ใจจะสงบขึ้นนะคะ"; }
+  if(isMorning){ greet="สวัสดีตอนเช้า"; sub="ขอให้วันนี้เป็นวันที่ดีนะคะ"; }
+  else if(isAfternoon){ greet="สวัสดีตอนบ่าย"; sub="พักสักครู่ แล้วมาสวดมนต์กันนะคะ"; }
+  else if(isEvening){ greet="สวัสดีตอนเย็น"; sub="สวดมนต์ก่อนนอน ใจจะสงบขึ้นนะคะ"; }
   else{ greet="ราตรีสวัสดิ์"; sub="สวดมนต์สักนิด แล้วหลับฝันดีนะคะ"; }
   const displayGreeting = state.profileName ? `${greet} คุณ${state.profileName}` : greet;
   const displaySub = state.profileMessage || sub;
-  document.getElementById("greetingText").innerHTML = `${displayGreeting} <span class="heart">💗</span>`;
+  document.getElementById("greetingText").innerHTML = `${displayGreeting} <span class="heart"><img src="assets/guide-heart.png" alt=""></span>`;
   document.getElementById("greetingSub").innerHTML = `${displaySub} <span>💛</span>`;
+  const greetingIcon = document.querySelector(".hero-moon");
+  greetingIcon.src = isMorning ? "assets/assistant-morning.png"
+    : isAfternoon ? "assets/assistant-day.png"
+    : isEvening ? "assets/assistant-evening.png"
+    : "assets/moon.png";
+  greetingIcon.classList.toggle("hero-time-icon",isMorning || isAfternoon || isEvening);
 
   const dayOfYear = Math.floor((Date.now() - new Date(new Date().getFullYear(),0,0)) / 86400000);
   const q = QUOTES[dayOfYear % QUOTES.length];
@@ -1301,8 +1323,19 @@ function renderMyPrayerSetEditor(){
   const prayers = editingPrayerSetDraft.map(findPrayer).filter(Boolean);
   document.getElementById("myPrayerDetailMeta").textContent = `${prayers.length} บท`;
   const list = document.getElementById("myPrayerDetailList");
-  list.innerHTML = prayers.map((prayer,index)=>`<button class="my-prayer-item" data-open="${prayer.id}"><i>${index+1}</i><img src="${getPrayerIcon(prayer)}" alt=""><span><b>${prayer.title}</b><small>${prayer.duration}</small></span><em>›</em></button>`).join("");
-  list.querySelectorAll("[data-open]").forEach(button=>button.addEventListener("click",()=>openReaderFromSet(button.dataset.open)));
+  list.innerHTML = prayers.map((prayer,index)=>{
+    const isFav = state.favorites.includes(prayer.id);
+    return `<button class="my-prayer-item" data-open="${prayer.id}"><i>${index+1}</i><img src="${getPrayerIcon(prayer)}" alt=""><span><b>${prayer.title}</b><small>${prayer.duration}</small></span><em class="pc-fav ${isFav ? "active" : ""}" data-fav="${prayer.id}" aria-label="บันทึกบทสวด">${FAVORITE_HEART_ICON}</em></button>`;
+  }).join("");
+  list.querySelectorAll("[data-open]").forEach(button=>button.addEventListener("click",event=>{
+    if(event.target.closest("[data-fav]")) return;
+    openReaderFromSet(button.dataset.open);
+  }));
+  list.querySelectorAll("[data-fav]").forEach(button=>button.addEventListener("click",event=>{
+    event.stopPropagation();
+    toggleFavorite(button.dataset.fav);
+    renderMyPrayerSetEditor();
+  }));
 }
 
 function openReaderFromSet(prayerId){
@@ -1344,7 +1377,7 @@ function prayerCardHTML(p){
         </div>
       </div>
       <span class="pc-actions">
-        <span class="pc-fav ${isFav ? "active" : ""}" data-fav="${p.id}">${isFav ? "♥" : "♡"}</span>
+        <span class="pc-fav ${isFav ? "active" : ""}" data-fav="${p.id}">${FAVORITE_HEART_ICON}</span>
         <span class="pc-play"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5v14l11-7Z"/></svg></span>
       </span>
     </button>
@@ -1415,6 +1448,7 @@ function renderCalendar(){
 
 function renderBadges(){
   const grid = document.getElementById("badgeGrid");
+  if(!grid) return;
   const streak = computeStreak();
   const total = state.completedDates.length;
   const fav = state.favorites.length;
@@ -1461,7 +1495,24 @@ let isPlaying = false;
 let activeReaderTab = "prayer";
 let activeReaderSequence = [];
 let activeReaderSequenceIndex = -1;
+let readerRoundCount = 0;
 const LINE_SECONDS = 3.2;
+const FAVORITE_HEART_ICON = '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20.8 4.6a5.5 5.5 0 0 0-7.8 0L12 5.7l-1.1-1.1a5.5 5.5 0 0 0-7.8 7.8l1.1 1.1L12 21l7.8-7.5 1.1-1.1a5.5 5.5 0 0 0-.1-7.8Z"/></svg>';
+
+function getPrayerRoundTarget(prayer){
+  const text=[prayer?.badge,prayer?.readerHeading,...(prayer?.lines || [])].filter(Boolean).join(" ");
+  const match=text.match(/([0-9๐-๙]+)\s*จบ/);
+  if(!match) return 0;
+  const thaiDigits="๐๑๒๓๔๕๖๗๘๙";
+  return Number([...match[1]].map(char=>thaiDigits.includes(char) ? thaiDigits.indexOf(char) : char).join("")) || 0;
+}
+
+function resetReaderRoundCounter(){
+  readerRoundCount=0;
+  document.getElementById("readerRoundCount").textContent="0";
+  const target=getPrayerRoundTarget(currentPrayer);
+  document.getElementById("readerRoundTarget").textContent=target ? ` / ${target}` : "";
+}
 
 function openReader(id,options={}){
   if(!options.preserveSequence){ activeReaderSequence=[]; activeReaderSequenceIndex=-1; }
@@ -1474,10 +1525,12 @@ function openReader(id,options={}){
   document.getElementById("readerCat").textContent = currentPrayer.category;
   document.getElementById("readerTitle").textContent = currentPrayer.title;
   document.getElementById("readerImage").src = getPrayerIcon(currentPrayer);
-  document.getElementById("readerPrayerHeading").textContent = currentPrayer.readerHeading || `${currentPrayer.title} (ตั้งนะโม 3 จบ)`;
+  document.getElementById("readerPrayerHeading").textContent = currentPrayer.readerHeading || currentPrayer.title;
   document.getElementById("readerDesc").textContent = currentPrayer.desc || "";
   document.getElementById("readerDuration").textContent = currentPrayer.duration;
   document.getElementById("readerPop").textContent = currentPrayer.popularity.toLocaleString();
+  document.querySelector('[data-reader-tab="advice"]')?.classList.toggle("has-closing-prayer",getReaderClosingPrayerLines().length>0);
+  resetReaderRoundCounter();
   updateFavIcon();
   renderReaderLines();
   setReaderTab("prayer");
@@ -1536,7 +1589,12 @@ function getReaderPrayerLines(){
   const lines = currentPrayer?.lines || [];
   const closingStart = lines.findIndex(line=>String(line).includes("คำอธิษฐานหลังสวด"));
   const prayerLines = closingStart>=0 ? lines.slice(0,closingStart) : lines;
-  return prayerLines.filter(line=>!isReaderTranslationLine(line));
+  const visibleLines = prayerLines.filter(line=>!isReaderTranslationLine(line));
+  const hasNamo = visibleLines.some(line=>String(line).includes("นะโม ตัสสะ ภะคะวะโต อะระหะโต สัมมาสัมพุทธัสสะ"));
+  if(!currentPrayer?.readerHeading && !hasNamo){
+    visibleLines.unshift("นะโม ตัสสะ ภะคะวะโต อะระหะโต สัมมาสัมพุทธัสสะ (3 จบ)");
+  }
+  return visibleLines;
 }
 
 function getReaderClosingPrayerLines(){
@@ -1596,7 +1654,9 @@ function closeReader(){
 
 function updateFavIcon(){
   const btn = document.getElementById("readerFav");
-  btn.textContent = state.favorites.includes(currentPrayer.id) ? "♥" : "♡";
+  const isFavorite=state.favorites.includes(currentPrayer.id);
+  btn.classList.toggle("active",isFavorite);
+  btn.setAttribute("aria-pressed",String(isFavorite));
 }
 
 function renderReaderLines(){
@@ -1752,64 +1812,71 @@ function playChime(freq){
 let gardenSoundNodes=[];
 let gardenBirdTimer=null;
 let gardenWaterTimer=null;
+let gardenSoundStarting=false;
 function updateGardenSoundButton(){
   const button=document.getElementById("gardenSoundToggle");
   if(!button) return;
   button.classList.toggle("active",!!state.gardenSoundOn);
   button.setAttribute("aria-pressed",String(!!state.gardenSoundOn));
-  button.innerHTML=state.gardenSoundOn?'🔊 <span>เสียงธรรมชาติ</span>':'🔇 <span>เสียงธรรมชาติ</span>';
+  button.innerHTML=state.gardenSoundOn?'♫ <span>เสียงธรรมชาติ</span>':'♪ <span>เสียงธรรมชาติ</span>';
 }
 function playGardenBird(){
   if(!audioCtx||!state.gardenSoundOn) return;
   const oscillator=audioCtx.createOscillator(), gain=audioCtx.createGain();
-  const now=audioCtx.currentTime, start=1200+Math.random()*700;
+  const now=audioCtx.currentTime, start=720+Math.random()*360;
   oscillator.type="sine";
   oscillator.frequency.setValueAtTime(start,now);
-  oscillator.frequency.exponentialRampToValueAtTime(start*1.45,now+.11);
-  oscillator.frequency.exponentialRampToValueAtTime(start*.9,now+.28);
-  gain.gain.setValueAtTime(.0001,now); gain.gain.exponentialRampToValueAtTime(.025,now+.04); gain.gain.exponentialRampToValueAtTime(.0001,now+.32);
-  oscillator.connect(gain); gain.connect(audioCtx.destination); oscillator.start(now); oscillator.stop(now+.34);
+  oscillator.frequency.exponentialRampToValueAtTime(start*1.22,now+.22);
+  oscillator.frequency.exponentialRampToValueAtTime(start*.94,now+.55);
+  gain.gain.setValueAtTime(.0001,now); gain.gain.exponentialRampToValueAtTime(.009,now+.12); gain.gain.exponentialRampToValueAtTime(.0001,now+.62);
+  oscillator.connect(gain); gain.connect(audioCtx.destination); oscillator.start(now); oscillator.stop(now+.65);
 }
 function playGardenWaterDrop(){
   if(!audioCtx||!state.gardenSoundOn) return;
   const now=audioCtx.currentTime;
   const drop=audioCtx.createOscillator(), dropGain=audioCtx.createGain(), pan=audioCtx.createStereoPanner?.();
   drop.type="sine";
-  drop.frequency.setValueAtTime(420+Math.random()*260,now);
-  drop.frequency.exponentialRampToValueAtTime(105+Math.random()*55,now+.16);
+  drop.frequency.setValueAtTime(240+Math.random()*150,now);
+  drop.frequency.exponentialRampToValueAtTime(82+Math.random()*38,now+.28);
   dropGain.gain.setValueAtTime(.0001,now);
-  dropGain.gain.exponentialRampToValueAtTime(.018+Math.random()*.018,now+.012);
-  dropGain.gain.exponentialRampToValueAtTime(.0001,now+.19);
+  dropGain.gain.exponentialRampToValueAtTime(.007+Math.random()*.006,now+.035);
+  dropGain.gain.exponentialRampToValueAtTime(.0001,now+.36);
   drop.connect(dropGain);
   if(pan){pan.pan.value=Math.random()*1.6-.8;dropGain.connect(pan);pan.connect(audioCtx.destination);}else dropGain.connect(audioCtx.destination);
-  drop.start(now); drop.stop(now+.2);
+  drop.start(now); drop.stop(now+.38);
 }
-function startGardenSound(){
-  if(gardenSoundNodes.length) return;
+async function startGardenSound(){
+  if(gardenSoundNodes.length||gardenSoundStarting) return;
+  gardenSoundStarting=true;
   try{
-    audioCtx=audioCtx||new (window.AudioContext||window.webkitAudioContext)();
-    audioCtx.resume();
+    const AudioContextClass=window.AudioContext||window.webkitAudioContext;
+    if(!AudioContextClass) throw new Error("Web Audio is not supported");
+    if(!audioCtx||audioCtx.state==="closed") audioCtx=new AudioContextClass();
+    if(audioCtx.state!=="running") await audioCtx.resume();
+    if(audioCtx.state!=="running") throw new Error("Audio context could not start");
+    if(!state.gardenSoundOn) return;
     const seconds=4, buffer=audioCtx.createBuffer(2,audioCtx.sampleRate*seconds,audioCtx.sampleRate);
     for(let channel=0;channel<2;channel++){
       const data=buffer.getChannelData(channel); let smooth=0;
-      for(let i=0;i<data.length;i++){const white=Math.random()*2-1;smooth=smooth*.985+white*.015;data[i]=white*.38+smooth*2.4;}
+      for(let i=0;i<data.length;i++){const white=Math.random()*2-1;smooth=smooth*.992+white*.008;data[i]=white*.06+smooth*1.35;}
     }
-    const master=audioCtx.createGain(); master.gain.value=.17; master.connect(audioCtx.destination);
+    const master=audioCtx.createGain(); master.gain.value=.11; master.connect(audioCtx.destination);
     const low=audioCtx.createBufferSource(), lowFilter=audioCtx.createBiquadFilter(), lowGain=audioCtx.createGain();
-    low.buffer=buffer; low.loop=true; lowFilter.type="lowpass"; lowFilter.frequency.value=780; lowGain.gain.value=.72;
+    low.buffer=buffer; low.loop=true; lowFilter.type="lowpass"; lowFilter.frequency.value=520; lowGain.gain.value=.62;
     low.connect(lowFilter); lowFilter.connect(lowGain); lowGain.connect(master); low.start();
     const ripple=audioCtx.createBufferSource(), rippleFilter=audioCtx.createBiquadFilter(), rippleGain=audioCtx.createGain();
-    ripple.buffer=buffer; ripple.loop=true; rippleFilter.type="bandpass"; rippleFilter.frequency.value=2350; rippleFilter.Q.value=.7; rippleGain.gain.value=.32;
+    ripple.buffer=buffer; ripple.loop=true; rippleFilter.type="bandpass"; rippleFilter.frequency.value=1150; rippleFilter.Q.value=.45; rippleGain.gain.value=.13;
     ripple.connect(rippleFilter); rippleFilter.connect(rippleGain); rippleGain.connect(master); ripple.start();
     const spray=audioCtx.createBufferSource(), sprayFilter=audioCtx.createBiquadFilter(), sprayGain=audioCtx.createGain();
-    spray.buffer=buffer; spray.loop=true; sprayFilter.type="highpass"; sprayFilter.frequency.value=4200; sprayGain.gain.value=.12;
+    spray.buffer=buffer; spray.loop=true; sprayFilter.type="highpass"; sprayFilter.frequency.value=3000; sprayGain.gain.value=.025;
     spray.connect(sprayFilter); sprayFilter.connect(sprayGain); sprayGain.connect(master); spray.start();
-    const swell=audioCtx.createOscillator(), swellGain=audioCtx.createGain(); swell.type="sine"; swell.frequency.value=.13; swellGain.gain.value=.028; swell.connect(swellGain); swellGain.connect(master.gain); swell.start();
+    const swell=audioCtx.createOscillator(), swellGain=audioCtx.createGain(); swell.type="sine"; swell.frequency.value=.09; swellGain.gain.value=.008; swell.connect(swellGain); swellGain.connect(master.gain); swell.start();
     gardenSoundNodes=[low,ripple,spray,swell];
-    gardenWaterTimer=setInterval(playGardenWaterDrop,1250);
-    gardenBirdTimer=setInterval(playGardenBird,11000);
-    setTimeout(playGardenWaterDrop,350); setTimeout(playGardenBird,2200);
+    gardenWaterTimer=setInterval(playGardenWaterDrop,2800);
+    gardenBirdTimer=setInterval(playGardenBird,20000);
+    setTimeout(playGardenWaterDrop,900); setTimeout(playGardenBird,4800);
   }catch(e){state.gardenSoundOn=false;saveState();updateGardenSoundButton();}
+  finally{gardenSoundStarting=false;}
 }
 function stopGardenSound(){
   gardenSoundNodes.forEach(node=>{try{node.stop();}catch(e){}}); gardenSoundNodes=[];
@@ -2011,6 +2078,10 @@ function bindReaderControls(){
   document.getElementById("readerSetPrev").addEventListener("click",()=>navigateReaderSet(-1));
   document.getElementById("readerSetNext").addEventListener("click",()=>navigateReaderSet(1));
   document.getElementById("readerDone").addEventListener("click", ()=> stepReader(1));
+  document.getElementById("readerCountRound").addEventListener("click",()=>{
+    readerRoundCount+=1;
+    document.getElementById("readerRoundCount").textContent=String(readerRoundCount);
+  });
   document.getElementById("readerFav").addEventListener("click", ()=> toggleFavorite(currentPrayer.id));
   document.getElementById("completeClose").addEventListener("click", ()=>{
     document.getElementById("completeModal").classList.remove("open");
@@ -2026,7 +2097,9 @@ function bindSearch(){
 }
 
 function bindBell(){
-  document.getElementById("bellBtn").addEventListener("click", ()=>{
+  const bellBtn=document.getElementById("bellBtn");
+  if(!bellBtn) return;
+  bellBtn.addEventListener("click", ()=>{
     const isSettingsOpen = document.getElementById("screen-settings").classList.contains("active");
     showScreen(isSettingsOpen ? "home" : "settings");
   });
@@ -2292,7 +2365,7 @@ function bindPrayerLibrary(){
 const REWARD_CATEGORIES=[
   {id:"lotus",title:"ดอกบัวแห่งบุญ",desc:"ดอกบัวจะบานงดงามขึ้น เมื่อระดับบุญของคุณสูงขึ้น",items:[["ดอกบัวเริ่มต้น",1],["ดอกบัวแสงศรัทธา",5],["ดอกบัวรุ่งเรือง",10],["ดอกบัวปัญญา",15],["ดอกบัวนิรันดร์",20]]},
   {id:"scenes",title:"ฉากสวนบุญ",desc:"สวนของคุณจะสวยงามและศักดิ์สิทธิ์ขึ้นตามระดับบุญ",items:[["ลานเริ่มต้น",1],["ลานน้ำตก",5],["ลานแสงจันทร์",10],["ลานหมอกศรัทธา",15],["ลานสวรรค์",20]]},
-  {id:"characters",title:"ตัวละครคู่บุญ",desc:"เพื่อนคู่บุญที่จะอยู่เคียงข้างคุณในเส้นทางแห่งการสวดมนต์",items:[["น้องบุญอุ่น",1],["น้องศรัทธา",5],["หลวงพ่อปัญญา",10],["เทพธิดาแห่งเมตตา",15],["ท้าวเวสสุวรรณ",20]]},
+  {id:"characters",title:"ตัวละครคู่บุญ",desc:"เพื่อนคู่บุญที่จะอยู่เคียงข้างคุณในเส้นทางแห่งการสวดมนต์",items:[["น้องบุญอุ่น",1],["น้องศรัทธา",5],["หลวงพ่อปัญญา",10],["เทพธิดาแห่งเมตตา",15],["ผู้พิทักษ์สวนบุญ",20]]},
   {id:"decor",title:"ของตกแต่งสวน",desc:"เพิ่มความสวยงามและศักดิ์สิทธิ์ให้สวนบุญของคุณ",items:[["โคมไฟหิน",1],["สะพานบุญ",3],["น้ำพุศรัทธา",7],["ศาลาแห่งปัญญา",12],["พระพุทธปฏิมา",18]]},
   {id:"powerups",title:"เพิ่มพลังบุญ",desc:"ไอเทมพิเศษช่วยให้การเดินทางของคุณราบรื่นยิ่งขึ้น",items:[["หัวใจเมตตา",1],["ดอกบัวทอง",4],["เทียนแห่งศรัทธา",12],["คัมภีร์ปัญญา",16],["แก้วสารพัดนึก",20]]}
 ];
@@ -2332,8 +2405,38 @@ function addGardenAction(id,label,points){
   if(state.gardenActions.some(item=>item.id===id&&item.date===today)) return false;
   state.gardenActions.unshift({id,label,points,date:today,at:new Date().toISOString()});
   state.gardenBonus=(Number(state.gardenBonus)||0)+points;
-  saveState(); spawnBurst(); playChime(660); renderMeritGarden();
+  saveState(); spawnBurst(); playChime(id==="candle"?740:620); renderMeritGarden(); showGardenActionEffect(id);
   return true;
+}
+function showGardenActionEffect(id){
+  if(!["water","candle"].includes(id)) return;
+  const hero=document.querySelector(".garden-hero");
+  if(!hero) return;
+  hero.querySelector(".garden-action-effect")?.remove();
+  hero.classList.remove("garden-scene-awake");
+  void hero.offsetWidth;
+  hero.classList.add("garden-scene-awake");
+  const effect=document.createElement("div");
+  effect.className=`garden-action-effect garden-${id}-effect`;
+  effect.setAttribute("aria-hidden","true");
+  if(id==="water"){
+    for(let i=0;i<16;i++){
+      const drop=document.createElement("i");
+      drop.style.setProperty("--x",`${8+Math.random()*84}%`);
+      drop.style.setProperty("--delay",`${Math.random()*.75}s`);
+      drop.style.setProperty("--fall",`${180+Math.random()*170}px`);
+      effect.appendChild(drop);
+    }
+  }else{
+    for(let i=0;i<10;i++){
+      const spark=document.createElement("i");
+      spark.style.setProperty("--x",`${-42+Math.random()*84}px`);
+      spark.style.setProperty("--delay",`${Math.random()*.8}s`);
+      effect.appendChild(spark);
+    }
+  }
+  hero.appendChild(effect);
+  setTimeout(()=>{effect.remove();hero.classList.remove("garden-scene-awake");},3000);
 }
 function renderMeritGarden(){
   updateGardenSoundButton();
@@ -2418,7 +2521,7 @@ function renderGardenRewards(filter="all"){
       const unlocked=level>=need, selected=state.selectedReward===`${category.id}-${index}`;
       return `<button class="reward-item ${unlocked?'unlocked':'locked'} ${selected?'selected':''}" type="button" data-reward-id="${category.id}-${index}" data-reward-category="${category.id}" ${unlocked?'':'disabled'}><span class="reward-art reward-art-${category.id} reward-art-${index}"></span><b>${name}</b><small>Lv.${need}</small><em>${selected?'เลือกใช้อยู่':unlocked?'✓ ได้รับแล้ว':'🔒 ยังไม่ได้รับ'}</em></button>`;
     }).join("");
-    return `<section class="reward-group" data-reward-group="${category.id}"><header><span>🪷</span><div><h3>${category.title}</h3><p>${category.desc}</p></div></header><div class="reward-row">${cards}</div></section>`;
+    return `<section class="reward-group" data-reward-group="${category.id}"><header><span><img src="assets/assistant-calm.png" alt=""></span><div><h3>${category.title}</h3><p>${category.desc}</p></div></header><div class="reward-row">${cards}</div></section>`;
   }).join("");
   catalog.querySelectorAll(".reward-item.unlocked").forEach(button=>button.addEventListener("click",()=>{
     state.selectedReward=button.dataset.rewardId;
@@ -2432,10 +2535,10 @@ function renderGardenRewards(filter="all"){
 }
 
 function bindMeritGarden(){
-  document.getElementById("gardenSoundToggle")?.addEventListener("click",()=>{
+  document.getElementById("gardenSoundToggle")?.addEventListener("click",async()=>{
     state.gardenSoundOn=!state.gardenSoundOn;
     saveState(); updateGardenSoundButton();
-    if(state.gardenSoundOn) startGardenSound(); else stopGardenSound();
+    if(state.gardenSoundOn) await startGardenSound(); else stopGardenSound();
   });
   document.querySelectorAll("[data-garden-mission] button").forEach(button=>button.addEventListener("click",()=>{
     const row=button.closest("[data-garden-mission]");

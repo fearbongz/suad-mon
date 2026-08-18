@@ -36,24 +36,17 @@
 
     <img class="hero-moon" src="assets/moon.png" alt="" aria-hidden="true">
 
-    <button class="bell-btn" id="bellBtn" aria-label="ตั้งค่า">
-      <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="#8f68c7" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-        <circle cx="12" cy="12" r="3"></circle>
-        <path d="M19.4 15a1.7 1.7 0 0 0 .3 1.9l.1.1a2 2 0 1 1-2.8 2.8l-.1-.1a1.7 1.7 0 0 0-1.9-.3 1.7 1.7 0 0 0-1 1.5V21a2 2 0 1 1-4 0v-.1a1.7 1.7 0 0 0-1-1.6 1.7 1.7 0 0 0-1.9.3l-.1.1a2 2 0 1 1-2.8-2.8l.1-.1a1.7 1.7 0 0 0 .3-1.9 1.7 1.7 0 0 0-1.5-1H3a2 2 0 1 1 0-4h.1a1.7 1.7 0 0 0 1.6-1 1.7 1.7 0 0 0-.3-1.9l-.1-.1a2 2 0 1 1 2.8-2.8l.1.1a1.7 1.7 0 0 0 1.9.3H9a1.7 1.7 0 0 0 1-1.5V3a2 2 0 1 1 4 0v.1a1.7 1.7 0 0 0 1 1.5 1.7 1.7 0 0 0 1.9-.3l.1-.1a2 2 0 1 1 2.8 2.8l-.1.1a1.7 1.7 0 0 0-.3 1.9V9a1.7 1.7 0 0 0 1.5 1H21a2 2 0 1 1 0 4h-.1a1.7 1.7 0 0 0-1.5 1Z"></path>
-      </svg>
-    </button>
-
     <img class="hero-illust" data-gender-hero src="assets/hero-pink-female.png" alt="น้องพนมมือสวดมนต์บนดอกบัว">
 
     <div class="hero-text">
-      <h1 id="greetingText">สวัสดีตอนเช้า <span class="heart">💗</span></h1>
+      <h1 id="greetingText">สวัสดีตอนเช้า <span class="heart"><img src="assets/guide-heart.png" alt=""></span></h1>
       <p id="greetingSub">ขอให้วันนี้เป็นวันที่ดีนะคะ <span>💛</span></p>
 
       <div class="quote-card">
         <span class="quote-mark" style="font-size: 3.05rem; font-weight: 400;">❝</span>
         <p class="quote-text" id="quoteText">การให้ธรรมะ ชนะการให้ทั้งปวง</p>
         <p class="quote-by" id="quoteBy">- พุทธพจน์ -</p>
-        <span class="quote-heart">💗</span>
+        <span class="quote-heart"><img src="assets/guide-heart.png" alt=""></span>
       </div>
     </div>
   </header>
@@ -66,7 +59,7 @@
 
       <div class="card today-card">
         <div class="card-head">
-          <h2>⭐ บทสวดวันนี้</h2>
+          <h2><img class="merit-fav-inline" src="assets/merit-fav-icon.png" alt=""> บทสวดวันนี้</h2>
           <button class="link-btn" data-nav="prayers">ดูทั้งหมด <span>›</span></button>
         </div>
 
@@ -74,15 +67,15 @@
         <div class="dots" id="todayDots"></div>
 
         <div class="section-title inner">
-          <h2>💗 สวดบ่อย ใช้ได้ทุกวัน</h2>
+          <h2><img class="checkin-heart" src="assets/guide-heart.png" alt=""> สวดบ่อย ใช้ได้ทุกวัน</h2>
         </div>
         <div class="tile-grid" id="quickTiles"></div>
       </div>
 
       <div class="card streak-card">
         <div class="card-head">
-          <h2>🔥 สวดต่อเนื่อง</h2>
-          <span class="goal-label">⭐ เป้าหมาย <span id="goalDays">21</span> วัน</span>
+          <h2><img class="streak-fire-inline" src="assets/garden-fire.png" alt=""> สวดต่อเนื่อง</h2>
+          <span class="goal-label"><img class="merit-fav-inline merit-fav-small" src="assets/merit-fav-icon.png" alt=""> เป้าหมาย <span id="goalDays">21</span> วัน</span>
         </div>
         <div class="streak-body">
           <div class="streak-count">
@@ -92,7 +85,7 @@
           </div>
           <div class="streak-week" id="streakWeek"></div>
         </div>
-        <p class="streak-hint">สวดวันนี้ต่ออีกนิด เพื่อสิ่งดี ๆ ในชีวิตนะคะ 💗</p>
+        <p class="streak-hint">สวดวันนี้ต่ออีกนิด เพื่อสิ่งดี ๆ ในชีวิตนะคะ <img src="assets/guide-heart.png" alt=""></p>
         <button class="checkin-btn" id="checkinBtn">
           <span id="checkinIcon">✅</span>
           <span id="checkinText">วันนี้สวดแล้ว ไม่ผ่านแอป กดติ๊กเลย</span>
@@ -106,7 +99,7 @@
 
     <!-- ---------- PRAYER LIBRARY SCREEN ---------- -->
     <section class="screen" id="screen-prayers">
-      <h2 class="page-title">📖 บทสวด</h2>
+      <h2 class="page-title"><img class="page-title-icon" src="assets/assistant-calm.png" alt=""> บทสวด</h2>
       <div class="prayer-library-tabs" id="prayerLibraryTabs">
         <button class="active" data-library-tab="all">บทสวดทั้งหมด</button>
         <button data-library-tab="mine">บทสวดของฉัน</button>
@@ -124,20 +117,20 @@
         <p class="my-prayer-empty" id="myPrayerEmpty">ยังไม่มีชุดสวดของฉัน<br><small>สร้างชุดสวดจากเมนูผู้ช่วยได้เลยค่ะ</small></p>
         <div class="my-prayer-detail" id="myPrayerDetail">
           <button class="my-prayer-back" id="myPrayerBack" type="button">‹ กลับไปชุดสวดของฉัน</button>
+          <div class="my-prayer-detail-actions"><button type="button" id="myPrayerDeleteSet" aria-label="ลบชุดสวด" title="ลบชุดสวด"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 7h16M9 7V4h6v3m3 0-1 13H7L6 7m4 4v5m4-5v5"/></svg></button><button type="button" id="myPrayerEditSet" aria-label="แก้ไขชุดสวด" title="แก้ไขชุดสวด"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m4 20 4.2-1 10.7-10.7a2.1 2.1 0 0 0-3-3L5.2 16 4 20Zm10.5-13.2 3 3"/></svg></button></div>
           <div class="my-prayer-detail-head"><h3 id="myPrayerDetailTitle">ชุดสวดของฉัน</h3><small id="myPrayerDetailMeta"></small></div>
           <div class="my-prayer-detail-list" id="myPrayerDetailList"></div>
-          <div class="my-prayer-detail-actions"><button type="button" id="myPrayerDeleteSet">ลบชุดสวด</button><button type="button" id="myPrayerEditSet">แก้ไขชุดสวด</button></div>
         </div>
       </div>
     </section>
 
     <!-- ---------- MY MERIT / STATS SCREEN ---------- -->
     <section class="screen" id="screen-merit">
-      <h2 class="page-title">💗 บุญของฉัน</h2>
+      <h2 class="page-title"><img class="merit-title-heart" src="assets/guide-heart.png" alt=""> บุญของฉัน</h2>
 
       <div class="merit-dashboard">
         <div class="merit-hero">
-          <div class="merit-stat"><span class="merit-stat-icon"><img src="assets/merit-streak-icon.png" alt=""></span><span class="merit-title">สวดมนต์</span><span class="merit-num" id="meritStreak">0</span><span class="merit-label">วันติดต่อกัน</span></div>
+          <div class="merit-stat"><span class="merit-stat-icon"><img src="assets/garden-fire.png" alt=""></span><span class="merit-title">สวดมนต์</span><span class="merit-num" id="meritStreak">0</span><span class="merit-label">วันติดต่อกัน</span></div>
           <div class="merit-stat"><span class="merit-stat-icon"><img src="assets/merit-total-icon.png" alt=""></span><span class="merit-title">สวดมนต์</span><span class="merit-num" id="meritTotal">0</span><span class="merit-label">ครั้ง</span></div>
           <div class="merit-stat"><span class="merit-stat-icon"><img src="assets/merit-fav-icon.png" alt=""></span><span class="merit-title">บทสวดโปรด</span><span class="merit-num" id="meritFav">0</span><span class="merit-label">บท</span></div>
         </div>
@@ -152,13 +145,8 @@
         <div class="calendar" id="calendar"></div>
       </div>
 
-      <div class="card">
-        <div class="card-head"><h2>🏅 เหรียญตรารางวัล</h2></div>
-        <div class="badge-grid" id="badgeGrid"></div>
-      </div>
-
       <div class="card" id="favoritesSection">
-        <div class="card-head"><h2 class="saved-prayers-heading"><img src="assets/merit-fav-icon.png" alt="">บทสวดที่บันทึกไว้</h2></div>
+        <div class="card-head"><h2 class="saved-prayers-heading"><img src="assets/merit-fav-icon.png" alt="">บทสวดที่บันทึก</h2></div>
         <div class="prayer-list" id="favList"></div>
         <p class="empty-hint" id="favEmpty">ยังไม่มีบทสวดโปรด ลองกดรูปหัวใจที่บทสวดที่ชอบดูนะคะ</p>
         <button class="favorites-show-all" id="favoritesShowAll" type="button">แสดงทั้งหมด</button>
@@ -274,7 +262,7 @@
       <div class="garden-hero" data-garden-state="start">
         <header class="garden-heading">
           <div><h2><img src="assets/garden-lotus.png" alt=""> สวนบุญของฉัน</h2><p>สวดทุกวัน ใจเบิกบาน บุญงอกงาม 💗</p></div>
-          <div class="garden-heading-actions"><button type="button" id="gardenSoundToggle" aria-pressed="false">🔇 <span>เสียงธรรมชาติ</span></button><button type="button" data-nav="guide">📖 <span>คู่มือ</span></button></div>
+          <div class="garden-heading-actions"><button type="button" id="gardenSoundToggle" aria-pressed="false">♪ <span>เสียงธรรมชาติ</span></button><button type="button" data-nav="guide">📖 <span>คู่มือ</span></button></div>
         </header>
         <div class="garden-dashboard">
           <div class="garden-overview">
@@ -407,7 +395,7 @@
             <span><svg class="meta-icon meta-person" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="8" r="4"/><path d="M5 21a7 7 0 0 1 14 0Z"/></svg>ยอดสวด <span id="readerPop">-</span> ครั้ง</span>
           </div>
         </div>
-        <button class="reader-summary-fav" id="readerFav" aria-label="บันทึกบทสวดโปรด">♡ ยอดนิยม</button>
+        <button class="reader-summary-fav" id="readerFav" aria-label="บันทึกบทสวดโปรด"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20.8 4.6a5.5 5.5 0 0 0-7.8 0L12 5.7l-1.1-1.1a5.5 5.5 0 0 0-7.8 7.8l1.1 1.1L12 21l7.8-7.5 1.1-1.1a5.5 5.5 0 0 0-.1-7.8Z"/></svg><span>ยอดนิยม</span></button>
       </div>
 
       <div class="reader-tabs">
@@ -421,6 +409,11 @@
         <div class="reader-text" id="readerText"></div>
         <div class="reader-progress"><div class="reader-progress-bar" id="readerProgressBar"></div></div>
         <div class="reader-time"><span>00:00</span><span>15:00</span></div>
+
+        <div class="reader-round-counter">
+          <div class="reader-round-total"><small>จำนวนรอบ</small><b><span id="readerRoundCount">0</span><span id="readerRoundTarget"></span></b></div>
+          <button type="button" id="readerCountRound"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8 11V5a1.5 1.5 0 0 1 3 0v5-6a1.5 1.5 0 0 1 3 0v6-4a1.5 1.5 0 0 1 3 0v5-2a1.5 1.5 0 0 1 3 0v4c0 4-2.8 7-7 7h-1c-2.5 0-4.1-1.2-5.5-3L4 13.5a1.6 1.6 0 0 1 2.5-2Z"/></svg><span><b>นับรอบ</b><small>แตะ 1 ครั้ง = เพิ่ม 1 รอบ</small></span></button>
+        </div>
 
         <div class="reader-controls">
           <button class="ctrl-btn seek-btn" id="readerRestart" aria-label="ย้อน 10 วินาที"><svg class="seek-svg" viewBox="0 0 32 32"><path d="M9 10H4V5"/><path d="M5 10a12 12 0 1 1-1 10"/><text x="16" y="20">10</text></svg><small>ย้อน 10 วิ</small></button>
