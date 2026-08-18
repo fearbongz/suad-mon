@@ -1037,7 +1037,7 @@ const DOW_TH = ["จ","อ","พ","พฤ","ศ","ส","อา"]; // Mon..Sun
 
 /* ---------------- STATE (localStorage) ---------------- */
 const STORE_KEY = "suadmon_data_v1";
-const DEFAULT_STATE = { completedDates:[], favorites:[], prayerHistory:[], customPrayerSets:[], gardenClaims:[], gardenBonus:0, goal:21, fontSize:"medium", reminderOn:false, reminderTime:"19:00", continuousOn:false, theme:"purple", profileName:"", profileMessage:"", profileFirstName:"", profileLastName:"", profileGender:"หญิง", profileTheme:"pink", profileBirthDate:"", profileEmail:"" };
+const DEFAULT_STATE = { completedDates:[], favorites:[], prayerHistory:[], customPrayerSets:[], gardenClaims:[], gardenManualMissions:[], gardenActions:[], gardenBonus:0, selectedGardenItem:"lotus", gardenSoundOn:false, goal:21, fontSize:"medium", reminderOn:false, reminderTime:"19:00", continuousOn:false, theme:"purple", profileName:"", profileMessage:"", profileFirstName:"", profileLastName:"", profileGender:"หญิง", profileTheme:"pink", profileBirthDate:"", profileEmail:"" };
 function loadState(){
   try{
     const raw = localStorage.getItem(STORE_KEY);
@@ -1050,6 +1050,20 @@ function loadState(){
 }
 function saveState(){ localStorage.setItem(STORE_KEY, JSON.stringify(state)); }
 let state = loadState();
+
+/* One-time local test reset requested for today's garden actions. */
+const GARDEN_TEST_RESET_KEY="suadmon_garden_test_reset_20260818_1";
+if(!localStorage.getItem(GARDEN_TEST_RESET_KEY)){
+  const resetDate=(()=>{const d=new Date();return `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,"0")}-${String(d.getDate()).padStart(2,"0")}`;})();
+  const actions=Array.isArray(state.gardenActions)?state.gardenActions:[];
+  const removed=actions.filter(item=>item.date===resetDate&&["water","candle"].includes(item.id));
+  if(removed.length){
+    state.gardenActions=actions.filter(item=>!(item.date===resetDate&&["water","candle"].includes(item.id)));
+    state.gardenBonus=Math.max(0,(Number(state.gardenBonus)||0)-removed.reduce((sum,item)=>sum+(Number(item.points)||0),0));
+    saveState();
+  }
+  localStorage.setItem(GARDEN_TEST_RESET_KEY,"1");
+}
 
 /* ---------------- HELPERS ---------------- */
 function todayStr(d=new Date()){
@@ -1735,6 +1749,74 @@ function playChime(freq){
   }catch(e){}
 }
 
+let gardenSoundNodes=[];
+let gardenBirdTimer=null;
+let gardenWaterTimer=null;
+function updateGardenSoundButton(){
+  const button=document.getElementById("gardenSoundToggle");
+  if(!button) return;
+  button.classList.toggle("active",!!state.gardenSoundOn);
+  button.setAttribute("aria-pressed",String(!!state.gardenSoundOn));
+  button.innerHTML=state.gardenSoundOn?'🔊 <span>เสียงธรรมชาติ</span>':'🔇 <span>เสียงธรรมชาติ</span>';
+}
+function playGardenBird(){
+  if(!audioCtx||!state.gardenSoundOn) return;
+  const oscillator=audioCtx.createOscillator(), gain=audioCtx.createGain();
+  const now=audioCtx.currentTime, start=1200+Math.random()*700;
+  oscillator.type="sine";
+  oscillator.frequency.setValueAtTime(start,now);
+  oscillator.frequency.exponentialRampToValueAtTime(start*1.45,now+.11);
+  oscillator.frequency.exponentialRampToValueAtTime(start*.9,now+.28);
+  gain.gain.setValueAtTime(.0001,now); gain.gain.exponentialRampToValueAtTime(.025,now+.04); gain.gain.exponentialRampToValueAtTime(.0001,now+.32);
+  oscillator.connect(gain); gain.connect(audioCtx.destination); oscillator.start(now); oscillator.stop(now+.34);
+}
+function playGardenWaterDrop(){
+  if(!audioCtx||!state.gardenSoundOn) return;
+  const now=audioCtx.currentTime;
+  const drop=audioCtx.createOscillator(), dropGain=audioCtx.createGain(), pan=audioCtx.createStereoPanner?.();
+  drop.type="sine";
+  drop.frequency.setValueAtTime(420+Math.random()*260,now);
+  drop.frequency.exponentialRampToValueAtTime(105+Math.random()*55,now+.16);
+  dropGain.gain.setValueAtTime(.0001,now);
+  dropGain.gain.exponentialRampToValueAtTime(.018+Math.random()*.018,now+.012);
+  dropGain.gain.exponentialRampToValueAtTime(.0001,now+.19);
+  drop.connect(dropGain);
+  if(pan){pan.pan.value=Math.random()*1.6-.8;dropGain.connect(pan);pan.connect(audioCtx.destination);}else dropGain.connect(audioCtx.destination);
+  drop.start(now); drop.stop(now+.2);
+}
+function startGardenSound(){
+  if(gardenSoundNodes.length) return;
+  try{
+    audioCtx=audioCtx||new (window.AudioContext||window.webkitAudioContext)();
+    audioCtx.resume();
+    const seconds=4, buffer=audioCtx.createBuffer(2,audioCtx.sampleRate*seconds,audioCtx.sampleRate);
+    for(let channel=0;channel<2;channel++){
+      const data=buffer.getChannelData(channel); let smooth=0;
+      for(let i=0;i<data.length;i++){const white=Math.random()*2-1;smooth=smooth*.985+white*.015;data[i]=white*.38+smooth*2.4;}
+    }
+    const master=audioCtx.createGain(); master.gain.value=.17; master.connect(audioCtx.destination);
+    const low=audioCtx.createBufferSource(), lowFilter=audioCtx.createBiquadFilter(), lowGain=audioCtx.createGain();
+    low.buffer=buffer; low.loop=true; lowFilter.type="lowpass"; lowFilter.frequency.value=780; lowGain.gain.value=.72;
+    low.connect(lowFilter); lowFilter.connect(lowGain); lowGain.connect(master); low.start();
+    const ripple=audioCtx.createBufferSource(), rippleFilter=audioCtx.createBiquadFilter(), rippleGain=audioCtx.createGain();
+    ripple.buffer=buffer; ripple.loop=true; rippleFilter.type="bandpass"; rippleFilter.frequency.value=2350; rippleFilter.Q.value=.7; rippleGain.gain.value=.32;
+    ripple.connect(rippleFilter); rippleFilter.connect(rippleGain); rippleGain.connect(master); ripple.start();
+    const spray=audioCtx.createBufferSource(), sprayFilter=audioCtx.createBiquadFilter(), sprayGain=audioCtx.createGain();
+    spray.buffer=buffer; spray.loop=true; sprayFilter.type="highpass"; sprayFilter.frequency.value=4200; sprayGain.gain.value=.12;
+    spray.connect(sprayFilter); sprayFilter.connect(sprayGain); sprayGain.connect(master); spray.start();
+    const swell=audioCtx.createOscillator(), swellGain=audioCtx.createGain(); swell.type="sine"; swell.frequency.value=.13; swellGain.gain.value=.028; swell.connect(swellGain); swellGain.connect(master.gain); swell.start();
+    gardenSoundNodes=[low,ripple,spray,swell];
+    gardenWaterTimer=setInterval(playGardenWaterDrop,1250);
+    gardenBirdTimer=setInterval(playGardenBird,11000);
+    setTimeout(playGardenWaterDrop,350); setTimeout(playGardenBird,2200);
+  }catch(e){state.gardenSoundOn=false;saveState();updateGardenSoundButton();}
+}
+function stopGardenSound(){
+  gardenSoundNodes.forEach(node=>{try{node.stop();}catch(e){}}); gardenSoundNodes=[];
+  clearInterval(gardenBirdTimer); gardenBirdTimer=null;
+  clearInterval(gardenWaterTimer); gardenWaterTimer=null;
+}
+
 /* ---------------- NAV / SCREENS ---------------- */
 function showScreen(name){
   clearInterval(readerTimer);
@@ -1747,7 +1829,8 @@ function showScreen(name){
   window.scrollTo({top:0, behavior:"smooth"});
 
   if(name==="merit"){ renderMeritStats(); renderCalendar(); renderBadges(); renderFavList(); }
-  if(name==="merit-garden") renderMeritGarden();
+  if(name==="merit-garden"){ renderMeritGarden(); if(state.gardenSoundOn) startGardenSound(); }
+  else stopGardenSound();
   if(name==="prayers") setPrayerLibraryTab(activeLibraryTab);
   if(name==="assistant") document.getElementById("assistantResult")?.classList.remove("show");
 }
@@ -2190,7 +2273,42 @@ function bindPrayerLibrary(){
 }
 
 /* ---------------- MERIT GARDEN ---------------- */
+const GARDEN_ITEMS = {
+  lotus:{label:"ดอกบัว",image:"assets/garden-unlock-lotus.png"},
+  scene:{label:"ฉากสวน",image:"assets/garden-unlock-scene.png"},
+  pavilion:{label:"ศาลา",image:"assets/garden-pavilion.png"},
+  decoration:{label:"ของตกแต่ง",image:"assets/garden-unlock-decoration.png"},
+  character:{label:"ตัวละคร",image:"assets/garden-female.png"},
+  lantern:{label:"ตะเกียง",image:"assets/garden-unlock-lantern.png"}
+};
+function gardenTotals(points){
+  const level=Math.floor(points/1000)+1;
+  return {level,counts:{lotus:Math.min(12,1+level),scene:Math.min(8,level),pavilion:Math.min(6,Math.max(0,level-1)),decoration:Math.min(15,level*2),character:Math.min(5,1+Math.floor(level/2)),lantern:Math.min(8,Math.max(0,level-1))}};
+}
+function showGardenModal(title,html){
+  let modal=document.getElementById("gardenModal");
+  if(!modal){
+    modal=document.createElement("div"); modal.id="gardenModal"; modal.className="garden-modal";
+    modal.innerHTML='<div class="garden-modal-card"><button class="garden-modal-close" type="button" aria-label="ปิด">×</button><h3></h3><div class="garden-modal-body"></div></div>';
+    document.body.appendChild(modal);
+    modal.addEventListener("click",event=>{if(event.target===modal||event.target.closest(".garden-modal-close")) modal.classList.remove("open");});
+  }
+  modal.querySelector("h3").textContent=title;
+  modal.querySelector(".garden-modal-body").innerHTML=html;
+  modal.classList.add("open");
+  return modal;
+}
+function addGardenAction(id,label,points){
+  const today=todayStr();
+  state.gardenActions=Array.isArray(state.gardenActions)?state.gardenActions:[];
+  if(state.gardenActions.some(item=>item.id===id&&item.date===today)) return false;
+  state.gardenActions.unshift({id,label,points,date:today,at:new Date().toISOString()});
+  state.gardenBonus=(Number(state.gardenBonus)||0)+points;
+  saveState(); spawnBurst(); playChime(660); renderMeritGarden();
+  return true;
+}
 function renderMeritGarden(){
+  updateGardenSoundButton();
   const history = Array.isArray(state.prayerHistory) ? state.prayerHistory : [];
   const prayerPoints = history.reduce((sum,item)=>sum+(Number(item.points)||10),0);
   const points = prayerPoints + (Number(state.gardenBonus)||0);
@@ -2205,13 +2323,34 @@ function renderMeritGarden(){
   setText("gardenNextLevel",level+1);
   setText("gardenStreak",computeStreak());
   const bar=document.getElementById("gardenLevelProgress"); if(bar) bar.style.width=`${levelProgress/10}%`;
+  const totals=gardenTotals(points);
+  document.querySelectorAll("[data-garden-item]").forEach(card=>{
+    const id=card.dataset.gardenItem, count=totals.counts[id]||0;
+    card.querySelector("small").textContent=`${count} ชิ้น`;
+    card.classList.toggle("locked",count===0);
+    card.classList.toggle("selected",state.selectedGardenItem===id);
+  });
+  const todayActions=new Set((state.gardenActions||[]).filter(item=>item.date===todayStr()).map(item=>item.id));
+  const gardenHero=document.querySelector(".garden-hero");
+  if(gardenHero){
+    const hasWater=todayActions.has("water"), hasCandle=todayActions.has("candle");
+    gardenHero.dataset.gardenState=hasWater&&hasCandle?"complete":hasWater?"water":hasCandle?"candle":"start";
+  }
+  [["water","รดน้ำแล้ว"],["candle","จุดแล้ว"],["gift","รับแล้ว"]].forEach(([id,label])=>{
+    const button=document.querySelector(`[data-garden-action="${id}"]`);
+    if(!button) return;
+    button.classList.toggle("completed",todayActions.has(id));
+    button.disabled=todayActions.has(id);
+    if(id!=="gift"&&todayActions.has(id)) button.querySelector("small").textContent=label;
+  });
 
   const today=todayStr();
   const todayHistory=history.filter(item=>todayStr(new Date(item.at))===today);
+  const manualDone=new Set((state.gardenManualMissions||[]).filter(item=>item.date===today).map(item=>item.id));
   const done={
-    chant:todayHistory.length>0,
-    metta:todayHistory.some(item=>["metta-self","metta-all","karaniya-metta"].includes(item.prayerId)),
-    sleep:todayHistory.some(item=>item.prayerId==="bedtime-prayer")
+    chant:todayHistory.length>0||manualDone.has("chant"),
+    metta:todayHistory.some(item=>["metta-self","metta-all","karaniya-metta"].includes(item.prayerId))||manualDone.has("metta"),
+    sleep:todayHistory.some(item=>item.prayerId==="bedtime-prayer")||manualDone.has("sleep")
   };
   const claimed=new Set((state.gardenClaims||[]).filter(item=>item.date===today).map(item=>item.id));
   document.querySelectorAll("[data-garden-mission]").forEach(row=>{
@@ -2222,20 +2361,26 @@ function renderMeritGarden(){
     row.classList.toggle("ready",isDone&&!isClaimed);
     row.classList.toggle("claimed",isClaimed);
     const button=row.querySelector("button");
-    if(isClaimed) button.textContent="รับแล้ว";
+    if(isClaimed) button.textContent="✓ สวดแล้ว";
     else if(isDone) button.textContent="รับรางวัล";
-    else button.textContent="ไปสวด";
+    else button.textContent="□ สวดแล้ว";
   });
 
+  const prayerActivity=history.map(item=>({...item,label:PRAYERS.find(entry=>entry.id===item.prayerId)?.title||"สวดมนต์"}));
+  const gardenActivity=(state.gardenActions||[]).map(item=>({...item,label:item.label||"กิจกรรมสวนบุญ"}));
   const activity=document.getElementById("gardenActivity");
-  if(activity) activity.innerHTML=history.slice(0,3).map(item=>{
-    const prayer=PRAYERS.find(entry=>entry.id===item.prayerId);
+  if(activity) activity.innerHTML=[...prayerActivity,...gardenActivity].sort((a,b)=>new Date(b.at)-new Date(a.at)).slice(0,5).map(item=>{
     const time=new Date(item.at).toLocaleTimeString("th-TH",{hour:"2-digit",minute:"2-digit"});
-    return `<p><img src="assets/flower-icon.png" alt="ดอกบัว"><b>${prayer?.title||"สวดมนต์"}</b><span><strong>+${Number(item.points)||10}</strong> <small>${time}</small></span></p>`;
+    return `<p><img src="assets/flower-icon.png" alt="ดอกบัว"><b>${item.label}</b><span><strong>+${Number(item.points)||10}</strong> <small>${time}</small></span></p>`;
   }).join("") || '<p><img src="assets/flower-icon.png" alt="ดอกบัว"><b>เริ่มสวดบทแรกเพื่อปลูกดอกบัว</b><small>วันนี้</small></p>';
 }
 
 function bindMeritGarden(){
+  document.getElementById("gardenSoundToggle")?.addEventListener("click",()=>{
+    state.gardenSoundOn=!state.gardenSoundOn;
+    saveState(); updateGardenSoundButton();
+    if(state.gardenSoundOn) startGardenSound(); else stopGardenSound();
+  });
   document.querySelectorAll("[data-garden-mission] button").forEach(button=>button.addEventListener("click",()=>{
     const row=button.closest("[data-garden-mission]");
     if(row.classList.contains("ready")){
@@ -2243,9 +2388,36 @@ function bindMeritGarden(){
       state.gardenClaims=Array.isArray(state.gardenClaims)?state.gardenClaims:[];
       state.gardenClaims.push({id:row.dataset.gardenMission,date:todayStr()});
       state.gardenBonus=(Number(state.gardenBonus)||0)+reward;
+      state.gardenActions=Array.isArray(state.gardenActions)?state.gardenActions:[];
+      state.gardenActions.unshift({id:`mission-${row.dataset.gardenMission}`,label:`รับรางวัล: ${row.querySelector("b")?.textContent||"ภารกิจวันนี้"}`,points:reward,date:todayStr(),at:new Date().toISOString()});
       saveState(); spawnBurst(); renderMeritGarden();
-    }else if(!row.classList.contains("claimed")) showScreen("prayers");
+    }else if(!row.classList.contains("claimed")){
+      const id=row.dataset.gardenMission;
+      state.gardenManualMissions=Array.isArray(state.gardenManualMissions)?state.gardenManualMissions:[];
+      if(!state.gardenManualMissions.some(item=>item.id===id&&item.date===todayStr())) state.gardenManualMissions.push({id,date:todayStr(),at:new Date().toISOString()});
+      const reward=Number(row.querySelector("em")?.textContent.replace(/\D/g,""))||0;
+      state.gardenClaims=Array.isArray(state.gardenClaims)?state.gardenClaims:[];
+      state.gardenClaims.push({id,date:todayStr()});
+      state.gardenBonus=(Number(state.gardenBonus)||0)+reward;
+      state.gardenActions=Array.isArray(state.gardenActions)?state.gardenActions:[];
+      state.gardenActions.unshift({id:`mission-${id}`,label:`สวดแล้ว: ${row.querySelector("b")?.textContent||"ภารกิจวันนี้"}`,points:reward,date:todayStr(),at:new Date().toISOString()});
+      saveState(); spawnBurst(); playChime(720); renderMeritGarden();
+    }
   }));
+  document.querySelector('[data-garden-action="water"]')?.addEventListener("click",()=>addGardenAction("water","รดน้ำดอกบัว",10));
+  document.querySelector('[data-garden-action="candle"]')?.addEventListener("click",()=>addGardenAction("candle","จุดตะเกียงบุญ",5));
+  document.querySelector('[data-garden-action="gift"]')?.addEventListener("click",()=>{
+    if(addGardenAction("gift","รับของขวัญประจำวัน",15)) showGardenModal("ของขวัญประจำวัน",'<div class="garden-modal-message"><img src="assets/garden-gift.png" alt=""><b>รับแต้มบุญแล้ว +15</b><p>กลับมารับของขวัญใหม่ได้พรุ่งนี้นะคะ</p></div>');
+  });
+  const openCollection=()=>{
+    const points=(state.prayerHistory||[]).reduce((sum,item)=>sum+(Number(item.points)||10),0)+(Number(state.gardenBonus)||0);
+    const totals=gardenTotals(points);
+    const cards=Object.entries(GARDEN_ITEMS).map(([id,item])=>`<button type="button" data-select-garden="${id}" ${totals.counts[id]?'':'disabled'} class="${state.selectedGardenItem===id?'active':''}"><img src="${id==='character'?(state.profileGender==='ชาย'?'assets/garden-male.png':'assets/garden-female.png'):item.image}" alt=""><b>${item.label}</b><small>${totals.counts[id]||0} ชิ้น</small></button>`).join("");
+    const modal=showGardenModal("ตกแต่งสวนของฉัน",`<div class="garden-collection">${cards}</div><p class="garden-modal-hint">เลือกรายการที่ปลดล็อกแล้วเพื่อใช้ในสวน</p>`);
+    modal.querySelectorAll("[data-select-garden]").forEach(button=>button.addEventListener("click",()=>{state.selectedGardenItem=button.dataset.selectGarden;saveState();renderMeritGarden();modal.classList.remove("open");}));
+  };
+  document.querySelector('[data-garden-action="decorate"]')?.addEventListener("click",openCollection);
+  document.querySelectorAll("[data-garden-item]").forEach(card=>card.addEventListener("click",()=>{if(!card.classList.contains("locked")){state.selectedGardenItem=card.dataset.gardenItem;saveState();renderMeritGarden();}}));
 }
 
 /* ---------------- INIT ---------------- */
