@@ -17,7 +17,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Mali:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400;1,600&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="style.css?v=20260817-7">
+<link rel="stylesheet" href="style.css?v=20260818-11">
 </head>
 <body>
 
@@ -155,16 +155,12 @@
       </div>
 
       <div class="card" id="favoritesSection">
-        <div class="card-head"><h2>🩷 บทสวดที่บันทึกไว้</h2></div>
+        <div class="card-head"><h2 class="saved-prayers-heading"><img src="assets/merit-fav-icon.png" alt="">บทสวดที่บันทึกไว้</h2></div>
         <div class="prayer-list" id="favList"></div>
         <p class="empty-hint" id="favEmpty">ยังไม่มีบทสวดโปรด ลองกดรูปหัวใจที่บทสวดที่ชอบดูนะคะ</p>
+        <button class="favorites-show-all" id="favoritesShowAll" type="button">แสดงทั้งหมด</button>
       </div>
 
-      <div class="card" id="historySection">
-        <div class="card-head"><h2>🕘 ประวัติการสวดล่าสุด</h2></div>
-        <div class="prayer-history" id="prayerHistory"></div>
-        <p class="empty-hint" id="historyEmpty">ยังไม่มีประวัติการสวด เริ่มสวดบทแรกกันเลยนะคะ</p>
-      </div>
     </section>
 
     <!-- ---------- PROFILE SCREEN ---------- -->
@@ -175,8 +171,6 @@
       <div class="profile-stats"><div><span><img src="assets/assistant-calm.png" alt=""></span><b id="profileLevel">Level 1</b><small>ระดับสายบุญ</small></div><div><span><img src="assets/profile-points.png" alt=""></span><b id="profilePoints">0</b><small>แต้มบุญสะสม</small></div><div><span><img src="assets/profile-streak.png" alt=""></span><b id="profileStreak">0 วัน</b><small>สวดต่อเนื่อง</small></div></div>
       <div class="profile-menu settings-group">
         <button class="settings-item" type="button" id="personalInfoBtn"><span class="settings-icon"><svg viewBox="0 0 24 24"><circle cx="12" cy="8" r="4"/><path d="M5 21a7 7 0 0 1 14 0"/></svg></span><span class="settings-copy"><b>ข้อมูลส่วนตัว</b><small>ชื่อ วันเกิด ตัวละคร</small></span><span class="settings-arrow">›</span></button>
-        <button class="settings-item" type="button"><span class="settings-icon"><svg viewBox="0 0 24 24"><path d="M18 8a6 6 0 0 0-12 0c0 7-3 9-3 9h18s-3-2-3-9M14 21h-4"/></svg></span><span class="settings-copy"><b>การตั้งค่าแจ้งเตือน</b><small>เตือนสวดมนต์และกิจกรรม</small></span><span class="settings-arrow">›</span></button>
-        <button class="settings-item" type="button"><span class="settings-icon"><svg viewBox="0 0 24 24"><path d="M5 10v4M9 7v10M13 4v16M17 8v8M21 10v4"/></svg></span><span class="settings-copy"><b>เสียงและการแสดงผล</b><small>เสียงสวด ธีม และขนาดตัวอักษร</small></span><span class="settings-arrow">›</span></button>
         <button class="settings-item" type="button"><span class="settings-icon"><svg viewBox="0 0 24 24"><rect x="5" y="10" width="14" height="11" rx="2"/><path d="M8 10V7a4 4 0 0 1 8 0v3"/></svg></span><span class="settings-copy"><b>ความเป็นส่วนตัว</b><small>การแสดงผลข้อมูลและการเข้าถึง</small></span><span class="settings-arrow">›</span></button>
         <button class="settings-item" type="button"><span class="settings-icon"><svg viewBox="0 0 24 24"><path d="M8 12h8M12 8v8"/><circle cx="12" cy="12" r="8"/></svg></span><span class="settings-copy"><b>เชื่อมต่อบัญชี</b><small>Google, Apple, Email</small></span><span class="settings-arrow">›</span></button>
         <button class="settings-item" type="button"><span class="settings-icon"><svg viewBox="0 0 24 24"><path d="M5 7h14v13H5Z"/><path d="M9 7V5a3 3 0 0 1 6 0v2M9 11v5M15 11v5"/></svg></span><span class="settings-copy"><b>สมัครสมาชิก</b><small>จัดการแพ็กเกจและการชำระเงิน</small></span><span class="settings-arrow">›</span></button>
@@ -216,7 +210,6 @@
         <button class="settings-item" data-nav="merit"><span class="settings-icon">♡</span><span class="settings-copy"><b>บุญของฉัน</b><small>ดูประวัติการทำบุญและคะแนนบุญสะสม</small></span><span class="settings-arrow">›</span></button>
         <button class="settings-item" data-nav="merit" data-scroll-target="favoritesSection"><span class="settings-icon"><svg viewBox="0 0 24 24"><path d="M6 4h12v17l-6-4-6 4Z"/></svg></span><span class="settings-copy"><b>รายการโปรด</b><small>ดูบทสวดและกิจกรรมที่บันทึกไว้</small></span><span class="settings-arrow">›</span></button>
         <div class="settings-item"><span class="settings-icon"><svg viewBox="0 0 24 24"><path d="M12 3v12m0 0 4-4m-4 4-4-4M5 19h14"/></svg></span><span class="settings-copy"><b>ดาวน์โหลดบทสวด</b><small>ดาวน์โหลดบทสวดไว้ใช้งานแบบออฟไลน์</small></span><span class="settings-arrow">›</span></div>
-        <button class="settings-item" data-nav="merit" data-scroll-target="historySection"><span class="settings-icon"><svg viewBox="0 0 24 24"><path d="M4 8V4m0 0h4M4.7 4.7A9 9 0 1 1 3 14"/><path d="M12 7v5l3 2"/></svg></span><span class="settings-copy"><b>ประวัติการสวด</b><small>ดูประวัติการสวดที่ผ่านมา</small></span><span class="settings-arrow">›</span></button>
         <div class="settings-item settings-danger"><span class="settings-icon">⌫</span><button id="resetBtn">ล้างข้อมูลการสวดมนต์ทั้งหมด</button></div>
       </div>
 
@@ -352,7 +345,7 @@
       <div class="reader-tabs">
         <button class="active" data-reader-tab="prayer"><span class="tab-lotus" aria-hidden="true"></span>บทสวด</button>
         <button data-reader-tab="translation"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="5" y="6" width="14" height="14" rx="2"/><path d="M9 6V4h6v2M9 11h6M9 15h4"/></svg>คำแปล</button>
-        <button data-reader-tab="advice"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 18h6M10 22h4M8 14c-1-1-2-3-2-5a6 6 0 0 1 12 0c0 2-1 4-2 5-1 1-1 2-1 3H9c0-1 0-2-1-3Z"/></svg>คำแนะนำ</button>
+        <button data-reader-tab="advice"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 18h6M10 22h4M8 14c-1-1-2-3-2-5a6 6 0 0 1 12 0c0 2-1 4-2 5-1 1-1 2-1 3H9c0-1 0-2-1-3Z"/></svg>คำอธิษฐานหลังสวด</button>
       </div>
 
       <div class="reader-text-wrap">
@@ -370,11 +363,22 @@
         </div>
       </div>
 
-      <div class="reader-set-nav" id="readerSetNav"><button type="button" id="readerSetPrev"><span>‹</span><small>บทก่อนหน้า</small><b id="readerSetPrevName">-</b></button><p><small>บทสวดของฉัน</small><b id="readerSetPosition">1 / 1</b></p><button type="button" id="readerSetNext"><small>บทถัดไป</small><b id="readerSetNextName">-</b><span>›</span></button></div>
+      <div class="reader-set-nav" id="readerSetNav"><button type="button" id="readerSetPrev"><span class="reader-set-chevron"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m15 18-6-6 6-6"/></svg></span><small>บทก่อนหน้า</small><b id="readerSetPrevName">-</b></button><p><small>บทสวดของฉัน</small><b id="readerSetPosition">1 / 1</b></p><button type="button" id="readerSetNext"><small>บทถัดไป</small><b id="readerSetNextName">-</b><span class="reader-set-chevron"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m9 18 6-6-6-6"/></svg></span></button></div>
       <label class="reader-continuous"><img src="assets/prayer-lotus.png" alt=""><span><b>สวดต่อเนื่อง</b><small>เปิดเพื่อสวดบทต่อเนื่องอัตโนมัติ</small></span><input type="checkbox" id="continuousToggle"><i></i></label>
     </div>
     </section>
   </main>
+
+  <div class="assistant-prayer-modal" id="assistantPrayerModal" aria-hidden="true">
+    <div class="assistant-prayer-modal-card" role="dialog" aria-modal="true" aria-labelledby="assistantModalTitle">
+      <button class="assistant-prayer-modal-close" id="assistantPrayerModalClose" type="button" aria-label="ปิด">×</button>
+      <div class="assistant-prayer-modal-head">
+        <img id="assistantModalImage" src="assets/lamp.png" alt="">
+        <div><small>ตัวอย่างบทสวด</small><h2 id="assistantModalTitle">ชื่อบทสวด</h2><p id="assistantModalDesc"></p></div>
+      </div>
+      <div class="assistant-prayer-modal-content" id="assistantModalContent"></div>
+    </div>
+  </div>
 
   <div class="time-picker-modal" id="timePickerModal">
     <div class="time-picker-card">
@@ -428,6 +432,6 @@
 
 </div>
 
-<script src="app.js?v=20260817-7"></script>
+<script src="app.js?v=20260818-14"></script>
 </body>
 </html>

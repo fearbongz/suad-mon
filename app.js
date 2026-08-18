@@ -9,6 +9,7 @@ const PRAYERS = [
   {
     id:"jinapanjara",
     title:"บทสวดชินบัญชร (ฉบับย่อ)",
+    readerHeading:"บทสวดชินบัญชร (ฉบับย่อ)",
     category:"เสริมดวง",
     icon:"assets/lamp.png",
     badge:"แนะนำวันนี้",
@@ -59,19 +60,6 @@ const PRAYERS = [
       "ขอให้ข้าพเจ้าและครอบครัว มีสุขภาพแข็งแรง จิตใจเข้มแข็ง",
       "ขอให้การงานเจริญรุ่งเรือง มีสติปัญญาในการดำเนินชีวิต",
       "ขอให้พบเจอแต่สิ่งดี ๆ แคล้วคลาดจากภยันตรายทั้งปวง สาธุ"
-    ]
-  },
-  {
-    id:"popular",
-    title:"บทสวดยอดนิยม",
-    category:"เสริมดวง",
-    icon:"assets/prayer-star.png",
-    duration:"รวมยอดฮิต",
-    popularity:9999,
-    desc:"รวมบทสวดที่คนสวดมากที่สุดในแอปนี้ ไปดูกันเลย",
-    lines:[
-      "แตะ “ดูทั้งหมด” ที่หน้าแรก แล้วเลือกหมวด “เสริมดวง” หรือเรียงตามความนิยม",
-      "เพื่อดูบทสวดยอดฮิตทั้งหมดของแอปนี้ได้เลยนะคะ 🪷"
     ]
   },
   {
@@ -135,11 +123,23 @@ const PRAYERS = [
     popularity:6543,
     desc:"แผ่ความปรารถนาดีให้สรรพสัตว์ทั้งหลายพ้นทุกข์",
     lines:[
-      "สัพเพ สัตตา สัตว์ทั้งหลายที่เป็นเพื่อนทุกข์ เกิด แก่ เจ็บ ตาย ด้วยกันทั้งหมดทั้งสิ้น",
+      "สัพเพ สัตตา",
+      "อะเวรา โหนตุ",
+      "อัพยาปัชฌา โหนตุ",
+      "อะนีฆา โหนตุ",
+      "สุขี อัตตานัง ปะริหะรันตุ"
+    ],
+    translation:[
+      "## สัพเพ สัตตา",
+      "สัตว์ทั้งหลายทั้งปวง ที่เป็นเพื่อนทุกข์ เกิด แก่ เจ็บ ตาย ด้วยกันทั้งหมดทั้งสิ้น",
+      "## อะเวรา โหนตุ",
       "จงเป็นสุขเป็นสุขเถิด อย่าได้มีเวรแก่กันและกันเลย",
+      "## อัพยาปัชฌา โหนตุ",
       "จงเป็นสุขเป็นสุขเถิด อย่าได้เบียดเบียนซึ่งกันและกันเลย",
+      "## อะนีฆา โหนตุ",
       "จงเป็นสุขเป็นสุขเถิด อย่าได้มีความทุกข์กายทุกข์ใจเลย",
-      "จงมีความสุขกายสุขใจ รักษาตนให้พ้นจากทุกข์ภัยทั้งสิ้นเทอญ"
+      "## สุขี อัตตานัง ปะริหะรันตุ",
+      "จงมีความสุขกายสุขใจ รักษาตนให้พ้นจากทุกข์ภัยทั้งสิ้นเถิด"
     ]
   },
   {
@@ -151,9 +151,7 @@ const PRAYERS = [
     popularity:4321,
     desc:"บทตั้งจิตนอบน้อม สวดก่อนบทสวดมนต์บทใด ๆ",
     lines:[
-      "นะโม ตัสสะ ภะคะวะโต อะระหะโต สัมมาสัมพุทธัสสะ",
-      "นะโม ตัสสะ ภะคะวะโต อะระหะโต สัมมาสัมพุทธัสสะ",
-      "นะโม ตัสสะ ภะคะวะโต อะระหะโต สัมมาสัมพุทธัสสะ"
+      "นะโม ตัสสะ ภะคะวะโต อะระหะโต สัมมาสัมพุทธัสสะ (3 จบ)"
     ]
   },
   {
@@ -309,7 +307,7 @@ const PRAYERS = [
     popularity:0,
     desc:"นิยมสวดเพื่อความเป็นสิริมงคลและความอุ่นใจ",
     lines:[
-      "## ตั้งนะโม 3 จบก่อนสวด",
+      "นะโม ตัสสะ ภะคะวะโต อะระหะโต สัมมาสัมพุทธัสสะ (3 จบ)",
       "## ๑",
       "ชะยาสะนากะตา พุทธา",
       "เชตวา มารัง สะวาหะนัง",
@@ -486,10 +484,7 @@ const PRAYERS = [
     popularity:0,
     desc:"ตามคติไทยนิยมบูชาเกี่ยวกับลาภ ความอุดมสมบูรณ์ และความคล่องตัว",
     lines:[
-      "## ตั้งนะโม 3 จบ",
-      "นะโม ตัสสะ ภะคะวะโต อะระหะโต สัมมาสัมพุทธัสสะ",
-      "นะโม ตัสสะ ภะคะวะโต อะระหะโต สัมมาสัมพุทธัสสะ",
-      "นะโม ตัสสะ ภะคะวะโต อะระหะโต สัมมาสัมพุทธัสสะ",
+      "นะโม ตัสสะ ภะคะวะโต อะระหะโต สัมมาสัมพุทธัสสะ (3 จบ)",
       "## คาถาบูชาพระสีวลี",
       "สีวะลี จะ มะหาเถโร",
       "เทวะตานะระปูชิโต",
@@ -498,7 +493,7 @@ const PRAYERS = [
       "ยักขาเทวาภิปูชิโต",
       "โสระโห ปัจจะยาทิมหิ",
       "อะหัง วันทามิ ตัง สะทา",
-      "## ✨ คาถาพระสีวลี เรียกทรัพย์",
+      "## <span class=\"reader-heading-lotus\"></span> คาถาพระสีวลี เรียกทรัพย์",
       "คำแนะนำ: บทสั้น เหมาะสำหรับสวดต่อจากบทบูชา",
       "นะ ชาลีติ",
       "ปะสิทธิลาภา",
@@ -526,11 +521,8 @@ const PRAYERS = [
     popularity:0,
     desc:"นิยมบูชาเพื่อความคุ้มครอง ความเป็นสิริมงคล และโภคทรัพย์",
     lines:[
-      "## ตั้งนะโม 3 จบ",
-      "นะโม ตัสสะ ภะคะวะโต อะระหะโต สัมมาสัมพุทธัสสะ",
-      "นะโม ตัสสะ ภะคะวะโต อะระหะโต สัมมาสัมพุทธัสสะ",
-      "นะโม ตัสสะ ภะคะวะโต อะระหะโต สัมมาสัมพุทธัสสะ",
-      "## 🛡️ คาถาบูชาท้าวเวสสุวรรณ",
+      "นะโม ตัสสะ ภะคะวะโต อะระหะโต สัมมาสัมพุทธัสสะ (3 จบ)",
+      "## <span class=\"reader-heading-lotus\"></span> คาถาบูชาท้าวเวสสุวรรณ",
       "อิติปิโส ภะคะวา ยมราชาโน",
       "ท้าวเวสสุวรรณโณ มรณัง สุขัง",
       "อะหัง สุคะโต นะโม พุทธายะ",
@@ -539,12 +531,12 @@ const PRAYERS = [
       "เวสสะ พุสะ พุทธัง อะระหัง",
       "พุทโธ ท้าวเวสสุวรรณโณ",
       "นะโม พุทธายะ",
-      "## 💰 คาถาท้าวเวสสุวรรณ ฉบับย่อ",
+      "## <span class=\"reader-heading-lotus\"></span> คาถาท้าวเวสสุวรรณ ฉบับย่อ",
       "คำแนะนำ: นิยมสวด 9 จบ เพื่อความเป็นสิริมงคล",
       "เวส สะ พุ สะ",
       "เวส สะ พุ สะ",
       "เวส สะ พุ สะ",
-      "## <img class=\"flower-icon\" src=\"assets/flower-icon.png\" alt=\"\"> คำอธิษฐานหลังสวด",
+      "## <span class=\"reader-heading-lotus\"></span> คำอธิษฐานหลังสวด",
       "คำแนะนำ: สามารถอธิษฐานด้วยภาษาของตัวเอง เช่น",
       "ข้าพเจ้าขอน้อมบูชาองค์ท้าวเวสสุวรรณ",
       "ขออานุภาพแห่งคุณพระศรีรัตนตรัย และบารมีแห่งองค์ท้าวเวสสุวรรณ",
@@ -576,11 +568,11 @@ const PRAYERS = [
       "## อีกบทหนึ่งที่นิยม",
       "โอม ชยะ ศรี ลักษมี มาตา",
       "โอม ชยะ ศรี ลักษมี มาตา",
-      "## ✨ มนตราขอพรพระแม่ลักษมี",
+      "## <span class=\"reader-heading-lotus\"></span> มนตราขอพรพระแม่ลักษมี",
       "โอม ศรีม หรีม กะลีม",
       "มหาลักษมี นะมะฮา",
       "คำแนะนำ: สามารถสวด 9, 27 หรือ 108 จบ",
-      "## <img class=\"flower-icon\" src=\"assets/flower-icon.png\" alt=\"\"> คำอธิษฐานหลังสวด",
+      "## <span class=\"reader-heading-lotus\"></span> คำอธิษฐานหลังสวด",
       "ข้าพเจ้าขอน้อมบูชาพระแม่ลักษมี",
       "เทวีแห่งความอุดมสมบูรณ์ ความมั่งคั่ง และความเจริญรุ่งเรือง",
       "ขอพระแม่โปรดประทานพรให้ข้าพเจ้ามีความเจริญในหน้าที่การงาน",
@@ -603,9 +595,7 @@ const PRAYERS = [
     desc:"บทภาวนาที่นิยมสืบเนื่องจากหลวงพ่อฤๅษีลิงดำ (พระราชพรหมยาน)",
     lines:[
       "คำแนะนำ: หากศรัทธาในสายหลวงพ่อฤๅษีลิงดำ สามารถใช้บทนี้เป็นส่วนของกิจวัตรได้ โดยไม่จำเป็นต้องยึดว่าจำนวนมากจะทำให้ได้ผลมากกว่า",
-      "## ตั้งนะโม 3 จบ",
-      "นะโม ตัสสะ ภะคะวะโต อะระหะโต สัมมาสัมพุทธัสสะ",
-      "(3 จบ)",
+      "นะโม ตัสสะ ภะคะวะโต อะระหะโต สัมมาสัมพุทธัสสะ (3 จบ)",
       "## คาถาเงินล้าน",
       "สัมปะจิตฉามิ",
       "นาสังสิโม",
@@ -616,7 +606,7 @@ const PRAYERS = [
       "พุทธะมะอะอุ นะโมพุทธายะ วิระทะโย วิระโคนายัง วิระหิงสา วิระทาสี วิระทาสา วิระอิตถิโย พุทธัสสะ มานีมามะ พุทธัสสะ สวาโหม",
       "สัมปะติจฉามิ",
       "เพ็ง เพ็ง พา พา หา หา ฤา ฤา",
-      "## <img class=\"flower-icon\" src=\"assets/flower-icon.png\" alt=\"\"> วิธีสวด",
+      "## <span class=\"reader-heading-lotus\"></span> วิธีสวด",
       "คำแนะนำ: นิยมสวด 9 จบ โดยตั้งจิตให้สงบ ไม่จำเป็นต้องเร่งสวด และอาจตั้งเจตนาเรื่องการงาน การเงิน และความคล่องตัวในชีวิตควบคู่ไปด้วย"
     ]
   },
@@ -666,7 +656,7 @@ const QUICK_TILES = [
   {icon:"assets/tile1.png",label:"สวดมนต์วันเกิด",id:"birthday"},
   {icon:"assets/tile2.png",label:"แผ่เมตตา",id:"metta-self"},
   {icon:"assets/tile3.png",label:"ขอพร",id:"wish"},
-  {icon:"assets/tile4.png",label:"บทสวดยอดนิยม",id:"popular"}
+  {icon:"assets/tile4.png",label:"บทสวดที่บันทึกไว้",id:"saved-prayers"}
 ];
 
 const QUOTES = [
@@ -807,7 +797,14 @@ function renderTiles(){
     </button>
   `).join("");
   wrap.querySelectorAll("[data-open]").forEach(btn=>{
-    btn.addEventListener("click", ()=> openReader(btn.dataset.open));
+    btn.addEventListener("click", ()=>{
+      if(btn.dataset.open==="saved-prayers"){
+        showScreen("merit");
+        setTimeout(()=>document.getElementById("favoritesSection")?.scrollIntoView({behavior:"smooth",block:"start"}),250);
+        return;
+      }
+      openReader(btn.dataset.open);
+    });
   });
 }
 
@@ -879,7 +876,7 @@ function renderChips(){
 
 function renderPrayerList(){
   const list = document.getElementById("prayerList");
-  let items = PRAYERS.slice().sort((a,b)=>b.popularity-a.popularity);
+  let items = PRAYERS.filter(prayer=>prayer.id!=="popular").sort((a,b)=>b.popularity-a.popularity);
   if(activeCategory!=="ทั้งหมด") items = items.filter(p=>p.category===activeCategory);
   if(searchTerm.trim()) items = items.filter(p=>p.title.includes(searchTerm.trim()));
 
@@ -912,6 +909,8 @@ function editPrayerSetInAssistant(setId){
   document.querySelectorAll("#assistantPrayerPicker button.active").forEach(button=>button.classList.remove("active"));
   assistantPrayerOrder = [];
   set.prayerIds.forEach(prayerId=>document.querySelector(`#assistantPrayerPicker button[data-value="${prayerId}"]`)?.click());
+  // Keep the saved sequence authoritative every time the same set is reopened.
+  assistantPrayerOrder = [...set.prayerIds];
   document.getElementById("assistantPreviewTitle").textContent = set.name;
   document.getElementById("assistantResult").classList.remove("show");
   document.getElementById("assistantCreate").innerHTML = '<span>✦</span> บันทึกการแก้ไข <small>อัปเดตชุดสวดของฉัน</small>';
@@ -1024,23 +1023,6 @@ function renderMeritStats(){
     const future = day > now;
     return `<span class="merit-day"><b>${label}</b><i class="${done ? "done" : future ? "future" : ""}">${done ? "✓" : ""}</i></span>`;
   }).join("");
-  renderPrayerHistory();
-}
-
-function renderPrayerHistory(){
-  const wrap = document.getElementById("prayerHistory");
-  const empty = document.getElementById("historyEmpty");
-  const items = state.prayerHistory || [];
-  empty.style.display = items.length ? "none" : "block";
-  wrap.innerHTML = items.slice(0,8).map(item=>{
-    const prayer = findPrayer(item.prayerId);
-    if(!prayer) return "";
-    const date = new Date(item.at);
-    const dateText = date.toLocaleDateString("th-TH",{day:"numeric",month:"short",year:"numeric"});
-    const timeText = date.toLocaleTimeString("th-TH",{hour:"2-digit",minute:"2-digit"});
-    return `<button class="history-item" data-open="${prayer.id}"><img src="${getPrayerIcon(prayer)}" alt=""><span><b>${prayer.title}</b><small>${dateText} · ${timeText}</small></span><strong>+${item.points || 10}</strong><em>☆</em></button>`;
-  }).join("");
-  wrap.querySelectorAll("[data-open]").forEach(btn=>btn.addEventListener("click",()=>openReader(btn.dataset.open)));
 }
 
 function renderCalendar(){
@@ -1077,16 +1059,29 @@ function renderBadges(){
   }).join("");
 }
 
+let showAllFavorites = false;
+
 function renderFavList(){
   const list = document.getElementById("favList");
   const empty = document.getElementById("favEmpty");
+  const showAllButton = document.getElementById("favoritesShowAll");
   const favs = PRAYERS.filter(p=>state.favorites.includes(p.id));
   if(favs.length===0){
-    list.innerHTML=""; empty.style.display="block"; return;
+    list.innerHTML=""; empty.style.display="block"; showAllButton.style.display="none"; return;
   }
   empty.style.display="none";
-  list.innerHTML = favs.map(p=>prayerCardHTML(p)).join("");
+  const visibleFavorites = showAllFavorites ? favs : favs.slice(0,5);
+  list.innerHTML = visibleFavorites.map(p=>prayerCardHTML(p)).join("");
+  showAllButton.style.display = favs.length>5 ? "block" : "none";
+  showAllButton.textContent = showAllFavorites ? "แสดงน้อยลง" : `แสดงทั้งหมด (${favs.length})`;
   bindPrayerCards(list);
+}
+
+function bindFavorites(){
+  document.getElementById("favoritesShowAll").addEventListener("click",()=>{
+    showAllFavorites = !showAllFavorites;
+    renderFavList();
+  });
 }
 
 /* ---------------- READER OVERLAY ---------------- */
@@ -1155,10 +1150,73 @@ function setReaderTab(tab){
   if(tab==="prayer"){
     renderReaderLines();
   }else if(tab==="translation"){
-    document.getElementById("readerText").innerHTML = `<p class="reader-line current">${currentPrayer.desc || "ยังไม่มีคำแปลสำหรับบทสวดนี้"}</p>`;
+    renderReaderTranslation();
   }else{
-    document.getElementById("readerText").innerHTML = `<p class="reader-line current">ตั้งจิตให้สงบ หายใจช้า ๆ และสวดด้วยความตั้งใจ สามารถปรับขนาดตัวอักษรหรือหยุดพักได้ตามต้องการ</p>`;
+    renderReaderClosingPrayer();
   }
+}
+
+function isReaderTranslationLine(line){
+  const text = String(line || "").trim();
+  return text.startsWith("ความหมายโดยย่อ:") ||
+    text.startsWith("คำแปล:") ||
+    /^\((?:ขอให้|แปลว่า|หมายถึง)/.test(text);
+}
+
+function getReaderPrayerLines(){
+  const lines = currentPrayer?.lines || [];
+  const closingStart = lines.findIndex(line=>String(line).includes("คำอธิษฐานหลังสวด"));
+  const prayerLines = closingStart>=0 ? lines.slice(0,closingStart) : lines;
+  return prayerLines.filter(line=>!isReaderTranslationLine(line));
+}
+
+function getReaderClosingPrayerLines(){
+  const lines = currentPrayer?.lines || [];
+  const closingStart = lines.findIndex(line=>String(line).includes("คำอธิษฐานหลังสวด"));
+  return closingStart>=0 ? lines.slice(closingStart+1) : [];
+}
+
+function getReaderTranslationLines(){
+  if(!currentPrayer) return [];
+  if(Array.isArray(currentPrayer.translation)) return currentPrayer.translation;
+  if(currentPrayer.translation) return [currentPrayer.translation];
+
+  const result = [];
+  let section = "";
+  let addedSection = "";
+  (currentPrayer.lines || []).forEach(line=>{
+    if(String(line).startsWith("## ")){
+      section = line;
+      return;
+    }
+    if(!isReaderTranslationLine(line)) return;
+    if(section && section!==addedSection){
+      result.push(section);
+      addedSection = section;
+    }
+    result.push(line);
+  });
+  return result;
+}
+
+function renderReaderTranslation(){
+  const translations = getReaderTranslationLines();
+  const lines = translations.length ? translations : [currentPrayer.desc || "ยังไม่มีคำแปลสำหรับบทสวดนี้"];
+  document.getElementById("readerText").innerHTML = lines.map(line=>{
+    const isSection = String(line).startsWith("## ");
+    const text = isSection ? String(line).slice(3) : String(line).replace(/^\((.*)\)$/,"$1");
+    return `<p class="reader-line current${isSection ? " reader-section-title" : " reader-meaning"}">${text}</p>`;
+  }).join("");
+}
+
+function renderReaderClosingPrayer(){
+  const closingLines = getReaderClosingPrayerLines();
+  const lines = closingLines.length ? closingLines : ["บทสวดนี้ยังไม่มีคำอธิษฐานหลังสวด"];
+  document.getElementById("readerText").innerHTML = lines.map(line=>{
+    const isSection = String(line).startsWith("## ");
+    const text = isSection ? String(line).slice(3) : String(line).replace(/^คำแนะนำ:\s*/,"");
+    return `<p class="reader-line current${isSection ? " reader-section-title" : ""}">${text}</p>`;
+  }).join("");
 }
 
 function closeReader(){
@@ -1174,12 +1232,11 @@ function updateFavIcon(){
 
 function renderReaderLines(){
   const wrap = document.getElementById("readerText");
-  wrap.innerHTML = currentPrayer.lines.map((l,i)=>{
+  const prayerLines = getReaderPrayerLines();
+  wrap.innerHTML = prayerLines.map((l,i)=>{
     let cls = "reader-line";
     const isSection = l.startsWith("## ");
-    const isMeaning = l.startsWith("ความหมายโดยย่อ:") || l.startsWith("คำแนะนำ:");
     if(isSection) cls += " reader-section-title";
-    if(isMeaning) cls += " reader-meaning";
     if(i<currentLine) cls+=" past";
     if(i===currentLine) cls+=" current";
     return `<p class="${cls}" data-line="${i}">${isSection ? l.slice(3) : l}</p>`;
@@ -1189,7 +1246,8 @@ function renderReaderLines(){
 }
 
 function updateProgress(){
-  const pct = currentPrayer.lines.length<=1 ? 100 : Math.round((currentLine/(currentPrayer.lines.length-1))*100);
+  const prayerLines = getReaderPrayerLines();
+  const pct = prayerLines.length<=1 ? 100 : Math.round((currentLine/(prayerLines.length-1))*100);
   document.getElementById("readerProgressBar").style.width = pct+"%";
 }
 
@@ -1204,7 +1262,7 @@ function togglePlay(){
   if(isPlaying){
     playChime(660);
     readerTimer = setInterval(()=>{
-      if(currentLine < currentPrayer.lines.length-1){
+      if(currentLine < getReaderPrayerLines().length-1){
         currentLine++;
         if(activeReaderTab==="prayer") renderReaderLines();
         updateProgress();
@@ -1225,12 +1283,13 @@ function restartReader(){
   isPlaying = false;
   clearInterval(readerTimer);
   setPlayIcon(false);
-  renderReaderLines();
+  if(activeReaderTab==="prayer") renderReaderLines();
+  else setReaderTab(activeReaderTab);
   updateProgress();
 }
 
 function stepReader(direction){
-  currentLine = Math.max(0, Math.min(currentPrayer.lines.length-1, currentLine+direction));
+  currentLine = Math.max(0, Math.min(getReaderPrayerLines().length-1, currentLine+direction));
   if(activeReaderTab!=="prayer") setReaderTab("prayer");
   else renderReaderLines();
   updateProgress();
@@ -1553,6 +1612,58 @@ function bindAssistant(){
   const assistantReminder = document.getElementById("assistantReminder");
   const assistantContinuous = document.getElementById("assistantContinuous");
   picker.innerHTML = PRAYERS.filter(prayer=>prayer.id!=="popular").map(prayer=>`<button data-value="${prayer.id}"><img src="${getPrayerIcon(prayer)}" alt=""><b>${prayer.title}</b><i>✓</i></button>`).join("");
+  const prayerModal = document.getElementById("assistantPrayerModal");
+  const closePrayerModal = ()=>{
+    prayerModal.classList.remove("open");
+    prayerModal.setAttribute("aria-hidden","true");
+  };
+  const openPrayerModal = prayer=>{
+    if(!prayer) return;
+    const closingStart = prayer.lines.findIndex(line=>String(line).includes("คำอธิษฐานหลังสวด"));
+    const previewLines = (closingStart>=0 ? prayer.lines.slice(0,closingStart) : prayer.lines).filter(line=>!isReaderTranslationLine(line));
+    document.getElementById("assistantModalImage").src = getPrayerIcon(prayer);
+    document.getElementById("assistantModalTitle").textContent = prayer.title;
+    document.getElementById("assistantModalDesc").textContent = prayer.desc || "";
+    document.getElementById("assistantModalContent").innerHTML = previewLines.map(line=>{
+      const isSection = String(line).startsWith("## ");
+      return `<p class="${isSection ? "section" : ""}">${isSection ? String(line).slice(3) : line}</p>`;
+    }).join("") || "<p>ยังไม่มีเนื้อหาบทสวด</p>";
+    prayerModal.classList.add("open");
+    prayerModal.setAttribute("aria-hidden","false");
+  };
+  let suppressPrayerPickerClick = false;
+  picker.addEventListener("click",event=>{
+    if(!suppressPrayerPickerClick) return;
+    event.preventDefault();
+    event.stopImmediatePropagation();
+    suppressPrayerPickerClick = false;
+  },true);
+  picker.querySelectorAll("button[data-value]").forEach(button=>{
+    let holdTimer = null;
+    let didHold = false;
+    let startX = 0;
+    let startY = 0;
+    const cancelHold = ()=>{ clearTimeout(holdTimer); holdTimer=null; };
+    button.addEventListener("pointerdown",event=>{
+      startX=event.clientX; startY=event.clientY;
+      didHold=false;
+      cancelHold();
+      holdTimer=setTimeout(()=>{
+        didHold=true;
+        suppressPrayerPickerClick=true;
+        openPrayerModal(findPrayer(button.dataset.value));
+        if(navigator.vibrate) navigator.vibrate(25);
+      },550);
+    });
+    button.addEventListener("pointermove",event=>{ if(Math.hypot(event.clientX-startX,event.clientY-startY)>10) cancelHold(); });
+    button.addEventListener("pointerup",()=>{ cancelHold(); if(didHold) setTimeout(()=>{ suppressPrayerPickerClick=false; },350); });
+    button.addEventListener("pointercancel",cancelHold);
+    button.addEventListener("pointerleave",cancelHold);
+    button.addEventListener("contextmenu",event=>event.preventDefault());
+  });
+  document.getElementById("assistantPrayerModalClose").addEventListener("click",closePrayerModal);
+  prayerModal.addEventListener("click",event=>{ if(event.target===prayerModal) closePrayerModal(); });
+  document.addEventListener("keydown",event=>{ if(event.key==="Escape" && prayerModal.classList.contains("open")) closePrayerModal(); });
   assistantReminder.classList.toggle("active",Boolean(state.reminderOn));
   assistantReminder.setAttribute("aria-pressed",String(Boolean(state.reminderOn)));
   document.getElementById("assistantReminderText").textContent = `ทุกวัน ${state.reminderTime || "19:00"} น.`;
@@ -1593,9 +1704,16 @@ function bindAssistant(){
 
   const syncPrayerOrderFromPreview = list=>{
     const reorderedIds = [...list.querySelectorAll("li[data-prayer-id]")].map(item=>item.dataset.prayerId);
+    if(!reorderedIds.length) return;
     if(assistantMode==="prayers") assistantPrayerOrder = reorderedIds;
     else assistantFocusPrayerOrder = reorderedIds;
     refreshAssistantPreview();
+  };
+  const captureVisiblePrayerOrder = ()=>{
+    const reorderedIds = [...document.querySelectorAll("#assistantPrayerList li[data-prayer-id]")].map(item=>item.dataset.prayerId);
+    if(!reorderedIds.length) return;
+    if(assistantMode==="prayers") assistantPrayerOrder = reorderedIds;
+    else assistantFocusPrayerOrder = reorderedIds;
   };
   const bindAssistantPreviewSorting = list=>{
     let draggedItem = null;
@@ -1664,6 +1782,9 @@ function bindAssistant(){
     saveState();
   });
   document.getElementById("assistantCreate").addEventListener("click", ()=>{
+    // Read the visible list immediately before saving. On some mobile browsers
+    // dragend/pointerup can be skipped when the user taps Save right after a drag.
+    captureVisiblePrayerOrder();
     const prayers = selectedPrayers();
     const result = document.getElementById("assistantResult");
     if(prayers.length){
@@ -1731,6 +1852,7 @@ document.addEventListener("DOMContentLoaded", ()=>{
   bindSearch();
   bindBell();
   bindCheckin();
+  bindFavorites();
   bindAssistant();
   bindPrayerLibrary();
   initSettings();
