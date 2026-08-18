@@ -842,6 +842,32 @@ img{max-width:100%;display:block;}
 
 .garden-streak-card{width:100%;border:0;font-family:inherit;text-align:initial;cursor:pointer;}
 .garden-streak-card:active{transform:scale(.98);}
+.garden-card,.garden-mission,.garden-unlocks>div{min-width:0;max-width:100%;box-sizing:border-box;}
+.garden-mission button{display:flex;align-items:center;justify-content:center;gap:5px;width:100%;white-space:nowrap;}
+.garden-mission:not(.ready) button:before{content:"";width:13px;height:13px;flex:0 0 13px;border:1.5px solid #a96fe0;border-radius:50%;box-sizing:border-box;}
+.garden-mission.claimed button:before{content:"✓";display:grid;place-items:center;border-color:#b888dd;background:#b888dd;color:#fff;font-size:9px;font-weight:700;}
+#screen-merit-garden .garden-heading p{font-size:.9rem;}
+#screen-merit-garden .garden-overview small,#screen-merit-garden .garden-overview b{font-size:.66rem;}
+#screen-merit-garden .garden-streak-card b,#screen-merit-garden .garden-water-card b,#screen-merit-garden .garden-candle-card b{font-size:.66rem;}
+#screen-merit-garden .garden-water-card small,#screen-merit-garden .garden-candle-card small{font-size:.62rem;}
+#screen-merit-garden .garden-card h3{font-size:1.05rem;}
+#screen-merit-garden .garden-card-title small{font-size:.7rem;}
+#screen-merit-garden .garden-mission b{font-size:.78rem;}
+#screen-merit-garden .garden-mission button{font-size:.72rem;}
+#screen-merit-garden .garden-unlocks b{font-size:.72rem;}
+#screen-merit-garden .garden-unlocks small{font-size:.64rem;}
+#screen-merit-garden .garden-next-reward p,#screen-merit-garden .garden-activity p{font-size:.72rem;}
+@media(max-width:440px){
+  .garden-content{width:100%;box-sizing:border-box;overflow:hidden;}
+  .garden-missions,.garden-next-reward,.garden-unlocks,.garden-activity,.garden-quote{width:100%;max-width:100%;}
+  .garden-mission{grid-template-columns:38px minmax(0,1fr) 32px 82px;gap:5px;}
+  .garden-unlocks>div{width:100%;max-width:100%;overflow-x:auto;overscroll-behavior-inline:contain;}
+  #screen-merit-garden .garden-heading p{font-size:.76rem;}
+  #screen-merit-garden .garden-overview small,#screen-merit-garden .garden-overview b{font-size:.58rem;}
+  #screen-merit-garden .garden-card h3{font-size:1rem;}
+  #screen-merit-garden .garden-mission b{font-size:.73rem;}
+  #screen-merit-garden .garden-mission button{font-size:.68rem;padding:8px 4px;}
+}
 
 /* sparkle burst */
 .burst-emoji{position:fixed;font-size:1.4rem;pointer-events:none;z-index:70;animation:burst 1s ease-out forwards;}

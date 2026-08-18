@@ -2361,9 +2361,9 @@ function renderMeritGarden(){
     row.classList.toggle("ready",isDone&&!isClaimed);
     row.classList.toggle("claimed",isClaimed);
     const button=row.querySelector("button");
-    if(isClaimed) button.textContent="✓ สวดแล้ว";
+    if(isClaimed) button.textContent="สวดแล้ว";
     else if(isDone) button.textContent="รับรางวัล";
-    else button.textContent="□ สวดแล้ว";
+    else button.textContent="สวดแล้ว";
   });
 
   const prayerActivity=history.map(item=>({...item,label:PRAYERS.find(entry=>entry.id===item.prayerId)?.title||"สวดมนต์"}));
