@@ -840,6 +840,9 @@ img{max-width:100%;display:block;}
   .garden-content{margin-top:-20px;}
 }
 
+.garden-streak-card{width:100%;border:0;font-family:inherit;text-align:initial;cursor:pointer;}
+.garden-streak-card:active{transform:scale(.98);}
+
 /* sparkle burst */
 .burst-emoji{position:fixed;font-size:1.4rem;pointer-events:none;z-index:70;animation:burst 1s ease-out forwards;}
 @keyframes burst{
