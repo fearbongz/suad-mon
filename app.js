@@ -1037,7 +1037,7 @@ const DOW_TH = ["จ","อ","พ","พฤ","ศ","ส","อา"]; // Mon..Sun
 
 /* ---------------- STATE (localStorage) ---------------- */
 const STORE_KEY = "suadmon_data_v1";
-const DEFAULT_STATE = { completedDates:[], favorites:[], prayerHistory:[], customPrayerSets:[], gardenClaims:[], gardenManualMissions:[], gardenActions:[], gardenBonus:0, selectedGardenItem:"lotus", gardenSoundOn:false, goal:21, fontSize:"medium", reminderOn:false, reminderTime:"19:00", continuousOn:false, theme:"purple", profileName:"", profileMessage:"", profileFirstName:"", profileLastName:"", profileGender:"หญิง", profileTheme:"pink", profileBirthDate:"", profileEmail:"" };
+const DEFAULT_STATE = { completedDates:[], favorites:[], prayerHistory:[], customPrayerSets:[], gardenClaims:[], gardenManualMissions:[], gardenActions:[], gardenBonus:0, selectedGardenItem:"lotus", selectedReward:"lotus-0", gardenSoundOn:false, goal:21, fontSize:"medium", reminderOn:false, reminderTime:"19:00", continuousOn:false, theme:"purple", profileName:"", profileMessage:"", profileFirstName:"", profileLastName:"", profileGender:"หญิง", profileTheme:"pink", profileBirthDate:"", profileEmail:"" };
 function loadState(){
   try{
     const raw = localStorage.getItem(STORE_KEY);
@@ -1821,7 +1821,7 @@ function stopGardenSound(){
 function showScreen(name){
   clearInterval(readerTimer);
   isPlaying = false;
-  document.body.classList.toggle("garden-mode",name==="merit-garden");
+  document.body.classList.toggle("garden-mode",name==="merit-garden"||name==="garden-rewards");
   document.querySelectorAll(".screen").forEach(s=>s.classList.remove("active"));
   document.getElementById("screen-"+name).classList.add("active");
   document.querySelectorAll(".nav-item").forEach(b=>b.classList.remove("active"));
@@ -1831,6 +1831,7 @@ function showScreen(name){
   if(name==="merit"){ renderMeritStats(); renderCalendar(); renderBadges(); renderFavList(); }
   if(name==="merit-garden"){ renderMeritGarden(); if(state.gardenSoundOn) startGardenSound(); }
   else stopGardenSound();
+  if(name==="garden-rewards") renderGardenRewards(document.querySelector("[data-reward-filter].active")?.dataset.rewardFilter||"all");
   if(name==="prayers") setPrayerLibraryTab(activeLibraryTab);
   if(name==="assistant") document.getElementById("assistantResult")?.classList.remove("show");
 }
@@ -1893,8 +1894,7 @@ function initSettings(){
     document.getElementById("profileDisplayName").textContent = [state.profileFirstName,state.profileLastName].filter(Boolean).join(" ") || state.profileName || "เมตตา มณีจันทร์";
     document.getElementById("profileDisplayBio").textContent = state.profileMessage || "ขอให้ทุกวันเป็นวันที่ใจสงบ 💗";
     const meritPoints = (state.prayerHistory || []).reduce((total,item)=>total+(Number(item.points) || 10),0);
-    const meritDays = new Set([...(state.completedDates||[]),...(state.prayerHistory||[]).map(item=>todayStr(new Date(item.at)))]).size;
-    document.getElementById("profileLevel").textContent = `Lv.${Math.min(100,Math.floor(meritDays/3)+1)}`;
+    document.getElementById("profileLevel").textContent = `Lv.${getGardenProgress().level}`;
     document.getElementById("profilePoints").textContent = meritPoints.toLocaleString("th-TH");
     document.getElementById("profileStreak").textContent = `${computeStreak()} วัน`;
     pendingProfileTheme = state.profileTheme || "pink";
@@ -2274,6 +2274,18 @@ function bindPrayerLibrary(){
 }
 
 /* ---------------- MERIT GARDEN ---------------- */
+const REWARD_CATEGORIES=[
+  {id:"lotus",title:"ดอกบัวแห่งบุญ",desc:"ดอกบัวจะบานงดงามขึ้น เมื่อระดับบุญของคุณสูงขึ้น",items:[["ดอกบัวเริ่มต้น",1],["ดอกบัวแสงศรัทธา",5],["ดอกบัวรุ่งเรือง",10],["ดอกบัวปัญญา",15],["ดอกบัวนิรันดร์",20]]},
+  {id:"scenes",title:"ฉากสวนบุญ",desc:"สวนของคุณจะสวยงามและศักดิ์สิทธิ์ขึ้นตามระดับบุญ",items:[["ลานเริ่มต้น",1],["ลานน้ำตก",5],["ลานแสงจันทร์",10],["ลานหมอกศรัทธา",15],["ลานสวรรค์",20]]},
+  {id:"characters",title:"ตัวละครคู่บุญ",desc:"เพื่อนคู่บุญที่จะอยู่เคียงข้างคุณในเส้นทางแห่งการสวดมนต์",items:[["น้องบุญอุ่น",1],["น้องศรัทธา",5],["หลวงพ่อปัญญา",10],["เทพธิดาแห่งเมตตา",15],["ท้าวเวสสุวรรณ",20]]},
+  {id:"decor",title:"ของตกแต่งสวน",desc:"เพิ่มความสวยงามและศักดิ์สิทธิ์ให้สวนบุญของคุณ",items:[["โคมไฟหิน",1],["สะพานบุญ",3],["น้ำพุศรัทธา",7],["ศาลาแห่งปัญญา",12],["พระพุทธปฏิมา",18]]},
+  {id:"powerups",title:"เพิ่มพลังบุญ",desc:"ไอเทมพิเศษช่วยให้การเดินทางของคุณราบรื่นยิ่งขึ้น",items:[["หัวใจเมตตา",1],["ดอกบัวทอง",4],["เทียนแห่งศรัทธา",12],["คัมภีร์ปัญญา",16],["แก้วสารพัดนึก",20]]}
+];
+function getGardenProgress(){
+  const history=Array.isArray(state.prayerHistory)?state.prayerHistory:[];
+  const days=new Set([...(state.completedDates||[]),...history.map(item=>todayStr(new Date(item.at)))]).size;
+  return {days,level:Math.min(100,Math.floor(days/3)+1)};
+}
 const GARDEN_ITEMS = {
   lotus:{label:"ดอกบัว",image:"assets/garden-unlock-lotus.png"},
   scene:{label:"ฉากสวน",image:"assets/garden-unlock-scene.png"},
@@ -2313,8 +2325,7 @@ function renderMeritGarden(){
   const history = Array.isArray(state.prayerHistory) ? state.prayerHistory : [];
   const prayerPoints = history.reduce((sum,item)=>sum+(Number(item.points)||10),0);
   const points = prayerPoints + (Number(state.gardenBonus)||0);
-  const completedDays=new Set([...(state.completedDates||[]),...history.map(item=>todayStr(new Date(item.at)))]).size;
-  const level = Math.min(100,Math.floor(completedDays/3)+1);
+  const {days:completedDays,level}=getGardenProgress();
   const levelProgress = level>=100?100:(completedDays%3)/3*100;
   const levelNames = ["เมล็ดพันธุ์แห่งบุญ","สายน้ำแห่งศรัทธา","ใบไม้แห่งเมตตา","ดอกบัวแห่งความสุข","แสงทองแห่งบุญ","ผู้ดูแลสวนบุญ","จิตใจเบิกบาน","บุญญาบารมี","ปัญญาส่องสว่าง","สวนบุญสมบูรณ์"];
   const levelTier=Math.min(9,Math.floor((level-1)/10));
@@ -2379,6 +2390,32 @@ function renderMeritGarden(){
   }).join("") || '<p><img src="assets/flower-icon.png" alt="ดอกบัว"><b>เริ่มสวดบทแรกเพื่อปลูกดอกบัว</b><small>วันนี้</small></p>';
 }
 
+function renderGardenRewards(filter="all"){
+  const catalog=document.getElementById("rewardsCatalog");
+  if(!catalog) return;
+  const {level}=getGardenProgress();
+  const allItems=REWARD_CATEGORIES.flatMap(category=>category.items.map((item,index)=>({category,index,item})));
+  const received=allItems.filter(entry=>level>=entry.item[1]).length;
+  document.getElementById("rewardsReceived").textContent=received;
+  document.getElementById("rewardsLocked").textContent=allItems.length-received;
+  catalog.innerHTML=REWARD_CATEGORIES.filter(category=>filter==="all"||category.id===filter).map(category=>{
+    const cards=category.items.map(([name,need],index)=>{
+      const unlocked=level>=need, selected=state.selectedReward===`${category.id}-${index}`;
+      return `<button class="reward-item ${unlocked?'unlocked':'locked'} ${selected?'selected':''}" type="button" data-reward-id="${category.id}-${index}" data-reward-category="${category.id}" ${unlocked?'':'disabled'}><span class="reward-art reward-art-${category.id} reward-art-${index}"></span><b>${name}</b><small>Lv.${need}</small><em>${selected?'เลือกใช้อยู่':unlocked?'✓ ได้รับแล้ว':'🔒 ยังไม่ได้รับ'}</em></button>`;
+    }).join("");
+    return `<section class="reward-group" data-reward-group="${category.id}"><header><span>🪷</span><div><h3>${category.title}</h3><p>${category.desc}</p></div></header><div class="reward-row">${cards}</div></section>`;
+  }).join("");
+  catalog.querySelectorAll(".reward-item.unlocked").forEach(button=>button.addEventListener("click",()=>{
+    state.selectedReward=button.dataset.rewardId;
+    const map={lotus:"lotus",scenes:"scene",characters:"character",decor:"decoration"};
+    if(map[button.dataset.rewardCategory]) state.selectedGardenItem=map[button.dataset.rewardCategory];
+    saveState();
+    const name=button.querySelector("b").textContent;
+    document.getElementById("rewardsFeedback").textContent=`เลือกใช้ “${name}” แล้ว`;
+    renderGardenRewards(filter);
+  }));
+}
+
 function bindMeritGarden(){
   document.getElementById("gardenSoundToggle")?.addEventListener("click",()=>{
     state.gardenSoundOn=!state.gardenSoundOn;
@@ -2424,6 +2461,13 @@ function bindMeritGarden(){
   document.querySelectorAll("[data-garden-item]").forEach(card=>card.addEventListener("click",()=>{if(!card.classList.contains("locked")){state.selectedGardenItem=card.dataset.gardenItem;saveState();renderMeritGarden();}}));
 }
 
+function bindGardenRewards(){
+  document.querySelectorAll("[data-reward-filter]").forEach(button=>button.addEventListener("click",()=>{
+    document.querySelectorAll("[data-reward-filter]").forEach(item=>item.classList.toggle("active",item===button));
+    renderGardenRewards(button.dataset.rewardFilter);
+  }));
+}
+
 /* ---------------- INIT ---------------- */
 function renderAll(){
   renderHero();
@@ -2450,5 +2494,6 @@ document.addEventListener("DOMContentLoaded", ()=>{
   bindAssistant();
   bindPrayerLibrary();
   bindMeritGarden();
+  bindGardenRewards();
   initSettings();
 });

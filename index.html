@@ -20,7 +20,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Mali:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400;1,600&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="style.css?v=20260818-38">
+<link rel="stylesheet" href="style.css?v=20260818-39">
 </head>
 <body>
 
@@ -310,6 +310,7 @@
           <img src="assets/garden-reward-main.png" alt="ศาลาในสวน">
           <p>เมื่อถึงระดับนี้ จะปลดล็อก</p>
           <div class="garden-reward-unlocks"><span><img src="assets/garden-pavilion.png" alt=""><small>ศาลาใหม่</small></span><span><img src="assets/garden-unlock-scene.png" alt=""><small>ฉากน้ำตก</small></span><span><img src="assets/garden-unlock-lotus.png" alt=""><small>ดอกบัวพิเศษ</small></span></div>
+          <button type="button" data-nav="garden-rewards">ดูรางวัลทั้งหมด</button>
         </section>
 
         <section class="garden-card garden-unlocks">
@@ -324,6 +325,23 @@
 
         <blockquote class="garden-quote"><span class="garden-quote-mark">❝</span>บุญคือความสุข<br>ที่ไม่ขึ้นกับใคร<br>เริ่มต้นที่ใจของเรา <img src="assets/flower-icon.png" alt="ดอกบัว"></blockquote>
       </div>
+    </section>
+
+    <section class="screen" id="screen-garden-rewards">
+      <div class="rewards-page-head">
+        <button type="button" data-nav="merit-garden" aria-label="กลับไปสวนบุญ">‹</button>
+        <div><h2>ดูรางวัลทั้งหมด ✨</h2><p>ทำภารกิจ สวดมนต์ และสะสมวันสวด เพื่อรับรางวัลพิเศษ 💗</p></div>
+      </div>
+      <div class="rewards-summary">
+        <div><span>🪷</span><small>ของรางวัลทั้งหมด</small><strong>25</strong><b>รายการ</b></div>
+        <div><span>🌸</span><small>รางวัลที่ได้รับแล้ว</small><strong id="rewardsReceived">0</strong><b>รายการ</b></div>
+        <div><span>🎁</span><small>รางวัลที่ยังไม่ได้รับ</small><strong id="rewardsLocked">25</strong><b>รายการ</b></div>
+      </div>
+      <div class="rewards-tabs" id="rewardsTabs">
+        <button class="active" data-reward-filter="all">ทั้งหมด</button><button data-reward-filter="lotus">ดอกบัว</button><button data-reward-filter="scenes">ฉากสวน</button><button data-reward-filter="characters">ตัวละคร</button><button data-reward-filter="decor">ของตกแต่ง</button><button data-reward-filter="powerups">เพิ่มพลัง</button>
+      </div>
+      <div id="rewardsCatalog" class="rewards-catalog"></div>
+      <p class="rewards-feedback" id="rewardsFeedback" aria-live="polite"></p>
     </section>
 
     <section class="screen" id="screen-assistant">
@@ -482,6 +500,6 @@
 
 </div>
 
-<script src="app.js?v=20260818-31"></script>
+<script src="app.js?v=20260818-32"></script>
 </body>
 </html>
