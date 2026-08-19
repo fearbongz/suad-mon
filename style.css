@@ -1195,3 +1195,7 @@ body.photo-view #decorateViewToggle{top:calc(10px + env(safe-area-inset-top,0px)
 .decorate-mode .app-shell{min-height:100vh;display:flex;flex-direction:column}
 .decorate-mode .app-shell>.content{flex:0 0 auto}
 .decorate-mode .bottom-nav{margin-top:auto}
+
+/* จอมือถือ: เพิ่มความสูงฉากสวน เพื่อดันวงกลม ป้ายแตะ ปุ่มรีเซ็ต และทุกอย่างใต้นั้นลงมา */
+@media(max-width:600px){.decorate-scene{height:612px}}
+@media(max-width:600px){.decorate-level-card{margin-top:12px}}
