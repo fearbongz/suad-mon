@@ -1119,7 +1119,7 @@ img{max-width:100%;display:block;}
 .decorate-tap-hint{opacity:0;visibility:hidden;pointer-events:none;transform:translateX(-50%) translateY(5px);transition:opacity .18s ease,transform .18s ease}
 #decorateSlot:hover~.decorate-tap-hint,#decorateSlot:focus-visible~.decorate-tap-hint{opacity:1;visibility:visible;transform:translateX(-50%) translateY(0)}
 @media(hover:none){.decorate-tap-hint{opacity:1;visibility:visible;transform:translateX(-50%)}}
-@media(max-width:700px){.decorate-page{padding-top:max(30px,calc(14px + env(safe-area-inset-top,0px)))}}
+@media(max-width:700px){.decorate-page{padding-top:max(52px,calc(24px + env(safe-area-inset-top,0px)))}}
 .garden-unlocks>div{padding:3px 0}
 @media(hover:none){.garden-unlocks article:hover{transform:none}}
 
@@ -1190,3 +1190,8 @@ body.photo-view #decorateViewToggle{top:calc(10px + env(safe-area-inset-top,0px)
 .garden-unlocks>div{grid-template-columns:repeat(5,1fr)}
 @media(max-width:440px){.garden-unlocks>div{grid-template-columns:repeat(5,76px)}}
 .decorate-level-card>.decorate-level-gift{right:6px}
+
+/* หน้าตกแต่งสวน: ดันแถบเมนูล่างให้ชิดขอบล่างจอเสมอ ไม่เหลือช่องขาวใต้เมนู */
+.decorate-mode .app-shell{min-height:100vh;display:flex;flex-direction:column}
+.decorate-mode .app-shell>.content{flex:0 0 auto}
+.decorate-mode .bottom-nav{margin-top:auto}
