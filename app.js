@@ -399,7 +399,7 @@ const PRAYERS = [
   {
     id:"maha-chakraphat",
     title:"คาถามหาจักรพรรดิ",
-    readerHeading:"คาถามหาจักรพรรดิ — แนะนำ 9 จบ",
+    readerHeading:"คาถามหาจักรพรรดิ",
     category:"เสริมดวง",
     icon:"assets/lamp.png",
     badge:"แนะนำ 9 จบ",
@@ -557,86 +557,30 @@ const PRAYERS = [
     readerHeading:"บทสวดบูชาพระแม่ลักษมี",
     category:"ขอพร",
     icon:"assets/prayer-star.png",
-    badge:"9 หรือ 108 จบ",
+    badge:"3 จบ",
     duration:"5 นาที",
     popularity:0,
     desc:"ตามคติฮินดู พระแม่ลักษมีเกี่ยวข้องกับความอุดมสมบูรณ์ ความรุ่งเรือง โชคลาภ และความเป็นมงคล",
     lines:[
-      "คำแนะนำ: ตั้งจิตให้สงบและระลึกถึงพระแม่ลักษมีก่อนเริ่มสวด",
-      "## มหาลักษมีมนตรา",
-      "โอม ศรีม มหาลักษมีไย นะมะห์ (สวด 9 หรือ 108 จบ)",
-      "## <span class=\"reader-heading-lotus\"></span> มนตราขอพรพระแม่ลักษมี",
-      "โอม ศรีม หรีม กลีม มหาลักษมีไย นะมะห์ (สวด 9, 27 หรือ 108 จบ)",
-      "## <span class=\"reader-heading-lotus\"></span> คำอธิษฐานหลังสวด (คำแนะนำ)",
-      "ข้าพเจ้าขอน้อมบูชาพระแม่ลักษมี",
-      "เทวีแห่งความอุดมสมบูรณ์ ความมั่งคั่ง และความเจริญรุ่งเรือง",
-      "ขอพระแม่โปรดประทานพรให้ข้าพเจ้ามีความเจริญในหน้าที่การงาน",
-      "มีทรัพย์สินเงินทองอย่างมั่นคง มีช่องทางแห่งความสำเร็จและความอุดมสมบูรณ์",
-      "ขอให้เงินทองที่ได้มาเป็นทรัพย์ที่สุจริต และสามารถรักษาทรัพย์นั้นไว้ได้",
-      "ขอให้ข้าพเจ้าพบเจอความรักที่ดี ผู้คนเมตตาอุปถัมภ์",
-      "และขอให้สิ่งที่ข้าพเจ้าปรารถนาโดยชอบธรรม สำเร็จสมดังปรารถนาด้วยเทอญ",
-      "โอม ศานติ ศานติ ศานติ 🙏"
-    ]
-  },
-  {
-    id:"millionaire-mantra",
-    title:"คาถาเงินล้าน",
-    readerHeading:"คาถาเงินล้าน — 9 จบ",
-    category:"เสริมดวง",
-    icon:"assets/prayer-star.png",
-    badge:"9 จบ",
-    duration:"5 นาที",
-    popularity:0,
-    desc:"บทภาวนาที่นิยมสืบเนื่องจากหลวงพ่อฤๅษีลิงดำ (พระราชพรหมยาน)",
-    lines:[
-      "คำแนะนำ: หากศรัทธาในสายหลวงพ่อฤๅษีลิงดำ สามารถใช้บทนี้เป็นส่วนของกิจวัตรได้ โดยไม่จำเป็นต้องยึดว่าจำนวนมากจะทำให้ได้ผลมากกว่า",
       "นะโม ตัสสะ ภะคะวะโต อะระหะโต สัมมาสัมพุทธัสสะ (3 จบ)",
-      "## คาถาเงินล้าน",
-      "สัมปะจิตฉามิ",
-      "นาสังสิโม",
-      "พรหมา จะ มหาเทวา สัพเพยักขา ปะรายันติ",
-      "พรหมา จะ มหาเทวา อภิลาภา ภะวันตุ เม",
-      "มหาปุญโญ มหาลาโภ ภะวันตุ เม",
-      "มิเตพาหุหะติ",
-      "พุทธะมะอะอุ นะโมพุทธายะ วิระทะโย วิระโคนายัง วิระหิงสา วิระทาสี วิระทาสา วิระอิตถิโย พุทธัสสะ มานีมามะ พุทธัสสะ สวาโหม",
-      "สัมปะติจฉามิ",
-      "เพ็ง เพ็ง พา พา หา หา ฤา ฤา",
-      "## <span class=\"reader-heading-lotus\"></span> วิธีสวด",
-      "คำแนะนำ: นิยมสวด 9 จบ โดยตั้งจิตให้สงบ ไม่จำเป็นต้องเร่งสวด และอาจตั้งเจตนาเรื่องการงาน การเงิน และความคล่องตัวในชีวิตควบคู่ไปด้วย"
-    ]
-  },
-  {
-    id:"merit-dedication",
-    title:"อุทิศส่วนกุศล",
-    readerHeading:"อุทิศส่วนกุศล",
-    category:"แผ่เมตตา",
-    icon:"assets/prayer-hands.png",
-    duration:"2 นาที",
-    popularity:0,
-    desc:"อุทิศส่วนกุศลแก่บิดามารดา ครูอาจารย์ ญาติ เทวดา ผู้ล่วงลับ เจ้ากรรมนายเวร และสรรพสัตว์",
-    lines:[
-      "## อุทิศแก่บิดามารดา",
-      "อิทัง เม มาตาปิตูนัง โหตุ",
-      "สุขิตา โหนตุ มาตาปิตะโร",
-      "## อุทิศแก่ครูอุปัชฌาย์อาจารย์",
-      "อิทัง เม คุรูปัชฌายาจริยานัง โหตุ",
-      "สุขิตา โหนตุ คุรูปัชฌายาจริยา",
-      "## อุทิศแก่ญาติทั้งหลาย",
-      "อิทัง เม ญาตีนัง โหตุ",
-      "สุขิตา โหนตุ ญาตะโย",
-      "## อุทิศแก่เทวดาทั้งหลาย",
-      "อิทัง สัพพะเทวะตานัง โหตุ",
-      "สุขิตา โหนตุ สัพเพ เทวา",
-      "## อุทิศแก่ผู้ล่วงลับทั้งหลาย",
-      "อิทัง สัพพะเปตานัง โหตุ",
-      "สุขิตา โหนตุ สัพเพ เปตา",
-      "## อุทิศแก่เจ้ากรรมนายเวรทั้งหลาย",
-      "อิทัง สัพพะเวรีนัง โหตุ",
-      "สุขิตา โหนตุ สัพเพ เวรี",
-      "## อุทิศแก่สรรพสัตว์ทั้งหลาย",
-      "อิทัง สัพพะสัตตานัง โหตุ",
-      "สุขิตา โหนตุ สัพเพ สัตตา",
-      "ความหมายโดยย่อ: ขอส่วนบุญนี้จงสำเร็จแก่บุคคลและสรรพสัตว์ทั้งหลายที่กล่าวมา ขอทั้งหมดทั้งปวงจงมีความสุข"
+      "## <span class=\"reader-heading-lotus\"></span> คาถาบูชาพระพิฆเนศ",
+      "โอม ศรี คเณศายะ นะมะฮา",
+      "## <span class=\"reader-heading-lotus\"></span> คาถาบูชา-บทสวดพระแม่ลักษมี",
+      "โอม ชยะ ศรี ลักษมี มาตา (3 จบ)",
+      "โอม ศรี ลักษะมิไย นะมะห์ (3 จบ)",
+      "โอม มหาลักษะ มิไย นะโม นะมะห์",
+      "โอม วิษณุ ปรียาไย นะโม นะมะห์",
+      "โอม ธะนะ ประทาไย นะโม นะมะห์",
+      "โอม วิศวา จะนันไย นะโม นะมะห์",
+      "ยา เทวี สะระวะ ภูเตชุ",
+      "ลักษมี รูเปนะ สัม สะถิตา",
+      "นะมัส ตัสไย / นะมัส ตัสไย / นะมัส ตัสไย",
+      "นะโม นะมะห์",
+      "## <span class=\"reader-heading-lotus\"></span> บทสวดพระแม่ลักษมี แบบย่อ",
+      "โอม พระลักษมี อิตถีเทวะ เมตตัญจะ มหาลาโภ",
+      "ทุติยัมปิ พระลักษมี อิตถีเทวะ เมตตัญจะ มหาลาโภ",
+      "ตะติยัมปิ พระลักษมี อิตถีเทวะ เมตตัญจะ มหาลาโภ",
+      "หรือ “โอม ศรี มหาลักษมี เจ นะมะฮา”"
     ]
   },
   {
@@ -1889,6 +1833,9 @@ function showScreen(name){
   clearInterval(readerTimer);
   isPlaying = false;
   document.body.classList.toggle("garden-mode",name==="merit-garden"||name==="garden-rewards"||name==="garden-decorate");
+  document.body.classList.remove("photo-view");
+  const viewLabel=document.querySelector("#decorateViewToggle span");
+  if(viewLabel) viewLabel.textContent="มุมมอง";
   document.body.classList.toggle("decorate-mode",name==="garden-decorate");
   document.querySelectorAll(".screen").forEach(s=>s.classList.remove("active"));
   document.getElementById("screen-"+name).classList.add("active");
@@ -2371,10 +2318,36 @@ const REWARD_CATEGORIES=[
   {id:"decor",title:"ของตกแต่งสวน",desc:"เพิ่มความสวยงามและศักดิ์สิทธิ์ให้สวนบุญของคุณ",items:[["โคมไฟหิน",1],["สะพานบุญ",3],["น้ำพุศรัทธา",7],["ศาลาแห่งปัญญา",12],["พระพุทธปฏิมา",18]]},
   {id:"powerups",title:"เพิ่มพลังบุญ",desc:"ไอเทมพิเศษช่วยให้การเดินทางของคุณราบรื่นยิ่งขึ้น",items:[["หัวใจเมตตา",1],["ดอกบัวทอง",4],["เทียนแห่งศรัทธา",12],["คัมภีร์ปัญญา",16],["แก้วสารพัดนึก",20]]}
 ];
+const GARDEN_LEVEL_STEP = 100;   // แต้มบุญที่ใช้ขึ้นจาก Lv.1 เป็น Lv.2 (เลเวลถัด ๆ ไปเพิ่มทีละ 20)
+const GARDEN_LEVEL_GROWTH = 20;  // แต้มที่เพิ่มขึ้นในแต่ละเลเวล
+const LOTUS_PER_PRAYER = 2;      // สวดจบ 1 บท ได้ 2 ดอกบัว
+const LOTUS_PER_ACTION = 5;      // รดน้ำ/จุดเทียน/รับของขวัญ/ภารกิจ ได้ครั้งละ 5 ดอกบัว
+const LOTUS_PER_LEVEL = 20;      // เลเวลสวนขึ้น 1 ระดับ ได้โบนัส 20 ดอกบัว
+function getMeritPoints(){
+  const history=Array.isArray(state.prayerHistory)?state.prayerHistory:[];
+  return history.reduce((sum,item)=>sum+(Number(item.points)||10),0)+(Number(state.gardenBonus)||0);
+}
+/* เลเวลสวน: ใช้แต้มบุญสะสมเป็นตัวตั้ง เลเวล N->N+1 ใช้ 100+(N-1)*20 แต้ม สูงสุด Lv.100 */
+function gardenLevelInfo(points){
+  let level=1,left=Math.max(0,Number(points)||0),need=GARDEN_LEVEL_STEP;
+  while(level<100&&left>=need){ left-=need; level++; need=GARDEN_LEVEL_STEP+(level-1)*GARDEN_LEVEL_GROWTH; }
+  if(level>=100) return {level:100,into:0,need:0,percent:100};
+  return {level,into:left,need,percent:need?Math.min(100,left/need*100):0};
+}
 function getGardenProgress(){
   const history=Array.isArray(state.prayerHistory)?state.prayerHistory:[];
   const days=new Set([...(state.completedDates||[]),...history.map(item=>todayStr(new Date(item.at)))]).size;
-  return {days,level:Math.min(100,Math.floor(days/3)+1)};
+  return {days,level:gardenLevelInfo(getMeritPoints()).level};
+}
+/* ดอกบัว = สกุลเงินซื้อของตกแต่ง คิดจากกิจกรรมที่ทำไปแล้ว หักด้วยยอดที่ใช้ซื้อไปแล้ว */
+function getLotusEarned(){
+  const history=Array.isArray(state.prayerHistory)?state.prayerHistory:[];
+  const actions=Array.isArray(state.gardenActions)?state.gardenActions:[];
+  const level=gardenLevelInfo(getMeritPoints()).level;
+  return history.length*LOTUS_PER_PRAYER+actions.length*LOTUS_PER_ACTION+(level-1)*LOTUS_PER_LEVEL;
+}
+function getLotusBalance(){
+  return Math.max(0,getLotusEarned()-(Number(state.lotusSpent)||0));
 }
 const GARDEN_ITEMS = {
   lotus:{label:"ดอกบัว",image:"assets/garden-unlock-lotus.png"},
@@ -2384,17 +2357,90 @@ const GARDEN_ITEMS = {
   character:{label:"ตัวละคร",image:"assets/garden-female.png"},
   lantern:{label:"ตะเกียง",image:"assets/garden-unlock-lantern.png"}
 };
+// จุดวางวงกลม "+" ในสวน (คิดเป็น % ของกรอบฉากสวน) แยกตามชิ้นที่จะวางต่อไป
+// ตราระดับสวน: ใช้ตราเดิมจนถึงเลเวล 19 แล้วเปลี่ยนตราที่ 20, 30, 40, ... (garden-level-1..10.png)
+const GARDEN_BADGE_LEVELS = [20,30,40,50,60,70,80,90,100];
+function gardenBadgeTier(level){
+  const value=Number(level)||1;
+  return 1+GARDEN_BADGE_LEVELS.filter(step=>value>=step).length;
+}
+const GARDEN_DECOR_SPOTS = {
+  2:{left:"79.4%",top:"56.6%"},                  // โคมหิน
+  3:{left:"63%",top:"70%",style:"glow"},         // ดอกบัวเรืองแสง
+  4:{left:"16%",top:"46%"},                      // ซุ้มดอกไม้
+  5:{left:"18.5%",top:"48.5%"},                  // สะพานไม้
+  6:{left:"52%",top:"34%"}                       // ศาลาไม้
+};
 const GARDEN_DECOR_ITEMS = [
-  {id:"lantern",name:"โคมหิน",category:"lantern",image:"assets/reward-decor-0.png",cost:180,stage:2},
-  {id:"glow-lotus",name:"ดอกบัวเรืองแสง",category:"lotus",image:"assets/reward-lotus-3.png",cost:150,stage:3},
-  {id:"flower-arch",name:"ซุ้มดอกไม้",category:"special",image:"assets/garden-unlock-decoration.png",cost:250,stage:4},
-  {id:"bridge",name:"สะพานไม้",category:"special",image:"assets/reward-decor-1.png",cost:220,stage:5},
-  {id:"pavilion",name:"ศาลาไม้",category:"pavilion",image:"assets/garden-pavilion.png",cost:300,stage:6}
+  {id:"lantern",name:"โคมหิน",category:"lantern",image:"assets/reward-decor-0.png",cost:60,stage:2,desc:"โคมหินริมทางเดิน จุดไฟอุ่น ๆ ให้สวนสว่างยามค่ำคืน"},
+  {id:"glow-lotus",name:"ดอกบัวเรืองแสง",category:"lotus",image:"assets/reward-lotus-2.png",cost:100,stage:3,desc:"ดอกบัวเรืองแสงกลางสระ แทนใจที่สงบและเบิกบาน"},
+  {id:"flower-arch",name:"ซุ้มดอกไม้",category:"special",image:"assets/decor-flower-arch.png",cost:160,stage:4,desc:"ซุ้มดอกไม้ตรงทางเข้า ต้อนรับทุกครั้งที่แวะมาสวดมนต์"},
+  {id:"bridge",name:"สะพานไม้",category:"special",image:"assets/reward-decor-1.png",cost:220,stage:5,desc:"สะพานไม้ข้ามลำธาร เชื่อมทางเดินให้ครบทั้งสวน"},
+  {id:"pavilion",name:"ศาลาไม้",category:"pavilion",image:"assets/garden-pavilion.png",cost:300,stage:6,desc:"ศาลาไม้ริมน้ำ มุมนั่งพักใจหลังสวดมนต์เสร็จ"}
 ];
 let activeDecorItem="lantern";
 function gardenTotals(points,levelOverride){
   const level=levelOverride||Math.floor(points/1000)+1;
   return {level,counts:{lotus:Math.min(12,1+level),scene:Math.min(8,level),pavilion:Math.min(6,Math.max(0,level-1)),decoration:Math.min(15,level*2),character:Math.min(5,1+Math.floor(level/2)),lantern:Math.min(8,Math.max(0,level-1))}};
+}
+function showGardenHelp(){
+  const points=getMeritPoints(), info=gardenLevelInfo(points), lotus=getLotusBalance();
+  const stage=Math.max(1,Math.min(6,Number(state.gardenDecorLevel)||1));
+  const owned=GARDEN_DECOR_ITEMS.filter(item=>item.stage<=stage).length;
+  const nextDecor=GARDEN_DECOR_ITEMS.find(item=>item.stage===stage+1);
+  showGardenModal("คู่มือสวนบุญ",`<div class="garden-guide">
+    <p class="garden-guide-lead">สวนบุญคือสวนประจำตัวคุณ ยิ่งสวดมนต์สม่ำเสมอ สวนยิ่งงอกงาม ได้แต้มบุญไว้ขึ้นระดับ และได้ดอกบัวไว้ซื้อของตกแต่ง</p>
+
+    <h4>แถบข้อมูลด้านบน</h4>
+    <ul class="garden-guide-list">
+      <li><img src="assets/garden-lotus.png" alt=""><div><b>ระดับสวนบุญ · Lv.${info.level}</b><small>คิดจากแต้มบุญสะสม เลเวลแรกใช้ ${GARDEN_LEVEL_STEP} แต้ม แล้วเพิ่มทีละ ${GARDEN_LEVEL_GROWTH} แต้มต่อเลเวล สูงสุด Lv.100${info.need?` — ตอนนี้อีก ${(info.need-info.into).toLocaleString("th-TH")} แต้มจะขึ้น Lv.${info.level+1}`:""}<br>ตราประจำระดับจะเปลี่ยนรูปเมื่อถึง Lv.20, 30 และ 40</small></div></li>
+      <li><img src="assets/wallet-points.png" alt=""><div><b>แต้มบุญสะสม · ${points.toLocaleString("th-TH")}</b><small>รวมแต้มจากทุกบทที่สวดจบ บวกกับแต้มจากกิจกรรมและภารกิจในสวน แต้มนี้ไม่ถูกใช้จ่าย เก็บสะสมเพื่อขึ้นระดับอย่างเดียว</small></div></li>
+      <li><img src="assets/wallet-flowers.png" alt=""><div><b>ดอกบัว · ${lotus.toLocaleString("th-TH")}</b><small>เงินของสวน ใช้ซื้อของตกแต่งในหน้า "ตกแต่งสวน" — สวดจบ 1 บทได้ ${LOTUS_PER_PRAYER} ดอกบัว, ทำกิจกรรมในสวน 1 อย่างได้ ${LOTUS_PER_ACTION} ดอกบัว, เลเวลขึ้น 1 ระดับได้ ${LOTUS_PER_LEVEL} ดอกบัว</small></div></li>
+    </ul>
+
+    <h4>ทำได้ทุกวัน</h4>
+    <ul class="garden-guide-list">
+      <li><img src="assets/garden-watering.png" alt=""><div><b>รดน้ำดอกบัว · +10 แต้ม</b><small>วันละครั้ง ช่วยให้ดอกบัวในสวนสดใส</small></div></li>
+      <li><img src="assets/lamp.png" alt=""><div><b>จุดตะเกียงบุญ · +5 แต้ม</b><small>วันละครั้ง จุดไฟให้สวนอบอุ่นยามค่ำ</small></div></li>
+      <li><img src="assets/garden-gift.png" alt=""><div><b>รับของขวัญประจำวัน · +15 แต้ม</b><small>แตะกล่องของขวัญมุมขวาของแถบระดับ วันละครั้ง</small></div></li>
+      <li><img src="assets/garden-fire.png" alt=""><div><b>สวดต่อเนื่อง</b><small>นับจำนวนวันที่สวดติดกัน ถ้าเว้นวันจะเริ่มนับใหม่ แตะเพื่อดูสถิติย้อนหลัง</small></div></li>
+    </ul>
+    <p class="garden-guide-note">ทุกกิจกรรมด้านบนได้ดอกบัวเพิ่มอย่างละ ${LOTUS_PER_ACTION} ดอกบัวด้วย</p>
+
+    <h4>ภารกิจวันนี้</h4>
+    <p>มี 3 ข้อ รีเฟรชใหม่ทุกวัน — สวดมนต์อย่างน้อย 1 บท (+10), แผ่เมตตาให้ตนเองและสรรพสัตว์ (+5), สวดชุดก่อนนอน (+20)<br>ทำครบข้อไหนแล้วปุ่มจะเปลี่ยนเป็น "รับรางวัล" ต้องกดรับเองถึงจะได้แต้ม</p>
+
+    <h4>รางวัลระดับถัดไป · สิ่งที่ปลดล็อกแล้ว</h4>
+    <p>สองการ์ดนี้บอกของตกแต่งในสวนของคุณ ตอนนี้มีแล้ว <b>${owned} จาก ${GARDEN_DECOR_ITEMS.length} ชิ้น</b>${nextDecor?` ชิ้นถัดไปคือ "${nextDecor.name}" ราคา ${nextDecor.cost} ดอกบัว`:" และตกแต่งครบทุกชิ้นแล้ว ✦"}<br>ของตกแต่งต้องซื้อเรียงตามลำดับ ซื้อแล้ววางในสวนได้ทันที</p>
+
+    <h4>ตกแต่งสวน</h4>
+    <p class="garden-guide-note">แตะปุ่ม "ตกแต่งสวน ›" เพื่อเข้าหน้าจัดสวน แตะวงกลมเส้นประในภาพเพื่อวางของตกแต่งชิ้นถัดไป และกดปุ่มมุมมองเพื่อดูสวนแบบเต็มภาพ</p>
+  </div>`);
+}
+function showGardenGuide(){
+  const points=getMeritPoints(), info=gardenLevelInfo(points), lotus=getLotusBalance();
+  const stage=Math.max(1,Math.min(6,Number(state.gardenDecorLevel)||1));
+  const rows=GARDEN_DECOR_ITEMS.map(item=>{
+    const owned=item.stage<=stage, next=item.stage===stage+1;
+    const status=owned?'<em class="ok">วางแล้ว</em>':next?(lotus>=item.cost?'<em class="ready">ซื้อได้เลย</em>':`<em class="wait">อีก ${(item.cost-lotus).toLocaleString("th-TH")} ดอกบัว</em>`):'<em>รอคิวถัดไป</em>';
+    return `<li><img src="${item.image}" alt=""><div><b>${item.name}</b><small>${item.desc||""}</small></div><span><img src="assets/garden-lotus.png" alt="">${item.cost}</span>${status}</li>`;
+  }).join("");
+  showGardenModal("คัมภีร์สวนบุญ",`<div class="garden-guide">
+    <p class="garden-guide-lead">สวนบุญจะงอกงามตามการสวดมนต์ของคุณ ทุกบทที่สวดจะกลายเป็นแต้มบุญและดอกบัวสำหรับตกแต่งสวน</p>
+    <h4>ค่าทั้ง 3 อย่างคืออะไร</h4>
+    <ul class="garden-guide-list">
+      <li><img src="assets/wallet-points.png" alt=""><div><b>แต้มสวน · ${points.toLocaleString("th-TH")}</b><small>คือแต้มบุญสะสมของคุณ ได้จากการสวดมนต์ ภารกิจประจำวัน รดน้ำ จุดเทียน และรับของขวัญ ใช้สำหรับไต่เลเวลสวน</small></div></li>
+      <li><img src="assets/wallet-flowers.png" alt=""><div><b>ดอกบัว · ${lotus.toLocaleString("th-TH")}</b><small>เงินของสวน ใช้ซื้อของตกแต่ง — สวดจบ 1 บทได้ ${LOTUS_PER_PRAYER} ดอกบัว, ทำกิจกรรมในสวน 1 อย่างได้ ${LOTUS_PER_ACTION} ดอกบัว, เลเวลขึ้น 1 ระดับได้ ${LOTUS_PER_LEVEL} ดอกบัว</small></div></li>
+      <li><img src="assets/wallet-hearts.png" alt=""><div><b>หัวใจ · ${(state.favorites||[]).length.toLocaleString("th-TH")}</b><small>จำนวนบทสวดที่คุณกดถูกใจเก็บไว้ เป็นบทโปรดที่หยิบมาสวดได้เร็ว</small></div></li>
+    </ul>
+    <h4>เลเวลสวน</h4>
+    <p>ตอนนี้ <b>Lv.${info.level}</b>${info.need?` — อีก ${(info.need-info.into).toLocaleString("th-TH")} แต้มจะขึ้น Lv.${info.level+1}`:" (ระดับสูงสุดแล้ว)"}<br>
+    เลเวลคิดจากแต้มบุญสะสม เลเวลแรกใช้ ${GARDEN_LEVEL_STEP} แต้ม แล้วเพิ่มขึ้นทีละ ${GARDEN_LEVEL_GROWTH} แต้มในเลเวลถัด ๆ ไป สูงสุด Lv.100<br>
+    ตราประจำสวนจะเปลี่ยนรูปเมื่อถึง Lv.20, 30, 40 ไปจนถึง Lv.100</p>
+    <h4>ของตกแต่ง</h4>
+    <p class="garden-guide-note">ซื้อด้วยดอกบัว และต้องวางเรียงตามลำดับ แตะวงกลมในสวนหรือแตะการ์ดไอเทมเพื่อวาง</p>
+    <ul class="garden-guide-items">${rows}</ul>
+  </div>`);
 }
 function showGardenModal(title,html){
   let modal=document.getElementById("gardenModal");
@@ -2454,25 +2500,44 @@ function renderMeritGarden(){
   const prayerPoints = history.reduce((sum,item)=>sum+(Number(item.points)||10),0);
   const points = prayerPoints + (Number(state.gardenBonus)||0);
   const {days:completedDays,level}=getGardenProgress();
-  const levelProgress = level>=100?100:(completedDays%3)/3*100;
+  const levelInfo = gardenLevelInfo(points);
+  const levelProgress = levelInfo.percent;
   const levelNames = ["เมล็ดพันธุ์แห่งบุญ","สายน้ำแห่งศรัทธา","ใบไม้แห่งเมตตา","ดอกบัวแห่งความสุข","แสงทองแห่งบุญ","ผู้ดูแลสวนบุญ","จิตใจเบิกบาน","บุญญาบารมี","ปัญญาส่องสว่าง","สวนบุญสมบูรณ์"];
   const levelTier=Math.min(9,Math.floor((level-1)/10));
   const setText = (id,value)=>{ const el=document.getElementById(id); if(el) el.textContent=value; };
   setText("gardenLevel",`Lv.${level}`);
   setText("gardenLevelName",levelNames[levelTier]);
   setText("gardenPoints",points.toLocaleString("th-TH"));
-  setText("gardenTarget",`สวดสะสม ${completedDays.toLocaleString("th-TH")} วัน`);
+  setText("gardenTarget",level>=100?`สวดสะสม ${completedDays.toLocaleString("th-TH")} วัน`:`อีก ${(levelInfo.need-levelInfo.into).toLocaleString("th-TH")} แต้มขึ้น Lv.${level+1}`);
   setText("gardenNextLevel",Math.min(100,level+1));
   setText("gardenStreak",computeStreak());
   const bar=document.getElementById("gardenLevelProgress"); if(bar) bar.style.width=`${levelProgress}%`;
   const badge=document.querySelector(".garden-level-badge"); if(badge){badge.dataset.levelTier=levelTier;badge.setAttribute("aria-label",`ป้ายระดับ Lv.${level}`);}
-  const totals=gardenTotals(points,level);
-  document.querySelectorAll("[data-garden-item]").forEach(card=>{
-    const id=card.dataset.gardenItem, count=totals.counts[id]||0;
-    card.querySelector("small").textContent=`${count} ชิ้น`;
-    card.classList.toggle("locked",count===0);
-    card.classList.toggle("selected",state.selectedGardenItem===id);
-  });
+  /* การ์ด "สิ่งที่ปลดล็อกแล้ว" และ "รางวัลระดับถัดไป" ผูกกับของตกแต่งจริงในสวน */
+  const decorStage=Math.max(1,Math.min(6,Number(state.gardenDecorLevel)||1));
+  const lotusLeft=getLotusBalance();
+  const unlockWrap=document.querySelector(".garden-unlocks>div");
+  if(unlockWrap){
+    unlockWrap.innerHTML=GARDEN_DECOR_ITEMS.map(item=>{
+      const owned=item.stage<=decorStage;
+      const note=owned?"วางแล้ว":`${item.cost.toLocaleString("th-TH")} ดอกบัว`;
+      return `<article class="${owned?"":"locked"}"><img src="${item.image}" alt=""><b>${item.name}</b><small>${note}</small></article>`;
+    }).join("");
+  }
+  const nextDecor=GARDEN_DECOR_ITEMS.find(item=>item.stage===decorStage+1);
+  const nextArt=document.getElementById("gardenNextRewardArt");
+  if(nextArt) nextArt.src=nextDecor?nextDecor.image:"assets/garden-reward-main.png";
+  const nextText=document.getElementById("gardenNextRewardText");
+  if(nextText) nextText.textContent=nextDecor
+    ?(lotusLeft>=nextDecor.cost?`${nextDecor.name} · ซื้อได้เลย (${nextDecor.cost} ดอกบัว)`:`${nextDecor.name} · อีก ${(nextDecor.cost-lotusLeft).toLocaleString("th-TH")} ดอกบัว`)
+    :"ตกแต่งสวนครบทุกชิ้นแล้ว ✦";
+  const nextChips=document.getElementById("gardenNextRewardChips");
+  if(nextChips){
+    const upcoming=GARDEN_DECOR_ITEMS.filter(item=>item.stage>decorStage+1).slice(0,3);
+    nextChips.innerHTML=upcoming.length
+      ?upcoming.map(item=>`<span><img src="${item.image}" alt=""><small>${item.name}</small></span>`).join("")
+      :GARDEN_DECOR_ITEMS.slice(-3).map(item=>`<span><img src="${item.image}" alt=""><small>${item.name}</small></span>`).join("");
+  }
   const todayActions=new Set((state.gardenActions||[]).filter(item=>item.date===todayStr()).map(item=>item.id));
   const gardenHero=document.querySelector(".garden-hero");
   if(gardenHero){
@@ -2556,37 +2621,51 @@ function showDecorFeedback(message){
 function renderGardenDecorator(filter="all"){
   const wrap=document.getElementById("decorateItems");
   if(!wrap) return;
-  const history=Array.isArray(state.prayerHistory)?state.prayerHistory:[];
-  const points=history.reduce((sum,item)=>sum+(Number(item.points)||10),0)+(Number(state.gardenBonus)||0);
-  const {days}=getGardenProgress();
+  const points=getMeritPoints();
+  const levelInfo=gardenLevelInfo(points);
+  const lotus=getLotusBalance();
   const decorStage=Math.max(1,Math.min(6,Number(state.gardenDecorLevel)||1));
   state.gardenDecorLevel=decorStage;
+  const nextDecorItem=GARDEN_DECOR_ITEMS.find(item=>item.stage===decorStage+1);
+  const decorSpot=nextDecorItem?GARDEN_DECOR_SPOTS[nextDecorItem.stage]:null;
+  const decorSlot=document.getElementById("decorateSlot");
+  if(decorSlot){
+    if(decorSpot){decorSlot.style.display="grid";decorSlot.style.left=decorSpot.left;decorSlot.style.top=decorSpot.top;decorSlot.style.right="auto";decorSlot.style.bottom="auto";decorSlot.classList.toggle("slot-glow",decorSpot.style==="glow");}
+    else decorSlot.style.display="none";
+  }
+  const decorTapHint=document.querySelector(".decorate-tap-hint");
+  if(decorTapHint){
+    if(decorSpot){decorTapHint.style.display="";decorTapHint.style.left=decorSpot.left;decorTapHint.style.top=`calc(${decorSpot.top} + 47px)`;decorTapHint.style.bottom="auto";}
+    else decorTapHint.style.display="none";
+  }
   document.getElementById("decoratePoints").textContent=points.toLocaleString("th-TH");
-  document.getElementById("decorateFlowers").textContent=Math.max(1,days*3).toLocaleString("th-TH");
+  document.getElementById("decorateFlowers").textContent=lotus.toLocaleString("th-TH");
   document.getElementById("decorateHearts").textContent=(state.favorites||[]).length.toLocaleString("th-TH");
-  document.getElementById("decorateLevel").textContent=decorStage;
+  document.getElementById("decorateLevel").textContent=levelInfo.level;
   const levelImage=document.getElementById("decorateLevelImage");
-  if(levelImage) levelImage.src=`assets/garden-level-${decorStage}.png`;
+  if(levelImage) levelImage.src=`assets/garden-level-${gardenBadgeTier(levelInfo.level)}.png`;
   const badgeText=document.getElementById("decorateLevelBadgeText");
-  if(badgeText) badgeText.textContent=`Lv. ${decorStage}`;
-  const decorLevelTargets=[0,500,1000,1500,2000,2500,3000];
-  const levelTarget=decorLevelTargets[decorStage];
-  const levelPoints=Math.min(points,levelTarget);
-  const progress=levelTarget?levelPoints/levelTarget*100:0;
-  document.getElementById("decorateProgress").style.width=`${progress}%`;
-  document.getElementById("decorateProgressText").textContent=`${levelPoints.toLocaleString("en-US")} / ${levelTarget.toLocaleString("en-US")}`;
+  if(badgeText) badgeText.textContent=`Lv. ${levelInfo.level}`;
+  document.getElementById("decorateProgress").style.width=`${levelInfo.percent}%`;
+  document.getElementById("decorateProgressText").textContent=levelInfo.need
+    ?`${levelInfo.into.toLocaleString("en-US")} / ${levelInfo.need.toLocaleString("en-US")}`
+    :"ระดับสูงสุดแล้ว";
   const scene=document.getElementById("decorateScene");
-  if(scene){scene.style.backgroundImage=`url('img/${decorStage}.png?v=20260819')`;scene.dataset.stage=decorStage;}
+  if(scene){scene.style.backgroundImage=`url('assets/garden-scene-${decorStage}.png?v=20260819')`;scene.dataset.stage=decorStage;}
   const decoratePage=document.querySelector(".decorate-page");
-  if(decoratePage) decoratePage.style.setProperty("--decorate-scene",`url('img/${decorStage}.png?v=20260819')`);
+  if(decoratePage) decoratePage.style.setProperty("--decorate-scene",`url('assets/garden-scene-${decorStage}.png?v=20260819')`);
   const items=GARDEN_DECOR_ITEMS.filter(item=>filter==="all"||item.category===filter);
   wrap.innerHTML=items.map(item=>{
     const used=item.stage<=decorStage, available=item.stage===decorStage+1, locked=item.stage>decorStage+1;
-    return `<button class="decorate-item ${locked?'locked':''} ${available?'selected':''} ${used?'used':''}" type="button" data-decor-item="${item.id}" data-decor-stage="${item.stage}" ${locked||used?'disabled':''}><i class="decorate-item-info" aria-hidden="true">i</i><span class="decorate-item-art"><img src="${item.image}" alt=""></span><b>${item.name}</b><small><img src="assets/garden-lotus.png" alt=""> ${item.cost}</small><em>${used?'✓ ใช้แล้ว':available?'วาง':`🔒 ขั้น ${item.stage}`}</em></button>`;
+    const poor=available&&lotus<item.cost;
+    return `<button class="decorate-item ${locked?'locked':''} ${available?'selected':''} ${used?'used':''} ${poor?'too-poor':''}" type="button" data-decor-item="${item.id}" data-decor-stage="${item.stage}" ${locked||used?'disabled':''}><i class="decorate-item-info" aria-hidden="true">i</i><span class="decorate-item-tip">${item.desc||item.name}</span><span class="decorate-item-art"><img src="${item.image}" alt=""></span><b>${item.name}</b><small><img src="assets/garden-lotus.png" alt=""> ${item.cost}</small><em>${used?'✓ ใช้แล้ว':poor?'ดอกบัวไม่พอ':available?'วาง':`🔒 ขั้น ${item.stage}`}</em></button>`;
   }).join("");
   wrap.querySelectorAll("[data-decor-item]").forEach(button=>button.addEventListener("click",()=>{
     const nextStage=Number(button.dataset.decorStage);
     if(nextStage!==decorStage+1){showDecorFeedback("ต้องเพิ่มของตกแต่งตามลำดับก่อนนะคะ");return;}
+    const buying=GARDEN_DECOR_ITEMS.find(entry=>entry.id===button.dataset.decorItem);
+    if(buying&&getLotusBalance()<buying.cost){showDecorFeedback(`ต้องใช้ ${buying.cost} ดอกบัว สวดมนต์เพิ่มอีกนิดนะคะ`);return;}
+    if(buying) state.lotusSpent=(Number(state.lotusSpent)||0)+buying.cost;
     activeDecorItem=button.dataset.decorItem;
     state.gardenDecorLevel=nextStage;
     state.gardenDecorations=GARDEN_DECOR_ITEMS.filter(item=>item.stage<=nextStage).map(item=>item.id);
@@ -2602,6 +2681,8 @@ function bindGardenDecorator(){
     const currentStage=Math.max(1,Number(state.gardenDecorLevel)||1);
     const nextItem=GARDEN_DECOR_ITEMS.find(item=>item.stage===currentStage+1);
     if(!nextItem){showDecorFeedback("ตกแต่งสวนครบทุกชิ้นแล้ว");return;}
+    if(getLotusBalance()<nextItem.cost){showDecorFeedback(`“${nextItem.name}” ใช้ ${nextItem.cost} ดอกบัว สวดมนต์เพิ่มอีกนิดนะคะ`);return;}
+    state.lotusSpent=(Number(state.lotusSpent)||0)+nextItem.cost;
     state.gardenDecorLevel=nextItem.stage;
     state.gardenDecorations=GARDEN_DECOR_ITEMS.filter(item=>item.stage<=nextItem.stage).map(item=>item.id);
     activeDecorItem=nextItem.id;
@@ -2614,12 +2695,18 @@ function bindGardenDecorator(){
     document.querySelectorAll("[data-decor-filter]").forEach(item=>item.classList.toggle("active",item===button));
     renderGardenDecorator(button.dataset.decorFilter);
   }));
-  document.getElementById("decorateReset")?.addEventListener("click",()=>{state.gardenDecorLevel=1;state.gardenDecorations=[];activeDecorItem="lantern";saveState();renderGardenDecorator();showDecorFeedback("รีเซ็ตสวนกลับเป็นขั้น 1 แล้ว");});
-  document.getElementById("decorateSave")?.addEventListener("click",()=>{saveState();spawnBurst();showDecorFeedback("บันทึกสวนบุญเรียบร้อยแล้ว");});
-  document.getElementById("decorateViewToggle")?.addEventListener("click",()=>document.getElementById("decorateScene")?.classList.toggle("wide-view"));
+  document.getElementById("decorateReset")?.addEventListener("click",()=>{state.gardenDecorLevel=1;state.gardenDecorations=[];state.lotusSpent=0;activeDecorItem="lantern";saveState();renderGardenDecorator();showDecorFeedback("รีเซ็ตสวนกลับเป็นขั้น 1 แล้ว");});
+  document.querySelector(".decorate-book")?.addEventListener("click",event=>{event.preventDefault();event.stopPropagation();showGardenGuide();});
+  document.getElementById("decorateViewToggle")?.addEventListener("click",()=>{
+    const on=document.body.classList.toggle("photo-view");
+    const label=document.querySelector("#decorateViewToggle span");
+    if(label) label.textContent=on?"ปิดมุมมอง":"มุมมอง";
+    if(on) window.scrollTo({top:0,behavior:"smooth"});
+  });
 }
 
 function bindMeritGarden(){
+  document.querySelector(".garden-heading-actions [data-garden-help]")?.addEventListener("click",()=>showGardenHelp());
   document.getElementById("gardenSoundToggle")?.addEventListener("click",async()=>{
     state.gardenSoundOn=!state.gardenSoundOn;
     saveState(); updateGardenSoundButton();

@@ -19,7 +19,7 @@
 <meta name="mobile-web-app-capable" content="yes">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="style.css?v=20260818-42">
+<link rel="stylesheet" href="style.css?v=20260819-01">
 </head>
 <body>
 
@@ -261,7 +261,7 @@
       <div class="garden-hero" data-garden-state="start">
         <header class="garden-heading">
           <div><h2><img src="assets/garden-lotus.png" alt=""> สวนบุญของฉัน</h2><p>สวดทุกวัน ใจเบิกบาน บุญงอกงาม 💗</p></div>
-          <div class="garden-heading-actions"><button type="button" id="gardenSoundToggle" aria-pressed="false">♪ <span>เสียงธรรมชาติ</span></button><button type="button" data-nav="guide">📖 <span>คู่มือ</span></button></div>
+          <div class="garden-heading-actions"><button type="button" id="gardenSoundToggle" aria-pressed="false">♪ <span>เสียงธรรมชาติ</span></button><button type="button" data-garden-help aria-label="เปิดคู่มือสวนบุญ">📖 <span>คู่มือ</span></button></div>
         </header>
         <div class="garden-dashboard">
           <div class="garden-overview">
@@ -294,9 +294,9 @@
 
         <section class="garden-card garden-next-reward">
           <h3>รางวัลระดับถัดไป</h3><b>Lv.<span id="gardenNextLevel">2</span></b>
-          <img src="assets/garden-reward-main.png" alt="ศาลาในสวน">
-          <p>เมื่อถึงระดับนี้ จะปลดล็อก</p>
-          <div class="garden-reward-unlocks"><span><img src="assets/garden-pavilion.png" alt=""><small>ศาลาใหม่</small></span><span><img src="assets/garden-unlock-scene.png" alt=""><small>ฉากน้ำตก</small></span><span><img src="assets/garden-unlock-lotus.png" alt=""><small>ดอกบัวพิเศษ</small></span></div>
+          <img id="gardenNextRewardArt" src="assets/garden-reward-main.png" alt="ของตกแต่งชิ้นถัดไป">
+          <p id="gardenNextRewardText">เมื่อถึงระดับนี้ จะปลดล็อก</p>
+          <div class="garden-reward-unlocks" id="gardenNextRewardChips"><span><img src="assets/garden-pavilion.png" alt=""><small>ศาลาใหม่</small></span><span><img src="assets/garden-unlock-scene.png" alt=""><small>ฉากน้ำตก</small></span><span><img src="assets/garden-unlock-lotus.png" alt=""><small>ดอกบัวพิเศษ</small></span></div>
           <button type="button" data-nav="garden-rewards">ดูรางวัลทั้งหมด</button>
         </section>
 
@@ -336,14 +336,14 @@
         <header class="decorate-head">
           <button class="decorate-back" type="button" data-nav="merit-garden" aria-label="กลับไปสวนบุญ">‹</button>
           <div class="decorate-wallet">
-            <span><img src="img/cb5cb69a-7a98-40df-beb3-5d353416279f.png" alt=""><b id="decoratePoints">0</b><small>แต้มสวน</small></span>
-            <span><img src="img/7dc2801e-0847-4920-adfc-fa182d610be0.png" alt=""><b id="decorateFlowers">0</b><small>ดอกบัว</small></span>
-            <span><img src="img/32b82ccf-887c-4eff-9b2c-8bbefffd9354.png" alt=""><b id="decorateHearts">0</b><small>หัวใจ</small></span>
+            <span><img src="assets/wallet-points.png" alt=""><b id="decoratePoints">0</b><small>แต้มสวน</small></span>
+            <span><img src="assets/wallet-flowers.png" alt=""><b id="decorateFlowers">0</b><small>ดอกบัว</small></span>
+            <span><img src="assets/wallet-hearts.png" alt=""><b id="decorateHearts">0</b><small>หัวใจ</small></span>
           </div>
         </header>
 
         <div class="decorate-title">
-          <img src="img/652ceb50-454a-46b9-9d37-565e209904eb.png" alt="ดอกบัว">
+          <img src="assets/decorate-title-lotus.png" alt="ดอกบัว">
           <div><h2>ตกแต่งสวนบุญ</h2><p>✣ จัดวางของตกแต่งให้สวนของคุณ ✣</p></div>
           <button type="button" id="decorateViewToggle"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M2.5 12s3.5-6 9.5-6 9.5 6 9.5 6-3.5 6-9.5 6-9.5-6-9.5-6Z"/><circle cx="12" cy="12" r="2.7"/></svg><span>มุมมอง</span></button>
         </div>
@@ -354,30 +354,27 @@
           <div><b>เลเวลสวน <span id="decorateLevel">1</span></b><small>ความงามของสวน</small><i><em id="decorateProgress"></em></i><small id="decorateProgressText">0 / 3,000</small></div>
           <button class="decorate-level-gift" type="button" data-nav="garden-rewards" aria-label="ดูของขวัญ"><img src="assets/garden-gift.png" alt=""></button>
         </div>
-        <button class="decorate-book" type="button" data-nav="garden-rewards"><img src="img/e05e5750-5a06-41bb-9683-cf81e31ecc99.png" alt=""><span>คัมภีร์สวนบุญ</span></button>
+        <button class="decorate-book" type="button" aria-label="เปิดคัมภีร์สวนบุญ"><img src="assets/decorate-book.png" alt=""><span>คัมภีร์สวนบุญ</span></button>
 
         <div class="decorate-scene" id="decorateScene">
           <img class="decorate-scene-pavilion" src="assets/garden-pavilion.png" alt="ศาลาในสวน">
           <img class="decorate-scene-lantern" src="assets/garden-unlock-lantern.png" alt="โคมไฟในสวน">
           <img class="decorate-scene-lotus" src="assets/reward-lotus-3.png" alt="ดอกบัวในสวน">
-          <button class="decorate-slot slot-one" type="button" aria-label="วางของตกแต่งตำแหน่งหนึ่ง">+</button>
-          <button class="decorate-slot slot-two" type="button" aria-label="วางของตกแต่งตำแหน่งสอง">+</button>
-          <button class="decorate-slot slot-three" type="button" aria-label="วางของตกแต่งตำแหน่งสาม">+</button>
-          <div class="decorate-tap-hint"><span><b>✦</b> แตะเพื่อตกแต่ง <b>✦</b></span><img src="img/aed7f15f-6e9a-46fb-a4aa-95df30c693f6.png" alt="แตะเพื่อตกแต่ง"></div>
+          <button class="decorate-slot" id="decorateSlot" type="button" aria-label="แตะเพื่อวางของตกแต่ง">+</button>
+          <div class="decorate-tap-hint"><span><b>✦</b> แตะเพื่อตกแต่ง <b>✦</b></span><img src="assets/decorate-hand.png" alt="แตะเพื่อตกแต่ง"></div>
           <button class="decorate-reset" type="button" id="decorateReset"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 8V4m0 4h4M5.7 7.3A8 8 0 1 1 4 13"/></svg><span>รีเซ็ตสวน</span></button>
-          <button class="decorate-save" type="button" id="decorateSave"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8 18H6a4 4 0 0 1-.5-8A6.5 6.5 0 0 1 18 9.5a4.3 4.3 0 0 1 0 8.5h-2M12 8v10m-3-3 3 3 3-3"/></svg><span>บันทึกสวน</span></button>
         </div>
 
         <nav class="decorate-tabs" id="decorateTabs">
-          <button class="active" type="button" data-decor-filter="all">▦ <span>ทั้งหมด</span></button>
-          <button type="button" data-decor-filter="lotus">❀ <span>ดอกไม้</span></button>
-          <button type="button" data-decor-filter="pavilion">⌂ <span>ศาลา</span></button>
-          <button type="button" data-decor-filter="lantern">♙ <span>โคมไฟ</span></button>
-          <button type="button" data-decor-filter="special">☆ <span>ของพิเศษ</span></button>
+          <button class="active" type="button" data-decor-filter="all"><svg class="ico-grid" viewBox="0 0 24 24" aria-hidden="true"><rect x="3.6" y="3.6" width="7.6" height="7.6" rx="2.4"/><rect x="12.8" y="3.6" width="7.6" height="7.6" rx="2.4"/><rect x="3.6" y="12.8" width="7.6" height="7.6" rx="2.4"/><rect x="12.8" y="12.8" width="7.6" height="7.6" rx="2.4"/></svg><span>ทั้งหมด</span></button>
+          <button type="button" data-decor-filter="lotus"><span class="tab-ico-lotus" aria-hidden="true"></span><span>ดอกไม้</span></button>
+          <button type="button" data-decor-filter="pavilion"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3.2 3.8 9h16.4L12 3.2Z"/><path d="M6.4 9v9m11.2-9v9M4 18.2h16"/><path d="M10 18.2v-3.4a2 2 0 0 1 4 0v3.4"/></svg><span>ศาลา</span></button>
+          <button type="button" data-decor-filter="lantern"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2.8v2.4"/><path d="M8.8 5.2h6.4"/><ellipse cx="12" cy="11.4" rx="4.2" ry="5.2"/><path d="M8.8 17.6h6.4M12 17.6v2.6"/></svg><span>โคมไฟ</span></button>
+          <button type="button" data-decor-filter="special"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m12 3.5 2.7 5.4 6 .9-4.35 4.2 1.03 5.9L12 17.1l-5.38 2.8 1.03-5.9L3.3 9.8l6-.9L12 3.5Z"/></svg><span>ของพิเศษ</span></button>
         </nav>
 
         <section class="decorate-inventory">
-          <header><div><h3>ไอเทมตกแต่ง</h3><p>เลือกไอเทมแล้วแตะตำแหน่งวางในสวน</p></div><div class="decorate-inventory-actions"><button type="button">ใหม่ล่าสุด⌄</button><button type="button" aria-label="ตัวกรอง">▽</button></div></header>
+          <header><div><h3>ไอเทมตกแต่ง</h3><p>เลือกไอเทมแล้วแตะตำแหน่งวางในสวน</p></div><div class="decorate-inventory-actions"><button type="button"><span>ใหม่ล่าสุด</span><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m6 9.5 6 6 6-6"/></svg></button><button type="button" aria-label="ตัวกรอง"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4.5 5.5h15l-5.8 7v5l-3.4 2v-7Z"/></svg></button></div></header>
           <div class="decorate-items" id="decorateItems"></div>
           <p class="decorate-unlock-hint">ไอเทมบางรายการปลดล็อกเมื่อเลเวลสวนสูงขึ้น ✦</p>
         </section>
@@ -546,6 +543,6 @@
 
 </div>
 
-<script src="app.js?v=20260818-32"></script>
+<script src="app.js?v=20260819-01"></script>
 </body>
 </html>
