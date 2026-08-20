@@ -2680,12 +2680,12 @@ function renderGardenRewards(filter="all"){
     const cards=(category.id==="decor"
       ? GARDEN_DECOR_ITEMS.map((item,index)=>{
           const owned=item.stage<=decorStage, selected=state.selectedReward===`decor-${index}`;
-          return {index,name:item.name,art:item.image,need:`<img class="reward-cost-icon" src="assets/garden-lotus.png" alt=""> ${item.cost}`,
+          return {index,name:item.name,art:"",need:`<img class="reward-cost-icon" src="assets/garden-lotus.png" alt=""> ${item.cost}`,
             unlocked:owned,selected,state:owned?"✓ วางในสวนแล้ว":(lotusLeft>=item.cost?"ซื้อได้เลย":"ยังไม่ได้รับ")};
         })
       : category.items.map(([name,need],index)=>{
           const unlocked=level>=need, selected=state.selectedReward===`${category.id}-${index}`;
-          return {index,name,art:REWARD_ART[category.id]?.(index)||"",need:`Lv.${need}`,unlocked,selected,
+          return {index,name,art:category.id==="lotus"?`assets/reward-lotus-${index}.png`:"",need:`Lv.${need}`,unlocked,selected,
             state:selected?"เลือกใช้อยู่":unlocked?"✓ ได้รับแล้ว":"🔒 ยังไม่ได้รับ"};
         })
     ).map(card=>`<button class="reward-item ${card.unlocked?'unlocked':'locked'} ${card.selected?'selected':''}" type="button" data-reward-id="${category.id}-${card.index}" data-reward-category="${category.id}" ${card.unlocked?'':'disabled'}><span class="reward-art reward-art-${category.id} reward-art-${card.index}">${card.art?`<img src="${card.art}" alt="">`:""}</span><b>${card.name}</b><small>${card.need}</small><em>${card.selected?'เลือกใช้อยู่':card.state}</em></button>`).join("");
