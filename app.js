@@ -2372,6 +2372,14 @@ function bindPrayerLibrary(){
 }
 
 /* ---------------- MERIT GARDEN ---------------- */
+/* รูปของรางวัลแต่ละหมวด ใช้ไฟล์จริงในโฟลเดอร์ assets */
+const REWARD_ART={
+  lotus:i=>`assets/reward-lotus-${i}.png`,
+  scenes:i=>`assets/garden-scene-${Math.min(6,i+1)}.png`,
+  characters:i=>["assets/garden-female.png","assets/garden-male.png","assets/assistant-calm.png","assets/assistant-love.png","assets/assistant-luck.png"][i],
+  decor:i=>`assets/reward-decor-${i}.png`,
+  powerups:i=>["assets/lamp.png","assets/garden-lotus.png","assets/garden-fire.png","assets/prayer-star.png","assets/garden-gift.png"][i]
+};
 const REWARD_CATEGORIES=[
   {id:"lotus",title:"ดอกบัวแห่งบุญ",desc:"ดอกบัวจะบานงดงามขึ้น เมื่อระดับบุญของคุณสูงขึ้น",items:[["ดอกบัวเริ่มต้น",1],["ดอกบัวแสงศรัทธา",5],["ดอกบัวรุ่งเรือง",10],["ดอกบัวปัญญา",15],["ดอกบัวนิรันดร์",20]]},
   {id:"scenes",title:"ฉากสวนบุญ",desc:"สวนของคุณจะสวยงามและศักดิ์สิทธิ์ขึ้นตามระดับบุญ",items:[["ลานเริ่มต้น",1],["ลานน้ำตก",5],["ลานแสงจันทร์",10],["ลานหมอกศรัทธา",15],["ลานสวรรค์",20]]},
@@ -2648,17 +2656,30 @@ function renderGardenRewards(filter="all"){
   const catalog=document.getElementById("rewardsCatalog");
   if(!catalog) return;
   const {level}=getGardenProgress();
-  const allItems=REWARD_CATEGORIES.flatMap(category=>category.items.map((item,index)=>({category,index,item})));
-  const received=allItems.filter(entry=>level>=entry.item[1]).length;
-  document.getElementById("rewardsReceived").textContent=received;
-  document.getElementById("rewardsLocked").textContent=allItems.length-received;
+  const decorStage=Math.max(1,Math.min(6,Number(state.gardenDecorLevel)||1));
+  const lotusLeft=getLotusBalance();
+  const ownedDecor=GARDEN_DECOR_ITEMS.filter(item=>item.stage<=decorStage).length;
+  const levelItems=REWARD_CATEGORIES.filter(category=>category.id!=="decor").flatMap(category=>category.items);
+  const total=levelItems.length+GARDEN_DECOR_ITEMS.length;
+  const received=levelItems.filter(item=>level>=item[1]).length+ownedDecor;
+  const setCount=(id,value)=>{const el=document.getElementById(id); if(el) el.textContent=value;};
+  setCount("rewardsTotal",total);
+  setCount("rewardsReceived",received);
+  setCount("rewardsLocked",total-received);
   catalog.innerHTML=REWARD_CATEGORIES.filter(category=>filter==="all"||category.id===filter).map(category=>{
-    const cards=category.items.map(([name,need],index)=>{
-      const unlocked=level>=need, selected=state.selectedReward===`${category.id}-${index}`;
-      const art=category.id==="lotus"?`<img src="assets/reward-lotus-${index}.png" alt="">`:"";
-      return `<button class="reward-item ${unlocked?'unlocked':'locked'} ${selected?'selected':''}" type="button" data-reward-id="${category.id}-${index}" data-reward-category="${category.id}" ${unlocked?'':'disabled'}><span class="reward-art reward-art-${category.id} reward-art-${index}">${art}</span><b>${name}</b><small>Lv.${need}</small><em>${selected?'เลือกใช้อยู่':unlocked?'✓ ได้รับแล้ว':'🔒 ยังไม่ได้รับ'}</em></button>`;
-    }).join("");
-    return `<section class="reward-group" data-reward-group="${category.id}"><header><span><img src="assets/assistant-calm.png" alt=""></span><div><h3>${category.title}</h3><p>${category.desc}</p></div></header><div class="reward-row">${cards}</div></section>`;
+    const cards=(category.id==="decor"
+      ? GARDEN_DECOR_ITEMS.map((item,index)=>{
+          const owned=item.stage<=decorStage, selected=state.selectedReward===`decor-${index}`;
+          return {index,name:item.name,art:item.image,need:`<img class="reward-cost-icon" src="assets/garden-lotus.png" alt=""> ${item.cost}`,
+            unlocked:owned,selected,state:owned?"✓ วางในสวนแล้ว":(lotusLeft>=item.cost?"ซื้อได้เลย":"ยังไม่ได้รับ")};
+        })
+      : category.items.map(([name,need],index)=>{
+          const unlocked=level>=need, selected=state.selectedReward===`${category.id}-${index}`;
+          return {index,name,art:REWARD_ART[category.id]?.(index)||"",need:`Lv.${need}`,unlocked,selected,
+            state:selected?"เลือกใช้อยู่":unlocked?"✓ ได้รับแล้ว":"🔒 ยังไม่ได้รับ"};
+        })
+    ).map(card=>`<button class="reward-item ${card.unlocked?'unlocked':'locked'} ${card.selected?'selected':''}" type="button" data-reward-id="${category.id}-${card.index}" data-reward-category="${category.id}" ${card.unlocked?'':'disabled'}><span class="reward-art reward-art-${category.id} reward-art-${card.index}">${card.art?`<img src="${card.art}" alt="">`:""}</span><b>${card.name}</b><small>${card.need}</small><em>${card.selected?'เลือกใช้อยู่':card.state}</em></button>`).join("");
+    return `<section class="reward-group" data-reward-group="${category.id}"><header><span><img src="${category.id==='decor'?GARDEN_DECOR_ITEMS[0].image:(REWARD_ART[category.id]?.(0)||'assets/assistant-calm.png')}" alt=""></span><div><h3>${category.title}</h3><p>${category.desc}</p></div></header><div class="reward-row">${cards}</div></section>`;
   }).join("");
   catalog.querySelectorAll(".reward-item.unlocked").forEach(button=>button.addEventListener("click",()=>{
     state.selectedReward=button.dataset.rewardId;
