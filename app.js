@@ -2467,7 +2467,7 @@ function showGardenHelp(){
   const stage=Math.max(1,Math.min(6,Number(state.gardenDecorLevel)||1));
   const owned=GARDEN_DECOR_ITEMS.filter(item=>item.stage<=stage).length;
   const nextDecor=GARDEN_DECOR_ITEMS.find(item=>item.stage===stage+1);
-  showGardenModal("คู่มือสวนบุญ",`<div class="garden-guide">
+  showGardenModal("คู่มือสวนบุญ",`${guideHeroArt("assets/garden-female.png","a")}<div class="garden-guide">
     <p class="garden-guide-lead">สวนบุญคือสวนประจำตัวคุณ ยิ่งสวดมนต์สม่ำเสมอ สวนยิ่งงอกงาม ได้แต้มบุญไว้ขึ้นระดับ และได้ดอกบัวไว้ซื้อของตกแต่ง</p>
 
     <h4>แถบข้อมูลด้านบน</h4>
@@ -2498,7 +2498,7 @@ function showGardenHelp(){
 }
 /* เนื้อหาคู่มือการใช้งาน (หน้าตั้งค่า > คู่มือการใช้งาน) */
 const GUIDE_TOPICS={
-  account:{title:"1. บัญชีผู้ใช้และการตั้งค่า",body:`
+  account:{art:"assets/garden-female.png",tint:"a",title:"1. บัญชีผู้ใช้และการตั้งค่า",body:`
     <p class="garden-guide-lead">แอปนี้ใช้ได้เลยโดยไม่ต้องสมัครสมาชิก ข้อมูลทั้งหมดเก็บอยู่ในเครื่องของคุณเอง</p>
     <h4>โปรไฟล์</h4>
     <p>ตั้งค่า → <b>แก้ไขโปรไฟล์</b> เปลี่ยนชื่อที่แสดง รูปตัวละคร และดูระดับของคุณได้ ระดับจะขึ้นเองตามการสวดมนต์สะสม</p>
@@ -2512,7 +2512,7 @@ const GUIDE_TOPICS={
     <h4>ข้อมูลของคุณ</h4>
     <p class="garden-guide-note">ประวัติการสวด บทโปรด แต้มบุญ และสวนบุญ เก็บไว้ในเครื่องนี้เท่านั้น ไม่ได้ส่งขึ้นเซิร์ฟเวอร์ — ถ้าล้างข้อมูลเบราว์เซอร์หรือเปลี่ยนเครื่อง ข้อมูลจะเริ่มใหม่</p>`},
 
-  prayers:{title:"2. บทสวดและหมวดหมู่",body:`
+  prayers:{art:"assets/guide-lotus.png",tint:"b",title:"2. บทสวดและหมวดหมู่",body:`
     <p class="garden-guide-lead">ในแอปมีบทสวดให้เลือกกว่า 40 บท ตั้งแต่บทสั้น ๆ ประจำวัน ไปจนถึงพระสูตรเต็ม</p>
     <h4>หาบทที่ต้องการ</h4>
     <ul class="garden-guide-bullets">
@@ -2526,7 +2526,7 @@ const GUIDE_TOPICS={
     <p>แท็บ "บทสวดของฉัน" ในหน้าบทสวด ใช้จัด<b>ชุดสวด</b>ของตัวเอง เลือกได้หลายบทเรียงต่อกัน เวลาสวดจะไล่ให้ทีละบทจนจบชุด</p>
     <p class="garden-guide-note">ถ้าไม่รู้จะเริ่มบทไหน ลองใช้ "ผู้ช่วย" ให้จัดชุดให้ตามสิ่งที่อยากโฟกัส</p>`},
 
-  chanting:{title:"3. การสวดมนต์",body:`
+  chanting:{art:"assets/prayer-hands.png",tint:"c",title:"3. การสวดมนต์",body:`
     <p class="garden-guide-lead">แตะที่บทสวดใดก็ได้เพื่อเข้าหน้าสวด ตัวบทจะแสดงเป็นบรรทัดใหญ่ อ่านตามได้สบาย</p>
     <h4>สามแท็บในหน้าสวด</h4>
     <ul class="garden-guide-bullets">
@@ -2543,7 +2543,7 @@ const GUIDE_TOPICS={
     <h4>สวดแล้วได้อะไร</h4>
     <p>ทุกบทที่สวดจบจะถูกบันทึกลงประวัติ ได้<b>แต้มบุญ</b>ไว้ขึ้นระดับสวน และได้ <b>2 ดอกบัว</b> ไว้ซื้อของตกแต่งในสวนบุญ</p>`},
 
-  merit:{title:"4. บุญของฉัน",body:`
+  merit:{art:"assets/guide-heart.png",tint:"d",title:"4. บุญของฉัน",body:`
     <p class="garden-guide-lead">หน้า "บุญของฉัน" คือสมุดบันทึกการสวดมนต์ของคุณ</p>
     <ul class="garden-guide-bullets">
       <li><b>สวดมนต์ต่อเนื่อง</b> นับจำนวนวันที่สวดติดต่อกัน ถ้าเว้นไปหนึ่งวันจะเริ่มนับใหม่</li>
@@ -2554,7 +2554,7 @@ const GUIDE_TOPICS={
     <p>แต้มบุญที่สะสมจะไปโผล่ที่ <b>สวนบุญ</b> ใช้ไต่ระดับสวน ยิ่งระดับสูงยิ่งปลดล็อกฉากสวน ตัวละคร และของรางวัลใหม่ ๆ</p>
     <p class="garden-guide-note">การบันทึกเกิดขึ้นอัตโนมัติเมื่อสวดจบ ไม่ต้องกดบันทึกเอง</p>`},
 
-  stats:{title:"5. รายงานและสถิติ",body:`
+  stats:{art:"assets/reward-summary-all.png",tint:"e",title:"5. รายงานและสถิติ",body:`
     <p class="garden-guide-lead">ตัวเลขทั้งหมดคำนวณจากประวัติการสวดจริงของคุณ ไม่ต้องกรอกเอง</p>
     <h4>ดูได้ที่ไหนบ้าง</h4>
     <ul class="garden-guide-bullets">
@@ -2571,7 +2571,7 @@ const GUIDE_TOPICS={
     </ul>
     <p class="garden-guide-note">อยากรู้รายละเอียดระบบสวนบุญเพิ่ม กดปุ่ม "คู่มือ" ที่หัวหน้าสวนบุญ หรือ "คัมภีร์สวนบุญ" ในหน้าตกแต่งสวน</p>`},
 
-  more:{title:"6. อื่น ๆ และการจัดการแอป",body:`
+  more:{art:"assets/garden-gift.png",tint:"f",title:"6. อื่น ๆ และการจัดการแอป",body:`
     <h4>ติดตั้งเป็นแอปบนมือถือ</h4>
     <p>เปิดเว็บนี้ในเบราว์เซอร์แล้วเลือก <b>"เพิ่มไปยังหน้าจอโฮม"</b> จะได้ไอคอนเหมือนแอปจริง เปิดแบบเต็มจอ ไม่มีแถบเบราว์เซอร์</p>
     <h4>ถ้าหน้าจอยังเป็นแบบเดิมหลังอัปเดต</h4>
@@ -2588,7 +2588,12 @@ const GUIDE_TOPICS={
 function showAppGuide(topicId){
   const topic=GUIDE_TOPICS[topicId];
   if(!topic) return;
-  showGardenModal(topic.title,`<div class="garden-guide">${topic.body}</div>`);
+  showGardenModal(topic.title,`${guideHeroArt(topic.art,topic.tint)}<div class="garden-guide">${topic.body}</div>`);
+}
+/* รูปวงกลมนุ่ม ๆ ด้านบนของ modal ให้ดูน่าอ่านกว่ามีแต่ตัวหนังสือ */
+function guideHeroArt(src,tint){
+  if(!src) return "";
+  return `<div class="guide-hero guide-hero-${tint||"a"}"><span class="guide-hero-glow"></span><img src="${src}" alt=""><i class="guide-hero-spark guide-hero-spark-1">✦</i><i class="guide-hero-spark guide-hero-spark-2">✦</i></div>`;
 }
 function showGardenGuide(){
   const points=getMeritPoints(), info=gardenLevelInfo(points), lotus=getLotusBalance();
@@ -2598,7 +2603,7 @@ function showGardenGuide(){
     const status=owned?'<em class="ok">วางแล้ว</em>':next?(lotus>=item.cost?'<em class="ready">ซื้อได้เลย</em>':`<em class="wait">อีก ${(item.cost-lotus).toLocaleString("th-TH")} ดอกบัว</em>`):'<em>รอคิวถัดไป</em>';
     return `<li><img src="${item.image}" alt=""><div><b>${item.name}</b><small>${item.desc||""}</small></div><span><img src="assets/garden-lotus.png" alt="">${item.cost}</span>${status}</li>`;
   }).join("");
-  showGardenModal("คัมภีร์สวนบุญ",`<div class="garden-guide">
+  showGardenModal("คัมภีร์สวนบุญ",`${guideHeroArt("assets/decorate-book.png","b")}<div class="garden-guide">
     <p class="garden-guide-lead">สวนบุญจะงอกงามตามการสวดมนต์ของคุณ ทุกบทที่สวดจะกลายเป็นแต้มบุญและดอกบัวสำหรับตกแต่งสวน</p>
     <h4>ค่าทั้ง 3 อย่างคืออะไร</h4>
     <ul class="garden-guide-list">
