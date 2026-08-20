@@ -1197,17 +1197,16 @@ body.photo-view #decorateViewToggle{top:calc(10px + env(safe-area-inset-top,0px)
 .decorate-mode .bottom-nav{margin-top:auto}
 
 /* จอมือถือ: เพิ่มความสูงฉากสวน เพื่อดันวงกลม ป้ายแตะ ปุ่มรีเซ็ต และทุกอย่างใต้นั้นลงมา */
-@media(max-width:600px){.decorate-scene{height:440px}}
+@media(max-width:600px){.decorate-scene{height:390px}}
 @media(max-width:600px){.decorate-level-card{margin-top:0}}
 
 /* หน้าตกแต่งสวนบุญ: ให้แถบเมนูล่างเป็น fixed ติดขอบจอเหมือนหน้าอื่น ๆ */
 .decorate-mode .app-shell{display:block;min-height:100vh;padding-bottom:96px}
 .decorate-mode .bottom-nav{position:fixed;left:50%;bottom:0;transform:translateX(-50%);margin:0}
 body.photo-view .app-shell{padding-bottom:0}
-@media(max-width:600px){.decorate-book{top:124px}}
 @media(max-width:600px){.decorate-title>button{top:8px}}
 
 /* จอมือถือ: ขยับหัวข้อ ปุ่มคัมภีร์ และคำพูดในสวนลงมาตามที่กำหนด */
-@media(max-width:600px){.decorate-title{margin-top:16px}}
+@media(max-width:600px){.decorate-title{margin-top:30px}.decorate-title h2{font-size:1.62rem}.decorate-title p{font-size:.58rem}}
 @media(max-width:600px){.decorate-book{top:180px}}
 @media(max-width:440px){.garden-speech{top:266px}}
