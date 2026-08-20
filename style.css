@@ -1213,3 +1213,8 @@ body.photo-view .app-shell{padding-bottom:0}
 @media(max-width:600px){.decorate-reset{bottom:8px}}
 @media(max-width:600px){.decorate-level-badge-text{bottom:4px}}
 .reward-cost-icon{width:12px;height:12px;display:inline-block;vertical-align:-2px;object-fit:contain}
+
+/* ป้ายชื่อบทในหน้าอ่าน: เดิม nowrap + overflow:hidden ทำให้ข้อความยาว (หรือเครื่องที่ตั้งขนาดตัวอักษรใหญ่)
+   ถูกตัดหัวท้ายจนอ่านไม่รู้เรื่อง เปลี่ยนเป็นตัดขึ้นบรรทัดใหม่แทน จะไม่มีทางหายตัวอักษรอีก */
+.reader-ribbon{width:80%;max-width:80%;white-space:normal;overflow:visible;text-overflow:clip;line-height:1.3;text-wrap:balance}
+html{-webkit-text-size-adjust:100%;text-size-adjust:100%}

@@ -1546,6 +1546,16 @@ function openReader(id,options={}){
   showScreen("reader");
   document.querySelectorAll(".nav-item").forEach(b=>b.classList.remove("active"));
   document.getElementById("mainPrayerBtn").classList.add("active");
+  fitReaderRibbon();
+}
+
+/* ชื่อบทที่ยาว (หรือเครื่องที่ตั้งขนาดตัวอักษรใหญ่) จะขึ้นหลายบรรทัด
+   เลยต้องดันเนื้อบทลงตามความสูงจริงของป้าย ไม่ให้ทับกัน */
+function fitReaderRibbon(){
+  const ribbon=document.getElementById("readerPrayerHeading");
+  const wrap=document.querySelector(".reader-text-wrap");
+  if(!ribbon||!wrap) return;
+  wrap.style.paddingTop=`${Math.max(56,ribbon.offsetHeight+24)}px`;
 }
 
 function updateReaderSetNav(){
