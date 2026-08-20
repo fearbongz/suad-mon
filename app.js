@@ -2673,18 +2673,28 @@ function renderGardenRewards(filter="all"){
   const total=levelItems.length+GARDEN_DECOR_ITEMS.length;
   const received=levelItems.filter(item=>level>=item[1]).length+ownedDecor;
   const setCount=(id,value)=>{const el=document.getElementById(id); if(el) el.textContent=value;};
+  /* เลือกใช้ได้หมวดละชิ้น ถ้ายังไม่เคยเลือก ให้ชิ้นแรกที่ได้รับแล้วเป็นตัวที่ใช้อยู่ */
+  if(!state.selectedRewards||typeof state.selectedRewards!=="object"){
+    state.selectedRewards={};
+    if(state.selectedReward) state.selectedRewards[String(state.selectedReward).split("-")[0]]=state.selectedReward;
+  }
+  REWARD_CATEGORIES.forEach(category=>{
+    if(category.id==="decor"||state.selectedRewards[category.id]) return;
+    const firstOwned=category.items.findIndex(item=>level>=item[1]);
+    if(firstOwned>=0) state.selectedRewards[category.id]=`${category.id}-${firstOwned}`;
+  });
   setCount("rewardsTotal",total);
   setCount("rewardsReceived",received);
   setCount("rewardsLocked",total-received);
   catalog.innerHTML=REWARD_CATEGORIES.filter(category=>filter==="all"||category.id===filter).map(category=>{
     const cards=(category.id==="decor"
       ? GARDEN_DECOR_ITEMS.map((item,index)=>{
-          const owned=item.stage<=decorStage, selected=state.selectedReward===`decor-${index}`;
+          const owned=item.stage<=decorStage, selected=false;
           return {index,name:item.name,art:"",need:`<img class="reward-cost-icon" src="assets/garden-lotus.png" alt=""> ${item.cost}`,
             unlocked:owned,selected,state:owned?"✓ วางในสวนแล้ว":(lotusLeft>=item.cost?"ซื้อได้เลย":"ยังไม่ได้รับ")};
         })
       : category.items.map(([name,need],index)=>{
-          const unlocked=level>=need, selected=state.selectedReward===`${category.id}-${index}`;
+          const unlocked=level>=need, selected=state.selectedRewards[category.id]===`${category.id}-${index}`;
           return {index,name,art:category.id==="lotus"?`assets/reward-lotus-${index}.png`:"",need:`Lv.${need}`,unlocked,selected,
             state:selected?"เลือกใช้อยู่":unlocked?"✓ ได้รับแล้ว":"🔒 ยังไม่ได้รับ"};
         })
@@ -2692,9 +2702,13 @@ function renderGardenRewards(filter="all"){
     return `<section class="reward-group" data-reward-group="${category.id}"><header><span><img src="${category.id==='decor'?GARDEN_DECOR_ITEMS[0].image:(REWARD_ART[category.id]?.(0)||'assets/assistant-calm.png')}" alt=""></span><div><h3>${category.title}</h3><p>${category.desc}</p></div></header><div class="reward-row">${cards}</div></section>`;
   }).join("");
   catalog.querySelectorAll(".reward-item.unlocked").forEach(button=>button.addEventListener("click",()=>{
+    const rewardCategory=button.dataset.rewardCategory;
+    if(rewardCategory==="decor") return;
+    state.selectedRewards=state.selectedRewards&&typeof state.selectedRewards==="object"?state.selectedRewards:{};
+    state.selectedRewards[rewardCategory]=button.dataset.rewardId;
     state.selectedReward=button.dataset.rewardId;
-    const map={lotus:"lotus",scenes:"scene",characters:"character",decor:"decoration"};
-    if(map[button.dataset.rewardCategory]) state.selectedGardenItem=map[button.dataset.rewardCategory];
+    const map={lotus:"lotus",scenes:"scene",characters:"character"};
+    if(map[rewardCategory]) state.selectedGardenItem=map[rewardCategory];
     saveState();
     const name=button.querySelector("b").textContent;
     document.getElementById("rewardsFeedback").textContent=`เลือกใช้ “${name}” แล้ว`;
