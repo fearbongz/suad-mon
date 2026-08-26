@@ -1208,7 +1208,7 @@ body.photo-view .app-shell{padding-bottom:0}
 
 /* จอมือถือ: ขยับหัวข้อ ปุ่มคัมภีร์ และคำพูดในสวนลงมาตามที่กำหนด */
 @media(max-width:600px){.decorate-title{margin-top:44px}.decorate-title h2{font-size:1.82rem}.decorate-title p{font-size:.68rem}}
-@media(max-width:600px){.decorate-book{top:187px}}
+@media(max-width:600px){.decorate-book{top:210px}}
 @media(max-width:440px){.garden-speech{top:266px}}
 @media(max-width:600px){.decorate-reset{bottom:8px}}
 @media(max-width:600px){.decorate-level-badge-text{bottom:4px}}

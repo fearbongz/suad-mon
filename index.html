@@ -20,6 +20,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="style.css?v=20260820-17">
+<link rel="stylesheet" href="character.css?v=20260826-7">
 </head>
 <body>
 
@@ -280,7 +281,7 @@
         <div class="garden-speech">สวดอีกนิดนะ<br><span>ดอกบัวใกล้เบ่งบานแล้ว ✨</span></div>
         <div class="garden-side-actions">
           <button type="button" data-garden-action="decorate"><img src="assets/garden-pavilion.png" alt="">ตกแต่งสวน ›</button>
-          <button type="button" data-nav="profile"><img data-garden-character src="assets/garden-female.png" alt="">ตัวละคร ›</button>
+          <button type="button" data-nav="garden-character"><img data-garden-character src="assets/garden-female.png" alt="">ตัวละคร ›</button>
         </div>
       </div>
 
@@ -311,6 +312,47 @@
         </section>
 
         <blockquote class="garden-quote"><span class="garden-quote-mark">❝</span>บุญคือความสุข<br>ที่ไม่ขึ้นกับใคร<br>เริ่มต้นที่ใจของเรา <img src="assets/flower-icon.png" alt="ดอกบัว"></blockquote>
+      </div>
+    </section>
+
+    <section class="screen" id="screen-garden-character">
+      <div class="character-page">
+        <header class="character-head">
+          <button type="button" data-nav="merit-garden" aria-label="กลับไปสวนบุญ">‹</button>
+          <div class="character-wallet">
+            <span><img src="assets/wallet-points.png" alt=""><b id="characterPoints">0</b><small>แต้มบุญ</small></span>
+            <span><img src="assets/wallet-flowers.png" alt=""><b id="characterLotus">0</b><small>ดอกบัว</small></span>
+            <span><img src="assets/wallet-hearts.png" alt=""><b id="characterHearts">0</b><small>หัวใจ</small></span>
+          </div>
+        </header>
+        <div class="character-title-row">
+          <div><h2>ตัวละครบุญของฉัน</h2><p>✦ แตะตัวละครเพื่อสะสมบุญและปลดล็อกของขวัญ ✦</p></div>
+          <button type="button" id="characterViewToggle"><span>◉</span> เปลี่ยนมุมมอง</button>
+        </div>
+        <div class="character-stage">
+          <aside class="character-stats">
+            <article><small>ระดับนักสะสมบุญ</small><strong>Lv. <span id="characterLevel">1</span></strong><i><em id="characterLevelProgress"></em></i><b id="characterLevelText">0 / 1,000</b></article>
+            <article><small>ความผูกพัน</small><strong>💗 <span id="characterBond">12</span>%</strong><i class="pink"><em id="characterBondProgress"></em></i><b>สวดมนต์ทุกวันเพื่อเพิ่มความผูกพัน</b></article>
+            <article><small>บุญวันนี้</small><strong>🌸 +<span id="characterToday">0</span></strong><b>เป้าหมาย 2,000 แต้ม</b></article>
+            <article><small>คอมโบ</small><strong>🪷 ×<span id="characterCombo">1</span></strong><b>รักษาวันสวดต่อเนื่อง</b></article>
+          </aside>
+          <div class="character-message">วันนี้มาสวดและ<br>สะสมบุญกันนะ ✨</div>
+          <button class="character-hero" id="characterCollect" type="button" aria-label="แตะรับบุญ"><img src="assets/character-merit-guardian.png" alt="ตัวละครบุญนั่งบนดอกบัว"><span>💗 +1</span></button>
+          <div class="character-side-cards"><article><small>โบนัสคอมโบ</small><strong>🎁 +30%</strong><b>พร้อมใช้งาน</b></article><article><small>พลังงาน</small><strong>⚡ <span id="characterEnergy">8</span>/10</strong><b>เติมเมื่อสวดมนต์</b></article></div>
+          <button class="character-collect" id="characterCollectMain" type="button">🪷 แตะรับบุญ</button>
+          <p class="character-feedback" id="characterFeedback" aria-live="polite">แตะต่อเนื่องเพื่อคอมโบ!</p>
+        </div>
+        <section class="character-gifts">
+          <h3>✦ ของขวัญที่ปลดล็อกได้ ✦</h3>
+          <div class="character-gift-list">
+            <article data-character-gift="0"><span class="gift-sprite gift-0"></span><b>ตะเกียงดอกบัว</b><small>แตะสะสม 2,000 ครั้ง</small><button type="button">รับ</button></article>
+            <article data-character-gift="1"><span class="gift-sprite gift-1"></span><b>พวงมาลัยบุญ</b><small>แตะสะสม 5,000 ครั้ง</small><button type="button">รับ</button></article>
+            <article class="locked" data-character-gift="2"><span class="gift-sprite gift-2"></span><b>เหรียญบุญรักษา</b><small>แตะสะสม 9,000 ครั้ง</small><button type="button">🔒 ปลดล็อก</button></article>
+            <article class="locked" data-character-gift="3"><span class="gift-sprite gift-3"></span><b>ชุดบุญอาภรณ์</b><small>แตะสะสม 15,000 ครั้ง</small><button type="button">🔒 ปลดล็อก</button></article>
+            <article class="locked" data-character-gift="4"><span class="gift-sprite gift-4"></span><b>ฉากสวนธรรม</b><small>แตะสะสม 25,000 ครั้ง</small><button type="button">🔒 ปลดล็อก</button></article>
+          </div>
+          <p>🪷 แตะให้ได้คอมโบสูง เพื่อรับโบนัสบุญมากขึ้น!</p>
+        </section>
       </div>
     </section>
 
@@ -543,6 +585,6 @@
 
 </div>
 
-<script src="app.js?v=20260820-17"></script>
+<script src="app.js?v=20260826-3"></script>
 </body>
 </html>
