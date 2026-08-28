@@ -684,7 +684,18 @@ img{max-width:100%;display:block;}
 @media(max-width:440px){.reader-tabs{grid-template-columns:.8fr .8fr 1.4fr;gap:3px;padding:5px}.reader-tabs button{gap:4px;padding:10px 2px;font-size:.75rem;white-space:nowrap}.reader-tabs button svg{width:15px;height:15px;flex:0 0 15px}.reader-tabs .tab-lotus{width:16px;height:16px;flex:0 0 16px}}
 .reader-text-wrap{position:relative;background-color:#fff;background-image:url('assets/reader-bg.png');background-repeat:no-repeat;background-position:center;background-size:103% 103%;border:1.5px solid #f2d6ea;border-radius:22px;padding:56px 18px 12px;box-shadow:none;min-height:470px;overflow:hidden;}
 .reader-ribbon{position:absolute;top:16px;left:50%;transform:translateX(-50%);width:66%;padding:7px 8px;text-align:center;color:var(--lavender-600);font-size:.84rem;font-weight:700;background:transparent;border:0;border-radius:20px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+.reader-media-switch{display:flex;justify-content:center;gap:4px;margin:0 auto 8px;padding:3px;width:max-content;border:1px solid #eadcf5;border-radius:14px;background:rgba(255,255,255,.92);}
+.reader-media-switch[hidden]{display:none;}
+.reader-media-switch button{border:0;border-radius:10px;padding:6px 13px;background:transparent;color:var(--ink-faint);font-size:.72rem;font-weight:700;}
+.reader-media-switch button.active{background:var(--lavender-100);color:var(--lavender-600);}
 .reader-text{margin:0;background:transparent;border-radius:0;padding:4px 0;min-height:300px;max-height:310px;overflow-y:auto;box-shadow:none;}
+.reader-youtube-frame{width:min(100%,356px);margin:6px auto 0;text-align:center;}
+.reader-youtube-frame:empty{display:none;}
+.reader-youtube-frame iframe{display:block;width:100%;aspect-ratio:16/9;border:0;border-radius:10px;background:#17131d;box-shadow:0 4px 12px rgba(45,28,62,.18);}
+.reader-youtube-external{display:inline-block;margin-top:6px;color:var(--lavender-600);font-size:.68rem;font-weight:700;text-decoration:none;}
+.reader-text-wrap.youtube-mode .reader-text{display:none;}
+.reader-text-wrap.youtube-mode .reader-youtube-frame{width:min(100%,560px);margin:18px auto 22px;border-radius:16px;}
+.reader-text-wrap.youtube-mode .reader-progress,.reader-text-wrap.youtube-mode .reader-time,.reader-text-wrap.youtube-mode .reader-round-counter{display:none;}
 .reader-line{
   max-width:100%;
   margin-left:auto;

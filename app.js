@@ -227,6 +227,8 @@ const PRAYERS = [
     duration:"10 นาที",
     popularity:0,
     desc:"พระคาถาว่าด้วยชัยชนะอันเป็นมงคลของพระพุทธเจ้า พร้อมบทมหาการุณิโก",
+    youtubeId:"jpT56xydgxE",
+    youtubeStart:509,
     lines:[
       "## ๑.",
       "พาหุง สะหัสสะมะภินิมมิตะสาวุธันตัง",
@@ -309,8 +311,13 @@ const PRAYERS = [
     duration:"15 นาที",
     popularity:0,
     desc:"นิยมสวดเพื่อความเป็นสิริมงคลและความอุ่นใจ",
+    youtubeId:"dXWCFSMMepc",
     lines:[
       "นะโม ตัสสะ ภะคะวะโต อะระหะโต สัมมาสัมพุทธัสสะ (3 จบ)",
+      "ปุตตะกาโมละเภปุตตัง ธะนะกาโมละเภธะนัง",
+      "อัตถิกาเยกายะญายะ เทวานังปิยะตังสุตตะวา",
+      "อิติปิโสภะคะวา ยะมะราชาโน ท้าวเวสสุวัณโณ",
+      "มรณังสุขัง อะระหังสุคะโต นะโมพุทธายะ",
       "## ๑",
       "ชะยาสะนากะตา พุทธา",
       "เชตวา มารัง สะวาหะนัง",
@@ -406,6 +413,8 @@ const PRAYERS = [
     duration:"5 นาที",
     popularity:0,
     desc:"ใช้เป็นบทภาวนา ตั้งจิต และระลึกถึงคุณพระรัตนตรัยและครูบาอาจารย์",
+    youtubeId:"iydv6HE4_bo",
+    youtubeStart:601,
     lines:[
       "คำแนะนำ: ถ้าวันไหนมีเวลา จะสวด 9 หรือ 27 จบก็ได้ ไม่จำเป็นต้องฝืนจำนวน",
       "นะโม พุทธายะ",
@@ -431,6 +440,7 @@ const PRAYERS = [
     duration:"7 นาที",
     popularity:0,
     desc:"พระสูตรสำคัญสำหรับแผ่เมตตาและเจริญเมตตาภาวนา ช่วยให้จิตใจสงบ ลดความโกรธและความหวาดกลัว",
+    youtubeId:"mS0_n5pesHA",
     lines:[
       "## บทสวดบาลี",
       "กรณียมัตถกุสเลนะ",
@@ -561,6 +571,7 @@ const PRAYERS = [
     duration:"7 นาที",
     popularity:0,
     desc:"บทสวดบูชาพระโพธิสัตว์กวนอิมปางตะกร้าปลา เพื่อความคุ้มครอง แคล้วคลาด และมีสติในการรักษาทรัพย์",
+    youtubeId:"jj9aLNNCjIU",
     lines:[
       "## ปางตะกร้าปลา (หยูหลานกวนอิม)",
       "ตั้งจิตให้มั่น หลับตา หายใจเข้าลึกๆ แล้วสวดภาวนา 3 จบ",
@@ -859,6 +870,7 @@ const PRAYERS = [
     duration:"15 นาที",
     popularity:0,
     desc:"ปฐมเทศนาว่าด้วยทางสายกลาง อริยมรรคมีองค์แปด และอริยสัจสี่",
+    youtubeId:"rLkngZWy2r8",
     lines:[
       "## คำขึ้นต้น",
       "เอวัมเม สุตัง",
@@ -1773,6 +1785,7 @@ let activeReaderTab = "prayer";
 let activeReaderSequence = [];
 let activeReaderSequenceIndex = -1;
 let readerRoundCount = 0;
+let readerMediaMode = "text";
 const LINE_SECONDS = 3.2;
 const FAVORITE_HEART_ICON = '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20.8 4.6a5.5 5.5 0 0 0-7.8 0L12 5.7l-1.1-1.1a5.5 5.5 0 0 0-7.8 7.8l1.1 1.1L12 21l7.8-7.5 1.1-1.1a5.5 5.5 0 0 0-.1-7.8Z"/></svg>';
 
@@ -1806,6 +1819,7 @@ function openReader(id,options={}){
   document.getElementById("readerDesc").textContent = currentPrayer.desc || "";
   document.getElementById("readerDuration").textContent = currentPrayer.duration;
   document.getElementById("readerPop").textContent = currentPrayer.popularity.toLocaleString();
+  setupReaderYoutube();
   document.querySelector('[data-reader-tab="advice"]')?.classList.toggle("has-closing-prayer",getReaderClosingPrayerLines().length>0);
   resetReaderRoundCounter();
   updateFavIcon();
@@ -1819,6 +1833,32 @@ function openReader(id,options={}){
   document.querySelectorAll(".nav-item").forEach(b=>b.classList.remove("active"));
   document.getElementById("mainPrayerBtn").classList.add("active");
   fitReaderRibbon();
+}
+
+function setupReaderYoutube(){
+  const switcher=document.getElementById("readerMediaSwitch");
+  const frame=document.getElementById("readerYoutubeFrame");
+  const hasYoutube=Boolean(currentPrayer?.youtubeId);
+  const startAt=Number(currentPrayer?.youtubeStart) || 0;
+  switcher.hidden=!hasYoutube;
+  frame.innerHTML=hasYoutube
+    ? `<iframe title="YouTube ${currentPrayer.title}" src="https://www.youtube-nocookie.com/embed/${currentPrayer.youtubeId}?enablejsapi=1&playsinline=1&rel=0${startAt ? `&start=${startAt}` : ""}" referrerpolicy="strict-origin-when-cross-origin" allow="autoplay; encrypted-media; picture-in-picture" allowfullscreen></iframe><a class="reader-youtube-external" href="https://www.youtube.com/watch?v=${currentPrayer.youtubeId}${startAt ? `&t=${startAt}s` : ""}" target="_blank" rel="noopener noreferrer">เปิดบน YouTube ↗</a>`
+    : "";
+  setReaderMediaMode("text");
+}
+
+function setReaderMediaMode(mode){
+  readerMediaMode=mode;
+  document.querySelector(".reader-text-wrap").classList.toggle("youtube-mode",mode==="youtube");
+  document.querySelectorAll("[data-reader-media]").forEach(button=>{
+    button.classList.toggle("active",button.dataset.readerMedia===mode);
+    button.setAttribute("aria-pressed",String(button.dataset.readerMedia===mode));
+  });
+}
+
+function commandReaderYoutube(command,args=[]){
+  const iframe=document.querySelector("#readerYoutubeFrame iframe");
+  iframe?.contentWindow?.postMessage(JSON.stringify({event:"command",func:command,args}),"*");
 }
 
 /* ชื่อบทที่ยาว (หรือเครื่องที่ตั้งขนาดตัวอักษรใหญ่) จะขึ้นหลายบรรทัด
@@ -1935,7 +1975,9 @@ function renderReaderClosingPrayer(){
 
 function closeReader(){
   clearInterval(readerTimer);
+  commandReaderYoutube("stopVideo");
   isPlaying = false;
+  setPlayIcon(false);
   showScreen("prayers");
 }
 
@@ -1973,6 +2015,12 @@ function setPlayIcon(playing){
 }
 
 function togglePlay(){
+  if(currentPrayer?.youtubeId){
+    isPlaying=!isPlaying;
+    setPlayIcon(isPlaying);
+    commandReaderYoutube(isPlaying ? "playVideo" : "pauseVideo");
+    return;
+  }
   isPlaying = !isPlaying;
   setPlayIcon(isPlaying);
   if(isPlaying){
@@ -2383,6 +2431,9 @@ function bindReaderControls(){
   });
   document.querySelectorAll("[data-reader-tab]").forEach(btn=>{
     btn.addEventListener("click", ()=> setReaderTab(btn.dataset.readerTab));
+  });
+  document.querySelectorAll("[data-reader-media]").forEach(btn=>{
+    btn.addEventListener("click",()=>setReaderMediaMode(btn.dataset.readerMedia));
   });
   document.getElementById("readerPlay").addEventListener("click", togglePlay);
   document.getElementById("readerRestart").addEventListener("click", restartReader);

@@ -498,7 +498,12 @@
 
       <div class="reader-text-wrap">
         <div class="reader-ribbon" id="readerPrayerHeading">บทสวด</div>
+        <div class="reader-media-switch" id="readerMediaSwitch" hidden>
+          <button type="button" class="active" data-reader-media="text" aria-pressed="true">บทสวด</button>
+          <button type="button" data-reader-media="youtube" aria-pressed="false">YouTube</button>
+        </div>
         <div class="reader-text" id="readerText"></div>
+        <div class="reader-youtube-frame" id="readerYoutubeFrame"></div>
         <div class="reader-progress"><div class="reader-progress-bar" id="readerProgressBar"></div></div>
         <div class="reader-time"><span>00:00</span><span>15:00</span></div>
 
