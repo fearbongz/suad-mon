@@ -489,7 +489,7 @@ const PRAYERS = [
   {
     id:"sivali-worship",
     title:"บทบูชาพระสีวลี",
-    readerHeading:"บทบูชาพระสีวลี — 1 หรือ 3 จบ",
+    readerHeading:"บทบูชาพระสีวลี",
     category:"เสริมดวง",
     icon:"assets/prayer-star.png",
     badge:"1 หรือ 3 จบ",
@@ -526,7 +526,7 @@ const PRAYERS = [
   {
     id:"vesavana-worship",
     title:"บทบูชาท้าวเวสสุวรรณ",
-    readerHeading:"บทบูชาท้าวเวสสุวรรณ — 1 หรือ 9 จบ",
+    readerHeading:"บทบูชาท้าวเวสสุวรรณ",
     category:"สวดบูชาพระ",
     icon:"assets/prayer-star.png",
     badge:"1 หรือ 9 จบ",
@@ -563,8 +563,8 @@ const PRAYERS = [
   },
   {
     id:"yulan-guanyin",
-    title:"บทสวดบูชาปางตะกร้าปลา (หยูหลานกวนอิม)",
-    readerHeading:"บทสวดบูชาปางตะกร้าปลา (หยูหลานกวนอิม)",
+    title:"บทสวดบูชาพระโพธิสัตว์กวนอิม",
+    readerHeading:"บทสวดบูชาพระโพธิสัตว์กวนอิม",
     category:"ขอพร",
     icon:"assets/prayer-star.png",
     badge:"3 จบ",
@@ -630,7 +630,7 @@ const PRAYERS = [
   {
     id:"millionaire-mantra",
     title:"คาถาเงินล้าน",
-    readerHeading:"คาถาเงินล้าน — 9 จบ",
+    readerHeading:"คาถาเงินล้าน",
     category:"เสริมดวง",
     icon:"assets/prayer-star.png",
     badge:"9 จบ",
@@ -1339,7 +1339,7 @@ const DOW_TH = ["จ","อ","พ","พฤ","ศ","ส","อา"]; // Mon..Sun
 
 /* ---------------- STATE (localStorage) ---------------- */
 const STORE_KEY = "suadmon_data_v1";
-const DEFAULT_STATE = { completedDates:[], favorites:[], prayerHistory:[], customPrayerSets:[], gardenClaims:[], gardenManualMissions:[], gardenActions:[], gardenBonus:0, characterTaps:0, characterGifts:[], selectedGardenItem:"lotus", selectedReward:"lotus-0", gardenDecorations:[], gardenDecorLevel:1, gardenSoundOn:false, goal:21, fontSize:"medium", reminderOn:false, reminderTime:"19:00", continuousOn:false, theme:"purple", profileName:"", profileMessage:"", profileFirstName:"", profileLastName:"", profileGender:"หญิง", profileTheme:"pink", profileBirthDate:"", profileEmail:"" };
+const DEFAULT_STATE = { completedDates:[], favorites:[], prayerHistory:[], customPrayerSets:[], gardenClaims:[], gardenManualMissions:[], gardenActions:[], gardenBonus:0, characterTaps:0, characterGifts:[], selectedGardenItem:"lotus", selectedReward:"lotus-0", gardenDecorations:[], gardenDecorLevel:1, gardenSoundOn:false, goal:21, fontSize:"medium", reminderOn:false, reminderTime:"19:00", continuousOn:false, theme:"purple", profileName:"", profileMessage:"", profileFirstName:"", profileLastName:"", profileGender:"หญิง", profileTheme:"pink", profileBirthDate:"", profileEmail:"", isVip:false, vipPlan:"", soundOn:true, masterVolume:70, chantVolume:80, ambientVolume:60, notificationVolume:70, soundPreset:0, soundContinuous:true, notifyPrayer:true, notifyStreak:true, notifyMissions:true, notifyDailyTip:true, notifyAchievements:true, notifySpecial:true, notifyNews:false, seenBadges:[], notifiedLog:{} };
 function loadState(){
   try{
     const raw = localStorage.getItem(STORE_KEY);
@@ -1350,8 +1350,146 @@ function loadState(){
   }catch(e){}
   return {...DEFAULT_STATE,completedDates:[],favorites:[],prayerHistory:[],customPrayerSets:[]};
 }
-function saveState(){ localStorage.setItem(STORE_KEY, JSON.stringify(state)); }
+function saveState(onSync){ localStorage.setItem(STORE_KEY, JSON.stringify(state)); queueCloudStateSync(onSync); }
 let state = loadState();
+// สถานะกำลังเล่นเป็นสถานะชั่วคราว: เปิดแอปใหม่ต้องไม่เล่นเสียงเอง
+state.gardenSoundOn=false;
+
+/* ---------------- AUTH / CLOUD SYNC ---------------- */
+let supabaseClient=null;
+let cloudSyncTimer=null;
+let authMode="register";
+let authSession=null;
+
+function getSupabaseClient(){
+  if(supabaseClient) return supabaseClient;
+  const config=window.SUPABASE_CONFIG || {};
+  if(!config.url||!config.publishableKey||!window.supabase?.createClient) return null;
+  supabaseClient=window.supabase.createClient(config.url,config.publishableKey);
+  return supabaseClient;
+}
+
+function queueCloudStateSync(onComplete){
+  clearTimeout(cloudSyncTimer);
+  cloudSyncTimer=setTimeout(async()=>{
+    try{
+      const client=getSupabaseClient();
+      if(!client){onComplete?.({saved:false,reason:"offline"});return;}
+      const {data:{user},error:userError}=await client.auth.getUser();
+      if(userError)throw userError;
+      if(!user){onComplete?.({saved:false,reason:"guest"});return;}
+      const {error}=await client.from("user_state").upsert({user_id:user.id,data:state,updated_at:new Date().toISOString()});
+      if(error)throw error;
+      onComplete?.({saved:true});
+    }catch(error){console.warn("Cloud state sync failed:",error);onComplete?.({saved:false,reason:"error",error});}
+  },700);
+}
+
+async function loadCloudState(){
+  const client=getSupabaseClient();
+  if(!client) return false;
+  const {data:{user}}=await client.auth.getUser();
+  if(!user) return false;
+  const {data}=await client.from("user_state").select("data").eq("user_id",user.id).maybeSingle();
+  if(data?.data){state={...DEFAULT_STATE,...data.data};localStorage.setItem(STORE_KEY,JSON.stringify(state));renderAll();}
+  else queueCloudStateSync();
+  // เติมข้อมูลโปรไฟล์จากตอนสมัครสมาชิกให้ครั้งแรก (ไม่ทับถ้าผู้ใช้เคยแก้ไขเองแล้ว)
+  const meta=user.user_metadata||{};
+  if(!state.profileName&&meta.full_name || !state.profileBirthDate&&meta.birth_date || !state.profileGender&&meta.gender || !state.profileEmail&&user.email){
+    state.profileName=state.profileName||meta.full_name||"";
+    state.profileBirthDate=state.profileBirthDate||meta.birth_date||"";
+    state.profileGender=state.profileGender||meta.gender||"";
+    state.profileEmail=state.profileEmail||user.email||"";
+    saveState();
+    renderAll();
+  }
+  return true;
+}
+
+function translateAuthError(message=""){
+  if(/email not confirmed/i.test(message)) return "ยังไม่ได้ยืนยันอีเมล กรุณากดลิงก์ยืนยันในอีเมลที่เราส่งให้ก่อนเข้าสู่ระบบนะคะ";
+  if(/invalid login credentials/i.test(message)) return "อีเมล/เบอร์โทร หรือรหัสผ่านไม่ถูกต้อง";
+  if(/user already registered/i.test(message)) return "อีเมลนี้เคยสมัครสมาชิกไว้แล้ว กรุณาเข้าสู่ระบบแทน";
+  if(/password should be at least/i.test(message)) return "รหัสผ่านต้องมีอย่างน้อย 8 ตัวอักษร";
+  if(/rate limit/i.test(message)) return "ลองบ่อยเกินไป กรุณารอสักครู่แล้วลองใหม่";
+  return message||"ไม่สามารถเชื่อมต่อระบบสมาชิกได้ กรุณาลองใหม่";
+}
+
+function showRegisterSuccess(message="ยินดีต้อนรับสู่ครอบครัวสายบุญนะคะ 💗"){
+  document.getElementById("registerFormView").hidden=true;
+  const success=document.getElementById("registerSuccessView");
+  success.hidden=false;
+  success.querySelector(":scope>p").textContent=message;
+  window.scrollTo({top:0,behavior:"smooth"});
+}
+
+function initAuth(){
+  const form=document.getElementById("registerForm");
+  if(!form) return;
+  const dailyQuotes=[
+    ["ความไม่ประมาท เป็นทางไม่ตาย","พุทธพจน์"],
+    ["ใจที่สงบ ย่อมนำความสุขมาให้","พุทธพจน์"],
+    ["ทำวันนี้ให้ดี แล้ววันพรุ่งนี้จะงดงาม","ข้อคิดประจำวัน"],
+    ["เมตตาต่อตนเอง แล้วแบ่งปันความอ่อนโยนแก่ผู้อื่น","ข้อคิดประจำวัน"],
+    ["ความดีเล็ก ๆ ที่ทำทุกวัน ย่อมผลิบานเป็นความสุข","ข้อคิดประจำวัน"],
+    ["เมื่อใจมีสติ ทุกก้าวย่อมเป็นทางแห่งปัญญา","ข้อคิดประจำวัน"],
+    ["ปล่อยสิ่งที่หนัก แล้วพักใจไว้กับลมหายใจ","ข้อคิดประจำวัน"]
+  ];
+  const quoteDay=Math.floor(new Date().setHours(0,0,0,0)/86400000);
+  const [dailyQuote,dailyQuoteSource]=dailyQuotes[((quoteDay%dailyQuotes.length)+dailyQuotes.length)%dailyQuotes.length];
+  document.getElementById("settingsDailyQuote").textContent=dailyQuote;
+  document.getElementById("settingsDailyQuoteSource").textContent=`– ${dailyQuoteSource} –`;
+  const editProfileButton=document.getElementById("editProfileBtn"),settingsScreen=document.getElementById("screen-settings"),settingsGuestPanel=document.getElementById("settingsGuestPanel");
+  const updateSettingsAuth=session=>{authSession=session||null;const signedIn=Boolean(session?.user);if(editProfileButton)editProfileButton.hidden=!signedIn;if(settingsGuestPanel)settingsGuestPanel.hidden=signedIn;if(settingsScreen)settingsScreen.classList.toggle("guest-mode",!signedIn);renderMembershipMenuItem();};
+  document.getElementById("settingsGuestRegisterBtn")?.addEventListener("click",event=>{event.preventDefault();event.stopPropagation();showScreen("register");});
+  const password=document.getElementById("registerPassword"),confirmPassword=document.getElementById("registerPasswordConfirm"),message=document.getElementById("registerMessage"),submit=form.querySelector(".register-submit");
+  const birthDate=document.getElementById("registerBirthDate");
+  const updateBirthDate=()=>birthDate.classList.toggle("has-value",Boolean(birthDate.value));
+  birthDate.addEventListener("input",()=>{const digits=birthDate.value.replace(/\D/g,"").slice(0,8);birthDate.value=[digits.slice(0,2),digits.slice(2,4),digits.slice(4,8)].filter(Boolean).join("/");updateBirthDate();});
+  const phone=document.getElementById("registerPhone");
+  phone.addEventListener("input",()=>{phone.value=phone.value.replace(/\D/g,"").slice(0,15);});
+  updateBirthDate();
+  document.querySelectorAll("[data-password-toggle]").forEach(button=>button.addEventListener("click",()=>{const input=document.getElementById(button.dataset.passwordToggle);input.type=input.type==="password"?"text":"password";}));
+  password.addEventListener("input",()=>{const value=password.value;let score=0;if(value.length>=8)score++;if(/[A-Zก-ฮ]/.test(value)&&/[a-z]/.test(value))score++;if(/\d/.test(value))score++;if(/[^\wก-๙]/.test(value))score++;document.getElementById("passwordStrengthBar").style.width=`${score*25}%`;document.getElementById("passwordStrengthText").textContent=["-","อ่อน","ปานกลาง","ดี","แข็งแรง"][score];});
+  document.getElementById("showLogin").addEventListener("click",()=>{authMode=authMode==="register"?"login":"register";const isLogin=authMode==="login",identifier=document.getElementById("registerEmail"),identifierLabel=document.getElementById("registerIdentifierLabel");document.querySelector(".register-hero h2").textContent=isLogin?"เข้าสู่ระบบ":"สมัครสมาชิก";submit.innerHTML=isLogin?"เข้าสู่ระบบ":"<img src=\"assets/lotus.png\" alt=\"\"> สมัครสมาชิก";document.getElementById("showLogin").textContent=isLogin?"สมัครสมาชิก":"เข้าสู่ระบบ";identifier.type=isLogin?"text":"email";identifier.placeholder=isLogin?"กรอกอีเมลหรือเบอร์โทรศัพท์":"กรอกอีเมลของคุณ";identifier.autocomplete=isLogin?"username":"email";identifierLabel.childNodes[0].nodeValue=isLogin?"อีเมลหรือเบอร์โทรศัพท์":"อีเมล";form.classList.toggle("login-mode",isLogin);[confirmPassword,document.getElementById("registerFullName"),document.getElementById("registerConsent")].forEach(input=>{input.required=!isLogin;input.disabled=isLogin;});message.textContent="";});
+  document.getElementById("settingsGuestLoginBtn")?.addEventListener("click",event=>{event.preventDefault();event.stopPropagation();showScreen("register");if(authMode!=="login")document.getElementById("showLogin").click();});
+  document.getElementById("startLoginAfterRegister").addEventListener("click",async event=>{const button=event.currentTarget,client=getSupabaseClient(),successText=document.querySelector("#registerSuccessView>p");if(!client){successText.textContent="ไม่สามารถเชื่อมต่อระบบสมาชิกได้";return;}button.disabled=true;button.textContent="กำลังเข้าสู่ระบบ...";try{let {data:{session}}=await client.auth.getSession();if(!session){const email=document.getElementById("registerEmail").value.trim(),passwordValue=password.value;const {data,error}=await client.auth.signInWithPassword({email,password:passwordValue});if(error)throw error;session=data.session;}if(!session)throw new Error("กรุณายืนยันอีเมลก่อนเข้าสู่ระบบ");authSession=session;await loadCloudState();queueCloudStateSync();showScreen("home");}catch(error){successText.textContent=/confirm|verified/i.test(error?.message||"")?"กรุณายืนยันอีเมลจากกล่องข้อความก่อนเริ่มใช้งาน":translateAuthError(error?.message);successText.classList.add("error");successText.scrollIntoView({behavior:"smooth",block:"center"});}finally{button.disabled=false;button.textContent="เริ่มใช้งานเลย";}});
+  document.querySelectorAll("[data-auth-provider]").forEach(button=>button.addEventListener("click",async()=>{const client=getSupabaseClient();if(!client){message.textContent="กรุณาตั้งค่า Supabase ก่อนใช้งาน";return;}await client.auth.signInWithOAuth({provider:button.dataset.authProvider,options:{redirectTo:location.href.split("#")[0]}});}));
+  form.addEventListener("submit",async event=>{
+    event.preventDefault();message.className="register-message";message.textContent="";
+    const client=getSupabaseClient();if(!client){message.textContent="ยังไม่ได้ตั้งค่า Supabase Project URL และ Publishable key";return;}
+    if(authMode==="register"&&password.value!==confirmPassword.value){message.textContent="รหัสผ่านทั้งสองช่องไม่ตรงกัน";return;}
+    const birthDateText=birthDate.value.trim();
+    const birthDateParts=birthDateText.match(/^(0[1-9]|[12]\d|3[01])\/(0[1-9]|1[0-2])\/(\d{4})$/);
+    if(authMode==="register"&&birthDateText&&!birthDateParts){message.textContent="กรุณากรอกวันเกิดเป็น วัน/เดือน/ปี เช่น 29/08/2540";birthDate.focus();return;}
+    const birthDateIso=birthDateParts?`${Number(birthDateParts[3])>2400?Number(birthDateParts[3])-543:birthDateParts[3]}-${birthDateParts[2]}-${birthDateParts[1]}`:null;
+    submit.disabled=true;submit.textContent="กำลังดำเนินการ...";
+    const email=document.getElementById("registerEmail").value.trim();
+    let result;
+    try{
+      if(authMode==="login"){const isEmail=email.includes("@");const phone=email.startsWith("0")?`+66${email.slice(1)}`:email;result=await client.auth.signInWithPassword(isEmail?{email,password:password.value}:{phone,password:password.value});}
+      else result=await client.auth.signUp({email,password:password.value,options:{data:{full_name:document.getElementById("registerFullName").value.trim(),birth_date:birthDateIso,gender:document.querySelector('[name="registerGender"]:checked')?.value||"",phone:document.getElementById("registerPhone").value.trim()}}});
+    }catch(error){message.className="register-message error";message.textContent=translateAuthError(error?.message);return;}
+    finally{submit.disabled=false;submit.innerHTML=authMode==="login"?"เข้าสู่ระบบ":"<img src=\"assets/lotus.png\" alt=\"\"> สมัครสมาชิก";}
+    if(result.error){message.className="register-message error";message.textContent=translateAuthError(result.error.message);return;}
+    if(result.data.session){
+      authSession=result.data.session;
+      updateSettingsAuth(result.data.session);
+      if(authMode==="login"){
+        showScreen("home");
+        loadCloudState().then(()=>queueCloudStateSync()).catch(error=>console.warn("Cloud sync after login failed:",error));
+      }else{
+        await loadCloudState().catch(error=>console.warn("Cloud sync after registration failed:",error));
+        queueCloudStateSync();
+        showRegisterSuccess("ยินดีต้อนรับสู่ครอบครัวสายบุญนะคะ 💗");
+      }
+    }
+    else showRegisterSuccess("ส่งอีเมลยืนยันแล้ว กรุณาตรวจสอบกล่องข้อความของคุณ 💗");
+  });
+  const client=getSupabaseClient();
+  client?.auth.getSession().then(({data})=>updateSettingsAuth(data.session));
+  client?.auth.onAuthStateChange((event,session)=>{updateSettingsAuth(session);if(event==="SIGNED_IN"&&session)loadCloudState();});
+}
 
 /* One-time local test reset requested for today's garden actions. */
 const GARDEN_TEST_RESET_KEY="suadmon_garden_test_reset_20260818_5";
@@ -1415,6 +1553,9 @@ function renderHero(){
   const displaySub = state.profileMessage || sub;
   document.getElementById("greetingText").innerHTML = `${displayGreeting} <span class="heart"><img src="assets/guide-heart.png" alt=""></span>`;
   document.getElementById("greetingSub").innerHTML = `${displaySub} <span>💛</span>`;
+  const guestGreeting=document.getElementById("settingsGuestGreeting"),guestGreetingSub=document.getElementById("settingsGuestGreetingSub");
+  if(guestGreeting) guestGreeting.textContent=greet;
+  if(guestGreetingSub) guestGreetingSub.innerHTML=`นักสวดที่ดี แล้วมาสวดมนต์กันนะคะ <span>💛</span>`;
   const greetingIcon = document.querySelector(".hero-moon");
   greetingIcon.src = isMorning ? "assets/assistant-morning.png"
     : isAfternoon ? "assets/assistant-day.png"
@@ -1736,11 +1877,22 @@ function renderCalendar(){
 }
 
 function renderBadges(){
-  const grid = document.getElementById("badgeGrid");
-  if(!grid) return;
   const streak = computeStreak();
   const total = state.completedDates.length;
   const fav = state.favorites.length;
+  const seen = Array.isArray(state.seenBadges) ? state.seenBadges : (state.seenBadges=[]);
+  let newlyUnlocked=false;
+  BADGES.forEach(b=>{
+    const val = b.type==="streak"?streak : b.type==="fav"?fav : total;
+    if(val>=b.need && !seen.includes(b.id)){
+      seen.push(b.id);
+      newlyUnlocked=true;
+      if(state.notifyAchievements) notifyUser("ปลดล็อกความสำเร็จใหม่! ✨",b.label);
+    }
+  });
+  if(newlyUnlocked) saveState();
+  const grid = document.getElementById("badgeGrid");
+  if(!grid) return;
   grid.innerHTML = BADGES.map(b=>{
     const val = b.type==="streak"?streak : b.type==="fav"?fav : total;
     const unlocked = val>=b.need;
@@ -2131,13 +2283,15 @@ function spawnBurst(){
 
 let audioCtx;
 function playChime(freq){
+  if(state.soundOn===false) return;
   try{
     audioCtx = audioCtx || new (window.AudioContext||window.webkitAudioContext)();
     const o = audioCtx.createOscillator();
     const g = audioCtx.createGain();
     o.type="sine"; o.frequency.value=freq;
     g.gain.setValueAtTime(0.0001, audioCtx.currentTime);
-    g.gain.exponentialRampToValueAtTime(0.12, audioCtx.currentTime+0.02);
+    const chimeVolume=(Number(state.masterVolume??70)/100)*(Number(state.notificationVolume??70)/100);
+    g.gain.exponentialRampToValueAtTime(Math.max(.002,.16*chimeVolume), audioCtx.currentTime+0.02);
     g.gain.exponentialRampToValueAtTime(0.0001, audioCtx.currentTime+1.1);
     o.connect(g); g.connect(audioCtx.destination);
     o.start(); o.stop(audioCtx.currentTime+1.1);
@@ -2145,6 +2299,7 @@ function playChime(freq){
 }
 
 let gardenSoundNodes=[];
+let gardenMasterGain=null;
 let gardenBirdTimer=null;
 let gardenWaterTimer=null;
 let gardenSoundStarting=false;
@@ -2190,31 +2345,41 @@ async function startGardenSound(){
     if(audioCtx.state!=="running") await audioCtx.resume();
     if(audioCtx.state!=="running") throw new Error("Audio context could not start");
     if(!state.gardenSoundOn) return;
+    const preset=Math.max(0,Math.min(5,Number(state.soundPreset||0)));
+    const soundProfiles=[
+      {low:680,lowGain:.82,ripple:1500,rippleGain:.22,spray:3200,sprayGain:.08,swell:.11,drops:1800,birds:0},
+      {low:480,lowGain:.48,ripple:1050,rippleGain:.3,spray:2600,sprayGain:.035,swell:.08,drops:2600,birds:0},
+      {low:450,lowGain:1.15,ripple:700,rippleGain:.34,spray:1900,sprayGain:.045,swell:.045,drops:0,birds:0},
+      {low:1250,lowGain:.12,ripple:3300,rippleGain:.24,spray:4700,sprayGain:.13,swell:.17,drops:0,birds:0},
+      {low:760,lowGain:.16,ripple:2100,rippleGain:.08,spray:3900,sprayGain:.035,swell:.1,drops:0,birds:5200},
+      {low:560,lowGain:.4,ripple:1250,rippleGain:.27,spray:2900,sprayGain:.045,swell:.085,drops:1200,birds:15000}
+    ];
+    const profile=soundProfiles[preset];
     const seconds=4, buffer=audioCtx.createBuffer(2,audioCtx.sampleRate*seconds,audioCtx.sampleRate);
     for(let channel=0;channel<2;channel++){
       const data=buffer.getChannelData(channel); let smooth=0;
       for(let i=0;i<data.length;i++){const white=Math.random()*2-1;smooth=smooth*.992+white*.008;data[i]=white*.06+smooth*1.35;}
     }
-    const master=audioCtx.createGain(); master.gain.value=.11; master.connect(audioCtx.destination);
+    const master=audioCtx.createGain(); master.gain.value=state.soundOn===false?0:.65*(Number(state.masterVolume??70)/100)*(Number(state.ambientVolume??60)/100); master.connect(audioCtx.destination); gardenMasterGain=master;
     const low=audioCtx.createBufferSource(), lowFilter=audioCtx.createBiquadFilter(), lowGain=audioCtx.createGain();
-    low.buffer=buffer; low.loop=true; lowFilter.type="lowpass"; lowFilter.frequency.value=520; lowGain.gain.value=.62;
+    low.buffer=buffer; low.loop=true; lowFilter.type="lowpass"; lowFilter.frequency.value=profile.low; lowGain.gain.value=profile.lowGain;
     low.connect(lowFilter); lowFilter.connect(lowGain); lowGain.connect(master); low.start();
     const ripple=audioCtx.createBufferSource(), rippleFilter=audioCtx.createBiquadFilter(), rippleGain=audioCtx.createGain();
-    ripple.buffer=buffer; ripple.loop=true; rippleFilter.type="bandpass"; rippleFilter.frequency.value=1150; rippleFilter.Q.value=.45; rippleGain.gain.value=.13;
+    ripple.buffer=buffer; ripple.loop=true; rippleFilter.type="bandpass"; rippleFilter.frequency.value=profile.ripple; rippleFilter.Q.value=preset===2?.8:.45; rippleGain.gain.value=profile.rippleGain;
     ripple.connect(rippleFilter); rippleFilter.connect(rippleGain); rippleGain.connect(master); ripple.start();
     const spray=audioCtx.createBufferSource(), sprayFilter=audioCtx.createBiquadFilter(), sprayGain=audioCtx.createGain();
-    spray.buffer=buffer; spray.loop=true; sprayFilter.type="highpass"; sprayFilter.frequency.value=3000; sprayGain.gain.value=.025;
+    spray.buffer=buffer; spray.loop=true; sprayFilter.type="highpass"; sprayFilter.frequency.value=profile.spray; sprayGain.gain.value=profile.sprayGain;
     spray.connect(sprayFilter); sprayFilter.connect(sprayGain); sprayGain.connect(master); spray.start();
-    const swell=audioCtx.createOscillator(), swellGain=audioCtx.createGain(); swell.type="sine"; swell.frequency.value=.09; swellGain.gain.value=.008; swell.connect(swellGain); swellGain.connect(master.gain); swell.start();
+    const swell=audioCtx.createOscillator(), swellGain=audioCtx.createGain(); swell.type="sine"; swell.frequency.value=profile.swell; swellGain.gain.value=preset===2?.055:.012; swell.connect(swellGain); swellGain.connect(master.gain); swell.start();
     gardenSoundNodes=[low,ripple,spray,swell];
-    gardenWaterTimer=setInterval(playGardenWaterDrop,2800);
-    gardenBirdTimer=setInterval(playGardenBird,20000);
-    setTimeout(playGardenWaterDrop,900); setTimeout(playGardenBird,4800);
+    if(profile.drops){gardenWaterTimer=setInterval(playGardenWaterDrop,profile.drops);setTimeout(playGardenWaterDrop,500);}
+    if(profile.birds){gardenBirdTimer=setInterval(playGardenBird,profile.birds);setTimeout(playGardenBird,900);}
   }catch(e){state.gardenSoundOn=false;saveState();updateGardenSoundButton();}
   finally{gardenSoundStarting=false;}
 }
 function stopGardenSound(){
   gardenSoundNodes.forEach(node=>{try{node.stop();}catch(e){}}); gardenSoundNodes=[];
+  gardenMasterGain=null;
   clearInterval(gardenBirdTimer); gardenBirdTimer=null;
   clearInterval(gardenWaterTimer); gardenWaterTimer=null;
 }
@@ -2239,9 +2404,142 @@ function renderGardenCharacter(){
 }
 
 /* ---------------- NAV / SCREENS ---------------- */
+function renderMembershipMenuItem(){
+  const btn=document.getElementById("membershipBtn");
+  if(!btn) return;
+  const title=document.getElementById("membershipTitle"), sub=document.getElementById("membershipSubtitle"), icon=document.getElementById("membershipIcon");
+  const signedIn=Boolean(authSession?.user);
+  if(!signedIn){
+    btn.dataset.nav="register";
+    title.textContent="สมัครสมาชิก";
+    sub.textContent="สำรองและซิงก์ข้อมูลของคุณ";
+    icon.innerHTML='<svg viewBox="0 0 24 24"><path d="M5 7h14v13H5Z"/><path d="M9 7V5a3 3 0 0 1 6 0v2M9 11v5M15 11v5"/></svg>';
+  }else if(state.isVip){
+    btn.dataset.nav="vip";
+    title.textContent="VIP ของฉัน";
+    sub.textContent="คุณคือสมาชิก VIP แล้ว ✨";
+    icon.textContent="👑";
+  }else{
+    btn.dataset.nav="vip";
+    title.textContent="ซื้อ VIP";
+    sub.textContent="ปลดล็อกสิทธิพิเศษสำหรับสมาชิก VIP";
+    icon.textContent="✨";
+  }
+}
+
+function renderVipScreen(){
+  const plans=document.getElementById("vipPlans"), buyBtn=document.getElementById("vipBuyBtn");
+  const activeView=document.getElementById("vipActiveView"), activePlan=document.getElementById("vipActivePlan");
+  const isVip=Boolean(state.isVip);
+  if(plans) plans.hidden=isVip;
+  if(buyBtn) buyBtn.hidden=isVip;
+  if(activeView) activeView.hidden=!isVip;
+  if(isVip&&activePlan){
+    const label=state.vipPlan==="monthly"?"รายเดือน":"รายปี";
+    activePlan.textContent=`แพ็กเกจ: ${label}`;
+  }
+}
+
+/* ---------------- IN-APP NOTIFICATIONS (Notification API — ทำงานได้ตอนเปิดแอปอยู่เท่านั้น) ---------------- */
+const NOTIFY_KEYS = ["notifyPrayer","notifyStreak","notifyMissions","notifyDailyTip","notifyAchievements","notifySpecial","notifyNews"];
+
+function requestNotifyPermission(){
+  if(!("Notification" in window)) return;
+  if(Notification.permission==="default") Notification.requestPermission();
+}
+
+function notifyUser(title,body){
+  if(!("Notification" in window) || Notification.permission!=="granted") return;
+  try{ new Notification(title,{body,icon:"assets/lotus.png"}); }catch(e){}
+}
+
+function alreadyNotifiedToday(key){
+  return (state.notifiedLog||{})[key]===todayStr();
+}
+function markNotifiedToday(key){
+  state.notifiedLog = state.notifiedLog || {};
+  state.notifiedLog[key] = todayStr();
+  saveState();
+}
+
+function checkScheduledNotifications(){
+  const now = new Date();
+  const hhmm = `${String(now.getHours()).padStart(2,"0")}:${String(now.getMinutes()).padStart(2,"0")}`;
+  if(state.notifyDailyTip && hhmm==="07:30" && !alreadyNotifiedToday("dailyTip")){
+    notifyUser("ข้อคิดประจำวัน 🌿", document.getElementById("settingsDailyQuote")?.textContent || "แวะมาสวดมนต์กันนะคะวันนี้");
+    markNotifiedToday("dailyTip");
+  }
+  if(state.notifyPrayer && state.reminderOn && state.reminderTime && hhmm===state.reminderTime && !alreadyNotifiedToday("prayerReminder")){
+    notifyUser("ถึงเวลาสวดมนต์แล้วค่ะ 🙏","แวะมาสวดมนต์ตามเวลาที่ตั้งไว้กันนะคะ");
+    markNotifiedToday("prayerReminder");
+  }
+  if(state.notifyStreak && hhmm==="20:00" && !state.completedDates.includes(todayStr()) && !alreadyNotifiedToday("streakReminder")){
+    notifyUser("อย่าลืมรักษาสถิติของคุณนะคะ 🔥",`วันนี้ยังไม่ได้สวดมนต์เลย ต่อเนื่อง ${computeStreak()} วันของคุณกำลังจะขาดแล้ว`);
+    markNotifiedToday("streakReminder");
+  }
+}
+
+function checkDailyMissionNotification(){
+  if(!state.notifyMissions || alreadyNotifiedToday("missionsReady")) return;
+  notifyUser("ภารกิจวันนี้พร้อมแล้ว 🎁","แวะไปทำภารกิจในสวนบุญเพื่อรับแต้มบุญกันนะคะ");
+  markNotifiedToday("missionsReady");
+}
+
+function startNotificationScheduler(){
+  checkScheduledNotifications();
+  checkDailyMissionNotification();
+  setInterval(checkScheduledNotifications, 30000);
+}
+
+function bindNotificationPrefs(){
+  const master = document.getElementById("notifyAllToggle");
+  const syncMaster = ()=>{ if(master) master.checked = NOTIFY_KEYS.every(k=>state[k]!==false); };
+  NOTIFY_KEYS.forEach(key=>{
+    const input=document.getElementById(key);
+    if(!input) return;
+    input.checked = state[key] !== false;
+    input.addEventListener("change",()=>{
+      state[key]=input.checked; saveState();
+      if(input.checked) requestNotifyPermission();
+      syncMaster();
+    });
+  });
+  syncMaster();
+  master?.addEventListener("change",()=>{
+    NOTIFY_KEYS.forEach(key=>{ state[key]=master.checked; const input=document.getElementById(key); if(input) input.checked=master.checked; });
+    saveState();
+    if(master.checked) requestNotifyPermission();
+  });
+}
+
+function bindVipScreen(){
+  document.querySelectorAll("#vipPlans [data-vip-plan]").forEach(button=>button.addEventListener("click",()=>{
+    document.querySelectorAll("#vipPlans [data-vip-plan]").forEach(b=>b.classList.toggle("active",b===button));
+  }));
+  document.getElementById("vipBuyBtn")?.addEventListener("click",()=>{
+    const selected=document.querySelector("#vipPlans [data-vip-plan].active")?.dataset.vipPlan||"yearly";
+    state.isVip=true; state.vipPlan=selected;
+    saveState();
+    renderVipScreen();
+    renderMembershipMenuItem();
+    spawnBurst();
+  });
+  document.getElementById("vipCancelBtn")?.addEventListener("click",()=>{
+    state.isVip=false; state.vipPlan="";
+    saveState();
+    renderVipScreen();
+    renderMembershipMenuItem();
+  });
+}
+
 function showScreen(name){
+  if((name==="merit"||name==="merit-garden"||name==="vip")&&!authSession) name="settings";
   clearInterval(readerTimer);
   isPlaying = false;
+  document.body.classList.toggle("register-mode",name==="register");
+  document.body.classList.toggle("guide-mode",name==="guide");
+  document.body.classList.toggle("notification-mode",name==="notifications");
+  document.body.classList.toggle("sound-settings-mode",name==="sound-settings");
   document.body.classList.toggle("garden-mode",name==="merit-garden"||name==="garden-rewards"||name==="garden-decorate"||name==="garden-character");
   document.body.classList.toggle("character-mode",name==="garden-character");
   document.body.classList.remove("photo-view");
@@ -2252,14 +2550,22 @@ function showScreen(name){
   document.getElementById("screen-"+name).classList.add("active");
   document.querySelectorAll(".nav-item").forEach(b=>b.classList.remove("active"));
   document.querySelectorAll(`.nav-item[data-nav="${name}"]`).forEach(b=>b.classList.add("active"));
-  window.scrollTo({top:0, behavior:"smooth"});
+  if(name==="register") document.querySelector('.nav-item[data-nav="settings"]')?.classList.add("active");
+  window.scrollTo({top:0, behavior:name==="register"?"auto":"smooth"});
+  if(name==="register"){
+    document.documentElement.scrollTop=0;
+    document.body.scrollTop=0;
+    document.querySelector(".app-shell")?.scrollTo?.(0,0);
+  }
 
   if(name==="merit"){ renderMeritStats(); renderCalendar(); renderBadges(); renderFavList(); }
-  if(name==="merit-garden"){ renderMeritGarden(); if(state.gardenSoundOn) startGardenSound(); }
-  else stopGardenSound();
+  if(name==="merit-garden"){renderMeritGarden();if(state.gardenSoundOn&&state.soundOn!==false)startGardenSound();}
+  else if(name==="sound-settings"){state.gardenSoundOn=false;stopGardenSound();document.querySelectorAll(".sound-presets .playing").forEach(button=>button.classList.remove("playing"));}
+  else if(state.soundContinuous===false||state.soundOn===false){state.gardenSoundOn=false;stopGardenSound();}
   if(name==="garden-rewards") renderGardenRewards(document.querySelector("[data-reward-filter].active")?.dataset.rewardFilter||"all");
   if(name==="garden-decorate") renderGardenDecorator(document.querySelector("[data-decor-filter].active")?.dataset.decorFilter||"all");
   if(name==="garden-character") renderGardenCharacter();
+  if(name==="vip") renderVipScreen();
   if(name==="prayers") setPrayerLibraryTab(activeLibraryTab);
   if(name==="assistant") document.getElementById("assistantResult")?.classList.remove("show");
 }
@@ -2319,21 +2625,22 @@ function initSettings(){
   const renderProfileSetting = ()=>{
     document.getElementById("settingsProfileName").textContent = state.profileName || "แก้ไขโปรไฟล์";
     document.getElementById("settingsProfileMessage").textContent = state.profileMessage || "เพิ่มชื่อและข้อความทักทายของคุณ";
-    document.getElementById("profileDisplayName").textContent = [state.profileFirstName,state.profileLastName].filter(Boolean).join(" ") || state.profileName || "เมตตา มณีจันทร์";
+    document.getElementById("profileDisplayName").textContent = state.profileName || "เมตตา มณีจันทร์";
     document.getElementById("profileDisplayBio").textContent = state.profileMessage || "ขอให้ทุกวันเป็นวันที่ใจสงบ 💗";
-    const meritPoints = (state.prayerHistory || []).reduce((total,item)=>total+(Number(item.points) || 10),0);
+    const meritPoints = getMeritPoints();
     document.getElementById("profileLevel").textContent = `Lv.${getGardenProgress().level}`;
     document.getElementById("profilePoints").textContent = meritPoints.toLocaleString("th-TH");
     document.getElementById("profileStreak").textContent = `${computeStreak()} วัน`;
     pendingProfileTheme = state.profileTheme || "pink";
     applyProfileImages(state.profileGender || "หญิง",pendingProfileTheme);
+    renderMembershipMenuItem();
   };
   renderProfileSetting();
   document.getElementById("editProfileBtn").addEventListener("click",()=>{
     renderProfileSetting(); document.querySelector(".profile-menu").style.display="block"; document.getElementById("profileInlineEdit").classList.remove("open"); showScreen("profile");
   });
   document.getElementById("personalInfoBtn").addEventListener("click",()=>{
-    document.getElementById("profileFirstName").value=state.profileFirstName||""; document.getElementById("profileLastName").value=state.profileLastName||""; profileNameInput.value=state.profileName||""; profileMessageInput.value=state.profileMessage||""; document.getElementById("profileBirthDate").value=state.profileBirthDate||""; document.getElementById("profileEmail").value=state.profileEmail||"";
+    profileNameInput.value=state.profileName||""; profileMessageInput.value=state.profileMessage||""; document.getElementById("profileBirthDate").value=state.profileBirthDate||""; document.getElementById("profileEmail").value=state.profileEmail||"";
     pendingProfileTheme=state.profileTheme||"pink"; document.querySelectorAll('[name="profileGender"]').forEach(input=>input.checked=input.value===(state.profileGender||"หญิง")); applyProfileImages(state.profileGender||"หญิง",pendingProfileTheme); document.querySelector(".profile-menu").style.display="none"; document.getElementById("profileInlineEdit").classList.add("open");
   });
   document.getElementById("profileEditBack").addEventListener("click",()=>{ pendingProfileTheme=state.profileTheme||"pink"; applyProfileImages(state.profileGender||"หญิง",pendingProfileTheme); document.getElementById("profileInlineEdit").classList.remove("open"); document.querySelector(".profile-menu").style.display="block"; });
@@ -2343,7 +2650,7 @@ function initSettings(){
     event.preventDefault();
     state.profileName = profileNameInput.value.trim();
     state.profileMessage = profileMessageInput.value.trim();
-    state.profileFirstName=document.getElementById("profileFirstName").value.trim(); state.profileLastName=document.getElementById("profileLastName").value.trim(); state.profileGender=document.querySelector('[name="profileGender"]:checked')?.value||"หญิง"; state.profileTheme=pendingProfileTheme; state.profileBirthDate=document.getElementById("profileBirthDate").value; state.profileEmail=document.getElementById("profileEmail").value.trim();
+    state.profileGender=document.querySelector('[name="profileGender"]:checked')?.value||"หญิง"; state.profileTheme=pendingProfileTheme; state.profileBirthDate=document.getElementById("profileBirthDate").value; state.profileEmail=document.getElementById("profileEmail").value.trim();
     saveState();
     renderProfileSetting();
     renderHero();
@@ -2367,7 +2674,7 @@ function initSettings(){
   const timeHour = document.getElementById("timeHour");
   const timeMinute = document.getElementById("timeMinute");
   const selectedTime = document.getElementById("selectedTime");
-  toggle.checked = state.reminderOn;
+  if(toggle) toggle.checked = state.reminderOn;
   timeInput.value = state.reminderTime;
   selectedTime.textContent = state.reminderTime;
   timeHour.innerHTML = Array.from({length:24},(_,i)=>`<option value="${String(i).padStart(2,"0")}">${String(i).padStart(2,"0")}</option>`).join("");
@@ -2386,9 +2693,11 @@ function initSettings(){
     timePickerModal.classList.remove("open");
   });
   timePickerModal.addEventListener("click", e=>{if(e.target===timePickerModal) timePickerModal.classList.remove("open");});
-  toggle.addEventListener("change", ()=>{
+  toggle?.addEventListener("change", ()=>{
     state.reminderOn = toggle.checked; saveState();
+    if(toggle.checked) requestNotifyPermission();
   });
+  // หมายเหตุ: id="soundToggle" ผูก event ไว้แล้วใน bindSoundSettings() (หน้าการตั้งค่าเสียง) ไม่ต้องผูกซ้ำที่นี่
 
   document.getElementById("resetBtn").addEventListener("click", ()=>{
     if(confirm("ล้างข้อมูลการสวดมนต์ทั้งหมดใช่ไหมคะ? การกระทำนี้ย้อนกลับไม่ได้")){
@@ -2400,6 +2709,46 @@ function initSettings(){
       showScreen("home");
     }
   });
+}
+
+function bindSoundSettings(){
+  const screen=document.getElementById("screen-sound-settings");
+  if(!screen)return;
+  const master=screen.querySelector(".sound-master input[type=range]");
+  const volumeRanges=[...screen.querySelectorAll(".sound-volume-group input[type=range]")];
+  const soundToggle=document.getElementById("soundToggle");
+  const continuous=screen.querySelector(".sound-continuous input");
+  const playButton=screen.querySelector(".sound-play");
+  const saveStatus=document.getElementById("soundAutosaveStatus");
+  const presets=[...screen.querySelectorAll(".sound-presets button")];
+  const volumeKeys=["chantVolume","ambientVolume","notificationVolume"];
+  const refreshVolume=()=>{
+    master.value=state.masterVolume??70;
+    master.nextElementSibling.textContent=`${master.value}%`;
+    volumeRanges.forEach((range,index)=>{range.value=state[volumeKeys[index]]??[80,60,70][index];range.nextElementSibling.textContent=`${range.value}%`;});
+    continuous.checked=state.soundContinuous!==false;
+    presets.forEach((button,index)=>{const selected=index===Number(state.soundPreset||0);button.classList.toggle("active",selected);button.classList.toggle("playing",selected&&state.gardenSoundOn);});
+    if(playButton)playButton.textContent=state.gardenSoundOn?"❚❚":"▶";
+  };
+  const updateLiveGain=()=>{if(gardenMasterGain)gardenMasterGain.gain.value=state.soundOn===false?0:.65*(Number(state.masterVolume)/100)*(Number(state.ambientVolume)/100);};
+  let saveStatusTimer;
+  const autoSave=()=>{
+    if(saveStatus){saveStatus.textContent="กำลังบันทึกลงฐานข้อมูล...";saveStatus.classList.add("saving");}
+    clearTimeout(saveStatusTimer);
+    saveState(result=>{
+      if(!saveStatus)return;
+      if(result.saved)saveStatus.textContent="✓ บันทึกลงฐานข้อมูลแล้ว";
+      else if(result.reason==="guest")saveStatus.textContent="บันทึกในเครื่องแล้ว · เข้าสู่ระบบเพื่อบันทึกฐานข้อมูล";
+      else saveStatus.textContent="บันทึกในเครื่องแล้ว · รอซิงก์ฐานข้อมูล";
+      saveStatus.classList.remove("saving");
+    });
+  };
+  master.addEventListener("input",()=>{state.masterVolume=Number(master.value);master.nextElementSibling.textContent=`${master.value}%`;updateLiveGain();autoSave();});
+  volumeRanges.forEach((range,index)=>range.addEventListener("input",()=>{state[volumeKeys[index]]=Number(range.value);range.nextElementSibling.textContent=`${range.value}%`;updateLiveGain();autoSave();}));
+  soundToggle.addEventListener("change",()=>{state.soundOn=soundToggle.checked;if(!state.soundOn){state.gardenSoundOn=false;stopGardenSound();}updateLiveGain();autoSave();refreshVolume();});
+  continuous.addEventListener("change",()=>{state.soundContinuous=continuous.checked;autoSave();});
+  presets.forEach((button,index)=>button.addEventListener("click",async()=>{const isPlaying=state.gardenSoundOn&&Number(state.soundPreset||0)===index;if(isPlaying){state.gardenSoundOn=false;stopGardenSound();autoSave();refreshVolume();return;}state.soundPreset=index;state.soundOn=true;state.gardenSoundOn=true;soundToggle.checked=true;stopGardenSound();autoSave();refreshVolume();playChime([440,520,600,680,760,840][index]||520);await startGardenSound();refreshVolume();}));
+  refreshVolume();
 }
 
 /* ---------------- BIND EVENTS ---------------- */
@@ -2842,7 +3191,7 @@ function showGardenHelp(){
 }
 /* เนื้อหาคู่มือการใช้งาน (หน้าตั้งค่า > คู่มือการใช้งาน) */
 const GUIDE_TOPICS={
-  account:{art:"assets/garden-female.png",tint:"a",title:"1. บัญชีผู้ใช้และการตั้งค่า",body:`
+  account:{art:"assets/garden-female.png",tint:"a",title:"บัญชีผู้ใช้และการตั้งค่า",body:`
     <p class="garden-guide-lead">แอปนี้ใช้ได้เลยโดยไม่ต้องสมัครสมาชิก ข้อมูลทั้งหมดเก็บอยู่ในเครื่องของคุณเอง</p>
     <h4>โปรไฟล์</h4>
     <p>ตั้งค่า → <b>แก้ไขโปรไฟล์</b> เปลี่ยนชื่อที่แสดง รูปตัวละคร และดูระดับของคุณได้ ระดับจะขึ้นเองตามการสวดมนต์สะสม</p>
@@ -2856,7 +3205,7 @@ const GUIDE_TOPICS={
     <h4>ข้อมูลของคุณ</h4>
     <p class="garden-guide-note">ประวัติการสวด บทโปรด แต้มบุญ และสวนบุญ เก็บไว้ในเครื่องนี้เท่านั้น ไม่ได้ส่งขึ้นเซิร์ฟเวอร์ — ถ้าล้างข้อมูลเบราว์เซอร์หรือเปลี่ยนเครื่อง ข้อมูลจะเริ่มใหม่</p>`},
 
-  prayers:{art:"assets/guide-lotus.png",tint:"b",title:"2. บทสวดและหมวดหมู่",body:`
+  prayers:{art:"assets/guide-lotus.png",tint:"b",title:"บทสวดและหมวดหมู่",body:`
     <p class="garden-guide-lead">ในแอปมีบทสวดให้เลือกกว่า 40 บท ตั้งแต่บทสั้น ๆ ประจำวัน ไปจนถึงพระสูตรเต็ม</p>
     <h4>หาบทที่ต้องการ</h4>
     <ul class="garden-guide-bullets">
@@ -2870,7 +3219,7 @@ const GUIDE_TOPICS={
     <p>แท็บ "บทสวดของฉัน" ในหน้าบทสวด ใช้จัด<b>ชุดสวด</b>ของตัวเอง เลือกได้หลายบทเรียงต่อกัน เวลาสวดจะไล่ให้ทีละบทจนจบชุด</p>
     <p class="garden-guide-note">ถ้าไม่รู้จะเริ่มบทไหน ลองใช้ "ผู้ช่วย" ให้จัดชุดให้ตามสิ่งที่อยากโฟกัส</p>`},
 
-  chanting:{art:"assets/prayer-hands.png",tint:"c",title:"3. การสวดมนต์",body:`
+  chanting:{art:"assets/prayer-hands.png",tint:"c",title:"การสวดมนต์",body:`
     <p class="garden-guide-lead">แตะที่บทสวดใดก็ได้เพื่อเข้าหน้าสวด ตัวบทจะแสดงเป็นบรรทัดใหญ่ อ่านตามได้สบาย</p>
     <h4>สามแท็บในหน้าสวด</h4>
     <ul class="garden-guide-bullets">
@@ -2887,7 +3236,7 @@ const GUIDE_TOPICS={
     <h4>สวดแล้วได้อะไร</h4>
     <p>ทุกบทที่สวดจบจะถูกบันทึกลงประวัติ ได้<b>แต้มบุญ</b>ไว้ขึ้นระดับสวน และได้ <b>2 ดอกบัว</b> ไว้ซื้อของตกแต่งในสวนบุญ</p>`},
 
-  merit:{art:"assets/guide-heart.png",tint:"d",title:"4. บุญของฉัน",body:`
+  merit:{art:"assets/guide-heart.png",tint:"d",title:"บุญของฉัน",body:`
     <p class="garden-guide-lead">หน้า "บุญของฉัน" คือสมุดบันทึกการสวดมนต์ของคุณ</p>
     <ul class="garden-guide-bullets">
       <li><b>สวดมนต์ต่อเนื่อง</b> นับจำนวนวันที่สวดติดต่อกัน ถ้าเว้นไปหนึ่งวันจะเริ่มนับใหม่</li>
@@ -2898,7 +3247,7 @@ const GUIDE_TOPICS={
     <p>แต้มบุญที่สะสมจะไปโผล่ที่ <b>สวนบุญ</b> ใช้ไต่ระดับสวน ยิ่งระดับสูงยิ่งปลดล็อกฉากสวน ตัวละคร และของรางวัลใหม่ ๆ</p>
     <p class="garden-guide-note">การบันทึกเกิดขึ้นอัตโนมัติเมื่อสวดจบ ไม่ต้องกดบันทึกเอง</p>`},
 
-  stats:{art:"assets/reward-summary-all.png",tint:"e",title:"5. รายงานและสถิติ",body:`
+  stats:{art:"assets/reward-summary-all.png",tint:"e",title:"รายงานและสถิติ",body:`
     <p class="garden-guide-lead">ตัวเลขทั้งหมดคำนวณจากประวัติการสวดจริงของคุณ ไม่ต้องกรอกเอง</p>
     <h4>ดูได้ที่ไหนบ้าง</h4>
     <ul class="garden-guide-bullets">
@@ -2915,7 +3264,7 @@ const GUIDE_TOPICS={
     </ul>
     <p class="garden-guide-note">อยากรู้รายละเอียดระบบสวนบุญเพิ่ม กดปุ่ม "คู่มือ" ที่หัวหน้าสวนบุญ หรือ "คัมภีร์สวนบุญ" ในหน้าตกแต่งสวน</p>`},
 
-  more:{art:"assets/garden-gift.png",tint:"f",title:"6. อื่น ๆ และการจัดการแอป",body:`
+  more:{art:"assets/garden-gift.png",tint:"f",title:"อื่น ๆ และการจัดการแอป",body:`
     <h4>ติดตั้งเป็นแอปบนมือถือ</h4>
     <p>เปิดเว็บนี้ในเบราว์เซอร์แล้วเลือก <b>"เพิ่มไปยังหน้าจอโฮม"</b> จะได้ไอคอนเหมือนแอปจริง เปิดแบบเต็มจอ ไม่มีแถบเบราว์เซอร์</p>
     <h4>ถ้าหน้าจอยังเป็นแบบเดิมหลังอัปเดต</h4>
@@ -3349,5 +3698,17 @@ document.addEventListener("DOMContentLoaded", ()=>{
   bindGardenRewards();
   bindGardenDecorator();
   bindGardenCharacter();
+  bindVipScreen();
+  bindNotificationPrefs();
+  startNotificationScheduler();
+  document.addEventListener("click",event=>{
+    if(!event.target.closest("#settingsGuestLoginBtn"))return;
+    event.preventDefault();
+    event.stopPropagation();
+    showScreen("register");
+    if(authMode!=="login")document.getElementById("showLogin")?.click();
+  },true);
+  initAuth();
   initSettings();
+  bindSoundSettings();
 });
