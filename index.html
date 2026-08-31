@@ -19,7 +19,8 @@
 <meta name="mobile-web-app-capable" content="yes">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="style.css?v=20260829-3">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Sarabun:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800&amp;display=swap">
+<link rel="stylesheet" href="style.css?v=20260831-59">
 <link rel="stylesheet" href="character.css?v=20260826-7">
 </head>
 <body>
@@ -59,12 +60,10 @@
 
       <div class="card today-card">
         <div class="card-head">
-          <h2><img class="merit-fav-inline" src="assets/merit-fav-icon.png" alt=""> บทสวดวันนี้</h2>
-          <button class="link-btn" data-nav="prayers">ดูทั้งหมด <span>›</span></button>
+          <h2><img class="holy-calendar-title-icon" src="design-reference/414cadc9-a247-4ddc-8026-ad98728bd8a7.png" alt=""> ปฏิทินวันพระ</h2>
+          <button class="link-btn" type="button" id="holyCalendarToday">เดือนนี้ <span>›</span></button>
         </div>
-
-        <div class="carousel" id="todayCarousel"></div>
-        <div class="dots" id="todayDots"></div>
+        <div class="holy-calendar" id="holyCalendar"></div>
 
         <div class="section-title inner">
           <h2><img class="checkin-heart" src="assets/guide-heart.png" alt=""> สวดบ่อย ใช้ได้ทุกวัน</h2>
@@ -405,6 +404,53 @@
       </div>
     </section>
 
+    <!-- ---------- COMMUNITY SCREEN ---------- -->
+    <section class="screen" id="screen-community">
+      <div class="community-hero">
+        <div class="community-sparkles" aria-hidden="true">✦　⋆　✧</div>
+        <header class="community-heading">
+          <div><h1>ชุมชนแห่งบุญ <span>✨</span></h1><p>รวมพลังแห่งความดี สวดมนต์ไปด้วยกัน 💗</p></div>
+        </header>
+      </div>
+
+      <div class="community-tabs" role="tablist">
+        <button class="active" type="button" data-community-tab="ranking">🏆 <span>อันดับผู้สวด</span></button>
+        <button type="button" data-community-tab="mine"><svg class="community-tab-person-icon" viewBox="0 0 24 24" aria-hidden="true"><circle cx="9" cy="8" r="3"></circle><circle cx="16.5" cy="9" r="2.3"></circle><path d="M3.5 19c0-3.2 2.4-5.5 5.5-5.5s5.5 2.3 5.5 5.5M14 14.5c.7-.5 1.5-.8 2.5-.8 2.5 0 4 1.8 4 4.3"></path></svg><span>ชุมชนของฉัน</span></button>
+      </div>
+
+      <div class="community-content" id="communityRankingPanel">
+        <section class="community-summary">
+          <article class="community-my-score">
+            <h2>🌸 คะแนนของฉัน</h2>
+            <div class="community-score-row">
+              <span class="community-person-avatar" id="communityAvatar" role="img" aria-label="รูปโปรไฟล์"></span>
+              <div><small>อันดับของฉัน</small><strong id="communityRank">128</strong><b class="community-rank-up">↑ 15</b></div>
+              <div><small>คะแนนรวม</small><strong><span id="communityPoints">0</span> ✦</strong></div>
+            </div>
+            <div class="community-level-row"><span class="community-level-badge" id="communityLevelBadge" role="img" aria-label="ตราระดับ Lv.1"></span><div><b id="communityNextLevel">อีก 100 แต้ม จะถึง Lv.2</b><i><em id="communityLevelProgress"></em></i></div><img src="assets/garden-gift.png" alt="ของขวัญ"></div>
+          </article>
+          <article class="community-personal">
+            <header><h2>สถิติส่วนตัว</h2><button type="button" data-nav="profile">ดูทั้งหมด ›</button></header>
+            <div class="community-stats"><span><img src="assets/garden-fire.png" alt=""><small>สวดต่อเนื่อง</small><strong><b id="communityStreak">0</b> วัน</strong></span><span><img src="assets/profile-points.png" alt=""><small>สวดทั้งหมด</small><strong><b id="communityPrayerCount">0</b> ครั้ง</strong></span></div>
+            <blockquote>“ ความไม่ประมาท เป็นทางไม่ตาย ”<small>- พุทธพจน์ -</small></blockquote>
+          </article>
+        </section>
+
+        <section class="community-ranking">
+          <header><h2>อันดับผู้สวดประจำสัปดาห์</h2><span>◷ สัปดาห์นี้เหลืออีก 3 วัน</span></header>
+          <div class="community-podium" id="communityPodium"><p class="community-loading">กำลังโหลดอันดับ...</p></div>
+          <div class="community-table">
+            <div class="community-table-head"><span>อันดับ</span><span>ชื่อผู้ใช้</span><span>คะแนนรวม</span><span>สวดต่อเนื่อง</span></div>
+            <div id="communityTableRows" class="community-table-rows"><span>กำลังโหลดข้อมูลจากฐานข้อมูล...</span></div>
+          </div>
+        </section>
+
+        <div class="community-actions"><button type="button"><span><img src="assets/reward-summary-all.png" alt=""></span><b>ภารกิจชุมชน</b><small>ทำภารกิจร่วมกัน<br>รับรางวัลพิเศษ</small></button><button type="button"><span><img src="assets/wallet-hearts.png" alt=""></span><b>ส่งกำลังใจ</b><small>ให้เพื่อนในชุมชน<br>เพิ่มพลังบุญ</small></button><button type="button"><span><img src="assets/reward-lotus-2.png" alt=""></span><b>กระดานสนทนา</b><small>พูดคุย แบ่งปัน<br>ประสบการณ์</small></button></div>
+      </div>
+
+      <div class="community-mine" id="communityMinePanel" hidden><div>💗</div><h2>ชุมชนของฉัน</h2><p>พบเพื่อนร่วมสวด ส่งกำลังใจ<br>และร่วมทำความดีไปด้วยกัน</p><button type="button" data-community-tab="ranking">ดูอันดับผู้สวด</button></div>
+    </section>
+
     <!-- ---------- REGISTER SCREEN ---------- -->
     <section class="screen register-screen" id="screen-register">
       <button class="register-back" type="button" data-nav="settings" aria-label="ย้อนกลับไปหน้าสมัครสมาชิก">‹</button>
@@ -724,13 +770,13 @@
       <span class="nav-main-circle"><img src="assets/navlotus.png" alt=""></span>
       <span>สวดมนต์</span>
     </button>
-    <button class="nav-item" data-nav="merit">
-      <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20.8 4.6c-1.7-1.7-4.4-1.7-6.1 0L12 7.3 9.3 4.6c-1.7-1.7-4.4-1.7-6.1 0-1.7 1.7-1.7 4.4 0 6.1L12 19.4l8.8-8.7c1.7-1.7 1.7-4.4 0-6.1z"/></svg>
-      <span>บุญของฉัน</span>
-    </button>
     <button class="nav-item" data-nav="merit-garden">
       <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22v-7"/><path d="M8 22h8"/><path d="M12 15c-4 0-7-2.2-7-5.2C5 7.1 7.1 5 9.7 5c.5-2 2.2-3 4.1-3 2.5 0 4.5 1.8 4.5 4.2 1.6.7 2.7 2.2 2.7 4 0 2.8-2.6 4.8-6 4.8Z"/></svg>
       <span>สวนบุญ</span>
+    </button>
+    <button class="nav-item" data-nav="community">
+      <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="8" r="3"/><circle cx="17" cy="9" r="2.5"/><path d="M3 20a6 6 0 0 1 12 0M14 15.5a5 5 0 0 1 7 4.5"/></svg>
+      <span>ชุมชน</span>
     </button>
     <button class="nav-item" data-nav="settings">
       <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.7 1.7 0 0 0 .3 1.9l.1.1a2 2 0 1 1-2.8 2.8l-.1-.1a1.7 1.7 0 0 0-1.9-.3 1.7 1.7 0 0 0-1 1.5V21a2 2 0 1 1-4 0v-.1a1.7 1.7 0 0 0-1-1.6 1.7 1.7 0 0 0-1.9.3l-.1.1a2 2 0 1 1-2.8-2.8l.1-.1a1.7 1.7 0 0 0 .3-1.9 1.7 1.7 0 0 0-1.5-1H3a2 2 0 1 1 0-4h.1a1.7 1.7 0 0 0 1.6-1 1.7 1.7 0 0 0-.3-1.9l-.1-.1a2 2 0 1 1 2.8-2.8l.1.1a1.7 1.7 0 0 0 1.9.3H9a1.7 1.7 0 0 0 1-1.5V3a2 2 0 1 1 4 0v.1a1.7 1.7 0 0 0 1 1.5 1.7 1.7 0 0 0 1.9-.3l.1-.1a2 2 0 1 1 2.8 2.8l-.1.1a1.7 1.7 0 0 0-.3 1.9V9a1.7 1.7 0 0 0 1.5 1H21a2 2 0 1 1 0 4h-.1a1.7 1.7 0 0 0-1.5 1z"/></svg>
@@ -742,6 +788,6 @@
 
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script src="supabase-config.js"></script>
-<script src="app.js?v=20260829-9"></script>
+<script src="app.js?v=20260831-41"></script>
 </body>
 </html>

@@ -1451,7 +1451,7 @@ function initAuth(){
   updateBirthDate();
   document.querySelectorAll("[data-password-toggle]").forEach(button=>button.addEventListener("click",()=>{const input=document.getElementById(button.dataset.passwordToggle);input.type=input.type==="password"?"text":"password";}));
   password.addEventListener("input",()=>{const value=password.value;let score=0;if(value.length>=8)score++;if(/[A-Zก-ฮ]/.test(value)&&/[a-z]/.test(value))score++;if(/\d/.test(value))score++;if(/[^\wก-๙]/.test(value))score++;document.getElementById("passwordStrengthBar").style.width=`${score*25}%`;document.getElementById("passwordStrengthText").textContent=["-","อ่อน","ปานกลาง","ดี","แข็งแรง"][score];});
-  document.getElementById("showLogin").addEventListener("click",()=>{authMode=authMode==="register"?"login":"register";const isLogin=authMode==="login",identifier=document.getElementById("registerEmail"),identifierLabel=document.getElementById("registerIdentifierLabel");document.querySelector(".register-hero h2").textContent=isLogin?"เข้าสู่ระบบ":"สมัครสมาชิก";submit.innerHTML=isLogin?"เข้าสู่ระบบ":"<img src=\"assets/lotus.png\" alt=\"\"> สมัครสมาชิก";document.getElementById("showLogin").textContent=isLogin?"สมัครสมาชิก":"เข้าสู่ระบบ";identifier.type=isLogin?"text":"email";identifier.placeholder=isLogin?"กรอกอีเมลหรือเบอร์โทรศัพท์":"กรอกอีเมลของคุณ";identifier.autocomplete=isLogin?"username":"email";identifierLabel.childNodes[0].nodeValue=isLogin?"อีเมลหรือเบอร์โทรศัพท์":"อีเมล";form.classList.toggle("login-mode",isLogin);[confirmPassword,document.getElementById("registerFullName"),document.getElementById("registerConsent")].forEach(input=>{input.required=!isLogin;input.disabled=isLogin;});message.textContent="";});
+  document.getElementById("showLogin").addEventListener("click",()=>{authMode=authMode==="register"?"login":"register";const isLogin=authMode==="login",identifier=document.getElementById("registerEmail"),identifierLabel=document.getElementById("registerIdentifierLabel");document.querySelector(".register-hero h2").textContent=isLogin?"เข้าสู่ระบบ":"สมัครสมาชิก";submit.innerHTML=isLogin?"เข้าสู่ระบบ":"<img src=\"assets/lotus.png\" alt=\"\"> สมัครสมาชิก";document.getElementById("showLogin").textContent=isLogin?"สมัครสมาชิก":"เข้าสู่ระบบ";identifier.type="email";identifier.placeholder="กรอกอีเมลของคุณ";identifier.autocomplete=isLogin?"username":"email";identifierLabel.childNodes[0].nodeValue="อีเมล";form.classList.toggle("login-mode",isLogin);[confirmPassword,document.getElementById("registerFullName"),document.getElementById("registerConsent")].forEach(input=>{input.required=!isLogin;input.disabled=isLogin;});message.textContent="";});
   document.getElementById("settingsGuestLoginBtn")?.addEventListener("click",event=>{event.preventDefault();event.stopPropagation();showScreen("register");if(authMode!=="login")document.getElementById("showLogin").click();});
   document.getElementById("startLoginAfterRegister").addEventListener("click",async event=>{const button=event.currentTarget,client=getSupabaseClient(),successText=document.querySelector("#registerSuccessView>p");if(!client){successText.textContent="ไม่สามารถเชื่อมต่อระบบสมาชิกได้";return;}button.disabled=true;button.textContent="กำลังเข้าสู่ระบบ...";try{let {data:{session}}=await client.auth.getSession();if(!session){const email=document.getElementById("registerEmail").value.trim(),passwordValue=password.value;const {data,error}=await client.auth.signInWithPassword({email,password:passwordValue});if(error)throw error;session=data.session;}if(!session)throw new Error("กรุณายืนยันอีเมลก่อนเข้าสู่ระบบ");authSession=session;await loadCloudState();queueCloudStateSync();showScreen("home");}catch(error){successText.textContent=/confirm|verified/i.test(error?.message||"")?"กรุณายืนยันอีเมลจากกล่องข้อความก่อนเริ่มใช้งาน":translateAuthError(error?.message);successText.classList.add("error");successText.scrollIntoView({behavior:"smooth",block:"center"});}finally{button.disabled=false;button.textContent="เริ่มใช้งานเลย";}});
   document.querySelectorAll("[data-auth-provider]").forEach(button=>button.addEventListener("click",async()=>{const client=getSupabaseClient();if(!client){message.textContent="กรุณาตั้งค่า Supabase ก่อนใช้งาน";return;}await client.auth.signInWithOAuth({provider:button.dataset.authProvider,options:{redirectTo:location.href.split("#")[0]}});}));
@@ -1467,7 +1467,7 @@ function initAuth(){
     const email=document.getElementById("registerEmail").value.trim();
     let result;
     try{
-      if(authMode==="login"){const isEmail=email.includes("@");const phone=email.startsWith("0")?`+66${email.slice(1)}`:email;result=await client.auth.signInWithPassword(isEmail?{email,password:password.value}:{phone,password:password.value});}
+      if(authMode==="login"){result=await client.auth.signInWithPassword({email,password:password.value});}
       else result=await client.auth.signUp({email,password:password.value,options:{data:{full_name:document.getElementById("registerFullName").value.trim(),birth_date:birthDateIso,gender:document.querySelector('[name="registerGender"]:checked')?.value||"",phone:document.getElementById("registerPhone").value.trim()}}});
     }catch(error){message.className="register-message error";message.textContent=translateAuthError(error?.message);return;}
     finally{submit.disabled=false;submit.innerHTML=authMode==="login"?"เข้าสู่ระบบ":"<img src=\"assets/lotus.png\" alt=\"\"> สมัครสมาชิก";}
@@ -1512,8 +1512,29 @@ function todayStr(d=new Date()){
 }
 function dowMon0(d){ return (d.getDay()+6)%7; } // Mon=0..Sun=6
 
+function normalizeActivityDate(value){
+  if(!value) return "";
+  const text=String(value).trim();
+  const iso=text.match(/^(\d{4})-(\d{2})-(\d{2})/);
+  if(iso) return `${iso[1]}-${iso[2]}-${iso[3]}`;
+  const thai=text.match(/^(\d{1,2})\/(\d{1,2})\/(\d{4})$/);
+  if(thai){
+    let year=Number(thai[3]);if(year>2400)year-=543;
+    return `${year}-${thai[2].padStart(2,"0")}-${thai[1].padStart(2,"0")}`;
+  }
+  const date=new Date(value);
+  return Number.isNaN(date.getTime())?"":todayStr(date);
+}
+function getCompletedActivityDates(){
+  const completed=Array.isArray(state.completedDates)?state.completedDates:[];
+  const history=Array.isArray(state.prayerHistory)?state.prayerHistory:[];
+  return new Set([
+    ...completed.map(normalizeActivityDate),
+    ...history.map(item=>normalizeActivityDate(item?.at))
+  ].filter(Boolean));
+}
 function computeStreak(){
-  const set = new Set(state.completedDates);
+  const set = getCompletedActivityDates();
   let count = 0;
   let cur = new Date();
   // if today not done yet, streak still counts from yesterday backward
@@ -1524,7 +1545,19 @@ function computeStreak(){
     count++;
     cur.setDate(cur.getDate()-1);
   }
-  return count;
+  if(count>0) return count;
+  const dayNumbers=[...set].map(value=>{
+    const [year,month,day]=value.split("-").map(Number);
+    return Date.UTC(year,month-1,day)/86400000;
+  }).filter(Number.isFinite).sort((a,b)=>a-b);
+  let longest=0,run=0,previous=null;
+  dayNumbers.forEach(day=>{
+    if(day===previous) return;
+    run=previous!==null&&day===previous+1?run+1:1;
+    longest=Math.max(longest,run);
+    previous=day;
+  });
+  return longest;
 }
 
 function findPrayer(id){ return PRAYERS.find(p=>p.id===id); }
@@ -1570,7 +1603,37 @@ function renderHero(){
 }
 
 /* ---------------- HOME: TODAY CAROUSEL ---------------- */
+const HOLY_DAYS_2569={
+  0:["3|ขึ้น 15 ค่ำ เดือนยี่","11|แรม 8 ค่ำ เดือนยี่","18|แรม 15 ค่ำ เดือนยี่","26|ขึ้น 8 ค่ำ เดือน 3"],1:["2|ขึ้น 15 ค่ำ เดือน 3","10|แรม 8 ค่ำ เดือน 3","16|แรม 14 ค่ำ เดือน 3","24|ขึ้น 8 ค่ำ เดือน 4"],2:["3|ขึ้น 15 ค่ำ เดือน 4|วันมาฆบูชา","11|แรม 8 ค่ำ เดือน 4","18|แรม 15 ค่ำ เดือน 4","26|ขึ้น 8 ค่ำ เดือน 5"],3:["2|ขึ้น 15 ค่ำ เดือน 5","10|แรม 8 ค่ำ เดือน 5","16|แรม 14 ค่ำ เดือน 5","24|ขึ้น 8 ค่ำ เดือน 6"],4:["1|ขึ้น 15 ค่ำ เดือน 6","9|แรม 8 ค่ำ เดือน 6","16|แรม 15 ค่ำ เดือน 6","24|ขึ้น 8 ค่ำ เดือน 7","31|ขึ้น 15 ค่ำ เดือน 7|วันวิสาขบูชา"],5:["8|แรม 8 ค่ำ เดือน 7|วันอัฏฐมีบูชา","14|แรม 14 ค่ำ เดือน 7","22|ขึ้น 8 ค่ำ เดือน 8","29|ขึ้น 15 ค่ำ เดือน 8"],6:["7|แรม 8 ค่ำ เดือน 8","14|แรม 15 ค่ำ เดือน 8","22|ขึ้น 8 ค่ำ เดือน 8 หลัง","29|ขึ้น 15 ค่ำ เดือน 8 หลัง|วันอาสาฬหบูชา","30|แรม 1 ค่ำ เดือน 8 หลัง|วันเข้าพรรษา"],7:["6|แรม 8 ค่ำ เดือน 8 หลัง","13|แรม 15 ค่ำ เดือน 8 หลัง","21|ขึ้น 8 ค่ำ เดือน 9","28|ขึ้น 15 ค่ำ เดือน 9"],8:["5|แรม 8 ค่ำ เดือน 9","11|แรม 14 ค่ำ เดือน 9","19|ขึ้น 8 ค่ำ เดือน 10","26|ขึ้น 15 ค่ำ เดือน 10"],9:["4|แรม 8 ค่ำ เดือน 10","11|แรม 15 ค่ำ เดือน 10","19|ขึ้น 8 ค่ำ เดือน 11","26|ขึ้น 15 ค่ำ เดือน 11|วันออกพรรษา"],10:["3|แรม 8 ค่ำ เดือน 11","9|แรม 14 ค่ำ เดือน 11","17|ขึ้น 8 ค่ำ เดือน 12","24|ขึ้น 15 ค่ำ เดือน 12|วันลอยกระทง"],11:["2|แรม 8 ค่ำ เดือน 12","9|แรม 15 ค่ำ เดือน 12","17|ขึ้น 8 ค่ำ เดือนอ้าย","24|ขึ้น 15 ค่ำ เดือนอ้าย"]
+};
+const HOLY_MONTHS=["มกราคม","กุมภาพันธ์","มีนาคม","เมษายน","พฤษภาคม","มิถุนายน","กรกฎาคม","สิงหาคม","กันยายน","ตุลาคม","พฤศจิกายน","ธันวาคม"];
+let holyCalendarMonth=new Date().getMonth();
+function holyEntries(month){return (HOLY_DAYS_2569[month]||[]).map(value=>{const [day,lunar,event]=value.split("|");return {day:Number(day),lunar,event:event||""};});}
+function holyMoonPhase(lunar=""){
+  const match=lunar.match(/(ขึ้น|แรม)\s*(\d+)/);if(!match)return 8;const count=Number(match[2]);
+  return match[1]==="ขึ้น"?Math.max(0,Math.min(8,Math.round((count-1)/14*8))):Math.max(9,Math.min(16,9+Math.round((count-1)/14*7)));
+}
+function currentLunarFromHoly(date){
+  const all=Object.keys(HOLY_DAYS_2569).flatMap(m=>holyEntries(Number(m)).map(item=>({...item,month:Number(m),date:new Date(2026,Number(m),item.day)}))).sort((a,b)=>a.date-b.date),previous=[...all].reverse().find(item=>item.date<=date)||all[0],delta=Math.max(0,Math.round((date-previous.date)/86400000));
+  const match=previous.lunar.match(/(ขึ้น|แรม)\s*(\d+)\s*ค่ำ\s*(.*)/);if(!match)return previous.lunar;
+  let side=match[1],count=Number(match[2])+delta,monthLabel=match[3];
+  if(side==="ขึ้น"&&count>15){side="แรม";count-=15}else if(side==="แรม"&&count>15){side="ขึ้น";count-=15;monthLabel=monthLabel.replace(/เดือน\s*(\d+)/,(_,n)=>`เดือน ${Number(n)+1}`);}
+  return `${side} ${count} ค่ำ ${monthLabel}`;
+}
+function renderHolyCalendar(month=holyCalendarMonth){
+  const wrap=document.getElementById("holyCalendar");if(!wrap)return;holyCalendarMonth=Math.max(0,Math.min(11,month));
+  const now=new Date(),entries=holyEntries(holyCalendarMonth),today=now.getFullYear()===2026&&now.getMonth()===holyCalendarMonth?now.getDate():0,todayEntry=entries.find(item=>item.day===today),selected=entries.find(item=>item.day>=today)||entries[entries.length-1],displayLunar=today?currentLunarFromHoly(new Date(2026,holyCalendarMonth,today)):selected?.lunar||"",displayDay=today||selected?.day||"-",displayLabel=today?(todayEntry?.event||(todayEntry?"วันพระ":"วันนี้")):(selected?.event||"วันพระ");
+  const firstDay=new Date(2026,holyCalendarMonth,1).getDay(),daysInMonth=new Date(2026,holyCalendarMonth+1,0).getDate(),previousDays=new Date(2026,holyCalendarMonth,0).getDate(),cells=[];
+  for(let i=firstDay-1;i>=0;i--)cells.push(`<span class="outside">${previousDays-i}</span>`);
+  for(let day=1;day<=daysInMonth;day++){const holy=entries.find(item=>item.day===day);cells.push(`<button type="button" class="${holy?"is-holy":""} ${holy?.event?"is-special":""} ${day===selected?.day?"selected":""} ${day===today?"today":""}" data-holy-day="${day}" ${holy?.event?`aria-label="${holy.event}"`:""}>${day}${holy?"<i></i>":""}</button>`);}
+  while(cells.length%7)cells.push(`<span class="outside">${cells.length-firstDay-daysInMonth+1}</span>`);
+  const all=Object.keys(HOLY_DAYS_2569).flatMap(m=>holyEntries(Number(m)).map(item=>({...item,month:Number(m),date:new Date(2026,Number(m),item.day)}))),todayDate=new Date(now.getFullYear(),now.getMonth(),now.getDate()),next=all.find(item=>item.date>=todayDate)||all[all.length-1];
+  wrap.innerHTML=`<div class="holy-feature"><div class="holy-moon"><img src="assets/holy-moon-phases/phase-${holyMoonPhase(displayLunar)}.png" alt="เฟสพระจันทร์"></div><b>${displayLabel}</b><strong>${displayDay}</strong><span>${HOLY_MONTHS[holyCalendarMonth]} 2569</span><small>${displayLunar}</small></div><div class="holy-month"><header><button type="button" data-holy-nav="-1" aria-label="เดือนก่อน">‹</button><b>${HOLY_MONTHS[holyCalendarMonth]} 2569</b><button type="button" data-holy-nav="1" aria-label="เดือนถัดไป">›</button></header><div class="holy-week"><b>อา</b><b>จ</b><b>อ</b><b>พ</b><b>พฤ</b><b>ศ</b><b>ส</b></div><div class="holy-grid">${cells.join("")}</div></div><div class="holy-next"><img src="assets/reward-lotus-2.png" alt=""><span>วันพระถัดไป: ${next.day} ${HOLY_MONTHS[next.month]} 2569</span><b>›</b></div>`;
+  wrap.querySelectorAll("[data-holy-nav]").forEach(button=>button.addEventListener("click",()=>renderHolyCalendar(holyCalendarMonth+Number(button.dataset.holyNav))));
+  wrap.querySelectorAll("[data-holy-day]").forEach(button=>button.addEventListener("click",()=>{const item=entries.find(entry=>entry.day===Number(button.dataset.holyDay));if(!item)return;const feature=wrap.querySelector(".holy-feature");feature.querySelector("b").textContent=item.event||"วันพระ";feature.querySelector("strong").textContent=item.day;feature.querySelector("small").textContent=item.lunar;feature.querySelector(".holy-moon img").src=`assets/holy-moon-phases/phase-${holyMoonPhase(item.lunar)}.png`;}));
+}
 function renderCarousel(){
+  renderHolyCalendar();const todayButton=document.getElementById("holyCalendarToday");if(todayButton)todayButton.onclick=()=>renderHolyCalendar(new Date().getMonth());return;
   const featured = [
     findPrayer("jinapanjara"),
     findPrayer("itipiso"),
@@ -2540,6 +2603,7 @@ function showScreen(name){
   document.body.classList.toggle("guide-mode",name==="guide");
   document.body.classList.toggle("notification-mode",name==="notifications");
   document.body.classList.toggle("sound-settings-mode",name==="sound-settings");
+  document.body.classList.toggle("community-mode",name==="community");
   document.body.classList.toggle("garden-mode",name==="merit-garden"||name==="garden-rewards"||name==="garden-decorate"||name==="garden-character");
   document.body.classList.toggle("character-mode",name==="garden-character");
   document.body.classList.remove("photo-view");
@@ -2565,6 +2629,7 @@ function showScreen(name){
   if(name==="garden-rewards") renderGardenRewards(document.querySelector("[data-reward-filter].active")?.dataset.rewardFilter||"all");
   if(name==="garden-decorate") renderGardenDecorator(document.querySelector("[data-decor-filter].active")?.dataset.decorFilter||"all");
   if(name==="garden-character") renderGardenCharacter();
+  if(name==="community") renderCommunity();
   if(name==="vip") renderVipScreen();
   if(name==="prayers") setPrayerLibraryTab(activeLibraryTab);
   if(name==="assistant") document.getElementById("assistantResult")?.classList.remove("show");
@@ -2609,7 +2674,10 @@ function initSettings(){
   const profileMessageInput = document.getElementById("profileMessageInput");
   let pendingProfileTheme = state.profileTheme || "pink";
   const applyProfileImages = (gender,profileTheme=pendingProfileTheme)=>{
-    const isMale = gender === "ชาย";
+    const isMale = ["ชาย","ผู้ชาย","male","m"].includes(String(gender||"").trim().toLowerCase());
+    const characterLevel=gardenLevelInfo(getMeritPoints()).level;
+    const characterTier=Math.max(1,Math.min(10,Math.floor((characterLevel-1)/10)+1));
+    const scoreCharacter=`assets/community-characters/${isMale?"male":"female"}-${characterTier}.png?v=ba3`;
     const themeImages = {
       pink:{female:"assets/hero-pink-female.png",male:"assets/hero-pink-male.png"},
       purple:{female:"assets/hero-purple-female.png",male:"assets/hero-purple-male.png"},
@@ -2617,9 +2685,9 @@ function initSettings(){
       green:{female:"assets/hero-green-female.png",male:"assets/hero-green-male.png"}
     };
     const selectedImages = themeImages[profileTheme] || themeImages.pink;
-    document.querySelectorAll("[data-profile-avatar]").forEach(image=>image.src=isMale ? "assets/profile-male.png" : "assets/profile-female.png");
+    document.querySelectorAll("[data-profile-avatar]").forEach(image=>image.src=scoreCharacter);
     document.querySelectorAll("[data-gender-hero]").forEach(image=>image.src=isMale ? selectedImages.male : selectedImages.female);
-    document.querySelectorAll("[data-garden-character]").forEach(image=>image.src=isMale ? "assets/garden-male.png" : "assets/garden-female.png");
+    document.querySelectorAll("[data-garden-character]").forEach(image=>image.src=scoreCharacter);
     document.querySelectorAll("#profileThemeOptions button").forEach(button=>button.classList.toggle("active",button.dataset.profileTheme===profileTheme));
   };
   const renderProfileSetting = ()=>{
@@ -3111,6 +3179,69 @@ function getGardenProgress(){
   const days=new Set([...(state.completedDates||[]),...history.map(item=>todayStr(new Date(item.at)))]).size;
   return {days,level:gardenLevelInfo(getMeritPoints()).level};
 }
+async function renderCommunity(){
+  const points=getMeritPoints();
+  const info=gardenLevelInfo(points);
+  const history=Array.isArray(state.prayerHistory)?state.prayerHistory:[];
+  const completedDays=getCompletedActivityDates().size;
+  const prayerCount=Math.max(history.length,completedDays);
+  const streak=computeStreak()||completedDays;
+  const remaining=info.need?Math.max(0,info.need-info.into):0;
+  const isMaleGender=gender=>["ชาย","ผู้ชาย","male","m"].includes(String(gender||"").trim().toLowerCase());
+  const scoreAvatarSrc=(gender,level)=>{const tier=Math.max(1,Math.min(10,Math.floor((Number(level||1)-1)/10)+1)),genderKey=isMaleGender(gender)?"male":"female";return `assets/community-characters/${genderKey}-${tier}.png?v=ba2`;};
+  const rankingAvatarSrc=(gender,level)=>{const tier=Math.max(1,Math.min(9,Math.floor((Number(level||1)-11)/10)+1)),genderKey=isMaleGender(gender)?"male":"female";return `assets/community-ranking-characters/${genderKey}-${tier}.png?v=b470-3`;};
+  const setText=(id,value)=>{const el=document.getElementById(id);if(el)el.textContent=value;};
+  setText("communityPoints",points.toLocaleString("th-TH"));
+  setText("communityTablePoints",points.toLocaleString("th-TH"));
+  setText("communityTableLevel",`Lv.${info.level}`);
+  setText("communityNextLevel",info.level>=100?"ระดับสูงสุดแล้ว":`อีก ${remaining.toLocaleString("th-TH")} แต้ม จะถึง Lv.${info.level+1}`);
+  setText("communityStreak",streak.toLocaleString("th-TH"));
+  setText("communityTableStreak",streak.toLocaleString("th-TH"));
+  setText("communityPrayerCount",prayerCount.toLocaleString("th-TH"));
+  setText("communityName",state.profileName||"นักสวดมือใหม่");
+  const progress=document.getElementById("communityLevelProgress");if(progress)progress.style.width=`${info.percent}%`;
+  const levelBadge=document.getElementById("communityLevelBadge");
+  if(levelBadge){const tier=Math.min(10,Math.floor((info.level-1)/10)+1),column=(tier-1)%5,row=Math.floor((tier-1)/5);levelBadge.style.backgroundPosition=`-${column*64}px -${Math.round(row*(1024/1536*320)+8)}px`;levelBadge.setAttribute("aria-label",`ตราระดับ Lv.${info.level}`);}
+  const ownAvatar=document.getElementById("communityAvatar");if(ownAvatar)ownAvatar.innerHTML=`<img src="${scoreAvatarSrc(state.profileGender,info.level)}" alt="">`;
+  const podium=document.getElementById("communityPodium");
+  const rows=document.getElementById("communityTableRows");
+  const client=getSupabaseClient();
+  if(!client||!podium||!rows) return;
+  const escape=value=>String(value??"").replace(/[&<>'"]/g,char=>({"&":"&amp;","<":"&lt;",">":"&gt;","'":"&#39;",'"':"&quot;"})[char]);
+  try{
+    const {data,error}=await client.rpc("get_community_leaderboard",{limit_count:100});
+    if(error) throw error;
+    const ranking=Array.isArray(data)?data:[];
+    const top=ranking.slice(0,3),empty=(rank,gender)=>({rank,gender,level:1,full_name:"",points:0,is_empty:true});
+    const podiumOrder=[top[1]||empty(2,"ชาย"),top[0]||empty(1,"หญิง"),top[2]||empty(3,"หญิง")];
+    const podiumClasses=["second","first","third"];
+    podium.dataset.count="3";
+    podium.innerHTML=podiumOrder.map((user,index)=>`<article class="${podiumClasses[index]}${user.is_empty?" is-empty":""}"><b>${user.rank}</b><span class="community-person-avatar" role="img" aria-label="${user.is_empty?"ตัวละครเริ่มต้น":escape(user.full_name)}"><img src="${rankingAvatarSrc(user.gender,user.level)}" alt=""></span><strong>${user.is_empty?"&nbsp;":escape(user.full_name)}</strong><span>${user.is_empty?"&nbsp;":`${Number(user.points||0).toLocaleString("th-TH")} ✦`}</span></article>`).join("");
+    rows.innerHTML=ranking.length?ranking.map(user=>`<div class="${user.is_current_user?"is-me":""}"><b>${user.rank}</b><span><span class="community-person-avatar" role="img" aria-label="${escape(user.full_name)}"><img src="${rankingAvatarSrc(user.gender,user.level)}" alt=""></span><i><strong>${escape(user.full_name)}</strong>${user.is_current_user?"<small>คุณ</small>":""}</i></span><strong>${Number(user.points||0).toLocaleString("th-TH")} ✦</strong><small>🔥 ${Math.max(Number(user.streak_days||0),user.is_current_user?streak:0).toLocaleString("th-TH")} วัน</small></div>`).join(""):`<div class="community-table-empty">ยังไม่มีข้อมูลผู้ใช้ในฐานข้อมูล</div>`;
+    const me=ranking.find(user=>user.is_current_user);
+    if(me){setText("communityRank",me.rank);setText("communityPoints",Number(me.points||0).toLocaleString("th-TH"));setText("communityPrayerCount",Math.max(Number(me.prayer_count||0),prayerCount).toLocaleString("th-TH"));setText("communityStreak",Math.max(Number(me.streak_days||0),streak).toLocaleString("th-TH"));}
+  }catch(error){
+    console.warn("Community leaderboard load failed:",error);
+    const localName=escape(state.profileName||"นักสวดมือใหม่");
+    const localPoints=getMeritPoints();
+    const localInfo=gardenLevelInfo(localPoints);
+    const localStreak=computeStreak()||getCompletedActivityDates().size;
+    const localAvatar=rankingAvatarSrc(state.profileGender,localInfo.level);
+    podium.dataset.count="3";
+    podium.innerHTML=`<article class="second is-empty"><b>2</b><span class="community-person-avatar" role="img" aria-label="ตัวละครเริ่มต้น"><img src="${rankingAvatarSrc("ชาย",1)}" alt=""></span><strong>&nbsp;</strong><span>&nbsp;</span></article><article class="first"><b>1</b><span class="community-person-avatar" role="img" aria-label="${localName}"><img src="${localAvatar}" alt=""></span><strong>${localName}</strong><span>${localPoints.toLocaleString("th-TH")} ✦</span></article><article class="third is-empty"><b>3</b><span class="community-person-avatar" role="img" aria-label="ตัวละครเริ่มต้น"><img src="${rankingAvatarSrc("หญิง",1)}" alt=""></span><strong>&nbsp;</strong><span>&nbsp;</span></article>`;
+    rows.innerHTML=`<div class="is-me"><b>1</b><span><span class="community-person-avatar" role="img" aria-label="${localName}"><img src="${localAvatar}" alt=""></span><i><strong>${localName}</strong><small>คุณ</small></i></span><strong>${localPoints.toLocaleString("th-TH")} ✦</strong><small>🔥 ${localStreak.toLocaleString("th-TH")} วัน</small></div>`;
+    setText("communityRank","1");
+  }
+}
+
+document.querySelectorAll("[data-community-tab]").forEach(button=>button.addEventListener("click",()=>{
+  const tab=button.dataset.communityTab;
+  document.querySelectorAll(".community-tabs [data-community-tab]").forEach(item=>item.classList.toggle("active",item.dataset.communityTab===tab));
+  const ranking=document.getElementById("communityRankingPanel");
+  const mine=document.getElementById("communityMinePanel");
+  if(ranking)ranking.hidden=tab!=="ranking";
+  if(mine)mine.hidden=tab!=="mine";
+}));
 /* ดอกบัว = สกุลเงินซื้อของตกแต่ง คิดจากกิจกรรมที่ทำไปแล้ว หักด้วยยอดที่ใช้ซื้อไปแล้ว */
 function getLotusEarned(){
   const history=Array.isArray(state.prayerHistory)?state.prayerHistory:[];
