@@ -1339,7 +1339,7 @@ const DOW_TH = ["จ","อ","พ","พฤ","ศ","ส","อา"]; // Mon..Sun
 
 /* ---------------- STATE (localStorage) ---------------- */
 const STORE_KEY = "suadmon_data_v1";
-const DEFAULT_STATE = { completedDates:[], favorites:[], prayerHistory:[], customPrayerSets:[], gardenClaims:[], gardenManualMissions:[], gardenActions:[], gardenBonus:0, characterTaps:0, characterGifts:[], selectedGardenItem:"lotus", selectedReward:"lotus-0", gardenDecorations:[], gardenDecorLevel:1, gardenSoundOn:false, goal:21, fontSize:"medium", reminderOn:false, reminderTime:"19:00", continuousOn:false, theme:"purple", profileName:"", profileMessage:"", profileFirstName:"", profileLastName:"", profileGender:"หญิง", profileTheme:"pink", profileBirthDate:"", profileEmail:"", communityFriends:[], encouragementHistory:[], isVip:false, vipPlan:"", soundOn:true, masterVolume:70, chantVolume:80, ambientVolume:60, notificationVolume:70, soundPreset:0, soundContinuous:true, notifyPrayer:true, notifyStreak:true, notifyMissions:true, notifyDailyTip:true, notifyAchievements:true, notifySpecial:true, notifyNews:false, seenBadges:[], notifiedLog:{} };
+const DEFAULT_STATE = { completedDates:[], favorites:[], prayerHistory:[], customPrayerSets:[], gardenClaims:[], gardenManualMissions:[], gardenActions:[], gardenBonus:0, characterTaps:0, characterGifts:[], selectedGardenItem:"lotus", selectedReward:"lotus-0", gardenDecorations:[], gardenDecorLevel:1, gardenSoundOn:false, goal:21, fontSize:"medium", reminderOn:false, reminderTime:"20:00", continuousOn:false, theme:"purple", profileName:"", profileMessage:"", profileFirstName:"", profileLastName:"", profileGender:"หญิง", profileTheme:"pink", profileBirthDate:"", profileEmail:"", communityFriends:[], encouragementHistory:[], isVip:false, vipPlan:"", soundOn:true, masterVolume:70, chantVolume:80, ambientVolume:60, notificationVolume:70, soundPreset:0, soundContinuous:true, notifyPrayer:true, notifyStreak:true, notifyMissions:true, notifyDailyTip:true, notifyAchievements:true, notifySpecial:true, notifyNews:false, seenBadges:[], notifiedLog:{} };
 function loadState(){
   try{
     const raw = localStorage.getItem(STORE_KEY);
@@ -1350,7 +1350,7 @@ function loadState(){
   }catch(e){}
   return {...DEFAULT_STATE,completedDates:[],favorites:[],prayerHistory:[],customPrayerSets:[]};
 }
-function saveState(onSync){ localStorage.setItem(STORE_KEY, JSON.stringify(state)); queueCloudStateSync(onSync); }
+function saveState(onSync){ localStorage.setItem(STORE_KEY, JSON.stringify(state)); queueCloudStateSync(onSync); queueLinePreferenceSync(); }
 let state = loadState();
 // สถานะกำลังเล่นเป็นสถานะชั่วคราว: เปิดแอปใหม่ต้องไม่เล่นเสียงเอง
 state.gardenSoundOn=false;
@@ -1360,6 +1360,40 @@ let supabaseClient=null;
 let cloudSyncTimer=null;
 let authMode="register";
 let authSession=null;
+const LINE_BOT_API="https://suanboon-line-bot-fearbongz.vercel.app";
+let linePreferenceTimer;
+
+function queueLinePreferenceSync(){
+  if(!authSession?.access_token)return;
+  clearTimeout(linePreferenceTimer);
+  linePreferenceTimer=setTimeout(async()=>{
+    const allowedTimes=["20:00","21:00","22:00"];
+    const prayerTime=allowedTimes.includes(state.reminderTime)?state.reminderTime:"20:00";
+    try{
+      await fetch(`${LINE_BOT_API}/api/preferences`,{method:"POST",headers:{Authorization:`Bearer ${authSession.access_token}`,"Content-Type":"application/json"},body:JSON.stringify({prayer_time:prayerTime,notify_prayer:state.reminderOn&&state.notifyPrayer!==false,notify_streak:state.notifyStreak!==false,notify_level_up:state.notifyAchievements!==false,notify_encouragement:true,notify_weekly:true})});
+    }catch(error){console.warn("LINE preference sync failed",error);}
+  },800);
+}
+
+async function attemptLineAccountLink(session){
+  const token=new URLSearchParams(location.search).get("line_link");
+  if(!token||!session?.access_token)return;
+  const attemptKey=`suadmon_line_link_${token}`;
+  if(sessionStorage.getItem(attemptKey)==="working")return;
+  sessionStorage.setItem(attemptKey,"working");
+  try{
+    const response=await fetch(`${LINE_BOT_API}/api/link-account`,{method:"POST",headers:{Authorization:`Bearer ${session.access_token}`,"Content-Type":"application/json"},body:JSON.stringify({token})});
+    const result=await response.json().catch(()=>({}));
+    if(!response.ok)throw new Error(result.error||"เชื่อมบัญชีไม่สำเร็จ");
+    sessionStorage.setItem(attemptKey,"done");
+    const url=new URL(location.href);url.searchParams.delete("line_link");history.replaceState({},"",url);
+    queueLinePreferenceSync();
+    alert("เชื่อมบัญชี LINE กับสวนบุญสำเร็จแล้วค่ะ 🪷");
+  }catch(error){
+    sessionStorage.removeItem(attemptKey);
+    alert(error.message==="Link expired or already used"?"ลิงก์เชื่อมบัญชีหมดอายุแล้ว กรุณาพิมพ์ “เชื่อมบัญชี” ใน LINE ใหม่ค่ะ":error.message);
+  }
+}
 
 function getSupabaseClient(){
   if(supabaseClient) return supabaseClient;
@@ -1490,10 +1524,11 @@ function initAuth(){
   if(client){
     client.auth.getSession().then(({data})=>{
       updateSettingsAuth(data.session);
+      attemptLineAccountLink(data.session);
       applyInitialDeepLink();
     }).catch(()=>applyInitialDeepLink());
   }else applyInitialDeepLink();
-  client?.auth.onAuthStateChange((event,session)=>{updateSettingsAuth(session);if(event==="SIGNED_IN"&&session)loadCloudState();});
+  client?.auth.onAuthStateChange((event,session)=>{updateSettingsAuth(session);if(event==="SIGNED_IN"&&session){loadCloudState();attemptLineAccountLink(session);}});
 }
 
 /* One-time local test reset requested for today's garden actions. */
@@ -2775,10 +2810,11 @@ function initSettings(){
   const timeMinute = document.getElementById("timeMinute");
   const selectedTime = document.getElementById("selectedTime");
   if(toggle) toggle.checked = state.reminderOn;
+  if(!["20:00","21:00","22:00"].includes(state.reminderTime))state.reminderTime="20:00";
   timeInput.value = state.reminderTime;
   selectedTime.textContent = state.reminderTime;
-  timeHour.innerHTML = Array.from({length:24},(_,i)=>`<option value="${String(i).padStart(2,"0")}">${String(i).padStart(2,"0")}</option>`).join("");
-  timeMinute.innerHTML = Array.from({length:60},(_,i)=>`<option value="${String(i).padStart(2,"0")}">${String(i).padStart(2,"0")}</option>`).join("");
+  timeHour.innerHTML = [20,21,22].map(i=>`<option value="${i}">${i}</option>`).join("");
+  timeMinute.innerHTML = '<option value="00">00</option>';
   document.getElementById("timePickerBtn").addEventListener("click", ()=>{
     const [hour,minute] = timeInput.value.split(":");
     timeHour.value = hour; timeMinute.value = minute;
