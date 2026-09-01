@@ -1,4 +1,24 @@
 -- เพิ่มเพื่อนครั้งเดียวแล้วเป็นเพื่อนกันทั้งสองฝ่าย
+create or replace function public.community_level(points bigint)
+returns integer
+language plpgsql
+immutable
+set search_path = ''
+as $$
+declare
+  current_level integer := 1;
+  points_left bigint := greatest(points, 0);
+  points_needed bigint := 100;
+begin
+  while current_level < 100 and points_left >= points_needed loop
+    points_left := points_left - points_needed;
+    current_level := current_level + 1;
+    points_needed := 100 + ((current_level - 1) * 20);
+  end loop;
+  return current_level;
+end;
+$$;
+
 create or replace function public.add_community_friend(target_user_id uuid)
 returns void
 language plpgsql
