@@ -20,7 +20,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Sarabun:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800&amp;display=swap">
-<link rel="stylesheet" href="style.css?v=20260831-59">
+<link rel="stylesheet" href="style.css?v=20260901-9">
 <link rel="stylesheet" href="character.css?v=20260826-7">
 </head>
 <body>
@@ -60,7 +60,7 @@
 
       <div class="card today-card">
         <div class="card-head">
-          <h2><img class="holy-calendar-title-icon" src="design-reference/414cadc9-a247-4ddc-8026-ad98728bd8a7.png" alt=""> ปฏิทินวันพระ</h2>
+          <h2><img class="holy-calendar-title-icon" src="assets/reward-lotus-2.png" alt=""> ปฏิทินวันพระ</h2>
           <button class="link-btn" type="button" id="holyCalendarToday">เดือนนี้ <span>›</span></button>
         </div>
         <div class="holy-calendar" id="holyCalendar"></div>
@@ -179,7 +179,7 @@
     <section class="screen guest-mode" id="screen-settings">
       <div class="settings-guest" id="settingsGuestPanel">
         <div class="settings-guest-greeting"><h2 id="settingsGuestGreeting"></h2><p id="settingsGuestGreetingSub"></p></div>
-        <img class="settings-guest-character" src="design-reference/8ba98423-938a-4062-8d1b-dfdb155ee1e8.png" alt="ตัวละครกำลังสวดมนต์บนดอกบัว">
+        <img class="settings-guest-character" src="assets/hero-pink-female.png" alt="ตัวละครกำลังสวดมนต์บนดอกบัว">
         <div class="settings-daily-quote" aria-live="polite"><i>“</i><em>💗</em><p id="settingsDailyQuote"></p><small id="settingsDailyQuoteSource"></small><span>🌿</span></div>
         <div class="settings-guest-features">
           <article><span><img src="assets/navlotus.png" alt=""></span><b>สวดมนต์ง่าย</b><small>รวมบทสวดครบถ้วน</small></article>
@@ -245,16 +245,16 @@
     <section class="screen notification-screen" id="screen-notifications">
       <header class="notification-hero"><button type="button" data-nav="settings">‹</button><div><h2>🔔 การตั้งค่าการแจ้งเตือน</h2><p>เลือกการแจ้งเตือนที่ช่วยให้คุณสวดมนต์อย่างต่อเนื่อง 💗</p></div></header>
       <div class="notification-content">
-        <label class="notification-master"><span class="notification-icon pink"><img src="design-reference/6d398306-e492-4f82-ac7b-ac9a3ef6c5f0.png" alt=""></span><span><b>เปิดการแจ้งเตือนทั้งหมด</b><small>รับทุกแจ้งเตือนตามเวลาที่กำหนด</small></span><span class="switch"><input type="checkbox" id="notifyAllToggle"><i class="slider"></i></span></label>
+        <label class="notification-master"><span class="notification-icon pink"><img src="assets/wallet-hearts.png" alt=""></span><span><b>เปิดการแจ้งเตือนทั้งหมด</b><small>รับทุกแจ้งเตือนตามเวลาที่กำหนด</small></span><span class="switch"><input type="checkbox" id="notifyAllToggle"><i class="slider"></i></span></label>
         <h3>ประเภทการแจ้งเตือน</h3>
         <section class="notification-group">
           <label><span class="notification-icon"><img src="assets/garden-mission-metta.png" alt=""></span><span><b>เตือนสวดมนต์</b><small>แจ้งเตือนให้สวดมนต์ตามเวลาที่คุณตั้งไว้</small></span><em>2 เวลา　›</em><span class="switch"><input type="checkbox" id="notifyPrayer" checked><i class="slider"></i></span></label>
           <label><span class="notification-icon coral"><img src="assets/garden-fire.png" alt=""></span><span><b>สวดต่อเนื่อง</b><small>เตือนให้รักษาความต่อเนื่องของคุณ</small></span><em>ทุกวัน 20:00　›</em><span class="switch"><input type="checkbox" id="notifyStreak" checked><i class="slider"></i></span></label>
-          <label><span class="notification-icon yellow"><img src="design-reference/dcad82e5-1a2a-4aa9-bd2e-59ee1e23b36c.png" alt=""></span><span><b>ภารกิจและรางวัล</b><small>แจ้งเตือนเมื่อมีภารกิจใหม่ หรือรับรางวัลได้</small></span><em></em><span class="switch"><input type="checkbox" id="notifyMissions" checked><i class="slider"></i></span></label>
+          <label><span class="notification-icon yellow"><img src="assets/garden-gift.png" alt=""></span><span><b>ภารกิจและรางวัล</b><small>แจ้งเตือนเมื่อมีภารกิจใหม่ หรือรับรางวัลได้</small></span><em></em><span class="switch"><input type="checkbox" id="notifyMissions" checked><i class="slider"></i></span></label>
           <label><span class="notification-icon pink"><img src="assets/assistant-calm.png" alt=""></span><span><b>คำแนะนำรายวัน</b><small>บทสวด และข้อความดี ๆ ประจำวัน</small></span><em>ทุกวัน 07:30　›</em><span class="switch"><input type="checkbox" id="notifyDailyTip" checked><i class="slider"></i></span></label>
           <label><span class="notification-icon yellow"><img src="assets/profile-points.png" alt=""></span><span><b>ความสำเร็จ</b><small>แจ้งเตือนเมื่อคุณถึงเป้าหมายสำคัญใหม่</small></span><em></em><span class="switch"><input type="checkbox" id="notifyAchievements" checked><i class="slider"></i></span></label>
           <label><span class="notification-icon coral"><img src="assets/garden-gift.png" alt=""></span><span><b>กิจกรรมพิเศษ</b><small>อัปเดตกิจกรรมพิเศษ และสิทธิพิเศษต่าง ๆ</small></span><em></em><span class="switch"><input type="checkbox" id="notifySpecial" checked><i class="slider"></i></span></label>
-          <label><span class="notification-icon blue"><img src="design-reference/47b9797f-cc85-427d-b318-3e691eb9f702.png" alt=""></span><span><b>ข่าวสารและอัปเดต</b><small>ข่าวสาร อัปเดตระบบ และฟีเจอร์ใหม่</small></span><em></em><span class="switch"><input type="checkbox" id="notifyNews"><i class="slider"></i></span></label>
+          <label><span class="notification-icon blue"><img src="assets/assistant-day.png" alt=""></span><span><b>ข่าวสารและอัปเดต</b><small>ข่าวสาร อัปเดตระบบ และฟีเจอร์ใหม่</small></span><em></em><span class="switch"><input type="checkbox" id="notifyNews"><i class="slider"></i></span></label>
         </section>
         <h3>ตั้งเวลาเตือนสวดประจำวัน</h3>
         <section class="notification-group notification-times">
@@ -301,7 +301,7 @@
           <article><span><img src="assets/garden-scene-5.png" alt=""><i>▶</i></span><b>ตกแต่งสวนของคุณ</b></article>
           <article><span><img src="assets/garden-female.png" alt=""><i>▶</i></span><b>ปลดล็อกตัวละคร</b></article>
         </div></section>
-        <section class="help-card help-app-info"><h2>ข้อมูลแอป</h2><div><p><span>ⓘ　เวอร์ชันแอป</span><b>1.2.0　›</b></p><p><span>♧　นโยบายความเป็นส่วนตัว</span><b>›</b></p><p><span>♢　ข้อกำหนดการให้บริการ</span><b>›</b></p></div><img src="design-reference/414cadc9-a247-4ddc-8026-ad98728bd8a7.png" alt="ดอกบัว"></section>
+        <section class="help-card help-app-info"><h2>ข้อมูลแอป</h2><div><p><span>ⓘ　เวอร์ชันแอป</span><b>1.2.0　›</b></p><p><span>♧　นโยบายความเป็นส่วนตัว</span><b>›</b></p><p><span>♢　ข้อกำหนดการให้บริการ</span><b>›</b></p></div><img src="assets/reward-lotus-2.png" alt="ดอกบัว"></section>
       </div>
       <h3 class="guide-heading"><img class="flower-icon" src="assets/flower-icon.png" alt=""> การเริ่มต้นใช้งาน</h3>
       <div class="guide-steps">
@@ -445,17 +445,34 @@
           </div>
         </section>
 
-        <div class="community-actions"><button type="button"><span><img src="assets/reward-summary-all.png" alt=""></span><b>ภารกิจชุมชน</b><small>ทำภารกิจร่วมกัน<br>รับรางวัลพิเศษ</small></button><button type="button"><span><img src="assets/wallet-hearts.png" alt=""></span><b>ส่งกำลังใจ</b><small>ให้เพื่อนในชุมชน<br>เพิ่มพลังบุญ</small></button><button type="button"><span><img src="assets/reward-lotus-2.png" alt=""></span><b>กระดานสนทนา</b><small>พูดคุย แบ่งปัน<br>ประสบการณ์</small></button></div>
+        <div class="community-actions"><button type="button"><span><img src="assets/reward-summary-all.png" alt=""></span><b>ภารกิจชุมชน</b><small>ทำภารกิจร่วมกัน<br>รับรางวัลพิเศษ</small></button><button type="button" data-nav="encouragement"><span><img src="assets/wallet-hearts.png" alt=""></span><b>ส่งกำลังใจ</b><small>ให้เพื่อนในชุมชน<br>เพิ่มพลังบุญ</small></button><button type="button"><span><img src="assets/reward-lotus-2.png" alt=""></span><b>กระดานสนทนา</b><small>พูดคุย แบ่งปัน<br>ประสบการณ์</small></button></div>
       </div>
 
       <div class="community-mine" id="communityMinePanel" hidden><div>💗</div><h2>ชุมชนของฉัน</h2><p>พบเพื่อนร่วมสวด ส่งกำลังใจ<br>และร่วมทำความดีไปด้วยกัน</p><button type="button" data-community-tab="ranking">ดูอันดับผู้สวด</button></div>
+    </section>
+
+    <section class="screen encouragement-screen" id="screen-encouragement">
+      <header class="encouragement-hero"><button type="button" data-nav="community" aria-label="กลับ"><svg class="encouragement-back-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="m15 5-7 7 7 7"></path></svg></button><div><h1>ส่งกำลังใจ 💗</h1><p>ส่งพลังบุญและกำลังใจดี ๆ ให้เพื่อนในชุมชน<br>ให้ทุกวันเป็นวันที่ดีของกันและกันนะคะ</p></div><button type="button" class="encouragement-help" id="encouragementHelpOpen" aria-label="รายละเอียดการใช้งาน">?</button></header>
+      <nav class="encouragement-main-tabs"><button class="active" type="button" data-encouragement-tab="compose">💌 ส่งกำลังใจ</button><button type="button" data-encouragement-tab="inbox">💗 กำลังใจที่ได้รับ <i id="encouragementUnreadBadge" hidden>0</i></button><button type="button" data-encouragement-tab="sent">➤ ส่งแล้ว</button></nav>
+      <div class="encouragement-body encouragement-panel" data-encouragement-panel="compose">
+        <label class="encouragement-search"><span>⌕</span><input id="encouragementSearch" type="search" placeholder="ค้นหาเพื่อน หรือชื่อผู้ใช้"><button type="button" id="encouragementAddToggle">＋ เพิ่มเพื่อน</button></label>
+        <section class="encouragement-add" id="encouragementAddPanel" hidden><header><h2>เพิ่มเพื่อนจากชุมชน</h2><button type="button" id="encouragementAddClose">×</button></header><div id="encouragementDirectory"></div></section>
+        <section class="encouragement-friends"><header><h2><svg class="encouragement-people-icon" viewBox="0 0 24 24" aria-hidden="true"><circle cx="9" cy="8" r="3"></circle><circle cx="16.5" cy="9" r="2.3"></circle><path d="M3.5 19c0-3.2 2.4-5.5 5.5-5.5s5.5 2.3 5.5 5.5M14 14.5c.7-.5 1.5-.8 2.5-.8 2.5 0 4 1.8 4 4.3"></path></svg>เลือกเพื่อนที่อยากส่งกำลังใจ</h2><button type="button" id="encouragementViewFriends">ดูทั้งหมด ›</button></header><div id="encouragementFriends"></div></section>
+        <section class="encouragement-messages"><h2>💜 เลือกข้อความกำลังใจ</h2><div class="encouragement-filters"><button class="active" type="button" data-encourage-filter="all">ทั้งหมด</button><button type="button" data-encourage-filter="general">ทั่วไป</button><button type="button" data-encourage-filter="cheer">ให้กำลังใจ</button><button type="button" data-encourage-filter="merit">อนุโมทนาบุญ</button></div><div id="encouragementMessages"></div></section>
+        <label class="encouragement-custom"><textarea id="encouragementCustom" maxlength="200" placeholder="เขียนข้อความกำลังใจของคุณ..."></textarea><small><span id="encouragementCount">0</span>/200</small></label>
+        <footer class="encouragement-send"><div><small>ใช้แต้มบุญของคุณ</small><strong><img src="assets/profile-points.png" alt=""><span id="encouragementPoints">0</span> แต้ม</strong><em>(ใช้ 10 แต้ม ต่อ 1 ข้อความ)</em></div><label><input id="encouragementAnonymous" type="checkbox"> โพสต์แบบไม่ระบุชื่อ</label><button type="button" id="encouragementSend">➤ ส่งกำลังใจ</button></footer>
+      </div>
+      <div class="encouragement-mail encouragement-panel" data-encouragement-panel="inbox" hidden><header><h2>กำลังใจที่ได้รับ</h2><span>☰　•••</span></header><div class="encouragement-mail-filters"><button class="active" type="button" data-mail-filter="all">ทั้งหมด <span id="encouragementInboxAll">0</span></button><button type="button" data-mail-filter="unread">ยังไม่อ่าน <span id="encouragementInboxUnread">0</span></button><button type="button" data-mail-filter="read">อ่านแล้ว</button></div><div class="encouragement-mail-list" id="encouragementInboxList"></div></div>
+      <div class="encouragement-mail encouragement-panel" data-encouragement-panel="sent" hidden><header><h2>ส่งแล้ว</h2><span>☰　•••</span></header><div class="encouragement-mail-filters"><button class="active" type="button">ทั้งหมด <span id="encouragementSentAll">0</span></button><button type="button">ได้รับการตอบกลับ <span>0</span></button></div><div class="encouragement-mail-list" id="encouragementSentList"></div></div>
+      <div class="encouragement-detail encouragement-panel" id="encouragementDetail" hidden><header><button type="button" id="encouragementDetailBack">‹</button><h2>รายละเอียดข้อความ</h2></header><article><div class="encouragement-detail-user"><span id="encouragementDetailAvatar"></span><div><b id="encouragementDetailName"></b><small id="encouragementDetailAnonymous"></small></div><time id="encouragementDetailTime"></time></div><img src="assets/wallet-hearts.png" alt=""><blockquote id="encouragementDetailMessage"></blockquote><p>💗 ข้อความนี้ส่งผ่านชุมชนแห่งบุญ</p><footer><button type="button">♡ ขอบคุณ</button><button type="button" id="encouragementReply">ตอบกลับด้วยกำลังใจ</button><button type="button">⌯ แชร์</button></footer></article></div>
+      <div class="encouragement-help-modal" id="encouragementHelpModal" hidden><section role="dialog" aria-modal="true" aria-labelledby="encouragementHelpTitle"><button type="button" id="encouragementHelpClose" aria-label="ปิด">×</button><img src="assets/wallet-hearts.png" alt=""><h2 id="encouragementHelpTitle">การส่งกำลังใจ</h2><p>ส่งข้อความดี ๆ และพลังบุญให้เพื่อนในชุมชน เพื่อเติมรอยยิ้มและกำลังใจให้กันค่ะ</p><ul><li><b>เลือกหรือเพิ่มเพื่อน</b><span>ค้นหาสมาชิกจากชุมชน แล้วกดเพิ่มเป็นเพื่อน</span></li><li><b>เลือกข้อความ</b><span>เลือกข้อความสำเร็จรูป หรือเขียนข้อความเองได้ไม่เกิน 200 ตัวอักษร</span></li><li><b>ใช้แต้มบุญ</b><span>การส่งหนึ่งข้อความใช้ 10 แต้มบุญ</span></li><li><b>ดูข้อความ</b><span>ข้อความใหม่อยู่ในแท็บ “กำลังใจที่ได้รับ” และดูประวัติได้ที่ “ส่งแล้ว”</span></li><li><b>ไม่ระบุชื่อ</b><span>เปิดตัวเลือกนี้ หากไม่ต้องการแสดงชื่อแก่ผู้รับ</span></li></ul><button type="button" id="encouragementHelpDone">เข้าใจแล้ว</button></section></div>
     </section>
 
     <!-- ---------- REGISTER SCREEN ---------- -->
     <section class="screen register-screen" id="screen-register">
       <button class="register-back" type="button" data-nav="settings" aria-label="ย้อนกลับไปหน้าสมัครสมาชิก">‹</button>
       <div class="register-view" id="registerFormView">
-        <div class="register-hero"><img src="design-reference/414cadc9-a247-4ddc-8026-ad98728bd8a7.png" alt="ดอกบัว"><h2>สมัครสมาชิก</h2><p>เริ่มต้นเส้นทางบุญดี ๆ ไปด้วยกันนะคะ 💗</p></div>
+        <div class="register-hero"><img src="assets/reward-lotus-2.png" alt="ดอกบัว"><h2>สมัครสมาชิก</h2><p>เริ่มต้นเส้นทางบุญดี ๆ ไปด้วยกันนะคะ 💗</p></div>
         <form class="register-card" id="registerForm">
           <fieldset><legend><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="8" r="3.5"></circle><path d="M5.5 20a6.5 6.5 0 0 1 13 0Z"></path></svg><span>ข้อมูลบัญชี</span></legend>
             <label><span>✉</span><b id="registerIdentifierLabel">อีเมล<small>กรอกอีเมลของคุณ</small></b><input id="registerEmail" type="email" placeholder="กรอกอีเมลของคุณ" autocomplete="email" required></label>
@@ -788,6 +805,6 @@
 
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script src="supabase-config.js"></script>
-<script src="app.js?v=20260831-41"></script>
+<script src="app.js?v=20260901-6"></script>
 </body>
 </html>
