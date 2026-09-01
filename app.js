@@ -2788,6 +2788,15 @@ function initSettings(){
     profileNameInput.value=state.profileName||""; profileMessageInput.value=state.profileMessage||""; document.getElementById("profileBirthDate").value=state.profileBirthDate||""; document.getElementById("profileEmail").value=state.profileEmail||"";
     pendingProfileTheme=state.profileTheme||"pink"; document.querySelectorAll('[name="profileGender"]').forEach(input=>input.checked=input.value===(state.profileGender||"หญิง")); applyProfileImages(state.profileGender||"หญิง",pendingProfileTheme); document.querySelector(".profile-menu").style.display="none"; document.getElementById("profileInlineEdit").classList.add("open");
   });
+  document.getElementById("lineConnectBtn").addEventListener("click",async()=>{
+    if(!authSession){
+      alert("กรุณาเข้าสู่ระบบสวนบุญก่อนเชื่อมบัญชี LINE ค่ะ");
+      showScreen("register");
+      return;
+    }
+    try{await navigator.clipboard.writeText("เชื่อมบัญชี");}catch(error){console.warn("Copy LINE command failed",error);}
+    alert("คัดลอกคำว่า “เชื่อมบัญชี” แล้วค่ะ\n\nเปิดแชต LINE Bot แล้วส่งคำนี้ จากนั้นกดลิงก์ที่ Bot ส่งกลับมาเพื่อเชื่อมบัญชีค่ะ 🪷");
+  });
   document.getElementById("profileEditBack").addEventListener("click",()=>{ pendingProfileTheme=state.profileTheme||"pink"; applyProfileImages(state.profileGender||"หญิง",pendingProfileTheme); document.getElementById("profileInlineEdit").classList.remove("open"); document.querySelector(".profile-menu").style.display="block"; });
   document.querySelectorAll('[name="profileGender"]').forEach(input=>input.addEventListener("change",()=>applyProfileImages(input.value,pendingProfileTheme)));
   document.querySelectorAll("#profileThemeOptions button").forEach(button=>button.addEventListener("click",()=>{ pendingProfileTheme=button.dataset.profileTheme; applyProfileImages(document.querySelector('[name="profileGender"]:checked')?.value||state.profileGender||"หญิง",pendingProfileTheme); }));
