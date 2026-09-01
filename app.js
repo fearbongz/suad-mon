@@ -1410,20 +1410,56 @@ function getSupabaseClient(){
   return supabaseClient;
 }
 
+async function pushCloudState(onComplete){
+  try{
+    const client=getSupabaseClient();
+    if(!client){onComplete?.({saved:false,reason:"offline"});return;}
+    const {data:{user},error:userError}=await client.auth.getUser();
+    if(userError)throw userError;
+    if(!user){onComplete?.({saved:false,reason:"guest"});return;}
+    const {error}=await client.from("user_state").upsert({user_id:user.id,data:state,updated_at:new Date().toISOString()});
+    if(error)throw error;
+    onComplete?.({saved:true});
+  }catch(error){console.warn("Cloud state sync failed:",error);onComplete?.({saved:false,reason:"error",error});}
+}
+
 function queueCloudStateSync(onComplete){
   clearTimeout(cloudSyncTimer);
-  cloudSyncTimer=setTimeout(async()=>{
-    try{
-      const client=getSupabaseClient();
-      if(!client){onComplete?.({saved:false,reason:"offline"});return;}
-      const {data:{user},error:userError}=await client.auth.getUser();
-      if(userError)throw userError;
-      if(!user){onComplete?.({saved:false,reason:"guest"});return;}
-      const {error}=await client.from("user_state").upsert({user_id:user.id,data:state,updated_at:new Date().toISOString()});
-      if(error)throw error;
-      onComplete?.({saved:true});
-    }catch(error){console.warn("Cloud state sync failed:",error);onComplete?.({saved:false,reason:"error",error});}
-  },700);
+  cloudSyncTimer=setTimeout(()=>{cloudSyncTimer=null;pushCloudState(onComplete);},700);
+}
+
+// เผื่อผู้ใช้ปิดแท็บ/สลับแอปก่อนครบ 700ms ของ debounce ด้านบน ให้ยิง sync ทันที
+// ไม่งั้นข้อมูล (เช่นวันที่สวดมนต์ล่าสุด) จะค้างอยู่แค่ใน localStorage เครื่องนี้ ไม่ขึ้นคลาวด์
+function flushCloudStateSync(){
+  if(cloudSyncTimer){clearTimeout(cloudSyncTimer);cloudSyncTimer=null;pushCloudState();}
+}
+if(typeof document!=="undefined"){
+  document.addEventListener("visibilitychange",()=>{if(document.hidden)flushCloudStateSync();});
+  window.addEventListener("pagehide",flushCloudStateSync);
+  window.addEventListener("beforeunload",flushCloudStateSync);
+}
+
+// รวม array ประเภทวัน/ประวัติของ local (เครื่องนี้) กับ cloud (บัญชี) แบบ union
+// กันเคสที่เครื่องนี้สวดมนต์ไว้แล้วแต่ยังไม่ทันซิงก์ขึ้นคลาวด์ (เช่นปิดแอปเร็วไป)
+// แล้วพอ login เครื่องอื่น/เครื่องนี้ใหม่ ข้อมูลที่สวดไปแล้วถูกทับหายไป
+function unionByKey(localArr,cloudArr){
+  const local=Array.isArray(localArr)?localArr:[];
+  const cloud=Array.isArray(cloudArr)?cloudArr:[];
+  const seen=new Set();
+  const out=[];
+  [...local,...cloud].forEach(item=>{
+    const key=typeof item==="object"&&item!==null?JSON.stringify(item):String(item);
+    if(!seen.has(key)){seen.add(key);out.push(item);}
+  });
+  return out;
+}
+const CLOUD_MERGE_ARRAY_FIELDS=["completedDates","favorites","prayerHistory","customPrayerSets","gardenClaims","gardenManualMissions","gardenActions","characterGifts","communityFriends","encouragementHistory","seenBadges","gardenDecorations"];
+const CLOUD_MERGE_MAX_NUMBER_FIELDS=["gardenBonus","characterTaps","lotusSpent","gardenDecorLevel"];
+function mergeCloudState(localState,cloudData){
+  const merged={...DEFAULT_STATE,...localState,...cloudData};
+  CLOUD_MERGE_ARRAY_FIELDS.forEach(key=>{merged[key]=unionByKey(localState[key],cloudData[key]);});
+  CLOUD_MERGE_MAX_NUMBER_FIELDS.forEach(key=>{merged[key]=Math.max(Number(localState[key])||0,Number(cloudData[key])||0);});
+  return merged;
 }
 
 async function loadCloudState(){
@@ -1432,7 +1468,13 @@ async function loadCloudState(){
   const {data:{user}}=await client.auth.getUser();
   if(!user) return false;
   const {data}=await client.from("user_state").select("data").eq("user_id",user.id).maybeSingle();
-  if(data?.data){state={...DEFAULT_STATE,...data.data};localStorage.setItem(STORE_KEY,JSON.stringify(state));renderAll();}
+  if(data?.data){
+    const merged=mergeCloudState(state,data.data);
+    state=merged;
+    localStorage.setItem(STORE_KEY,JSON.stringify(state));
+    renderAll();
+    queueCloudStateSync(); // เขียนผลรวมกลับขึ้นคลาวด์ ให้ทุกเครื่องเห็นข้อมูลชุดล่าสุดตรงกัน
+  }
   else queueCloudStateSync();
   // เติมข้อมูลโปรไฟล์จากตอนสมัครสมาชิกให้ครั้งแรก (ไม่ทับถ้าผู้ใช้เคยแก้ไขเองแล้ว)
   const meta=user.user_metadata||{};
@@ -1480,8 +1522,8 @@ function initAuth(){
   const [dailyQuote,dailyQuoteSource]=dailyQuotes[((quoteDay%dailyQuotes.length)+dailyQuotes.length)%dailyQuotes.length];
   document.getElementById("settingsDailyQuote").textContent=dailyQuote;
   document.getElementById("settingsDailyQuoteSource").textContent=`– ${dailyQuoteSource} –`;
-  const editProfileButton=document.getElementById("editProfileBtn"),settingsScreen=document.getElementById("screen-settings"),settingsGuestPanel=document.getElementById("settingsGuestPanel");
-  const updateSettingsAuth=session=>{authSession=session||null;const signedIn=Boolean(session?.user);if(editProfileButton)editProfileButton.hidden=!signedIn;if(settingsGuestPanel)settingsGuestPanel.hidden=signedIn;if(settingsScreen)settingsScreen.classList.toggle("guest-mode",!signedIn);renderMembershipMenuItem();};
+  const editProfileButton=document.getElementById("editProfileBtn"),logoutRow=document.getElementById("logoutRow"),settingsScreen=document.getElementById("screen-settings"),settingsGuestPanel=document.getElementById("settingsGuestPanel");
+  const updateSettingsAuth=session=>{authSession=session||null;const signedIn=Boolean(session?.user);if(editProfileButton)editProfileButton.hidden=!signedIn;if(logoutRow)logoutRow.hidden=!signedIn;if(settingsGuestPanel)settingsGuestPanel.hidden=signedIn;if(settingsScreen)settingsScreen.classList.toggle("guest-mode",!signedIn);renderMembershipMenuItem();};
   document.getElementById("settingsGuestRegisterBtn")?.addEventListener("click",event=>{event.preventDefault();event.stopPropagation();showScreen("register");});
   const password=document.getElementById("registerPassword"),confirmPassword=document.getElementById("registerPasswordConfirm"),message=document.getElementById("registerMessage"),submit=form.querySelector(".register-submit");
   const birthDate=document.getElementById("registerBirthDate");
@@ -1536,6 +1578,13 @@ function initAuth(){
     }).catch(()=>applyInitialDeepLink());
   }else applyInitialDeepLink();
   client?.auth.onAuthStateChange((event,session)=>{updateSettingsAuth(session);if(event==="SIGNED_IN"&&session){loadCloudState();attemptLineAccountLink(session);}});
+  document.getElementById("logoutBtn")?.addEventListener("click",async()=>{
+    if(!confirm("ออกจากระบบใช่ไหมคะ?"))return;
+    try{await getSupabaseClient()?.auth.signOut();}catch(error){console.warn("Sign out failed:",error);}
+    authSession=null;
+    updateSettingsAuth(null);
+    showScreen("settings");
+  });
 }
 
 /* One-time local test reset requested for today's garden actions. */
