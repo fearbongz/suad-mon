@@ -1614,6 +1614,9 @@ const HOLY_DAYS_2569={
 const HOLY_MONTHS=["มกราคม","กุมภาพันธ์","มีนาคม","เมษายน","พฤษภาคม","มิถุนายน","กรกฎาคม","สิงหาคม","กันยายน","ตุลาคม","พฤศจิกายน","ธันวาคม"];
 let holyCalendarMonth=new Date().getMonth();
 function holyEntries(month){return (HOLY_DAYS_2569[month]||[]).map(value=>{const [day,lunar,event]=value.split("|");return {day:Number(day),lunar,event:event||""};});}
+function isWanPhraDate(date=new Date()){
+  return date.getFullYear()===2026&&holyEntries(date.getMonth()).some(item=>item.day===date.getDate());
+}
 function holyMoonPhase(lunar=""){
   const match=lunar.match(/(ขึ้น|แรม)\s*(\d+)/);if(!match)return 8;const count=Number(match[2]);
   return match[1]==="ขึ้น"?Math.max(0,Math.min(8,Math.round((count-1)/14*8))):Math.max(9,Math.min(16,9+Math.round((count-1)/14*7)));
@@ -2311,12 +2314,15 @@ function toggleTodayDirect(){
 function markComplete(){
   const ds = todayStr();
   const already = state.completedDates.includes(ds);
+  const basePoints = 10;
+  const meritMultiplier = isWanPhraDate() ? 2 : 1;
+  const earnedPoints = basePoints * meritMultiplier;
   if(!already){
     state.completedDates.push(ds);
     saveState();
   }
   state.prayerHistory = state.prayerHistory || [];
-  state.prayerHistory.unshift({prayerId:currentPrayer.id,at:new Date().toISOString(),points:10});
+  state.prayerHistory.unshift({prayerId:currentPrayer.id,at:new Date().toISOString(),points:earnedPoints,multiplier:meritMultiplier});
   state.prayerHistory = state.prayerHistory.slice(0,50);
   saveState();
   renderStreak();
@@ -2325,9 +2331,10 @@ function markComplete(){
   renderBadges();
   playChime(880);
   spawnBurst();
+  const wanPhraBonus = meritMultiplier===2 ? ` ✨ วันพระรับพลังบุญ ×2 ได้ +${earnedPoints} แต้ม` : ` ได้รับ +${earnedPoints} แต้มบุญ`;
   document.getElementById("completeMsg").textContent = already
-    ? `วันนี้สวดครบแล้วอีกรอบ อนุโมทนาบุญด้วยนะคะ 🌸`
-    : `สวดครบ “${currentPrayer.title}” แล้ว วันนี้ครบ ${computeStreak()} วันติดต่อกันค่ะ`;
+    ? `วันนี้สวดครบแล้วอีกรอบ อนุโมทนาบุญด้วยนะคะ 🌸${wanPhraBonus}`
+    : `สวดครบ “${currentPrayer.title}” แล้ว วันนี้ครบ ${computeStreak()} วันติดต่อกันค่ะ${wanPhraBonus}`;
   document.getElementById("completeModal").classList.add("open");
 }
 
