@@ -3326,6 +3326,16 @@ function getGardenProgress(){
   return {days,level:gardenLevelInfo(getMeritPoints()).level};
 }
 let communityDirectory=[];
+async function refreshCommunityFriends(){
+  const client=getSupabaseClient();
+  if(!client||!authSession)return;
+  const {data,error}=await client.rpc("get_my_community_friends");
+  if(error){console.warn("Community friends load failed:",error);return;}
+  if(Array.isArray(data)){
+    state.communityFriends=data.map((friend,index)=>({...friend,friend_key:String(friend.user_id||friend.full_name||index)}));
+    localStorage.setItem(STORE_KEY,JSON.stringify(state));
+  }
+}
 function renderCommunityFriendsPanel(){
   const panel=document.getElementById("communityMinePanel");
   if(!panel)return;
@@ -3344,6 +3354,7 @@ function renderCommunityFriendsPanel(){
   });
 }
 async function renderCommunity(){
+  await refreshCommunityFriends();
   renderCommunityFriendsPanel();
   const points=getMeritPoints();
   const info=gardenLevelInfo(points);
@@ -3404,13 +3415,14 @@ const ENCOURAGEMENT_MESSAGES=[
   {icon:"🌸",text:"ขอให้วันนี้เป็นวันที่ดีของคุณนะคะ",points:10,type:"general"},{icon:"🪔",text:"ขอส่งพลังบุญและกำลังใจให้เสมอค่ะ",points:10,type:"merit"},{icon:"💗",text:"เป็นกำลังใจให้เสมอ สู้ ๆ นะคะ ✨",points:15,type:"cheer"},{icon:"⭐",text:"อนุโมทนาบุญกับความดีของคุณนะคะ",points:15,type:"merit"},{icon:"🪷",text:"ขอให้เจอแต่สิ่งดี ๆ ในทุก ๆ วันค่ะ",points:10,type:"general"},{icon:"🎁",text:"ขอให้สมหวังในทุกสิ่งที่ตั้งใจ สุขใจ สุขกาย สุขบุญค่ะ",points:20,type:"cheer"}
 ];
 function encouragementAvatar(user){const male=["ชาย","ผู้ชาย","male","m"].includes(String(user?.gender||"").trim().toLowerCase()),tier=Math.max(1,Math.min(10,Math.floor((Number(user?.level||1)-1)/10)+1));return `assets/community-characters/${male?"male":"female"}-${tier}.png?v=ba3`;}
-function renderEncouragement(){
+async function renderEncouragement(){
+  await refreshCommunityFriends();
   const friendsWrap=document.getElementById("encouragementFriends"),directoryWrap=document.getElementById("encouragementDirectory"),messagesWrap=document.getElementById("encouragementMessages");if(!friendsWrap||!directoryWrap||!messagesWrap)return;
   if(!Array.isArray(state.communityFriends))state.communityFriends=[];if(!Array.isArray(state.encouragementHistory))state.encouragementHistory=[];
   const escape=value=>String(value??"").replace(/[&<>'"]/g,char=>({"&":"&amp;","<":"&lt;",">":"&gt;","'":"&#39;",'"':"&quot;"})[char]);
   let selectedFriend=state.communityFriends[0]?.friend_key||"",selectedMessage=0,activeFilter="all";
   const drawFriends=()=>{const friends=state.communityFriends;friendsWrap.innerHTML=friends.length?friends.map(user=>`<button type="button" class="${user.friend_key===selectedFriend?"active":""}" data-friend-key="${escape(user.friend_key)}"><span><img src="${encouragementAvatar(user)}" alt=""></span><b>${escape(user.full_name||"เพื่อนสายบุญ")}</b><small>Lv.${Number(user.level||1)}</small></button>`).join(""):`<button type="button" class="encouragement-empty-friend" id="encouragementEmptyAdd">＋<b>เพิ่มเพื่อนคนแรก</b></button>`;friendsWrap.querySelectorAll("[data-friend-key]").forEach(button=>button.addEventListener("click",()=>{selectedFriend=button.dataset.friendKey;drawFriends();}));document.getElementById("encouragementEmptyAdd")?.addEventListener("click",()=>{document.getElementById("encouragementAddPanel").hidden=false;drawDirectory();});};
-  const drawDirectory=(query="")=>{const ownName=state.profileName||"",q=query.trim().toLowerCase(),friends=new Set(state.communityFriends.map(item=>item.friend_key)),users=communityDirectory.filter(user=>!user.is_current_user&&user.full_name!==ownName&&(!q||String(user.full_name||"").toLowerCase().includes(q)));directoryWrap.innerHTML=users.length?users.map(user=>`<article><span><img src="${encouragementAvatar(user)}" alt=""></span><div><b>${escape(user.full_name||"สมาชิกชุมชน")}</b><small>Lv.${Number(user.level||1)} · ${Number(user.points||0).toLocaleString("th-TH")} แต้ม</small></div><button type="button" data-add-friend="${escape(user.friend_key)}" ${friends.has(user.friend_key)?"disabled":""}>${friends.has(user.friend_key)?"เป็นเพื่อนแล้ว":"＋ เพิ่มเพื่อน"}</button></article>`).join(""):`<p>ไม่พบผู้ใช้จากข้อมูลชุมชน</p>`;directoryWrap.querySelectorAll("[data-add-friend]:not(:disabled)").forEach(button=>button.addEventListener("click",async()=>{const user=communityDirectory.find(item=>item.friend_key===button.dataset.addFriend);if(!user)return;state.communityFriends.push({friend_key:user.friend_key,user_id:user.user_id,full_name:user.full_name,gender:user.gender,level:user.level,points:user.points});selectedFriend=user.friend_key;saveState();const client=getSupabaseClient();if(client&&user.user_id){const {error}=await client.from("community_friends").upsert({friend_id:user.user_id},{onConflict:"owner_id,friend_id"});if(error)console.warn("Cloud friend save failed:",error);}drawDirectory(document.getElementById("encouragementSearch")?.value||"");drawFriends();}));};
+  const drawDirectory=(query="")=>{const ownName=state.profileName||"",q=query.trim().toLowerCase(),friends=new Set(state.communityFriends.map(item=>item.friend_key)),users=communityDirectory.filter(user=>!user.is_current_user&&user.full_name!==ownName&&(!q||String(user.full_name||"").toLowerCase().includes(q)));directoryWrap.innerHTML=users.length?users.map(user=>`<article><span><img src="${encouragementAvatar(user)}" alt=""></span><div><b>${escape(user.full_name||"สมาชิกชุมชน")}</b><small>Lv.${Number(user.level||1)} · ${Number(user.points||0).toLocaleString("th-TH")} แต้ม</small></div><button type="button" data-add-friend="${escape(user.friend_key)}" ${friends.has(user.friend_key)?"disabled":""}>${friends.has(user.friend_key)?"เป็นเพื่อนแล้ว":"＋ เพิ่มเพื่อน"}</button></article>`).join(""):`<p>ไม่พบผู้ใช้จากข้อมูลชุมชน</p>`;directoryWrap.querySelectorAll("[data-add-friend]:not(:disabled)").forEach(button=>button.addEventListener("click",async()=>{const user=communityDirectory.find(item=>item.friend_key===button.dataset.addFriend);if(!user)return;state.communityFriends.push({friend_key:user.friend_key,user_id:user.user_id,full_name:user.full_name,gender:user.gender,level:user.level,points:user.points});selectedFriend=user.friend_key;saveState();const client=getSupabaseClient();if(client&&user.user_id){const {error}=await client.rpc("add_community_friend",{target_user_id:user.user_id});if(error)console.warn("Cloud friend save failed:",error);}drawDirectory(document.getElementById("encouragementSearch")?.value||"");drawFriends();}));};
   const drawMessages=()=>{messagesWrap.innerHTML=ENCOURAGEMENT_MESSAGES.map((message,index)=>({message,index})).filter(({message})=>activeFilter==="all"||message.type===activeFilter).map(({message,index})=>`<button type="button" class="${selectedMessage===index?"active":""}" data-message-index="${index}"><span>${message.icon}</span><b>${message.text}</b><small>💗 +${message.points} ✦</small></button>`).join("");messagesWrap.querySelectorAll("[data-message-index]").forEach(button=>button.addEventListener("click",()=>{selectedMessage=Number(button.dataset.messageIndex);drawMessages();}));};
   drawFriends();drawDirectory();drawMessages();document.getElementById("encouragementPoints").textContent=getMeritPoints().toLocaleString("th-TH");
   const panel=document.getElementById("encouragementAddPanel"),search=document.getElementById("encouragementSearch"),custom=document.getElementById("encouragementCustom");document.getElementById("encouragementAddToggle").onclick=()=>{panel.hidden=!panel.hidden;if(!panel.hidden)drawDirectory(search.value);};document.getElementById("encouragementAddClose").onclick=()=>panel.hidden=true;search.oninput=()=>{panel.hidden=false;drawDirectory(search.value);};custom.oninput=()=>document.getElementById("encouragementCount").textContent=custom.value.length;
