@@ -2762,6 +2762,15 @@ function applyInitialDeepLink(){
   if(initialDeepLinkApplied)return;
   initialDeepLinkApplied=true;
   const params=new URLSearchParams(window.location.search);
+  const sharedPrayerIds=(params.get("share_prayers")||"").split(",").map(id=>id.trim()).filter(id=>findPrayer(id));
+  if(sharedPrayerIds.length){
+    activeReaderSequence=sharedPrayerIds;
+    activeReaderSequenceIndex=0;
+    openReader(sharedPrayerIds[0],{preserveSequence:true});
+    const sharedName=params.get("share_name");
+    if(sharedName)document.getElementById("readerCat").textContent=`ชุดสวดจากเพื่อน · ${sharedName}`;
+    return;
+  }
   const requested=params.get("page");
   if(!requested||!DEEP_LINK_SCREENS.has(requested))return;
   showScreen(requested);
@@ -3023,6 +3032,24 @@ function bindReaderControls(){
   document.getElementById("completeClose").addEventListener("click", ()=>{
     document.getElementById("completeModal").classList.remove("open");
     closeReader();
+  });
+  document.getElementById("copyPrayerPlaylist").addEventListener("click",async event=>{
+    const ids=(activeReaderSequence.length?activeReaderSequence:[currentPrayer?.id]).filter(id=>findPrayer(id));
+    if(!ids.length)return;
+    const matchingSet=(state.customPrayerSets||[]).find(set=>Array.isArray(set.prayerIds)&&set.prayerIds.length===ids.length&&set.prayerIds.every((id,index)=>String(id)===String(ids[index])));
+    const playlistName=matchingSet?.name||(ids.length===1?findPrayer(ids[0])?.title:`ชุดสวด ${ids.length} บท`);
+    const url=new URL(location.origin+location.pathname);
+    url.searchParams.set("share_prayers",ids.join(","));
+    url.searchParams.set("share_name",playlistName);
+    const shareText=`มาสวด “${playlistName}” ตามกันนะคะ 🪷\n${url}`;
+    try{
+      await navigator.clipboard.writeText(shareText);
+    }catch(error){
+      const area=document.createElement("textarea");area.value=shareText;area.style.position="fixed";area.style.opacity="0";document.body.appendChild(area);area.select();document.execCommand("copy");area.remove();
+    }
+    const button=event.currentTarget,original="🔗 คัดลอกให้เพื่อนสวดตาม";
+    button.textContent="✓ คัดลอกลิงก์แล้ว";
+    setTimeout(()=>button.textContent=original,1800);
   });
 }
 
