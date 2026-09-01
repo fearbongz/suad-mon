@@ -37,11 +37,11 @@ as $$
     p.id,
     coalesce(nullif(trim(p.full_name), ''), 'สมาชิกชุมชน'),
     coalesce(nullif(p.gender, ''), 'หญิง'),
-    public.community_level(
+    public.community_level((
       coalesce((s.data ->> 'gardenBonus')::bigint, 0) +
       coalesce((select sum(coalesce((x ->> 'points')::bigint, 10))
                 from jsonb_array_elements(coalesce(s.data -> 'prayerHistory', '[]'::jsonb)) x), 0)
-    ),
+    )::bigint),
     (
       coalesce((s.data ->> 'gardenBonus')::bigint, 0) +
       coalesce((select sum(coalesce((x ->> 'points')::bigint, 10))
