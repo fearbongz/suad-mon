@@ -1388,7 +1388,7 @@ async function attemptLineAccountLink(session){
     sessionStorage.setItem(attemptKey,"done");
     const url=new URL(location.href);url.searchParams.delete("line_link");history.replaceState({},"",url);
     queueLinePreferenceSync();
-    alert("เชื่อมบัญชี LINE กับสวนบุญสำเร็จแล้วค่ะ 🪷");
+    document.getElementById("lineLinkSuccessModal")?.classList.add("open");
   }catch(error){
     sessionStorage.removeItem(attemptKey);
     alert(error.message==="Link expired or already used"?"ลิงก์เชื่อมบัญชีหมดอายุแล้ว กรุณาพิมพ์ “เชื่อมบัญชี” ใน LINE ใหม่ค่ะ":error.message);
@@ -2843,8 +2843,18 @@ function initSettings(){
       showScreen("register");
       return;
     }
-    try{await navigator.clipboard.writeText("เชื่อมบัญชี");}catch(error){console.warn("Copy LINE command failed",error);}
-    alert("คัดลอกคำว่า “เชื่อมบัญชี” แล้วค่ะ\n\nเปิดแชต LINE Bot แล้วส่งคำนี้ จากนั้นกดลิงก์ที่ Bot ส่งกลับมาเพื่อเชื่อมบัญชีค่ะ 🪷");
+    const button=document.getElementById("lineConnectBtn");
+    button.disabled=true;
+    try{
+      const response=await fetch(`${LINE_BOT_API}/api/bot-info`);
+      const result=await response.json();
+      if(!response.ok||!result.chat_url)throw new Error("เปิด LINE Bot ไม่สำเร็จ");
+      location.href=result.chat_url;
+    }catch(error){alert(error.message);}finally{button.disabled=false;}
+  });
+  document.getElementById("lineLinkSuccessOk").addEventListener("click",()=>{
+    document.getElementById("lineLinkSuccessModal").classList.remove("open");
+    sendLineEvent("account_linked");
   });
   document.getElementById("profileEditBack").addEventListener("click",()=>{ pendingProfileTheme=state.profileTheme||"pink"; applyProfileImages(state.profileGender||"หญิง",pendingProfileTheme); document.getElementById("profileInlineEdit").classList.remove("open"); document.querySelector(".profile-menu").style.display="block"; });
   document.querySelectorAll('[name="profileGender"]').forEach(input=>input.addEventListener("change",()=>applyProfileImages(input.value,pendingProfileTheme)));
