@@ -20,7 +20,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Sarabun:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800&amp;display=swap">
-<link rel="stylesheet" href="style.css?v=20260901-11">
+<link rel="stylesheet" href="style.css?v=20260901-12">
 <link rel="stylesheet" href="character.css?v=20260826-7">
 </head>
 <body>
@@ -116,7 +116,7 @@
         <p class="my-prayer-empty" id="myPrayerEmpty">ยังไม่มีชุดสวดของฉัน<br><small>สร้างชุดสวดจากเมนูผู้ช่วยได้เลยค่ะ</small></p>
         <div class="my-prayer-detail" id="myPrayerDetail">
           <button class="my-prayer-back" id="myPrayerBack" type="button">‹ กลับไปชุดสวดของฉัน</button>
-          <div class="my-prayer-detail-actions"><button type="button" id="myPrayerShareSet" aria-label="แชร์ชุดสวดให้เพื่อน" title="แชร์ชุดสวดให้เพื่อน">↗</button><button type="button" id="myPrayerDeleteSet" aria-label="ลบชุดสวด" title="ลบชุดสวด"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 7h16M9 7V4h6v3m3 0-1 13H7L6 7m4 4v5m4-5v5"/></svg></button><button type="button" id="myPrayerEditSet" aria-label="แก้ไขชุดสวด" title="แก้ไขชุดสวด"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m4 20 4.2-1 10.7-10.7a2.1 2.1 0 0 0-3-3L5.2 16 4 20Zm10.5-13.2 3 3"/></svg></button></div>
+          <div class="my-prayer-detail-actions"><button type="button" id="myPrayerRenameSet" aria-label="เปลี่ยนชื่อชุดสวด" title="เปลี่ยนชื่อชุดสวด">Aa</button><button type="button" id="myPrayerShareSet" aria-label="แชร์ชุดสวดให้เพื่อน" title="แชร์ชุดสวดให้เพื่อน">↗</button><button type="button" id="myPrayerDeleteSet" aria-label="ลบชุดสวด" title="ลบชุดสวด"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 7h16M9 7V4h6v3m3 0-1 13H7L6 7m4 4v5m4-5v5"/></svg></button><button type="button" id="myPrayerEditSet" aria-label="แก้ไขชุดสวด" title="แก้ไขชุดสวด"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m4 20 4.2-1 10.7-10.7a2.1 2.1 0 0 0-3-3L5.2 16 4 20Zm10.5-13.2 3 3"/></svg></button></div>
           <div class="my-prayer-detail-head"><h3 id="myPrayerDetailTitle">ชุดสวดของฉัน</h3><small id="myPrayerDetailMeta"></small></div>
           <div class="my-prayer-detail-list" id="myPrayerDetailList"></div>
         </div>
@@ -770,6 +770,7 @@
   </div>
 
   <div class="complete-modal" id="playlistShareModal"><div class="complete-card playlist-share-card"><h2>ส่งเพลย์ลิสต์ให้เพื่อน</h2><p id="playlistShareName"></p><div id="playlistShareFriends"></div><button type="button" id="playlistShareClose">ยกเลิก</button></div></div>
+  <div class="complete-modal" id="playlistRenameModal"><div class="complete-card playlist-rename-card"><h2>เปลี่ยนชื่อเพลย์ลิสต์</h2><input id="playlistRenameInput" maxlength="80" placeholder="ชื่อเพลย์ลิสต์"><div><button type="button" id="playlistRenameCancel">ยกเลิก</button><button type="button" id="playlistRenameSave">บันทึกชื่อ</button></div></div></div>
 
   <div class="complete-modal" id="lineLinkSuccessModal" role="dialog" aria-modal="true" aria-labelledby="lineLinkSuccessTitle">
     <div class="complete-card">
@@ -815,6 +816,6 @@
 
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script src="supabase-config.js"></script>
-<script src="app.js?v=20260901-19"></script>
+<script src="app.js?v=20260901-20"></script>
 </body>
 </html>

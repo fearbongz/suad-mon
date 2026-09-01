@@ -1717,6 +1717,10 @@ function holyEntries(month){return (HOLY_DAYS_2569[month]||[]).map(value=>{const
 function isWanPhraDate(date=new Date()){
   return date.getFullYear()===2026&&holyEntries(date.getMonth()).some(item=>item.day===date.getDate());
 }
+function isBirthdayDate(date=new Date()){
+  const parts=String(state.profileBirthDate||"").split("-").map(Number);
+  return parts.length===3&&parts[1]===date.getMonth()+1&&parts[2]===date.getDate();
+}
 function holyMoonPhase(lunar=""){
   const match=lunar.match(/(ขึ้น|แรม)\s*(\d+)/);if(!match)return 8;const count=Number(match[2]);
   return match[1]==="ขึ้น"?Math.max(0,Math.min(8,Math.round((count-1)/14*8))):Math.max(9,Math.min(16,9+Math.round((count-1)/14*7)));
@@ -1918,6 +1922,20 @@ function openMyPrayerSet(setId){
   document.getElementById("myPrayerDetail").classList.add("open");
   document.getElementById("myPrayerDetailTitle").textContent = set.name;
   renderMyPrayerSetEditor();
+}
+
+function openPlaylistRenameModal(){
+  const set=(state.customPrayerSets||[]).find(item=>String(item.id)===String(editingPrayerSetId));
+  if(!set)return;
+  const modal=document.getElementById("playlistRenameModal"),input=document.getElementById("playlistRenameInput");
+  input.value=set.name||"";modal.classList.add("open");setTimeout(()=>{input.focus();input.select();},50);
+}
+
+function savePlaylistRename(){
+  const set=(state.customPrayerSets||[]).find(item=>String(item.id)===String(editingPrayerSetId));
+  const input=document.getElementById("playlistRenameInput"),name=input.value.trim();
+  if(!set||!name){input.focus();return;}
+  set.name=name;saveState();document.getElementById("myPrayerDetailTitle").textContent=name;document.getElementById("playlistRenameModal").classList.remove("open");
 }
 
 async function openPlaylistShareModal(){
@@ -2435,7 +2453,7 @@ function markComplete(){
   const already = state.completedDates.includes(ds);
   const previousLevel = gardenLevelInfo(getMeritPoints()).level;
   const basePoints = 10;
-  const meritMultiplier = isWanPhraDate() ? 2 : 1;
+  const meritMultiplier = isBirthdayDate() ? 5 : isWanPhraDate() ? 2 : 1;
   const earnedPoints = basePoints * meritMultiplier;
   if(!already){
     state.completedDates.push(ds);
@@ -2453,7 +2471,7 @@ function markComplete(){
   renderBadges();
   playChime(880);
   spawnBurst();
-  const wanPhraBonus = meritMultiplier===2 ? ` ✨ วันพระรับพลังบุญ ×2 ได้ +${earnedPoints} แต้ม` : ` ได้รับ +${earnedPoints} แต้มบุญ`;
+  const wanPhraBonus = meritMultiplier===5 ? ` 🎂 สุขสันต์วันเกิด รับพลังบุญ ×5 ได้ +${earnedPoints} แต้ม` : meritMultiplier===2 ? ` ✨ วันพระรับพลังบุญ ×2 ได้ +${earnedPoints} แต้ม` : ` ได้รับ +${earnedPoints} แต้มบุญ`;
   document.getElementById("completeMsg").textContent = already
     ? `วันนี้สวดครบแล้วอีกรอบ อนุโมทนาบุญด้วยนะคะ 🌸${wanPhraBonus}`
     : `สวดครบ “${currentPrayer.title}” แล้ว วันนี้ครบ ${computeStreak()} วันติดต่อกันค่ะ${wanPhraBonus}`;
@@ -3322,6 +3340,10 @@ function bindAssistant(){
 function bindPrayerLibrary(){
   document.querySelectorAll("#prayerLibraryTabs button").forEach(button=>button.addEventListener("click",()=>setPrayerLibraryTab(button.dataset.libraryTab)));
   document.getElementById("myPrayerBack").addEventListener("click",renderMyPrayerSets);
+  document.getElementById("myPrayerRenameSet").addEventListener("click",openPlaylistRenameModal);
+  document.getElementById("playlistRenameCancel").addEventListener("click",()=>document.getElementById("playlistRenameModal").classList.remove("open"));
+  document.getElementById("playlistRenameSave").addEventListener("click",savePlaylistRename);
+  document.getElementById("playlistRenameInput").addEventListener("keydown",event=>{if(event.key==="Enter")savePlaylistRename();});
   document.getElementById("myPrayerShareSet").addEventListener("click",openPlaylistShareModal);
   document.getElementById("playlistShareClose").addEventListener("click",()=>document.getElementById("playlistShareModal").classList.remove("open"));
   document.getElementById("myPrayerDeleteSet").addEventListener("click",()=>deleteMyPrayerSet(editingPrayerSetId));
