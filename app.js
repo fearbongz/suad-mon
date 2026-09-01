@@ -3326,7 +3326,25 @@ function getGardenProgress(){
   return {days,level:gardenLevelInfo(getMeritPoints()).level};
 }
 let communityDirectory=[];
+function renderCommunityFriendsPanel(){
+  const panel=document.getElementById("communityMinePanel");
+  if(!panel)return;
+  const friends=Array.isArray(state.communityFriends)?state.communityFriends:[];
+  const escape=value=>String(value??"").replace(/[&<>'"]/g,char=>({"&":"&amp;","<":"&lt;",">":"&gt;","'":"&#39;",'"':"&quot;"})[char]);
+  if(!friends.length){
+    panel.innerHTML='<div class="community-mine-empty">💗</div><h2>ชุมชนของฉัน</h2><p>ยังไม่มีเพื่อนในชุมชน<br>เพิ่มเพื่อนได้จากหน้าส่งกำลังใจ</p><button type="button" data-nav="encouragement">เพิ่มเพื่อน</button>';
+  }else{
+    panel.innerHTML=`<header><div><h2>เพื่อนของฉัน</h2><p>${friends.length.toLocaleString("th-TH")} คน</p></div><button type="button" data-nav="encouragement">＋ เพิ่มเพื่อน</button></header><div class="community-friend-list">${friends.map(friend=>`<article><span><img src="${encouragementAvatar(friend)}" alt=""></span><div><b>${escape(friend.full_name||"เพื่อนสายบุญ")}</b><small>Lv.${Number(friend.level||1)} · ${Number(friend.points||0).toLocaleString("th-TH")} แต้ม</small></div><button type="button" data-community-message="${escape(friend.friend_key)}">ส่งกำลังใจ</button></article>`).join("")}</div>`;
+  }
+  panel.querySelectorAll('[data-nav="encouragement"]').forEach(button=>button.onclick=()=>showScreen("encouragement"));
+  panel.querySelectorAll("[data-community-message]").forEach(button=>button.onclick=()=>{
+    const index=state.communityFriends.findIndex(friend=>String(friend.friend_key)===button.dataset.communityMessage);
+    if(index>0)state.communityFriends.unshift(...state.communityFriends.splice(index,1));
+    showScreen("encouragement");
+  });
+}
 async function renderCommunity(){
+  renderCommunityFriendsPanel();
   const points=getMeritPoints();
   const info=gardenLevelInfo(points);
   const history=Array.isArray(state.prayerHistory)?state.prayerHistory:[];
