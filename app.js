@@ -1360,6 +1360,26 @@ let supabaseClient=null;
 let cloudSyncTimer=null;
 let authMode="register";
 let authSession=null;
+const LINE_BOT_API="https://suanboon-line-bot-fearbongz.vercel.app";
+
+async function attemptLineAccountLink(session){
+  const token=new URLSearchParams(location.search).get("line_link");
+  if(!token||!session?.access_token)return;
+  const attemptKey=`suadmon_line_link_${token}`;
+  if(sessionStorage.getItem(attemptKey)==="working")return;
+  sessionStorage.setItem(attemptKey,"working");
+  try{
+    const response=await fetch(`${LINE_BOT_API}/api/link-account`,{method:"POST",headers:{Authorization:`Bearer ${session.access_token}`,"Content-Type":"application/json"},body:JSON.stringify({token})});
+    const result=await response.json().catch(()=>({}));
+    if(!response.ok)throw new Error(result.error||"เชื่อมบัญชีไม่สำเร็จ");
+    sessionStorage.setItem(attemptKey,"done");
+    const url=new URL(location.href);url.searchParams.delete("line_link");history.replaceState({},"",url);
+    alert("เชื่อมบัญชี LINE กับสวนบุญสำเร็จแล้วค่ะ 🪷");
+  }catch(error){
+    sessionStorage.removeItem(attemptKey);
+    alert(error.message==="Link expired or already used"?"ลิงก์เชื่อมบัญชีหมดอายุแล้ว กรุณาพิมพ์ “เชื่อมบัญชี” ใน LINE ใหม่ค่ะ":error.message);
+  }
+}
 
 function getSupabaseClient(){
   if(supabaseClient) return supabaseClient;
@@ -1369,20 +1389,56 @@ function getSupabaseClient(){
   return supabaseClient;
 }
 
+async function pushCloudState(onComplete){
+  try{
+    const client=getSupabaseClient();
+    if(!client){onComplete?.({saved:false,reason:"offline"});return;}
+    const {data:{user},error:userError}=await client.auth.getUser();
+    if(userError)throw userError;
+    if(!user){onComplete?.({saved:false,reason:"guest"});return;}
+    const {error}=await client.from("user_state").upsert({user_id:user.id,data:state,updated_at:new Date().toISOString()});
+    if(error)throw error;
+    onComplete?.({saved:true});
+  }catch(error){console.warn("Cloud state sync failed:",error);onComplete?.({saved:false,reason:"error",error});}
+}
+
 function queueCloudStateSync(onComplete){
   clearTimeout(cloudSyncTimer);
-  cloudSyncTimer=setTimeout(async()=>{
-    try{
-      const client=getSupabaseClient();
-      if(!client){onComplete?.({saved:false,reason:"offline"});return;}
-      const {data:{user},error:userError}=await client.auth.getUser();
-      if(userError)throw userError;
-      if(!user){onComplete?.({saved:false,reason:"guest"});return;}
-      const {error}=await client.from("user_state").upsert({user_id:user.id,data:state,updated_at:new Date().toISOString()});
-      if(error)throw error;
-      onComplete?.({saved:true});
-    }catch(error){console.warn("Cloud state sync failed:",error);onComplete?.({saved:false,reason:"error",error});}
-  },700);
+  cloudSyncTimer=setTimeout(()=>{cloudSyncTimer=null;pushCloudState(onComplete);},700);
+}
+
+// เผื่อผู้ใช้ปิดแท็บ/สลับแอปก่อนครบ 700ms ของ debounce ด้านบน ให้ยิง sync ทันที
+// ไม่งั้นข้อมูล (เช่นวันที่สวดมนต์ล่าสุด) จะค้างอยู่แค่ใน localStorage เครื่องนี้ ไม่ขึ้นคลาวด์
+function flushCloudStateSync(){
+  if(cloudSyncTimer){clearTimeout(cloudSyncTimer);cloudSyncTimer=null;pushCloudState();}
+}
+if(typeof document!=="undefined"){
+  document.addEventListener("visibilitychange",()=>{if(document.hidden)flushCloudStateSync();});
+  window.addEventListener("pagehide",flushCloudStateSync);
+  window.addEventListener("beforeunload",flushCloudStateSync);
+}
+
+// รวม array ประเภทวัน/ประวัติของ local (เครื่องนี้) กับ cloud (บัญชี) แบบ union
+// กันเคสที่เครื่องนี้สวดมนต์ไว้แล้วแต่ยังไม่ทันซิงก์ขึ้นคลาวด์ (เช่นปิดแอปเร็วไป)
+// แล้วพอ login เครื่องอื่น/เครื่องนี้ใหม่ ข้อมูลที่สวดไปแล้วถูกทับหายไป
+function unionByKey(localArr,cloudArr){
+  const local=Array.isArray(localArr)?localArr:[];
+  const cloud=Array.isArray(cloudArr)?cloudArr:[];
+  const seen=new Set();
+  const out=[];
+  [...local,...cloud].forEach(item=>{
+    const key=typeof item==="object"&&item!==null?JSON.stringify(item):String(item);
+    if(!seen.has(key)){seen.add(key);out.push(item);}
+  });
+  return out;
+}
+const CLOUD_MERGE_ARRAY_FIELDS=["completedDates","favorites","prayerHistory","customPrayerSets","gardenClaims","gardenManualMissions","gardenActions","characterGifts","communityFriends","encouragementHistory","seenBadges","gardenDecorations"];
+const CLOUD_MERGE_MAX_NUMBER_FIELDS=["gardenBonus","characterTaps","lotusSpent","gardenDecorLevel"];
+function mergeCloudState(localState,cloudData){
+  const merged={...DEFAULT_STATE,...localState,...cloudData};
+  CLOUD_MERGE_ARRAY_FIELDS.forEach(key=>{merged[key]=unionByKey(localState[key],cloudData[key]);});
+  CLOUD_MERGE_MAX_NUMBER_FIELDS.forEach(key=>{merged[key]=Math.max(Number(localState[key])||0,Number(cloudData[key])||0);});
+  return merged;
 }
 
 async function loadCloudState(){
@@ -1391,7 +1447,13 @@ async function loadCloudState(){
   const {data:{user}}=await client.auth.getUser();
   if(!user) return false;
   const {data}=await client.from("user_state").select("data").eq("user_id",user.id).maybeSingle();
-  if(data?.data){state={...DEFAULT_STATE,...data.data};localStorage.setItem(STORE_KEY,JSON.stringify(state));renderAll();}
+  if(data?.data){
+    const merged=mergeCloudState(state,data.data);
+    state=merged;
+    localStorage.setItem(STORE_KEY,JSON.stringify(state));
+    renderAll();
+    queueCloudStateSync(); // เขียนผลรวมกลับขึ้นคลาวด์ ให้ทุกเครื่องเห็นข้อมูลชุดล่าสุดตรงกัน
+  }
   else queueCloudStateSync();
   // เติมข้อมูลโปรไฟล์จากตอนสมัครสมาชิกให้ครั้งแรก (ไม่ทับถ้าผู้ใช้เคยแก้ไขเองแล้ว)
   const meta=user.user_metadata||{};
@@ -1490,10 +1552,11 @@ function initAuth(){
   if(client){
     client.auth.getSession().then(({data})=>{
       updateSettingsAuth(data.session);
+      attemptLineAccountLink(data.session);
       applyInitialDeepLink();
     }).catch(()=>applyInitialDeepLink());
   }else applyInitialDeepLink();
-  client?.auth.onAuthStateChange((event,session)=>{updateSettingsAuth(session);if(event==="SIGNED_IN"&&session)loadCloudState();});
+  client?.auth.onAuthStateChange((event,session)=>{updateSettingsAuth(session);if(event==="SIGNED_IN"&&session){loadCloudState();attemptLineAccountLink(session);}});
 }
 
 /* One-time local test reset requested for today's garden actions. */
