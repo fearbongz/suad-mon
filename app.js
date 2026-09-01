@@ -1379,20 +1379,29 @@ async function attemptLineAccountLink(session){
   const token=new URLSearchParams(location.search).get("line_link");
   if(!token||!session?.access_token)return;
   const attemptKey=`suadmon_line_link_${token}`;
-  if(sessionStorage.getItem(attemptKey)==="working")return;
+  const url=new URL(location.href);url.searchParams.delete("line_link");history.replaceState({},"",url);
+  if(sessionStorage.getItem(attemptKey))return;
   sessionStorage.setItem(attemptKey,"working");
   try{
     const response=await fetch(`${LINE_BOT_API}/api/link-account`,{method:"POST",headers:{Authorization:`Bearer ${session.access_token}`,"Content-Type":"application/json"},body:JSON.stringify({token})});
     const result=await response.json().catch(()=>({}));
     if(!response.ok)throw new Error(result.error||"เชื่อมบัญชีไม่สำเร็จ");
     sessionStorage.setItem(attemptKey,"done");
-    const url=new URL(location.href);url.searchParams.delete("line_link");history.replaceState({},"",url);
     queueLinePreferenceSync();
-    document.getElementById("lineLinkSuccessModal")?.classList.add("open");
+    showLineLinkMessage("เชื่อมบัญชีสำเร็จ",true);
   }catch(error){
-    sessionStorage.removeItem(attemptKey);
-    alert(error.message==="Link expired or already used"?"ลิงก์เชื่อมบัญชีหมดอายุแล้ว กรุณาพิมพ์ “เชื่อมบัญชี” ใน LINE ใหม่ค่ะ":error.message);
+    sessionStorage.setItem(attemptKey,"failed");
+    const message=error.message==="Link expired or already used"?"ลิงก์เชื่อมบัญชีหมดอายุแล้ว กรุณาเปิด LINE และเชื่อมบัญชีใหม่ค่ะ":error.message==="Please sign in first"?"กรุณาเข้าสู่ระบบก่อน แล้วเชื่อมบัญชีจากหน้าตั้งค่าใหม่ค่ะ":error.message;
+    showLineLinkMessage(message,false);
   }
+}
+
+function showLineLinkMessage(message,notifyLine=false){
+  const modal=document.getElementById("lineLinkSuccessModal"),title=document.getElementById("lineLinkSuccessTitle"),ok=document.getElementById("lineLinkSuccessOk");
+  if(!modal||!title||!ok)return;
+  title.textContent=message;
+  ok.dataset.notifyLine=notifyLine?"true":"false";
+  modal.classList.add("open");
 }
 
 async function sendLineEvent(type,payload={}){
@@ -2839,7 +2848,7 @@ function initSettings(){
   });
   document.getElementById("lineConnectBtn").addEventListener("click",async()=>{
     if(!authSession){
-      alert("กรุณาเข้าสู่ระบบสวนบุญก่อนเชื่อมบัญชี LINE ค่ะ");
+      showLineLinkMessage("กรุณาเข้าสู่ระบบก่อนเชื่อมบัญชี LINE ค่ะ");
       showScreen("register");
       return;
     }
@@ -2850,11 +2859,12 @@ function initSettings(){
       const result=await response.json();
       if(!response.ok||!result.chat_url)throw new Error("เปิด LINE Bot ไม่สำเร็จ");
       location.href=result.chat_url;
-    }catch(error){alert(error.message);}finally{button.disabled=false;}
+    }catch(error){showLineLinkMessage(error.message);}finally{button.disabled=false;}
   });
   document.getElementById("lineLinkSuccessOk").addEventListener("click",()=>{
+    const button=document.getElementById("lineLinkSuccessOk");
     document.getElementById("lineLinkSuccessModal").classList.remove("open");
-    sendLineEvent("account_linked");
+    if(button.dataset.notifyLine==="true")sendLineEvent("account_linked");
   });
   document.getElementById("profileEditBack").addEventListener("click",()=>{ pendingProfileTheme=state.profileTheme||"pink"; applyProfileImages(state.profileGender||"หญิง",pendingProfileTheme); document.getElementById("profileInlineEdit").classList.remove("open"); document.querySelector(".profile-menu").style.display="block"; });
   document.querySelectorAll('[name="profileGender"]').forEach(input=>input.addEventListener("change",()=>applyProfileImages(input.value,pendingProfileTheme)));
