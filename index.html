@@ -116,7 +116,7 @@
         <p class="my-prayer-empty" id="myPrayerEmpty">ยังไม่มีชุดสวดของฉัน<br><small>สร้างชุดสวดจากเมนูผู้ช่วยได้เลยค่ะ</small></p>
         <div class="my-prayer-detail" id="myPrayerDetail">
           <button class="my-prayer-back" id="myPrayerBack" type="button">‹ กลับไปชุดสวดของฉัน</button>
-          <div class="my-prayer-detail-actions"><button type="button" id="myPrayerDeleteSet" aria-label="ลบชุดสวด" title="ลบชุดสวด"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 7h16M9 7V4h6v3m3 0-1 13H7L6 7m4 4v5m4-5v5"/></svg></button><button type="button" id="myPrayerEditSet" aria-label="แก้ไขชุดสวด" title="แก้ไขชุดสวด"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m4 20 4.2-1 10.7-10.7a2.1 2.1 0 0 0-3-3L5.2 16 4 20Zm10.5-13.2 3 3"/></svg></button></div>
+          <div class="my-prayer-detail-actions"><button type="button" id="myPrayerShareSet" aria-label="แชร์ชุดสวดให้เพื่อน" title="แชร์ชุดสวดให้เพื่อน">↗</button><button type="button" id="myPrayerDeleteSet" aria-label="ลบชุดสวด" title="ลบชุดสวด"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 7h16M9 7V4h6v3m3 0-1 13H7L6 7m4 4v5m4-5v5"/></svg></button><button type="button" id="myPrayerEditSet" aria-label="แก้ไขชุดสวด" title="แก้ไขชุดสวด"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m4 20 4.2-1 10.7-10.7a2.1 2.1 0 0 0-3-3L5.2 16 4 20Zm10.5-13.2 3 3"/></svg></button></div>
           <div class="my-prayer-detail-head"><h3 id="myPrayerDetailTitle">ชุดสวดของฉัน</h3><small id="myPrayerDetailMeta"></small></div>
           <div class="my-prayer-detail-list" id="myPrayerDetailList"></div>
         </div>
@@ -464,7 +464,7 @@
         <label class="encouragement-custom"><textarea id="encouragementCustom" maxlength="200" placeholder="เขียนข้อความกำลังใจของคุณ..."></textarea><small><span id="encouragementCount">0</span>/200</small></label>
         <footer class="encouragement-send"><div><small>ใช้แต้มบุญของคุณ</small><strong><img src="assets/profile-points.png" alt="" loading="lazy" decoding="async"><span id="encouragementPoints">0</span> แต้ม</strong><em>(ใช้ 10 แต้ม ต่อ 1 ข้อความ)</em></div><label><input id="encouragementAnonymous" type="checkbox"> โพสต์แบบไม่ระบุชื่อ</label><button type="button" id="encouragementSend">➤ ส่งกำลังใจ</button></footer>
       </div>
-      <div class="encouragement-mail encouragement-panel" data-encouragement-panel="inbox" hidden><header><h2>กำลังใจที่ได้รับ</h2><span>☰　•••</span></header><div class="encouragement-mail-filters"><button class="active" type="button" data-mail-filter="all">ทั้งหมด <span id="encouragementInboxAll">0</span></button><button type="button" data-mail-filter="unread">ยังไม่อ่าน <span id="encouragementInboxUnread">0</span></button><button type="button" data-mail-filter="read">อ่านแล้ว</button></div><div class="encouragement-mail-list" id="encouragementInboxList"></div></div>
+      <div class="encouragement-mail encouragement-panel" data-encouragement-panel="inbox" hidden><header><h2>กำลังใจที่ได้รับ</h2><span>☰　•••</span></header><div class="encouragement-mail-filters"><button class="active" type="button" data-mail-filter="all">ทั้งหมด <span id="encouragementInboxAll">0</span></button><button type="button" data-mail-filter="unread">ยังไม่อ่าน <span id="encouragementInboxUnread">0</span></button><button type="button" data-mail-filter="read">อ่านแล้ว</button></div><div id="receivedPlaylistShares"></div><div class="encouragement-mail-list" id="encouragementInboxList"></div></div>
       <div class="encouragement-mail encouragement-panel" data-encouragement-panel="sent" hidden><header><h2>ส่งแล้ว</h2><span>☰　•••</span></header><div class="encouragement-mail-filters"><button class="active" type="button">ทั้งหมด <span id="encouragementSentAll">0</span></button><button type="button">ได้รับการตอบกลับ <span>0</span></button></div><div class="encouragement-mail-list" id="encouragementSentList"></div></div>
       <div class="encouragement-detail encouragement-panel" id="encouragementDetail" hidden><header><button type="button" id="encouragementDetailBack">‹</button><h2>รายละเอียดข้อความ</h2></header><article><div class="encouragement-detail-user"><span id="encouragementDetailAvatar"></span><div><b id="encouragementDetailName"></b><small id="encouragementDetailAnonymous"></small></div><time id="encouragementDetailTime"></time></div><img src="assets/wallet-hearts.png" alt="" loading="lazy" decoding="async"><blockquote id="encouragementDetailMessage"></blockquote><p>💗 ข้อความนี้ส่งผ่านชุมชนแห่งบุญ</p><footer><button type="button">♡ ขอบคุณ</button><button type="button" id="encouragementReply">ตอบกลับด้วยกำลังใจ</button><button type="button">⌯ แชร์</button></footer></article></div>
       <div class="encouragement-help-modal" id="encouragementHelpModal" hidden><section role="dialog" aria-modal="true" aria-labelledby="encouragementHelpTitle"><button type="button" id="encouragementHelpClose" aria-label="ปิด">×</button><img src="assets/wallet-hearts.png" alt="" loading="lazy" decoding="async"><h2 id="encouragementHelpTitle">การส่งกำลังใจ</h2><p>ส่งข้อความดี ๆ และพลังบุญให้เพื่อนในชุมชน เพื่อเติมรอยยิ้มและกำลังใจให้กันค่ะ</p><ul><li><b>เลือกหรือเพิ่มเพื่อน</b><span>ค้นหาสมาชิกจากชุมชน แล้วกดเพิ่มเป็นเพื่อน</span></li><li><b>เลือกข้อความ</b><span>เลือกข้อความสำเร็จรูป หรือเขียนข้อความเองได้ไม่เกิน 200 ตัวอักษร</span></li><li><b>ใช้แต้มบุญ</b><span>การส่งหนึ่งข้อความใช้ 10 แต้มบุญ</span></li><li><b>ดูข้อความ</b><span>ข้อความใหม่อยู่ในแท็บ “กำลังใจที่ได้รับ” และดูประวัติได้ที่ “ส่งแล้ว”</span></li><li><b>ไม่ระบุชื่อ</b><span>เปิดตัวเลือกนี้ หากไม่ต้องการแสดงชื่อแก่ผู้รับ</span></li></ul><button type="button" id="encouragementHelpDone">เข้าใจแล้ว</button></section></div>
@@ -765,10 +765,11 @@
       <div class="complete-emoji"><img class="flower-icon flower-icon-large" src="assets/flower-icon.png" alt="" loading="lazy" decoding="async">✨</div>
       <h2>อนุโมทนาบุญด้วยนะคะ</h2>
       <p id="completeMsg">สวดครบแล้ววันนี้ 1 บท เก่งมากค่ะ</p>
-      <button type="button" id="copyPrayerPlaylist">🔗 คัดลอกให้เพื่อนสวดตาม</button>
       <button id="completeClose">รับทราบค่ะ 💗</button>
     </div>
   </div>
+
+  <div class="complete-modal" id="playlistShareModal"><div class="complete-card playlist-share-card"><h2>ส่งเพลย์ลิสต์ให้เพื่อน</h2><p id="playlistShareName"></p><div id="playlistShareFriends"></div><button type="button" id="playlistShareClose">ยกเลิก</button></div></div>
 
   <div class="complete-modal" id="lineLinkSuccessModal" role="dialog" aria-modal="true" aria-labelledby="lineLinkSuccessTitle">
     <div class="complete-card">
@@ -814,6 +815,6 @@
 
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script src="supabase-config.js"></script>
-<script src="app.js?v=20260901-18"></script>
+<script src="app.js?v=20260901-19"></script>
 </body>
 </html>

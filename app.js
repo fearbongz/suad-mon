@@ -1920,6 +1920,25 @@ function openMyPrayerSet(setId){
   renderMyPrayerSetEditor();
 }
 
+async function openPlaylistShareModal(){
+  const set=(state.customPrayerSets||[]).find(item=>String(item.id)===String(editingPrayerSetId));
+  if(!set)return;
+  await refreshCommunityFriends();
+  const modal=document.getElementById("playlistShareModal"),wrap=document.getElementById("playlistShareFriends");
+  document.getElementById("playlistShareName").textContent=`“${set.name}” · ${set.prayerIds.length} บท`;
+  const escape=value=>String(value??"").replace(/[&<>'"]/g,char=>({"&":"&amp;","<":"&lt;",">":"&gt;","'":"&#39;",'"':"&quot;"})[char]);
+  wrap.innerHTML=state.communityFriends.length?state.communityFriends.map(friend=>`<button type="button" data-share-friend="${escape(friend.user_id)}"><img src="${encouragementAvatar(friend)}" alt=""><span><b>${escape(friend.full_name||"เพื่อนสายบุญ")}</b><small>แตะเพื่อส่งในชุมชน</small></span></button>`).join(""):'<p>ยังไม่มีเพื่อนในชุมชนค่ะ</p>';
+  wrap.querySelectorAll("[data-share-friend]").forEach(button=>button.onclick=async()=>{
+    button.disabled=true;
+    const client=getSupabaseClient();
+    const {error}=await client.from("prayer_playlist_shares").insert({recipient_id:button.dataset.shareFriend,sender_name:state.profileName||"เพื่อนสายบุญ",playlist_name:set.name,prayer_ids:set.prayerIds});
+    if(error){button.disabled=false;button.querySelector("small").textContent="ส่งไม่สำเร็จ กรุณาลองใหม่";return;}
+    button.querySelector("small").textContent="✓ ส่งแล้ว";
+    setTimeout(()=>modal.classList.remove("open"),700);
+  });
+  modal.classList.add("open");
+}
+
 function renderMyPrayerSetEditor(){
   const prayers = editingPrayerSetDraft.map(findPrayer).filter(Boolean);
   document.getElementById("myPrayerDetailMeta").textContent = `${prayers.length} บท`;
@@ -3033,24 +3052,6 @@ function bindReaderControls(){
     document.getElementById("completeModal").classList.remove("open");
     closeReader();
   });
-  document.getElementById("copyPrayerPlaylist").addEventListener("click",async event=>{
-    const ids=(activeReaderSequence.length?activeReaderSequence:[currentPrayer?.id]).filter(id=>findPrayer(id));
-    if(!ids.length)return;
-    const matchingSet=(state.customPrayerSets||[]).find(set=>Array.isArray(set.prayerIds)&&set.prayerIds.length===ids.length&&set.prayerIds.every((id,index)=>String(id)===String(ids[index])));
-    const playlistName=matchingSet?.name||(ids.length===1?findPrayer(ids[0])?.title:`ชุดสวด ${ids.length} บท`);
-    const url=new URL(location.origin+location.pathname);
-    url.searchParams.set("share_prayers",ids.join(","));
-    url.searchParams.set("share_name",playlistName);
-    const shareText=`มาสวด “${playlistName}” ตามกันนะคะ 🪷\n${url}`;
-    try{
-      await navigator.clipboard.writeText(shareText);
-    }catch(error){
-      const area=document.createElement("textarea");area.value=shareText;area.style.position="fixed";area.style.opacity="0";document.body.appendChild(area);area.select();document.execCommand("copy");area.remove();
-    }
-    const button=event.currentTarget,original="🔗 คัดลอกให้เพื่อนสวดตาม";
-    button.textContent="✓ คัดลอกลิงก์แล้ว";
-    setTimeout(()=>button.textContent=original,1800);
-  });
 }
 
 function bindSearch(){
@@ -3321,6 +3322,8 @@ function bindAssistant(){
 function bindPrayerLibrary(){
   document.querySelectorAll("#prayerLibraryTabs button").forEach(button=>button.addEventListener("click",()=>setPrayerLibraryTab(button.dataset.libraryTab)));
   document.getElementById("myPrayerBack").addEventListener("click",renderMyPrayerSets);
+  document.getElementById("myPrayerShareSet").addEventListener("click",openPlaylistShareModal);
+  document.getElementById("playlistShareClose").addEventListener("click",()=>document.getElementById("playlistShareModal").classList.remove("open"));
   document.getElementById("myPrayerDeleteSet").addEventListener("click",()=>deleteMyPrayerSet(editingPrayerSetId));
   document.getElementById("myPrayerEditSet").addEventListener("click",()=>editPrayerSetInAssistant(editingPrayerSetId));
 }
@@ -3478,17 +3481,32 @@ async function renderEncouragement(){
 async function renderEncouragementMailbox(){
   const inboxList=document.getElementById("encouragementInboxList"),sentList=document.getElementById("encouragementSentList"),detail=document.getElementById("encouragementDetail");if(!inboxList||!sentList||!detail)return;
   const escape=value=>String(value??"").replace(/[&<>'"]/g,char=>({"&":"&amp;","<":"&lt;",">":"&gt;","'":"&#39;",'"':"&quot;"})[char]),relative=value=>{const seconds=Math.max(0,Math.floor((Date.now()-new Date(value).getTime())/1000));if(seconds<60)return "เมื่อสักครู่";if(seconds<3600)return `${Math.floor(seconds/60)} นาทีที่แล้ว`;if(seconds<86400)return `${Math.floor(seconds/3600)} ชม. ที่แล้ว`;return new Date(value).toLocaleDateString("th-TH",{day:"numeric",month:"short"});};
-  let inbox=[],sent=[],mailFilter="all",lastTab="inbox";const client=getSupabaseClient();
-  if(client){const [receivedResult,sentResult]=await Promise.all([client.rpc("get_received_encouragements"),client.rpc("get_sent_encouragements")]);if(!receivedResult.error&&Array.isArray(receivedResult.data))inbox=receivedResult.data;if(!sentResult.error&&Array.isArray(sentResult.data))sent=sentResult.data;}
+  let inbox=[],sent=[],playlistShares=[],mailFilter="all",lastTab="inbox";const client=getSupabaseClient();
+  if(client){const [receivedResult,sentResult,playlistResult]=await Promise.all([client.rpc("get_received_encouragements"),client.rpc("get_sent_encouragements"),client.from("prayer_playlist_shares").select("id,sender_name,playlist_name,prayer_ids,created_at,saved_at").eq("recipient_id",authSession?.user?.id||"").order("created_at",{ascending:false})]);if(!receivedResult.error&&Array.isArray(receivedResult.data))inbox=receivedResult.data;if(!sentResult.error&&Array.isArray(sentResult.data))sent=sentResult.data;if(!playlistResult.error&&Array.isArray(playlistResult.data))playlistShares=playlistResult.data;}
   if(!sent.length)sent=(state.encouragementHistory||[]).map((item,index)=>({id:`local-${index}`,recipient_name:item.friend_name,recipient_gender:"หญิง",recipient_level:1,message:item.message,is_anonymous:item.anonymous,created_at:item.created_at}));
   const avatar=(gender,level)=>encouragementAvatar({gender,level}),iconFor=message=>message.includes("อนุโมทนา")?"🪔":message.includes("สู้")?"⭐":"💗";
-  const updateCounts=()=>{const unread=inbox.filter(item=>!item.read_at).length;document.getElementById("encouragementInboxAll").textContent=inbox.length;document.getElementById("encouragementInboxUnread").textContent=unread;document.getElementById("encouragementSentAll").textContent=sent.length;const badge=document.getElementById("encouragementUnreadBadge");badge.textContent=unread;badge.hidden=!unread;};
+  const updateCounts=()=>{const unread=inbox.filter(item=>!item.read_at).length+playlistShares.filter(item=>!item.saved_at).length;document.getElementById("encouragementInboxAll").textContent=inbox.length+playlistShares.length;document.getElementById("encouragementInboxUnread").textContent=unread;document.getElementById("encouragementSentAll").textContent=sent.length;const badge=document.getElementById("encouragementUnreadBadge");badge.textContent=unread;badge.hidden=!unread;};
   const drawInbox=()=>{const rows=inbox.filter(item=>mailFilter==="all"||(mailFilter==="unread"?!item.read_at:!!item.read_at));inboxList.innerHTML=rows.length?rows.map(item=>`<button type="button" class="${item.read_at?"":"unread"}" data-inbox-id="${item.id}"><span><img src="${avatar(item.sender_gender,item.sender_level)}" alt=""></span><div><b>${escape(item.is_anonymous?"ผู้ส่งไม่ระบุชื่อ":item.sender_name||"เพื่อนสายบุญ")}</b><p>${escape(item.message)}</p></div><time>${relative(item.created_at)}</time><i>${iconFor(item.message)}</i></button>`).join(""):`<p class="encouragement-mail-empty">ยังไม่มีข้อความในหมวดนี้</p>`;inboxList.querySelectorAll("[data-inbox-id]").forEach(button=>button.onclick=()=>openDetail(inbox.find(item=>String(item.id)===button.dataset.inboxId)));};
   const drawSent=()=>{sentList.innerHTML=sent.length?sent.map(item=>`<button type="button"><span><img src="${avatar(item.recipient_gender,item.recipient_level)}" alt=""></span><div><b>ถึง ${escape(item.recipient_name||"เพื่อนสายบุญ")}</b><p>${escape(item.message)}</p></div><time>${relative(item.created_at)}</time><i>${iconFor(item.message)}</i></button>`).join(""):`<p class="encouragement-mail-empty">ยังไม่มีข้อความที่ส่ง</p>`;};
+  const drawPlaylistShares=()=>{
+    const wrap=document.getElementById("receivedPlaylistShares");
+    wrap.innerHTML=playlistShares.map(share=>`<article class="received-playlist-card"><span>📖</span><div><small>${escape(share.sender_name)} ส่งเพลย์ลิสต์ให้คุณ</small><b>${escape(share.playlist_name)}</b><em>${Array.isArray(share.prayer_ids)?share.prayer_ids.length:0} บท</em></div><button type="button" data-save-playlist="${share.id}" ${share.saved_at?"disabled":""}>${share.saved_at?"บันทึกแล้ว":"บันทึกเพลย์ลิสต์"}</button></article>`).join("");
+    wrap.querySelectorAll("[data-save-playlist]:not(:disabled)").forEach(button=>button.onclick=async()=>{
+      const share=playlistShares.find(item=>String(item.id)===button.dataset.savePlaylist);
+      if(!share)return;
+      const ids=(Array.isArray(share.prayer_ids)?share.prayer_ids:[]).filter(id=>findPrayer(id));
+      if(!ids.length)return;
+      state.customPrayerSets=Array.isArray(state.customPrayerSets)?state.customPrayerSets:[];
+      if(!state.customPrayerSets.some(set=>String(set.sharedShareId)===String(share.id)))state.customPrayerSets.push({id:`shared-${share.id}-${Date.now()}`,name:share.playlist_name,prayerIds:ids,totalMinutes:0,sharedShareId:share.id,createdAt:new Date().toISOString()});
+      saveState();
+      await client.from("prayer_playlist_shares").update({saved_at:new Date().toISOString()}).eq("id",share.id);
+      share.saved_at=new Date().toISOString();drawPlaylistShares();updateCounts();renderMyPrayerSets();
+    });
+  };
   const showTab=tab=>{lastTab=tab;document.querySelectorAll("[data-encouragement-tab]").forEach(button=>button.classList.toggle("active",button.dataset.encouragementTab===tab));document.querySelectorAll("[data-encouragement-panel]").forEach(panel=>panel.hidden=panel.dataset.encouragementPanel!==tab);detail.hidden=true;};
   const openDetail=async item=>{if(!item)return;document.querySelectorAll("[data-encouragement-panel]").forEach(panel=>panel.hidden=true);detail.hidden=false;document.getElementById("encouragementDetailName").textContent=item.is_anonymous?"ผู้ส่งไม่ระบุชื่อ":item.sender_name||"เพื่อนสายบุญ";document.getElementById("encouragementDetailAnonymous").textContent=item.is_anonymous?"ผู้ส่งไม่ระบุชื่อ":"จากชุมชนแห่งบุญ";document.getElementById("encouragementDetailTime").textContent=relative(item.created_at);document.getElementById("encouragementDetailMessage").textContent=item.message;document.getElementById("encouragementDetailAvatar").innerHTML=`<img src="${avatar(item.sender_gender,item.sender_level)}" alt="">`;if(!item.read_at){item.read_at=new Date().toISOString();updateCounts();drawInbox();if(client)await client.rpc("mark_encouragement_read",{encouragement_id:item.id});}};
   document.querySelectorAll("[data-encouragement-tab]").forEach(button=>button.onclick=()=>showTab(button.dataset.encouragementTab));document.querySelectorAll("[data-mail-filter]").forEach(button=>button.onclick=()=>{document.querySelectorAll("[data-mail-filter]").forEach(item=>item.classList.toggle("active",item===button));mailFilter=button.dataset.mailFilter;drawInbox();});document.getElementById("encouragementDetailBack").onclick=()=>showTab(lastTab);document.getElementById("encouragementReply").onclick=()=>showTab("compose");
-  updateCounts();drawInbox();drawSent();showTab("compose");
+  updateCounts();drawPlaylistShares();drawInbox();drawSent();showTab("compose");
 }
 
 document.querySelectorAll("[data-community-tab]").forEach(button=>button.addEventListener("click",()=>{
