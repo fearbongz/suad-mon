@@ -1395,6 +1395,13 @@ async function attemptLineAccountLink(session){
   }
 }
 
+async function sendLineEvent(type,payload={}){
+  if(!authSession?.access_token)return;
+  try{
+    await fetch(`${LINE_BOT_API}/api/events`,{method:"POST",headers:{Authorization:`Bearer ${authSession.access_token}`,"Content-Type":"application/json"},body:JSON.stringify({type,...payload})});
+  }catch(error){console.warn("LINE event notification failed",error);}
+}
+
 function getSupabaseClient(){
   if(supabaseClient) return supabaseClient;
   const config=window.SUPABASE_CONFIG || {};
@@ -2349,6 +2356,7 @@ function toggleTodayDirect(){
 function markComplete(){
   const ds = todayStr();
   const already = state.completedDates.includes(ds);
+  const previousLevel = gardenLevelInfo(getMeritPoints()).level;
   const basePoints = 10;
   const meritMultiplier = isWanPhraDate() ? 2 : 1;
   const earnedPoints = basePoints * meritMultiplier;
@@ -2360,6 +2368,8 @@ function markComplete(){
   state.prayerHistory.unshift({prayerId:currentPrayer.id,at:new Date().toISOString(),points:earnedPoints,multiplier:meritMultiplier});
   state.prayerHistory = state.prayerHistory.slice(0,50);
   saveState();
+  const currentLevel = gardenLevelInfo(getMeritPoints()).level;
+  if(currentLevel>previousLevel)setTimeout(()=>sendLineEvent("level_up",{level:currentLevel}),1400);
   renderStreak();
   renderMeritStats();
   renderCalendar();
@@ -3319,7 +3329,7 @@ function renderEncouragement(){
   drawFriends();drawDirectory();drawMessages();document.getElementById("encouragementPoints").textContent=getMeritPoints().toLocaleString("th-TH");
   const panel=document.getElementById("encouragementAddPanel"),search=document.getElementById("encouragementSearch"),custom=document.getElementById("encouragementCustom");document.getElementById("encouragementAddToggle").onclick=()=>{panel.hidden=!panel.hidden;if(!panel.hidden)drawDirectory(search.value);};document.getElementById("encouragementAddClose").onclick=()=>panel.hidden=true;search.oninput=()=>{panel.hidden=false;drawDirectory(search.value);};custom.oninput=()=>document.getElementById("encouragementCount").textContent=custom.value.length;
   document.querySelectorAll("[data-encourage-filter]").forEach(button=>button.onclick=()=>{document.querySelectorAll("[data-encourage-filter]").forEach(item=>item.classList.toggle("active",item===button));activeFilter=button.dataset.encourageFilter;drawMessages();});
-  document.getElementById("encouragementSend").onclick=async()=>{const friend=state.communityFriends.find(item=>item.friend_key===selectedFriend),send=document.getElementById("encouragementSend");if(!friend){panel.hidden=false;document.getElementById("encouragementAddToggle").focus();return;}if(getMeritPoints()<10){send.textContent="แต้มบุญไม่เพียงพอ";setTimeout(()=>send.textContent="➤ ส่งกำลังใจ",1600);return;}const message=custom.value.trim()||ENCOURAGEMENT_MESSAGES[selectedMessage].text,anonymous=document.getElementById("encouragementAnonymous").checked,entry={friend_key:friend.friend_key,friend_name:friend.full_name,message,anonymous,created_at:new Date().toISOString()};state.encouragementHistory.unshift(entry);state.gardenBonus=Number(state.gardenBonus||0)-10;saveState();const client=getSupabaseClient();if(client&&friend.user_id){const {error}=await client.from("encouragements").insert({recipient_id:friend.user_id,message,is_anonymous:anonymous,merit_cost:10});if(error)console.warn("Cloud encouragement save failed:",error);}document.getElementById("encouragementPoints").textContent=getMeritPoints().toLocaleString("th-TH");send.textContent="✓ ส่งกำลังใจแล้ว";send.disabled=true;spawnBurst();setTimeout(()=>{send.textContent="➤ ส่งกำลังใจ";send.disabled=false;custom.value="";document.getElementById("encouragementCount").textContent="0";},1800);};
+  document.getElementById("encouragementSend").onclick=async()=>{const friend=state.communityFriends.find(item=>item.friend_key===selectedFriend),send=document.getElementById("encouragementSend");if(!friend){panel.hidden=false;document.getElementById("encouragementAddToggle").focus();return;}if(getMeritPoints()<10){send.textContent="แต้มบุญไม่เพียงพอ";setTimeout(()=>send.textContent="➤ ส่งกำลังใจ",1600);return;}const message=custom.value.trim()||ENCOURAGEMENT_MESSAGES[selectedMessage].text,anonymous=document.getElementById("encouragementAnonymous").checked,entry={friend_key:friend.friend_key,friend_name:friend.full_name,message,anonymous,created_at:new Date().toISOString()};state.encouragementHistory.unshift(entry);state.gardenBonus=Number(state.gardenBonus||0)-10;saveState();const client=getSupabaseClient();if(client&&friend.user_id){const {error}=await client.from("encouragements").insert({recipient_id:friend.user_id,message,is_anonymous:anonymous,merit_cost:10});if(error)console.warn("Cloud encouragement save failed:",error);else sendLineEvent("encouragement",{recipient_id:friend.user_id});}document.getElementById("encouragementPoints").textContent=getMeritPoints().toLocaleString("th-TH");send.textContent="✓ ส่งกำลังใจแล้ว";send.disabled=true;spawnBurst();setTimeout(()=>{send.textContent="➤ ส่งกำลังใจ";send.disabled=false;custom.value="";document.getElementById("encouragementCount").textContent="0";},1800);};
   const helpModal=document.getElementById("encouragementHelpModal"),closeHelp=()=>helpModal.hidden=true;document.getElementById("encouragementHelpOpen").onclick=()=>helpModal.hidden=false;document.getElementById("encouragementHelpClose").onclick=closeHelp;document.getElementById("encouragementHelpDone").onclick=closeHelp;helpModal.onclick=event=>{if(event.target===helpModal)closeHelp();};
   renderEncouragementMailbox();
 }
@@ -3565,11 +3575,14 @@ function showGardenModal(title,html){
 }
 function addGardenAction(id,label,points){
   const today=todayStr();
+  const previousLevel=gardenLevelInfo(getMeritPoints()).level;
   state.gardenActions=Array.isArray(state.gardenActions)?state.gardenActions:[];
   if(state.gardenActions.some(item=>item.id===id&&item.date===today)) return false;
   state.gardenActions.unshift({id,label,points,date:today,at:new Date().toISOString()});
   state.gardenBonus=(Number(state.gardenBonus)||0)+points;
   saveState(); spawnBurst(); playChime(id==="candle"?740:620); renderMeritGarden(); showGardenActionEffect(id);
+  const currentLevel=gardenLevelInfo(getMeritPoints()).level;
+  if(currentLevel>previousLevel)setTimeout(()=>sendLineEvent("level_up",{level:currentLevel}),1400);
   return true;
 }
 function showGardenActionEffect(id){
