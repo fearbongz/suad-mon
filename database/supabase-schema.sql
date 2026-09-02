@@ -111,6 +111,16 @@ exception when others then
 end;
 $$;
 
+-- Friend relationships must exist before the leaderboard function is parsed,
+-- because that function also returns friends outside the public Top 100.
+create table if not exists public.community_friends (
+  owner_id uuid not null default auth.uid() references auth.users(id) on delete cascade,
+  friend_id uuid not null references auth.users(id) on delete cascade,
+  created_at timestamptz not null default now(),
+  primary key (owner_id,friend_id),
+  check (owner_id <> friend_id)
+);
+
 create or replace function public.get_community_leaderboard(limit_count integer default 100)
 returns table (
   rank bigint,
@@ -131,25 +141,32 @@ as $$
       p.id,
       coalesce(nullif(trim(p.full_name), ''), 'นักสวดมือใหม่') as full_name,
       coalesce(p.gender, '') as gender,
-      coalesce((s.data ->> 'gardenBonus')::bigint, 0)
+      (coalesce((s.data ->> 'gardenBonus')::bigint, 0)
         + coalesce((select sum(coalesce((item ->> 'points')::bigint, 10))
-                    from jsonb_array_elements(coalesce(s.data -> 'prayerHistory', '[]'::jsonb)) item), 0) as points,
+                    from jsonb_array_elements(coalesce(s.data -> 'prayerHistory', '[]'::jsonb)) item), 0))::bigint as points,
       greatest(
         jsonb_array_length(coalesce(s.data -> 'prayerHistory', '[]'::jsonb)),
         jsonb_array_length(coalesce(s.data -> 'completedDates', '[]'::jsonb))
       ) as prayer_count,
-      public.community_streak(s.data) as streak_days
+      public.community_streak(coalesce(s.data, '{}'::jsonb)) as streak_days
     from public.profiles p
-    join public.user_state s on s.user_id = p.id
+    left join public.user_state s on s.user_id = p.id
   ), ranked as (
     select *, rank() over (order by points desc, prayer_count desc, id) as position
     from scores
   )
-  select position, id = auth.uid(), full_name, gender, points, prayer_count,
-         streak_days, public.community_level(points)
-  from ranked
-  order by position
-  limit greatest(1, least(coalesce(limit_count, 100), 100));
+  select r.position, r.id = auth.uid(), r.full_name, r.gender, r.points, r.prayer_count,
+         r.streak_days, public.community_level(r.points::bigint)
+  from ranked r
+  where r.position <= greatest(1, least(coalesce(limit_count, 100), 100))
+     or r.id = auth.uid()
+     or exists (
+       select 1
+       from public.community_friends f
+       where f.owner_id = auth.uid()
+         and f.friend_id = r.id
+     )
+  order by r.position;
 $$;
 
 revoke all on function public.get_community_leaderboard(integer) from public;

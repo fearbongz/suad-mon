@@ -20,7 +20,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Sarabun:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800&amp;display=swap">
-<link rel="stylesheet" href="style.css?v=20260901-12">
+<link rel="stylesheet" href="style.css?v=20260902-16">
 <link rel="stylesheet" href="character.css?v=20260826-7">
 </head>
 <body>
@@ -65,10 +65,6 @@
         </div>
         <div class="holy-calendar" id="holyCalendar"></div>
 
-        <div class="section-title inner">
-          <h2><img class="checkin-heart" src="assets/guide-heart.png" alt="" loading="lazy" decoding="async"> สวดบ่อย ใช้ได้ทุกวัน</h2>
-        </div>
-        <div class="tile-grid" id="quickTiles"></div>
       </div>
 
       <div class="card streak-card">
@@ -140,8 +136,10 @@
       </div>
 
       <div class="card">
-        <div class="card-head"><h2>🗓️ ปฏิทินการสวดมนต์</h2></div>
+        <div class="card-head merit-calendar-head"><h2>🗓️ ปฏิทินการสวดมนต์</h2><div><button type="button" id="calendarPrev" aria-label="เดือนก่อนหน้า">‹</button><strong id="calendarMonth"></strong><button type="button" id="calendarNext" aria-label="เดือนถัดไป">›</button></div></div>
         <div class="calendar" id="calendar"></div>
+        <p class="calendar-help">ลืมกดบันทึก? เลือกวันที่ผ่านมาเพื่อระบุว่าสวดมนต์แล้วได้ค่ะ</p>
+        <p class="calendar-status" id="calendarStatus" aria-live="polite"></p>
       </div>
 
       <div class="card" id="favoritesSection">
@@ -816,6 +814,6 @@
 
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script src="supabase-config.js"></script>
-<script src="app.js?v=20260901-20"></script>
+<script src="app.js?v=20260902-26"></script>
 </body>
 </html>

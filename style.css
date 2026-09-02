@@ -400,14 +400,23 @@ img{max-width:100%;display:block;}
 .merit-week-wrap>p{margin-top:10px;padding:7px 8px;border-radius:14px;background:var(--lavender-50,#faf5ff);font-size:.68rem;text-align:center;color:var(--lavender-500);}
 
 .calendar{display:grid;grid-template-columns:repeat(7,1fr);gap:6px;}
+.merit-calendar-head{align-items:center;gap:10px;}
+.merit-calendar-head>div{margin-left:auto;display:flex;align-items:center;gap:7px;}
+.merit-calendar-head button{width:28px;height:28px;border:0;border-radius:50%;background:var(--lavender-50,#faf5ff);color:var(--lavender-600);font-size:1.25rem;line-height:1;}
+.merit-calendar-head button:disabled{opacity:.3;}
+.merit-calendar-head strong{min-width:94px;text-align:center;color:var(--lavender-600);font-size:.76rem;}
 .cal-dow{text-align:center;font-size:.7rem;color:var(--ink-faint);font-weight:700;padding-bottom:4px;}
 .cal-day{
   aspect-ratio:1/1;display:flex;align-items:center;justify-content:center;
-  border-radius:10px;font-size:.78rem;color:var(--ink-soft);background:#f7f2fb;
+  border:0;border-radius:10px;font:inherit;font-size:.78rem;color:var(--ink-soft);background:#f7f2fb;
 }
 .cal-day.empty{background:transparent;}
+.cal-day:not(.empty):not(:disabled){cursor:pointer;box-shadow:inset 0 0 0 1px rgba(145,99,190,.12);}
+.cal-day:disabled{opacity:.5;}
 .cal-day.done{background:var(--pink-500);color:#fff;font-weight:700;}
 .cal-day.today{outline:2px solid var(--lavender-400);outline-offset:1px;font-weight:700;}
+.calendar-help{margin:10px 2px 0;color:var(--ink-faint);font-size:.7rem;text-align:center;}
+.calendar-status{min-height:1.2em;margin:5px 2px 0;color:var(--pink-500);font-size:.72rem;font-weight:700;text-align:center;}
 
 .badge-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;}
 .badge-item{display:flex;flex-direction:column;align-items:center;gap:6px;padding:12px 6px;border-radius:16px;background:#f9f5fd;}
@@ -1592,13 +1601,15 @@ body:has(#screen-settings.active.guest-mode) .app-shell{padding-bottom:48px!impo
 #screen-community .community-podium .community-person-avatar{background:transparent!important;border:0!important;overflow:visible}
 #screen-community .community-podium .community-person-avatar>img{width:auto;height:94px;max-width:86px;border:0!important;border-radius:0;background:transparent;box-shadow:none!important;outline:0!important;object-fit:contain;object-position:center bottom;transform:translateY(-8px)}
 #screen-community .community-podium .first .community-person-avatar>img{height:112px;max-width:100px;transform:translateY(-10px)}
-#screen-community .community-podium .second .community-person-avatar>img{transform:translate(-7px,6px)}
-#screen-community .community-podium .third .community-person-avatar>img{transform:translate(12px,6px)}
-#screen-community .community-podium .first .community-person-avatar>img{transform:translateY(2px)}
+#screen-community .community-podium .second .community-person-avatar>img{transform:translate(-7px,-3px)}
+#screen-community .community-podium .third .community-person-avatar>img{transform:translate(12px,2px)}
+#screen-community .community-podium .first .community-person-avatar>img{transform:translateY(8px)}
 #screen-community .community-podium .second .community-person-avatar>img,#screen-community .community-podium .third .community-person-avatar>img{height:88px;max-width:80px}
 #screen-community .community-podium article>strong,#screen-community .community-podium article>span:last-child{transform:translateY(-8px)}
 #screen-community .community-podium article>span:last-child{display:none!important}
 #screen-community .community-podium article>strong{transform:translate(3px,7px);color:#432485;font-size:.78rem;font-weight:900;letter-spacing:.01em;text-shadow:0 1px 0 #fff,0 2px 5px rgba(238,178,45,.4)}
+#screen-community .community-podium .second>strong{transform:translate(-10px,-3px)}
+#screen-community .community-podium .third>strong{transform:translate(10px,-3px)}
 #screen-community .community-podium article:not(.is-empty)>strong:before,#screen-community .community-podium article:not(.is-empty)>strong:after{content:"✦";display:inline-block;margin:0 4px;color:#efb42f;font-size:.52rem;vertical-align:2px;text-shadow:0 0 7px rgba(255,200,61,.8)}
 #screen-community .community-podium article>b{display:none!important}
 #screen-community .community-podium article.is-empty .community-person-avatar{visibility:hidden!important}
@@ -1655,3 +1666,4 @@ body:has(#screen-settings.active.guest-mode) #screen-settings.guest-mode{
 .encouragement-mail-list>button>span img,.encouragement-detail-user img{transform:translateY(-4px)}
 .playlist-share-card{max-height:78vh;overflow:auto}.playlist-share-card>p{margin-bottom:12px}.playlist-share-card>div{display:grid;gap:8px}.playlist-share-card>div>button{margin:0;padding:8px 10px;display:flex;align-items:center;gap:10px;border-radius:16px;background:#fff7fc;color:#493783;text-align:left}.playlist-share-card>div img{width:45px;height:45px;border-radius:50%;object-fit:cover}.playlist-share-card>div span{display:block}.playlist-share-card>div b,.playlist-share-card>div small{display:block}.playlist-share-card>div small{margin-top:2px;color:#9987a8}.received-playlist-card{margin:0 0 10px;padding:12px;display:grid;grid-template-columns:42px 1fr auto;align-items:center;gap:9px;border:1px solid #e7d6f7;border-radius:18px;background:linear-gradient(135deg,#fff7fd,#f8f1ff)}.received-playlist-card>span{font-size:1.7rem}.received-playlist-card b,.received-playlist-card small,.received-playlist-card em{display:block}.received-playlist-card b{margin-top:2px;color:#493281}.received-playlist-card small,.received-playlist-card em{color:#9987aa;font-size:.58rem;font-style:normal}.received-playlist-card button{padding:8px 10px;border:0;border-radius:14px;background:#8e58df;color:#fff;font-size:.62rem;font-weight:800}.received-playlist-card button:disabled{background:#ddd1e9;color:#7e7089}
 .playlist-rename-card input{width:100%;margin-top:16px;padding:12px 14px;border:1.5px solid #e3d3f2;border-radius:15px;color:#493783;font:inherit;outline:0}.playlist-rename-card input:focus{border-color:#9561df;box-shadow:0 0 0 3px #9561df1f}.playlist-rename-card>div{display:grid;grid-template-columns:1fr 1.2fr;gap:8px}.playlist-rename-card>div button{margin-top:14px}.playlist-rename-card>div button:first-child{background:#f1eaf6;color:#74667d}
+#encouragementDirectory article:nth-child(2) img{transform:translateY(-3px)}

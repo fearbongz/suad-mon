@@ -1339,7 +1339,7 @@ const DOW_TH = ["จ","อ","พ","พฤ","ศ","ส","อา"]; // Mon..Sun
 
 /* ---------------- STATE (localStorage) ---------------- */
 const STORE_KEY = "suadmon_data_v1";
-const DEFAULT_STATE = { completedDates:[], favorites:[], prayerHistory:[], customPrayerSets:[], gardenClaims:[], gardenManualMissions:[], gardenActions:[], gardenBonus:0, characterTaps:0, characterGifts:[], selectedGardenItem:"lotus", selectedReward:"lotus-0", gardenDecorations:[], gardenDecorLevel:1, gardenSoundOn:false, goal:21, fontSize:"medium", reminderOn:false, reminderTime:"20:00", continuousOn:false, theme:"purple", profileName:"", profileMessage:"", profileFirstName:"", profileLastName:"", profileGender:"หญิง", profileTheme:"pink", profileBirthDate:"", profileEmail:"", communityFriends:[], encouragementHistory:[], isVip:false, vipPlan:"", soundOn:true, masterVolume:70, chantVolume:80, ambientVolume:60, notificationVolume:70, soundPreset:0, soundContinuous:true, notifyPrayer:true, notifyStreak:true, notifyMissions:true, notifyDailyTip:true, notifyAchievements:true, notifySpecial:true, notifyNews:false, seenBadges:[], notifiedLog:{} };
+const DEFAULT_STATE = { completedDates:[], removedCompletedDates:[], favorites:[], prayerHistory:[], customPrayerSets:[], gardenClaims:[], gardenManualMissions:[], gardenActions:[], gardenBonus:0, characterTaps:0, characterGifts:[], selectedGardenItem:"lotus", selectedReward:"lotus-0", gardenDecorations:[], gardenDecorLevel:1, gardenSoundOn:false, goal:21, fontSize:"medium", reminderOn:false, reminderTime:"20:00", continuousOn:false, theme:"purple", profileName:"", profileMessage:"", profileFirstName:"", profileLastName:"", profileGender:"หญิง", profileTheme:"pink", profileBirthDate:"", profileEmail:"", communityFriends:[], encouragementHistory:[], isVip:false, vipPlan:"", soundOn:true, masterVolume:70, chantVolume:80, ambientVolume:60, notificationVolume:70, soundPreset:0, soundContinuous:true, notifyPrayer:true, notifyStreak:true, notifyMissions:true, notifyDailyTip:true, notifyAchievements:true, notifySpecial:true, notifyNews:false, seenBadges:[], notifiedLog:{} };
 function loadState(){
   try{
     const raw = localStorage.getItem(STORE_KEY);
@@ -1462,7 +1462,7 @@ function unionByKey(localArr,cloudArr){
   });
   return out;
 }
-const CLOUD_MERGE_ARRAY_FIELDS=["completedDates","favorites","prayerHistory","customPrayerSets","gardenClaims","gardenManualMissions","gardenActions","characterGifts","communityFriends","encouragementHistory","seenBadges","gardenDecorations"];
+const CLOUD_MERGE_ARRAY_FIELDS=["completedDates","removedCompletedDates","favorites","prayerHistory","customPrayerSets","gardenClaims","gardenManualMissions","gardenActions","characterGifts","communityFriends","encouragementHistory","seenBadges","gardenDecorations"];
 const CLOUD_MERGE_MAX_NUMBER_FIELDS=["gardenBonus","characterTaps","lotusSpent","gardenDecorLevel"];
 function mergeCloudState(localState,cloudData){
   const merged={...DEFAULT_STATE,...localState,...cloudData};
@@ -1633,8 +1633,9 @@ function normalizeActivityDate(value){
 function getCompletedActivityDates(){
   const completed=Array.isArray(state.completedDates)?state.completedDates:[];
   const history=Array.isArray(state.prayerHistory)?state.prayerHistory:[];
+  const removed=new Set((Array.isArray(state.removedCompletedDates)?state.removedCompletedDates:[]).map(normalizeActivityDate));
   return new Set([
-    ...completed.map(normalizeActivityDate),
+    ...completed.map(normalizeActivityDate).filter(date=>!removed.has(date)),
     ...history.map(item=>normalizeActivityDate(item?.at))
   ].filter(Boolean));
 }
@@ -1786,6 +1787,7 @@ function renderCarousel(){
 /* ---------------- HOME: QUICK TILES ---------------- */
 function renderTiles(){
   const wrap = document.getElementById("quickTiles");
+  if(!wrap) return;
   wrap.innerHTML = QUICK_TILES.map(t=>`
     <button class="tile" data-open="${t.id}">
       <img src="${t.icon}" alt="">
@@ -1821,7 +1823,7 @@ function renderStreak(){
   const now = new Date();
   const monIdx = dowMon0(now);
   const monday = new Date(now); monday.setDate(now.getDate()-monIdx);
-  const set = new Set(state.completedDates);
+  const set = getCompletedActivityDates();
 
   let html="";
   for(let i=0;i<7;i++){
@@ -2051,12 +2053,12 @@ function toggleFavorite(id){
 function renderMeritStats(){
   const streak = computeStreak();
   document.getElementById("meritStreak").textContent = streak;
-  document.getElementById("meritTotal").textContent = state.completedDates.length;
+  document.getElementById("meritTotal").textContent = getCompletedActivityDates().size;
   document.getElementById("meritStreakDetail").textContent = streak;
   document.getElementById("meritFav").textContent = state.favorites.length;
   const now = new Date();
   const monday = new Date(now); monday.setDate(now.getDate()-dowMon0(now));
-  const completed = new Set(state.completedDates);
+  const completed = getCompletedActivityDates();
   document.getElementById("meritWeek").innerHTML = DOW_TH.map((label,i)=>{
     const day = new Date(monday); day.setDate(monday.getDate()+i);
     const done = completed.has(todayStr(day));
@@ -2065,28 +2067,70 @@ function renderMeritStats(){
   }).join("");
 }
 
+let meritCalendarCursor=null;
 function renderCalendar(){
   const cal = document.getElementById("calendar");
   const now = new Date();
-  const y = now.getFullYear(), m = now.getMonth();
+  if(!meritCalendarCursor)meritCalendarCursor=new Date(now.getFullYear(),now.getMonth(),1);
+  const y = meritCalendarCursor.getFullYear(), m = meritCalendarCursor.getMonth();
   const firstDow = dowMon0(new Date(y,m,1));
   const daysInMonth = new Date(y,m+1,0).getDate();
-  const set = new Set(state.completedDates);
+  const set = getCompletedActivityDates();
+  const removed=new Set((state.removedCompletedDates||[]).map(normalizeActivityDate));
+  const manualDates=new Set((state.completedDates||[]).map(normalizeActivityDate).filter(date=>!removed.has(date)));
+  const today=todayStr(now);
 
   let html = DOW_TH.map(d=>`<div class="cal-dow">${d}</div>`).join("");
   for(let i=0;i<firstDow;i++) html += `<div class="cal-day empty"></div>`;
   for(let day=1; day<=daysInMonth; day++){
     const ds = todayStr(new Date(y,m,day));
-    const isToday = ds===todayStr(now);
+    const isToday = ds===today;
     const done = set.has(ds);
-    html += `<div class="cal-day ${done?"done":""} ${isToday?"today":""}">${day}</div>`;
+    const canRemove=done&&manualDates.has(ds);
+    const future=ds>today;
+    html += `<button type="button" class="cal-day ${done?"done":""} ${isToday?"today":""}" data-calendar-date="${ds}" ${future||done&&!canRemove?"disabled":""} aria-label="${day} ${future?"ยังไม่ถึงวันนี้":canRemove?"กดเพื่อยกเลิกว่าสวดมนต์แล้ว":done?"สวดจบผ่านแอปแล้ว":"กดเพื่อบันทึกว่าสวดมนต์แล้ว"}">${done?"✓":day}</button>`;
   }
   cal.innerHTML = html;
+  cal.querySelectorAll("[data-calendar-date]:not(:disabled)").forEach(button=>button.onclick=()=>markPastDateComplete(button.dataset.calendarDate));
+  const monthLabel=document.getElementById("calendarMonth");
+  if(monthLabel)monthLabel.textContent=new Date(y,m,1).toLocaleDateString("th-TH",{month:"long",year:"numeric"});
+  const prev=document.getElementById("calendarPrev"),next=document.getElementById("calendarNext");
+  if(prev)prev.onclick=()=>{meritCalendarCursor=new Date(y,m-1,1);renderCalendar();};
+  if(next){next.disabled=y===now.getFullYear()&&m===now.getMonth();next.onclick=()=>{if(next.disabled)return;meritCalendarCursor=new Date(y,m+1,1);renderCalendar();};}
+}
+
+function markPastDateComplete(dateString){
+  const normalized=normalizeActivityDate(dateString),today=todayStr();
+  if(!normalized||normalized>today)return;
+  state.completedDates=Array.isArray(state.completedDates)?state.completedDates:[];
+  state.removedCompletedDates=Array.isArray(state.removedCompletedDates)?state.removedCompletedDates:[];
+  const manualDates=new Set(state.completedDates.map(normalizeActivityDate));
+  const historyDates=new Set((state.prayerHistory||[]).map(item=>normalizeActivityDate(item?.at)));
+  const removing=manualDates.has(normalized)&&!new Set(state.removedCompletedDates.map(normalizeActivityDate)).has(normalized);
+  if(removing){
+    state.removedCompletedDates.push(normalized);
+  }else{
+    if(historyDates.has(normalized))return;
+    state.completedDates.push(normalized);
+    state.removedCompletedDates=state.removedCompletedDates.filter(date=>normalizeActivityDate(date)!==normalized);
+  }
+  state.completedDates=[...new Set(state.completedDates.map(normalizeActivityDate).filter(Boolean))].sort();
+  state.removedCompletedDates=[...new Set(state.removedCompletedDates.map(normalizeActivityDate).filter(Boolean))].sort();
+  saveState();
+  renderStreak();
+  renderMeritStats();
+  renderCalendar();
+  renderBadges();
+  const [year,month,day]=normalized.split("-").map(Number);
+  const label=new Date(year,month-1,day).toLocaleDateString("th-TH",{day:"numeric",month:"long",year:"numeric"});
+  const status=document.getElementById("calendarStatus");
+  if(status)status.textContent=removing?`ยกเลิกการบันทึกวันที่ ${label} แล้ว`:`✓ บันทึกวันที่ ${label} ว่าสวดมนต์แล้ว`;
+  if(!removing)playChime(880);
 }
 
 function renderBadges(){
   const streak = computeStreak();
-  const total = state.completedDates.length;
+  const total = getCompletedActivityDates().size;
   const fav = state.favorites.length;
   const seen = Array.isArray(state.seenBadges) ? state.seenBadges : (state.seenBadges=[]);
   let newlyUnlocked=false;
@@ -2423,25 +2467,15 @@ function stepReader(direction){
 // to check today off without going through the in-app reader/play flow
 function toggleTodayDirect(){
   const ds = todayStr();
-  const already = state.completedDates.includes(ds);
+  const already = getCompletedActivityDates().has(ds);
+  const historyHasDate=(state.prayerHistory||[]).some(item=>normalizeActivityDate(item?.at)===ds);
 
   if(already){
-    state.completedDates = state.completedDates.filter(d=>d!==ds);
-    saveState();
-    renderStreak();
-    renderMeritStats();
-    renderCalendar();
-    renderBadges();
+    if(!historyHasDate)markPastDateComplete(ds);
     return;
   }
 
-  state.completedDates.push(ds);
-  saveState();
-  renderStreak();
-  renderMeritStats();
-  renderCalendar();
-  renderBadges();
-  playChime(880);
+  markPastDateComplete(ds);
   spawnBurst();
   document.getElementById("completeMsg").textContent =
     `บันทึกแล้วค่ะว่าวันนี้สวดมนต์แล้ว วันนี้ครบ ${computeStreak()} วันติดต่อกันค่ะ`;
@@ -2450,13 +2484,15 @@ function toggleTodayDirect(){
 
 function markComplete(){
   const ds = todayStr();
-  const already = state.completedDates.includes(ds);
+  const already = getCompletedActivityDates().has(ds);
   const previousLevel = gardenLevelInfo(getMeritPoints()).level;
   const basePoints = 10;
   const meritMultiplier = isBirthdayDate() ? 5 : isWanPhraDate() ? 2 : 1;
   const earnedPoints = basePoints * meritMultiplier;
   if(!already){
     state.completedDates.push(ds);
+    state.completedDates=[...new Set(state.completedDates.map(normalizeActivityDate).filter(Boolean))];
+    state.removedCompletedDates=(state.removedCompletedDates||[]).filter(date=>normalizeActivityDate(date)!==ds);
     saveState();
   }
   state.prayerHistory = state.prayerHistory || [];
@@ -3449,27 +3485,45 @@ async function renderCommunity(){
   try{
     const {data,error}=await client.rpc("get_community_leaderboard",{limit_count:100});
     if(error) throw error;
-    const ranking=Array.isArray(data)?data:[];communityDirectory=ranking.map((user,index)=>({...user,friend_key:String(user.user_id||user.full_name||index)}));
+    const baseRanking=Array.isArray(data)?data:[];
+    const friendNames=new Set((state.communityFriends||[]).map(friend=>String(friend.full_name||"").trim()).filter(Boolean));
+    const ranking=baseRanking.map(user=>({...user,is_friend:friendNames.has(String(user.full_name||"").trim())}));
+    const rankedNames=new Set(ranking.map(user=>String(user.full_name||"").trim()).filter(Boolean));
+    (state.communityFriends||[]).forEach(friend=>{
+      const friendName=String(friend.full_name||"").trim();
+      if(!friendName||rankedNames.has(friendName))return;
+      ranking.push({...friend,rank:"100+",prayer_count:0,streak_days:0,is_current_user:false,is_friend:true});
+      rankedNames.add(friendName);
+    });
+    communityDirectory=ranking.map((user,index)=>({...user,friend_key:String(user.user_id||user.full_name||index)}));
     const {data:directoryData,error:directoryError}=await client.rpc("get_community_directory");if(!directoryError&&Array.isArray(directoryData))communityDirectory=directoryData.map((user,index)=>({...user,friend_key:String(user.user_id||user.full_name||index)}));
     const top=ranking.slice(0,3),empty=(rank,gender)=>({rank,gender,level:1,full_name:"",points:0,is_empty:true});
     const podiumOrder=[top[1]||empty(2,"ชาย"),top[0]||empty(1,"หญิง"),top[2]||empty(3,"หญิง")];
     const podiumClasses=["second","first","third"];
     podium.dataset.count="3";
     podium.innerHTML=podiumOrder.map((user,index)=>`<article class="${podiumClasses[index]}${user.is_empty?" is-empty":""}"><b>${user.rank}</b><span class="community-person-avatar" role="img" aria-label="${user.is_empty?"ตัวละครเริ่มต้น":escape(user.full_name)}"><img src="${rankingAvatarSrc(user.gender,user.level)}" alt=""></span><strong>${user.is_empty?"&nbsp;":escape(user.full_name)}</strong><span>${user.is_empty?"&nbsp;":`${Number(user.points||0).toLocaleString("th-TH")} ✦`}</span></article>`).join("");
-    rows.innerHTML=ranking.length?ranking.map(user=>`<div class="${user.is_current_user?"is-me":""}"><b>${user.rank}</b><span><span class="community-person-avatar" role="img" aria-label="${escape(user.full_name)}"><img src="${rankingAvatarSrc(user.gender,user.level)}" alt=""></span><i><strong>${escape(user.full_name)}</strong>${user.is_current_user?"<small>คุณ</small>":""}</i></span><strong>${Number(user.points||0).toLocaleString("th-TH")} ✦</strong><small>🔥 ${Math.max(Number(user.streak_days||0),user.is_current_user?streak:0).toLocaleString("th-TH")} วัน</small></div>`).join(""):`<div class="community-table-empty">ยังไม่มีข้อมูลผู้ใช้ในฐานข้อมูล</div>`;
+    rows.innerHTML=ranking.length?ranking.map(user=>`<div class="${user.is_current_user?"is-me":""}"><b>${user.rank}</b><span><span class="community-person-avatar" role="img" aria-label="${escape(user.full_name)}"><img src="${rankingAvatarSrc(user.gender,user.level)}" alt=""></span><i><strong>${escape(user.full_name)}</strong>${user.is_current_user?"<small>คุณ</small>":user.is_friend?"<small>เพื่อน</small>":""}</i></span><strong>${Number(user.points||0).toLocaleString("th-TH")} ✦</strong><small>🔥 ${Math.max(Number(user.streak_days||0),user.is_current_user?streak:0).toLocaleString("th-TH")} วัน</small></div>`).join(""):`<div class="community-table-empty">ยังไม่มีข้อมูลผู้ใช้ในฐานข้อมูล</div>`;
     const me=ranking.find(user=>user.is_current_user);
     if(me){setText("communityRank",me.rank);setText("communityPoints",Number(me.points||0).toLocaleString("th-TH"));setText("communityPrayerCount",Math.max(Number(me.prayer_count||0),prayerCount).toLocaleString("th-TH"));setText("communityStreak",Math.max(Number(me.streak_days||0),streak).toLocaleString("th-TH"));}
   }catch(error){
     console.warn("Community leaderboard load failed:",error);
-    const localName=escape(state.profileName||"นักสวดมือใหม่");
+    const localNameRaw=state.profileName||"นักสวดมือใหม่";
+    const localName=escape(localNameRaw);
     const localPoints=getMeritPoints();
     const localInfo=gardenLevelInfo(localPoints);
     const localStreak=computeStreak()||getCompletedActivityDates().size;
     const localAvatar=rankingAvatarSrc(state.profileGender,localInfo.level);
+    const fallbackRanking=[{full_name:localNameRaw,gender:state.profileGender,level:localInfo.level,points:localPoints,streak_days:localStreak,is_current_user:true},...(state.communityFriends||[]).map(friend=>({...friend,streak_days:Number(friend.streak_days||0),is_friend:true}))]
+      .sort((a,b)=>Number(b.points||0)-Number(a.points||0)||String(a.full_name||"").localeCompare(String(b.full_name||""),"th"));
+    let previousPoints=null,previousRank=0;
+    fallbackRanking.forEach((user,index)=>{const userPoints=Number(user.points||0);if(userPoints!==previousPoints)previousRank=index+1;user.rank=previousRank;previousPoints=userPoints;});
+    const fallbackTop=fallbackRanking.slice(0,3),fallbackEmpty=(rank,gender)=>({rank,gender,level:1,full_name:"",points:0,is_empty:true});
+    const fallbackPodium=[fallbackTop[1]||fallbackEmpty(2,"ชาย"),fallbackTop[0]||fallbackEmpty(1,"หญิง"),fallbackTop[2]||fallbackEmpty(3,"หญิง")];
+    const fallbackPodiumClasses=["second","first","third"];
     podium.dataset.count="3";
-    podium.innerHTML=`<article class="second is-empty"><b>2</b><span class="community-person-avatar" role="img" aria-label="ตัวละครเริ่มต้น"><img src="${rankingAvatarSrc("ชาย",1)}" alt=""></span><strong>&nbsp;</strong><span>&nbsp;</span></article><article class="first"><b>1</b><span class="community-person-avatar" role="img" aria-label="${localName}"><img src="${localAvatar}" alt=""></span><strong>${localName}</strong><span>${localPoints.toLocaleString("th-TH")} ✦</span></article><article class="third is-empty"><b>3</b><span class="community-person-avatar" role="img" aria-label="ตัวละครเริ่มต้น"><img src="${rankingAvatarSrc("หญิง",1)}" alt=""></span><strong>&nbsp;</strong><span>&nbsp;</span></article>`;
-    rows.innerHTML=`<div class="is-me"><b>1</b><span><span class="community-person-avatar" role="img" aria-label="${localName}"><img src="${localAvatar}" alt=""></span><i><strong>${localName}</strong><small>คุณ</small></i></span><strong>${localPoints.toLocaleString("th-TH")} ✦</strong><small>🔥 ${localStreak.toLocaleString("th-TH")} วัน</small></div>`;
-    setText("communityRank","1");
+    podium.innerHTML=fallbackPodium.map((user,index)=>`<article class="${fallbackPodiumClasses[index]}${user.is_empty?" is-empty":""}"><b>${user.rank}</b><span class="community-person-avatar" role="img" aria-label="${user.is_empty?"ตัวละครเริ่มต้น":escape(user.full_name||"เพื่อนสายบุญ")}"><img src="${rankingAvatarSrc(user.gender,user.level)}" alt=""></span><strong>${user.is_empty?"&nbsp;":escape(user.full_name||"เพื่อนสายบุญ")}</strong><span>${user.is_empty?"&nbsp;":`${Number(user.points||0).toLocaleString("th-TH")} ✦`}</span></article>`).join("");
+    rows.innerHTML=fallbackRanking.map(user=>`<div class="${user.is_current_user?"is-me":""}"><b>${user.rank}</b><span><span class="community-person-avatar" role="img" aria-label="${escape(user.full_name||"เพื่อนสายบุญ")}"><img src="${rankingAvatarSrc(user.gender,user.level)}" alt=""></span><i><strong>${escape(user.full_name||"เพื่อนสายบุญ")}</strong><small>${user.is_current_user?"คุณ":"เพื่อน"}</small></i></span><strong>${Number(user.points||0).toLocaleString("th-TH")} ✦</strong><small>🔥 ${Number(user.streak_days||0).toLocaleString("th-TH")} วัน</small></div>`).join("");
+    setText("communityRank",fallbackRanking.find(user=>user.is_current_user)?.rank||"-");
   }
 }
 
