@@ -1809,14 +1809,15 @@ function renderTiles(){
 /* ---------------- HOME: STREAK ---------------- */
 function renderStreak(){
   const streak = computeStreak();
-  document.getElementById("streakNum").textContent = streak;
+  const completedDays = getCompletedActivityDates().size;
+  document.getElementById("streakNum").textContent = completedDays;
   document.getElementById("goalDays").textContent = state.goal;
   document.getElementById("meritStreak").textContent = streak;
 
   const cheer = document.getElementById("streakCheer");
-  if(streak===0) cheer.textContent = "เริ่มต้นวันนี้เลยนะคะ";
-  else if(streak<7) cheer.textContent = "เก่งมากเลยค่ะ! ✨";
-  else if(streak<21) cheer.textContent = "สุดยอดไปเลยค่ะ! 🔥";
+  if(completedDays===0) cheer.textContent = "เริ่มต้นวันนี้เลยนะคะ";
+  else if(completedDays<7) cheer.textContent = "เก่งมากเลยค่ะ! ✨";
+  else if(completedDays<21) cheer.textContent = "สุดยอดไปเลยค่ะ! 🔥";
   else cheer.textContent = "สม่ำเสมอสุด ๆ ค่ะ! 🏵️";
 
   const week = document.getElementById("streakWeek");
@@ -2054,7 +2055,7 @@ function renderMeritStats(){
   const streak = computeStreak();
   document.getElementById("meritStreak").textContent = streak;
   document.getElementById("meritTotal").textContent = getCompletedActivityDates().size;
-  document.getElementById("meritStreakDetail").textContent = streak;
+  document.getElementById("meritStreakDetail").textContent = getCompletedActivityDates().size;
   document.getElementById("meritFav").textContent = state.favorites.length;
   const now = new Date();
   const monday = new Date(now); monday.setDate(now.getDate()-dowMon0(now));
