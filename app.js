@@ -496,6 +496,7 @@ const PRAYERS = [
     duration:"3 นาที",
     popularity:0,
     desc:"ตามคติไทยนิยมบูชาเกี่ยวกับลาภ ความอุดมสมบูรณ์ และความคล่องตัว",
+    youtubeId:"HdwQv0G_3cY",
     lines:[
       "นะโม ตัสสะ ภะคะวะโต อะระหะโต สัมมาสัมพุทธัสสะ (3 จบ)",
       "## คาถาบูชาพระสีวลี",
@@ -637,6 +638,8 @@ const PRAYERS = [
     duration:"5 นาที",
     popularity:0,
     desc:"บทภาวนาที่นิยมสืบเนื่องจากหลวงพ่อฤๅษีลิงดำ (พระราชพรหมยาน)",
+    youtubeId:"ivSxi0isgOg",
+    youtubeStart:51,
     lines:[
       "คำแนะนำ: หากศรัทธาในสายหลวงพ่อฤๅษีลิงดำ สามารถใช้บทนี้เป็นส่วนของกิจวัตรได้ โดยไม่จำเป็นต้องยึดว่าจำนวนมากจะทำให้ได้ผลมากกว่า",
       "นะโม ตัสสะ ภะคะวะโต อะระหะโต สัมมาสัมพุทธัสสะ (3 จบ)",
@@ -1724,11 +1727,32 @@ function isBirthdayDate(date=new Date()){
   const parts=String(state.profileBirthDate||"").split("-").map(Number);
   return parts.length===3&&parts[1]===date.getMonth()+1&&parts[2]===date.getDate();
 }
-function holyMoonPhase(lunar=""){
-  const match=lunar.match(/(ขึ้น|แรม)\s*(\d+)/);if(!match)return 8;const count=Number(match[2]);
-  return match[1]==="ขึ้น"?Math.max(0,Math.min(8,Math.round((count-1)/14*8))):Math.max(9,Math.min(16,9+Math.round((count-1)/14*7)));
+function holyMoonMarkup(lunar=""){
+  const match=lunar.match(/(ขึ้น|แรม)\s*(\d+)\s*ค่ำ\s*(.*)/);
+  const waning=match?.[1]==="แรม",day=Math.max(0,Math.min(15,Number(match?.[2]||15)));
+  const monthEnd=waning&&Object.values(HOLY_DAYS_2569).flat().some(entry=>entry.split("|")[1]===`แรม 14 ค่ำ ${match[3]}`)?14:15;
+  // Individually measured discs: the reference is not a uniform sprite grid.
+  const discs=[
+    [135,227,111],[389,223,110],[616,223,110],[844,224,109],
+    [1113,226,115],[1397,224,115],[145,524,123],[436,529,124],
+    [767,524,141],[1101,534,128],[1398,535,126],[135,821,111],
+    [411,821,112],[686,821,112],[930,822,112],[1168,822,110],[1407,822,110]
+  ];
+  let phase=waning?8+Math.max(1,Math.round(day/monthEnd*9)):day<=8?Math.max(1,Math.round(day/8*3)):3+Math.round((day-8)/7*5);
+  if(waning&&day>=monthEnd)phase=0;
+  const [cx,cy,r]=discs[Math.min(16,phase)],pad=2;
+  return `<svg viewBox="${cx-r-pad} ${cy-r-pad} ${2*(r+pad)} ${2*(r+pad)}" width="100%" height="100%" role="img" aria-label="ดวงจันทร์ ${lunar}"><defs><clipPath id="holy-moon-disc"><circle cx="${cx}" cy="${cy}" r="${r}"/></clipPath></defs><circle cx="${cx}" cy="${cy}" r="${r}" fill="#211c17"/><image href="assets/holy-moon-sprite.png" width="1536" height="1024" clip-path="url(#holy-moon-disc)"/></svg>`;
 }
 function currentLunarFromHoly(date){
+  date=new Date(date.getFullYear(),date.getMonth(),date.getDate());
+  // Count back from the next known lunar date so 14-day waning months
+  // and named/intercalary months use the calendar's actual boundaries.
+  const next=Object.keys(HOLY_DAYS_2569).flatMap(m=>holyEntries(Number(m)).map(item=>({...item,date:new Date(2026,Number(m),item.day)}))).sort((a,b)=>a.date-b.date).find(item=>item.date>=date);
+  if(next){
+    const nextMatch=next.lunar.match(/(ขึ้น|แรม)\s*(\d+)\s*ค่ำ\s*(.*)/);
+    const daysUntil=Math.round((next.date-date)/86400000);
+    if(nextMatch&&Number(nextMatch[2])>daysUntil)return `${nextMatch[1]} ${Number(nextMatch[2])-daysUntil} ค่ำ ${nextMatch[3]}`;
+  }
   const all=Object.keys(HOLY_DAYS_2569).flatMap(m=>holyEntries(Number(m)).map(item=>({...item,month:Number(m),date:new Date(2026,Number(m),item.day)}))).sort((a,b)=>a.date-b.date),previous=[...all].reverse().find(item=>item.date<=date)||all[0],delta=Math.max(0,Math.round((date-previous.date)/86400000));
   const match=previous.lunar.match(/(ขึ้น|แรม)\s*(\d+)\s*ค่ำ\s*(.*)/);if(!match)return previous.lunar;
   let side=match[1],count=Number(match[2])+delta,monthLabel=match[3];
@@ -1740,12 +1764,25 @@ function renderHolyCalendar(month=holyCalendarMonth){
   const now=new Date(),entries=holyEntries(holyCalendarMonth),today=now.getFullYear()===2026&&now.getMonth()===holyCalendarMonth?now.getDate():0,todayEntry=entries.find(item=>item.day===today),selected=entries.find(item=>item.day>=today)||entries[entries.length-1],displayLunar=today?currentLunarFromHoly(new Date(2026,holyCalendarMonth,today)):selected?.lunar||"",displayDay=today||selected?.day||"-",displayLabel=today?(todayEntry?.event||(todayEntry?"วันพระ":"วันนี้")):(selected?.event||"วันพระ");
   const firstDay=new Date(2026,holyCalendarMonth,1).getDay(),daysInMonth=new Date(2026,holyCalendarMonth+1,0).getDate(),previousDays=new Date(2026,holyCalendarMonth,0).getDate(),cells=[];
   for(let i=firstDay-1;i>=0;i--)cells.push(`<span class="outside">${previousDays-i}</span>`);
-  for(let day=1;day<=daysInMonth;day++){const holy=entries.find(item=>item.day===day);cells.push(`<button type="button" class="${holy?"is-holy":""} ${holy?.event?"is-special":""} ${day===selected?.day?"selected":""} ${day===today?"today":""}" data-holy-day="${day}" ${holy?.event?`aria-label="${holy.event}"`:""}>${day}${holy?"<i></i>":""}</button>`);}
+  for(let day=1;day<=daysInMonth;day++){const holy=entries.find(item=>item.day===day);cells.push(`<button type="button" class="${holy?"is-holy":""} ${holy?.event?"is-special":""} ${day===displayDay?"selected":""} ${day===today?"today":""}" data-holy-day="${day}" aria-pressed="${day===displayDay}" aria-label="${day} ${HOLY_MONTHS[holyCalendarMonth]} 2569${holy?` ${holy.event||"วันพระ"}`:""}">${day}${holy?"<i></i>":""}</button>`);}
   while(cells.length%7)cells.push(`<span class="outside">${cells.length-firstDay-daysInMonth+1}</span>`);
   const all=Object.keys(HOLY_DAYS_2569).flatMap(m=>holyEntries(Number(m)).map(item=>({...item,month:Number(m),date:new Date(2026,Number(m),item.day)}))),todayDate=new Date(now.getFullYear(),now.getMonth(),now.getDate()),next=all.find(item=>item.date>=todayDate)||all[all.length-1];
-  wrap.innerHTML=`<div class="holy-feature"><div class="holy-moon"><img src="assets/holy-moon-phases/phase-${holyMoonPhase(displayLunar)}.png" alt="เฟสพระจันทร์"></div><b>${displayLabel}</b><strong>${displayDay}</strong><span>${HOLY_MONTHS[holyCalendarMonth]} 2569</span><small>${displayLunar}</small></div><div class="holy-month"><header><button type="button" data-holy-nav="-1" aria-label="เดือนก่อน">‹</button><b>${HOLY_MONTHS[holyCalendarMonth]} 2569</b><button type="button" data-holy-nav="1" aria-label="เดือนถัดไป">›</button></header><div class="holy-week"><b>อา</b><b>จ</b><b>อ</b><b>พ</b><b>พฤ</b><b>ศ</b><b>ส</b></div><div class="holy-grid">${cells.join("")}</div></div><div class="holy-next"><img src="assets/reward-lotus-2.png" alt=""><span>วันพระถัดไป: ${next.day} ${HOLY_MONTHS[next.month]} 2569</span><b>›</b></div>`;
+  wrap.innerHTML=`<div class="holy-feature"><div class="holy-moon">${holyMoonMarkup(displayLunar)}</div><b>${displayLabel}</b><strong>${displayDay}</strong><span>${HOLY_MONTHS[holyCalendarMonth]} 2569</span><small>${displayLunar}</small></div><div class="holy-month"><header><button type="button" data-holy-nav="-1" aria-label="เดือนก่อน">‹</button><b>${HOLY_MONTHS[holyCalendarMonth]} 2569</b><button type="button" data-holy-nav="1" aria-label="เดือนถัดไป">›</button></header><div class="holy-week"><b>อา</b><b>จ</b><b>อ</b><b>พ</b><b>พฤ</b><b>ศ</b><b>ส</b></div><div class="holy-grid">${cells.join("")}</div></div><div class="holy-next"><img src="assets/reward-lotus-2.png" alt=""><span>วันพระถัดไป: ${next.day} ${HOLY_MONTHS[next.month]} 2569</span><b>›</b></div>`;
   wrap.querySelectorAll("[data-holy-nav]").forEach(button=>button.addEventListener("click",()=>renderHolyCalendar(holyCalendarMonth+Number(button.dataset.holyNav))));
-  wrap.querySelectorAll("[data-holy-day]").forEach(button=>button.addEventListener("click",()=>{const item=entries.find(entry=>entry.day===Number(button.dataset.holyDay));if(!item)return;const feature=wrap.querySelector(".holy-feature");feature.querySelector("b").textContent=item.event||"วันพระ";feature.querySelector("strong").textContent=item.day;feature.querySelector("small").textContent=item.lunar;feature.querySelector(".holy-moon img").src=`assets/holy-moon-phases/phase-${holyMoonPhase(item.lunar)}.png`;}));
+  wrap.querySelectorAll("[data-holy-day]").forEach(button=>button.addEventListener("click",()=>{
+    const day=Number(button.dataset.holyDay),item=entries.find(entry=>entry.day===day);
+    const lunar=currentLunarFromHoly(new Date(2026,holyCalendarMonth,day));
+    const feature=wrap.querySelector(".holy-feature");
+    feature.querySelector("b").textContent=item?.event||(item?"วันพระ":day===today?"วันนี้":"วันที่เลือก");
+    feature.querySelector("strong").textContent=day;
+    feature.querySelector("small").textContent=lunar;
+    feature.querySelector(".holy-moon").innerHTML=holyMoonMarkup(lunar);
+    wrap.querySelectorAll("[data-holy-day]").forEach(cell=>{
+      const active=cell===button;
+      cell.classList.toggle("selected",active);
+      cell.setAttribute("aria-pressed",String(active));
+    });
+  }));
 }
 function renderCarousel(){
   renderHolyCalendar();const todayButton=document.getElementById("holyCalendarToday");if(todayButton)todayButton.onclick=()=>renderHolyCalendar(new Date().getMonth());return;
