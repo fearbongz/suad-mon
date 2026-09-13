@@ -4007,7 +4007,7 @@ function renderGardenRewards(filter="all"){
     const cards=(category.id==="decor"
       ? GARDEN_DECOR_ITEMS.map((item,index)=>{
           const owned=item.stage<=decorStage, selected=false;
-          return {index,name:item.name,art:"",need:`<img class="reward-cost-icon" src="assets/garden-lotus.png" alt=""> ${item.cost}`,
+          return {index,name:item.name,art:item.image,need:`<img class="reward-cost-icon" src="assets/garden-lotus.png" alt=""> ${item.cost}`,
             unlocked:owned,selected,state:owned?"✓ วางในสวนแล้ว":(lotusLeft>=item.cost?"ซื้อได้เลย":"ยังไม่ได้รับ")};
         })
       : category.items.map(([name,need],index)=>{

@@ -1015,7 +1015,8 @@ img{max-width:100%;display:block;}
 .reward-art:not(.reward-art-characters).reward-art-3{background-position:74% 50%;}
 .reward-art:not(.reward-art-characters).reward-art-4{background-position:98% 50%;}
 .reward-art-lotus{background-image:none!important;transform:none!important;}
-.reward-art-lotus>img{display:block;width:100%;height:100%;padding:7px;box-sizing:border-box;object-fit:contain;object-position:center;}
+.reward-art-lotus>img,.reward-art-decor>img{display:block;width:100%;height:100%;padding:7px;box-sizing:border-box;object-fit:contain;object-position:center;}
+.reward-art-decor{background-image:none;}
 .reward-group>header>span img{display:block;width:28px;height:28px;object-fit:contain;}
 
 /* full-page garden decorator */
