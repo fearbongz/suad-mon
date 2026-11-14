@@ -1846,12 +1846,69 @@ function renderTiles(){
 }
 
 /* ---------------- HOME: STREAK ---------------- */
+/* count a number up/down to its new value so progress feels alive */
+function animateNumber(el,value){
+  if(!el)return;
+  const to=Number(value)||0;
+  const from=Number(el.dataset.shown);
+  el.dataset.shown=String(to);
+  const reduce=window.matchMedia&&window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  if(reduce||!Number.isFinite(from)||from===to||document.hidden){ el.textContent=to; return; }
+  cancelAnimationFrame(el._numRaf);
+  const start=performance.now(),dur=520;
+  const step=now=>{
+    const t=Math.min(1,(now-start)/dur),eased=1-Math.pow(1-t,3);
+    el.textContent=Math.round(from+(to-from)*eased);
+    if(t<1)el._numRaf=requestAnimationFrame(step);
+    else{ el.classList.remove("num-pop"); void el.offsetWidth; el.classList.add("num-pop"); }
+  };
+  el._numRaf=requestAnimationFrame(step);
+}
+
+/* home: today's suggested prayer + garden level teaser */
+function getDailyPrayer(){
+  const now=new Date();
+  const dayOfYear=Math.floor((now-new Date(now.getFullYear(),0,0))/86400000);
+  return PRAYERS[dayOfYear%PRAYERS.length];
+}
+function renderHomeExtras(){
+  const pick=getDailyPrayer();
+  const pickBtn=document.getElementById("dailyPick");
+  if(pick&&pickBtn){
+    pickBtn.dataset.prayerId=pick.id;
+    document.getElementById("dailyPickArt").style.backgroundImage=`url('${getPrayerIcon(pick)}')`;
+    document.getElementById("dailyPickTitle").textContent=pick.title;
+    document.getElementById("dailyPickMeta").textContent=`${pick.category} · ${pick.duration}`;
+  }
+  const teaserLevel=document.getElementById("teaserLevel");
+  if(teaserLevel){
+    const info=gardenLevelInfo(getMeritPoints());
+    teaserLevel.textContent=`Lv.${info.level}`;
+    document.getElementById("teaserProgress").style.width=`${Math.max(4,info.percent)}%`;
+    document.getElementById("teaserHint").textContent=info.level>=100
+      ? "สวนบุญเบ่งบานเต็มที่แล้ว ✨"
+      : `อีก ${(info.need-info.into).toLocaleString()} แต้ม ถึง Lv.${info.level+1}`;
+  }
+}
+
 function renderStreak(){
   const streak = computeStreak();
   const completedDays = getCompletedActivityDates().size;
-  document.getElementById("streakNum").textContent = completedDays;
+  animateNumber(document.getElementById("streakNum"), completedDays);
   document.getElementById("goalDays").textContent = state.goal;
   document.getElementById("meritStreak").textContent = streak;
+
+  const goal=Math.max(1,Number(state.goal)||21);
+  const goalFill=document.getElementById("goalProgressFill");
+  if(goalFill){
+    const reached=streak>=goal;
+    goalFill.style.width=`${Math.min(100,streak/goal*100)}%`;
+    goalFill.closest(".goal-progress").classList.toggle("reached",reached);
+    document.getElementById("goalProgressText").textContent=reached
+      ? `ถึงเป้า ${goal} วันแล้ว เก่งมากค่ะ 🎉`
+      : `สวดต่อเนื่อง ${streak} / ${goal} วัน`;
+  }
+  renderHomeExtras();
 
   const cheer = document.getElementById("streakCheer");
   if(completedDays===0) cheer.textContent = "เริ่มต้นวันนี้เลยนะคะ";
@@ -2447,10 +2504,20 @@ function renderReaderLines(){
   if(cur) cur.scrollIntoView({block:"center", behavior:"smooth"});
 }
 
+function formatReaderClock(seconds){
+  const total=Math.max(0,Math.round(seconds));
+  return `${String(Math.floor(total/60)).padStart(2,"0")}:${String(total%60).padStart(2,"0")}`;
+}
 function updateProgress(){
   const prayerLines = getReaderPrayerLines();
   const pct = prayerLines.length<=1 ? 100 : Math.round((currentLine/(prayerLines.length-1))*100);
   document.getElementById("readerProgressBar").style.width = pct+"%";
+  // auto-play advances one line every LINE_SECONDS, so these are the real playback times
+  const elapsed=document.getElementById("readerElapsed"),total=document.getElementById("readerTotal");
+  if(elapsed&&total){
+    elapsed.textContent=formatReaderClock(currentLine*LINE_SECONDS);
+    total.textContent=formatReaderClock(Math.max(0,prayerLines.length-1)*LINE_SECONDS);
+  }
 }
 
 function setPlayIcon(playing){
@@ -2516,6 +2583,7 @@ function toggleTodayDirect(){
   }
 
   markPastDateComplete(ds);
+  try{navigator.vibrate?.(18);}catch(error){}
   spawnBurst();
   document.getElementById("completeMsg").textContent =
     `บันทึกแล้วค่ะว่าวันนี้สวดมนต์แล้ว วันนี้ครบ ${computeStreak()} วันติดต่อกันค่ะ`;
@@ -2553,6 +2621,45 @@ function markComplete(){
     : `สวดครบ “${currentPrayer.title}” แล้ว วันนี้ครบ ${computeStreak()} วันติดต่อกันค่ะ${wanPhraBonus}`;
   document.getElementById("completeModal").classList.add("open");
 }
+
+/* ---------------- TOAST + "COMING SOON" ---------------- */
+function showToast(message){
+  let toast=document.getElementById("appToast");
+  if(!toast){
+    toast=document.createElement("div");
+    toast.id="appToast";
+    toast.className="app-toast";
+    toast.setAttribute("role","status");
+    document.body.appendChild(toast);
+  }
+  toast.textContent=message;
+  toast.classList.add("show");
+  clearTimeout(toast._hideTimer);
+  toast._hideTimer=setTimeout(()=>toast.classList.remove("show"),2400);
+}
+// anything marked data-soon is a feature that is not built yet: say so instead of doing nothing
+document.addEventListener("click",event=>{
+  const target=event.target.closest?.("[data-soon]");
+  if(!target)return;
+  event.preventDefault();
+  showToast("ฟีเจอร์นี้กำลังพัฒนา เร็ว ๆ นี้นะคะ 🌸");
+});
+document.addEventListener("keydown",event=>{
+  if((event.key==="Enter"||event.key===" ")&&event.target.matches?.("div[data-soon]")){ event.preventDefault(); event.target.click(); }
+});
+// help screen: the search box filters the FAQ list
+document.addEventListener("input",event=>{
+  if(!event.target.matches?.(".help-search input"))return;
+  const query=event.target.value.trim().toLowerCase();
+  let visible=0;
+  document.querySelectorAll(".help-faq details").forEach(item=>{
+    const match=!query||item.textContent.toLowerCase().includes(query);
+    item.style.display=match?"":"none";
+    if(match)visible++;
+  });
+  const empty=document.getElementById("helpFaqEmpty");
+  if(empty)empty.hidden=visible>0;
+});
 
 /* ---------------- SPARKLE BURST + CHIME ---------------- */
 function spawnBurst(){
@@ -2834,6 +2941,7 @@ function showScreen(name){
   document.body.classList.toggle("community-mode",name==="community"||name==="encouragement");
   document.body.classList.toggle("garden-mode",name==="merit-garden"||name==="garden-rewards"||name==="garden-decorate"||name==="garden-character");
   document.body.classList.toggle("character-mode",name==="garden-character");
+  document.body.dataset.screen=name;
   document.body.classList.remove("photo-view");
   const viewLabel=document.querySelector("#decorateViewToggle span");
   if(viewLabel) viewLabel.textContent="มุมมอง";
@@ -3144,7 +3252,7 @@ function bindReaderControls(){
   document.getElementById("readerFav").addEventListener("click", ()=> toggleFavorite(currentPrayer.id));
   document.getElementById("completeClose").addEventListener("click", ()=>{
     document.getElementById("completeModal").classList.remove("open");
-    closeReader();
+    if(document.getElementById("screen-reader").classList.contains("active")) closeReader();
   });
 }
 
@@ -3166,6 +3274,10 @@ function bindBell(){
 
 function bindCheckin(){
   document.getElementById("checkinBtn").addEventListener("click", toggleTodayDirect);
+  document.getElementById("dailyPick")?.addEventListener("click", event=>{
+    const id=event.currentTarget.dataset.prayerId;
+    if(id)openReader(id);
+  });
 }
 
 function bindAssistant(){
