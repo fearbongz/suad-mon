@@ -10,7 +10,7 @@ const PRAYERS = [
     id:"metta-self",
     title:"แผ่เมตตาให้ตนเอง",
     category:"แผ่เมตตา",
-    icon:"assets/prayer-hands.png",
+    icon:"assets/prayer-hands.webp",
     duration:"1 นาที",
     popularity:8210,
     desc:"ตั้งจิตให้อภัยและรักตัวเอง ก่อนแผ่เมตตาให้ผู้อื่น",
@@ -31,7 +31,7 @@ const PRAYERS = [
     id:"wish",
     title:"คำอธิษฐานขอพร",
     category:"ขอพร",
-    icon:"assets/prayer-heart.png",
+    icon:"assets/prayer-heart.webp",
     duration:"1 นาที",
     popularity:5432,
     desc:"ตั้งจิตอธิษฐานขอพรสิ่งศักดิ์สิทธิ์ให้ชีวิตราบรื่น",
@@ -47,7 +47,7 @@ const PRAYERS = [
     id:"birthday",
     title:"บทสวดมนต์วันเกิด",
     category:"โอกาสพิเศษ",
-    icon:"assets/prayer-lotus.png",
+    icon:"assets/prayer-lotus.webp",
     duration:"1 นาที",
     popularity:3210,
     desc:"ตั้งจิตอธิษฐานในวันคล้ายวันเกิด ระลึกถึงบุญคุณและตั้งเป้าหมายใหม่",
@@ -63,7 +63,7 @@ const PRAYERS = [
     id:"itipiso",
     title:"บทพุทธคุณ (อิติปิโส)",
     category:"สวดบูชาพระ",
-    icon:"assets/lamp.png",
+    icon:"assets/lamp.webp",
     duration:"1 นาที",
     popularity:9876,
     desc:"สรรเสริญพระคุณของพระพุทธเจ้า นิยมสวดก่อนทำสมาธิ",
@@ -79,7 +79,7 @@ const PRAYERS = [
     id:"trisarana",
     title:"บทไตรสรณคมน์",
     category:"ทำวัตรเช้า-เย็น",
-    icon:"assets/lamp.png",
+    icon:"assets/lamp.webp",
     duration:"1 นาที",
     popularity:7654,
     desc:"การถึงพระพุทธ พระธรรม พระสงฆ์ เป็นที่พึ่งที่ระลึก",
@@ -99,7 +99,7 @@ const PRAYERS = [
     id:"metta-all",
     title:"แผ่เมตตาให้สรรพสัตว์",
     category:"แผ่เมตตา",
-    icon:"assets/prayer-hands.png",
+    icon:"assets/prayer-hands.webp",
     duration:"1 นาที",
     popularity:6543,
     desc:"แผ่ความปรารถนาดีให้สรรพสัตว์ทั้งหลายพ้นทุกข์",
@@ -128,7 +128,7 @@ const PRAYERS = [
     title:"บทนอบน้อมพระพุทธเจ้า",
     readerHeading:"บทนอบน้อมพระพุทธเจ้า",
     category:"ทำวัตรเช้า-เย็น",
-    icon:"assets/lamp.png",
+    icon:"assets/lamp.webp",
     duration:"1 นาที",
     popularity:4321,
     desc:"บทตั้งจิตนอบน้อม สวดก่อนบทสวดมนต์บทใด ๆ",
@@ -143,7 +143,7 @@ const PRAYERS = [
     title:"บทกราบพระรัตนตรัย",
     readerHeading:"บทกราบพระรัตนตรัย",
     category:"ทำวัตรเช้า-เย็น",
-    icon:"assets/lamp.png",
+    icon:"assets/lamp.webp",
     duration:"1 นาที",
     popularity:0,
     desc:"ใช้สวดหลังนะโม 3 จบ ก่อนเข้าสู่บทไตรสรณคมน์ เพื่อตั้งจิตนอบน้อมต่อพระรัตนตรัย",
@@ -168,7 +168,7 @@ const PRAYERS = [
     title:"บทสรรเสริญพระรัตนตรัย",
     readerHeading:"บทสรรเสริญพระรัตนตรัย",
     category:"สวดบูชาพระ",
-    icon:"assets/prayer-lotus.png",
+    icon:"assets/prayer-lotus.webp",
     duration:"3 นาที",
     popularity:0,
     desc:"บทสรรเสริญคุณของพระพุทธ พระธรรม และพระสงฆ์",
@@ -204,7 +204,7 @@ const PRAYERS = [
     title:"พาหุงมหากา (พุทธชัยมงคลคาถา)",
     readerHeading:"บทพาหุง — พุทธชัยมงคลคาถา",
     category:"สวดบูชาพระ",
-    icon:"assets/lamp.png",
+    icon:"assets/lamp.webp",
     duration:"6 นาที",
     popularity:0,
     desc:"พระคาถาว่าด้วยชัยชนะอันเป็นมงคลของพระพุทธเจ้า พร้อมบทมหาการุณิโก",
@@ -257,7 +257,7 @@ const PRAYERS = [
       "หิตวานะเนกะวิวิธานิ จุปัททะวานิ",
       "โมกขัง สุขัง อะธิคะเมยยะ นะโร สะปัญโญ",
       "## บทมหาการุณิโก",
-      "มหาการุณิโก นาโถ",
+      "มะหาการุณิโก นาโถ",
       "หิตายะ สัพพะปาณินัง",
       "ปูเรตวา ปาระมี สัพพา",
       "ปัตโต สัมโพธิมุตตะมัง",
@@ -288,7 +288,7 @@ const PRAYERS = [
     title:"บทชินบัญชร",
     readerHeading:"คาถาชินบัญชร",
     category:"เสริมดวง",
-    icon:"assets/lamp.png",
+    icon:"assets/lamp.webp",
     badge:"แนะนำวันนี้",
     duration:"5 นาที",
     popularity:12345,
@@ -369,7 +369,7 @@ const PRAYERS = [
       "สะทา สัมพุทธะปัญชะเร",
       "## ๑๔",
       "ชินะปัญชะระมัชฌัมหิ",
-      "วิหะรันตัง มะฮีตะเล",
+      "วิหะรันตัง มะหีตะเล",
       "สะทา ปาเลนตุ มัง สัพเพ",
       "เต มะหาปุริสาสะภา",
       "## ๑๕",
@@ -390,7 +390,7 @@ const PRAYERS = [
     title:"คาถามหาจักรพรรดิ",
     readerHeading:"คาถามหาจักรพรรดิ",
     category:"เสริมดวง",
-    icon:"assets/lamp.png",
+    icon:"assets/lamp.webp",
     badge:"แนะนำ 9 จบ",
     duration:"1 นาที",
     popularity:0,
@@ -418,15 +418,15 @@ const PRAYERS = [
     title:"กรณียเมตตสูตร",
     readerHeading:"กรณียเมตตสูตร",
     category:"แผ่เมตตา",
-    icon:"assets/prayer-hands.png",
+    icon:"assets/prayer-hands.webp",
     duration:"4 นาที",
     popularity:0,
     desc:"พระสูตรสำคัญสำหรับแผ่เมตตาและเจริญเมตตาภาวนา ช่วยให้จิตใจสงบ ลดความโกรธและความหวาดกลัว",
     youtubeId:"mS0_n5pesHA",
     lines:[
       "## บทสวดบาลี",
-      "กรณียมัตถกุสเลนะ",
-      "ยันตัง สันตัง ปทัง อภิสเมจจะ",
+      "กะระณียะมัตถะกุสะเลนะ",
+      "ยันตัง สันตัง ปะทัง อะภิสะเมจจะ",
       "สักโก อุชู จะ สุหุชู จะ",
       "สุวะโจ จัสสะ มุทุ อะนะติมานี",
       "สันตุสสะโก จะ สุภะโร จะ",
@@ -452,9 +452,9 @@ const PRAYERS = [
       "มาตา ยะถา นิยัง ปุตตัง",
       "อายุสา เอกะปุตตะมะนุรักเข",
       "เอวัมปิ สัพพะภูเตสุ",
-      "มานะสัม ภาวะเย อะปะริมาณัง",
+      "มานะสัมภาวะเย อะปะริมาณัง",
       "เมตตัญจะ สัพพะโลกัสมิง",
-      "มานะสัม ภาวะเย อะปะริมาณัง",
+      "มานะสัมภาวะเย อะปะริมาณัง",
       "อุทธัง อะโธ จะ ติริยัญจะ",
       "อะสัมพาธัง อะเวรัง อะสะปัตตัง",
       "ติฏฐัญจะรัง นิสินโน วา",
@@ -644,7 +644,7 @@ const PRAYERS = [
     title:"อุทิศส่วนกุศล",
     readerHeading:"อุทิศส่วนกุศล",
     category:"แผ่เมตตา",
-    icon:"assets/prayer-hands.png",
+    icon:"assets/prayer-hands.webp",
     duration:"1 นาที",
     popularity:0,
     desc:"อุทิศส่วนกุศลแก่บิดามารดา ครูอาจารย์ ญาติ เทวดา ผู้ล่วงลับ เจ้ากรรมนายเวร และสรรพสัตว์",
@@ -678,7 +678,7 @@ const PRAYERS = [
     title:"อธิษฐานก่อนนอน",
     readerHeading:"อธิษฐานก่อนนอน",
     category:"ทำวัตรเช้า-เย็น",
-    icon:"assets/prayer-heart.png",
+    icon:"assets/prayer-heart.webp",
     duration:"2 นาที",
     popularity:0,
     desc:"บทตั้งจิตก่อนพักผ่อน เพื่อระลึกถึงกุศลและเริ่มต้นวันใหม่ด้วยสติ",
@@ -701,7 +701,7 @@ const PRAYERS = [
     id:"mangala-sutta",
     title:"มงคลสูตร",
     category:"ทำวัตรเช้า-เย็น",
-    icon:"assets/lamp.png",
+    icon:"assets/lamp.webp",
     duration:"5 นาที",
     popularity:0,
     desc:"พระสูตรว่าด้วยมงคลอันสูงสุดและแนวทางดำเนินชีวิตที่เจริญงอกงาม",
@@ -726,9 +726,9 @@ const PRAYERS = [
   },
   {
     id:"ratana-sutta",
-    title:"รัตนสูตร",
+    title:"รัตนสูตร (ฉบับย่อ)",
     category:"สวดบูชาพระ",
-    icon:"assets/prayer-lotus.png",
+    icon:"assets/prayer-lotus.webp",
     duration:"5 นาที",
     popularity:0,
     desc:"พระปริตรสรรเสริญคุณพระพุทธ พระธรรม และพระสงฆ์",
@@ -742,15 +742,15 @@ const PRAYERS = [
       "เย สุปปะยุตตา มะนะสา ทัฬเหนะ นิกกามิโน โคตะมะสาสะนัมหิ เต ปัตติปัตตา อะมะตัง วิคัยหะ ลัทธา มุธา นิพพุติง ภุญชะมานา อิทัมปิ สังเฆ ระตะนัง ปะณีตัง เอเตนะ สัจเจนะ สุวัตถิ โหตุ",
       "ขีณัง ปุราณัง นะวัง นัตถิ สัมภะวัง วิรัตตะจิตตายะติเก ภะวัสมิง เต ขีณะพีชา อะวิรุฬหิฉันทา นิพพันติ ธีรา ยะถายัมปะทีโป อิทัมปิ สังเฆ ระตะนัง ปะณีตัง เอเตนะ สัจเจนะ สุวัตถิ โหตุ",
       "ยานีธะ ภูตานิ สะมาคะตานิ ภุมมานิ วา ยานิวะ อันตะลิกเข ตะถาคะตัง เทวะมะนุสสะปูชิตัง พุทธัง นะมัสสามะ สุวัตถิ โหตุ",
-      "ธัมมัง นะมัสสามะ สุวัตถิ โหตุ",
-      "สังฆัง นะมัสสามะ สุวัตถิ โหตุ"
+      "ยานีธะ ภูตานิ สะมาคะตานิ ภุมมานิ วา ยานิวะ อันตะลิกเข ตะถาคะตัง เทวะมะนุสสะปูชิตัง ธัมมัง นะมัสสามะ สุวัตถิ โหตุ",
+      "ยานีธะ ภูตานิ สะมาคะตานิ ภุมมานิ วา ยานิวะ อันตะลิกเข ตะถาคะตัง เทวะมะนุสสะปูชิตัง สังฆัง นะมัสสามะ สุวัตถิ โหตุ"
     ]
   },
   {
     id:"khandha-paritta",
     title:"ขันธปริตร",
     category:"แผ่เมตตา",
-    icon:"assets/prayer-heart.png",
+    icon:"assets/prayer-heart.webp",
     duration:"2 นาที",
     popularity:0,
     desc:"บทแผ่เมตตาแก่พญางูและสรรพสัตว์ เพื่ออยู่ร่วมกันโดยไม่เบียดเบียน",
@@ -767,7 +767,7 @@ const PRAYERS = [
     id:"mora-paritta",
     title:"โมรปริตร",
     category:"ทำวัตรเช้า-เย็น",
-    icon:"assets/lamp.png",
+    icon:"assets/lamp.webp",
     duration:"2 นาที",
     popularity:0,
     desc:"คาถานกยูงทองสำหรับระลึกถึงพระพุทธคุณในเวลาเช้าและเย็น",
@@ -780,9 +780,9 @@ const PRAYERS = [
   },
   {
     id:"dhajagga-paritta",
-    title:"ธชัคคปริตร",
+    title:"ธชัคคปริตร (ฉบับย่อ)",
     category:"สวดบูชาพระ",
-    icon:"assets/prayer-lotus.png",
+    icon:"assets/prayer-lotus.webp",
     duration:"2 นาที",
     popularity:0,
     desc:"บทระลึกถึงคุณพระรัตนตรัยเพื่อทำใจให้มั่นคงเมื่อเกิดความกลัว",
@@ -797,14 +797,14 @@ const PRAYERS = [
     id:"atanatiya-paritta",
     title:"อาฏานาฏิยปริตร (ฉบับย่อ)",
     category:"สวดบูชาพระ",
-    icon:"assets/prayer-lotus.png",
+    icon:"assets/prayer-lotus.webp",
     duration:"3 นาที",
     popularity:0,
     desc:"บทคุ้มครองที่กล่าวนอบน้อมพระพุทธเจ้าทั้งหลายในอดีต",
     lines:[
       "วิปัสสิสสะ นะมัตถุ จักขุมันตัสสะ สิรีมะโต สิขิสสะปิ นะมัตถุ สัพพะภูตานุกัมปิโน",
       "เวสสะภุสสะ นะมัตถุ นะหาตะกัสสะ ตะปัสสิโน นะมัตถุ กะกุสันธัสสะ มาระเสนัปปะมัททิโน",
-      "โกนาคมะนัสสะ นะมัตถุ พราหมะณัสสะ วุสีมะโต กัสสะปัสสะ นะมัตถุ วิปปะมุตตัสสะ สัพพะธิ",
+      "โกนาคะมะนัสสะ นะมัตถุ พราหมะณัสสะ วุสีมะโต กัสสะปัสสะ นะมัตถุ วิปปะมุตตัสสะ สัพพะธิ",
       "อังคีระสัสสะ นะมัตถุ สักยะปุตตัสสะ สิรีมะโต โย อิมัง ธัมมะมะเทเสสิ สัพพะทุกขาปะนูทะนัง",
       "เย จาปิ นิพพุตา โลเก ยะถาภูตัง วิปัสสิสุง เต ชะนา อะปิสุณา มะหันตา วีตะสาระทา",
       "หิตัง เทวะมะนุสสานัง ยัง นะมัสสันติ โคตะมัง วิชชาจะระณะสัมปันนัง มะหันตัง วีตะสาระทัง",
@@ -817,7 +817,7 @@ const PRAYERS = [
     id:"bojjhanga-paritta",
     title:"โพชฌังคปริตร",
     category:"สวดบูชาพระ",
-    icon:"assets/prayer-lotus.png",
+    icon:"assets/prayer-lotus.webp",
     duration:"3 นาที",
     popularity:0,
     desc:"พระปริตรระลึกถึงองค์ธรรมแห่งการตรัสรู้ นิยมสวดแก่ผู้เจ็บป่วย",
@@ -836,7 +836,7 @@ const PRAYERS = [
     id:"angulimala-paritta",
     title:"อังคุลิมาลปริตร",
     category:"ขอพร",
-    icon:"assets/prayer-heart.png",
+    icon:"assets/prayer-heart.webp",
     duration:"2 นาที",
     popularity:0,
     desc:"สัจจกิริยาที่นิยมสวดอำนวยพรแก่หญิงตั้งครรภ์ให้คลอดโดยสวัสดิภาพ",
@@ -851,7 +851,7 @@ const PRAYERS = [
     title:"บทธรรมจักร (ธัมมจักกัปปวัตตนสูตร)",
     readerHeading:"บทธรรมจักร (ธัมมจักกัปปวัตตนสูตร ฉบับเต็ม)",
     category:"สวดบูชาพระ",
-    icon:"assets/prayer-lotus.png",
+    icon:"assets/prayer-lotus.webp",
     duration:"17 นาที",
     popularity:0,
     desc:"ปฐมเทศนาว่าด้วยทางสายกลาง อริยมรรคมีองค์แปด และอริยสัจสี่",
@@ -1114,7 +1114,7 @@ const PRAYERS = [
     id:"deva-invitation",
     title:"บทชุมนุมเทวดา",
     category:"ทำวัตรเช้า-เย็น",
-    icon:"assets/lamp.png",
+    icon:"assets/lamp.webp",
     duration:"2 นาที",
     popularity:0,
     desc:"บทอัญเชิญเทวดามาร่วมสดับพระธรรมก่อนเริ่มเจริญพระพุทธมนต์",
@@ -1129,9 +1129,9 @@ const PRAYERS = [
   },
   {
     id:"morning-chanting",
-    title:"บททำวัตรเช้า",
+    title:"บททำวัตรเช้า (ฉบับย่อ)",
     category:"ทำวัตรเช้า-เย็น",
-    icon:"assets/lamp.png",
+    icon:"assets/lamp.webp",
     duration:"4 นาที",
     popularity:0,
     desc:"ลำดับสวดทำวัตรเช้าฉบับใช้งานทั่วไป เพื่อเริ่มวันด้วยการระลึกถึงพระรัตนตรัย",
@@ -1160,9 +1160,9 @@ const PRAYERS = [
   },
   {
     id:"evening-chanting",
-    title:"บททำวัตรเย็น",
+    title:"บททำวัตรเย็น (ฉบับย่อ)",
     category:"ทำวัตรเช้า-เย็น",
-    icon:"assets/lamp.png",
+    icon:"assets/lamp.webp",
     duration:"3 นาที",
     popularity:0,
     desc:"ลำดับสวดทำวัตรเย็นฉบับใช้งานทั่วไป เพื่อทบทวนตนและระลึกถึงพระรัตนตรัย",
@@ -1189,7 +1189,7 @@ const PRAYERS = [
     id:"triple-gem-offering",
     title:"คำบูชาพระรัตนตรัย",
     category:"สวดบูชาพระ",
-    icon:"assets/prayer-lotus.png",
+    icon:"assets/prayer-lotus.webp",
     duration:"1 นาที",
     popularity:0,
     desc:"คำบูชาพระพุทธ พระธรรม และพระสงฆ์ ก่อนเริ่มทำวัตรหรือสวดบทอื่น",
@@ -1206,7 +1206,7 @@ const PRAYERS = [
     id:"five-precepts",
     title:"คำอาราธนาและสมาทานศีล 5",
     category:"สวดบูชาพระ",
-    icon:"assets/prayer-hands.png",
+    icon:"assets/prayer-hands.webp",
     duration:"2 นาที",
     popularity:0,
     desc:"คำขอศีลและคำตั้งใจรักษาศีลห้าเพื่อเป็นหลักในการดำเนินชีวิต",
@@ -1228,7 +1228,7 @@ const PRAYERS = [
     id:"forgiveness-triple-gem",
     title:"คำขอขมาพระรัตนตรัย",
     category:"สวดบูชาพระ",
-    icon:"assets/prayer-hands.png",
+    icon:"assets/prayer-hands.webp",
     duration:"2 นาที",
     popularity:0,
     desc:"บทตั้งใจขอขมาต่อพระรัตนตรัยในสิ่งที่อาจล่วงเกินด้วยกาย วาจา หรือใจ",
@@ -1245,15 +1245,27 @@ const PRAYERS = [
     id:"water-pouring-dedication",
     title:"บทกรวดน้ำและอุทิศส่วนกุศล",
     category:"แผ่เมตตา",
-    icon:"assets/prayer-heart.png",
+    icon:"assets/prayer-heart.webp",
     duration:"2 นาที",
     popularity:0,
     desc:"บทอุทิศบุญกุศลแก่ญาติ ผู้มีพระคุณ เจ้ากรรมนายเวร และสรรพสัตว์",
     lines:[
-      "ยะถา วาริวะหา ปูรา ปะริปูเรนติ สาคะรัง เอวะเมวะ อิโต ทินนัง เปตานัง อุปะกัปปะติ",
-      "อิจฉิตัง ปัตถิตัง ตุมหัง ขิปปะเมวะ สะมิชฌะตุ สัพเพ ปูเรนตุ สังกัปปา จันโท ปัณณะระโส ยะถา มะณิ โชติระโส ยะถา",
-      "สัพพีติโย วิวัชชันตุ สัพพะโรโค วินัสสะตุ มา เต ภะวัตวันตะราโย สุขี ทีฆายุโก ภะวะ",
-      "อะภิวาทะนะสีลิสสะ นิจจัง วุฑฒาปะจายิโน จัตตาโร ธัมมา วัฑฒันติ อายุ วัณโณ สุขัง พะลัง",
+      "อิมินา ปุญญะกัมเมนะ อุปัชฌายา คุณุตตะรา",
+      "อาจะริยูปะการา จะ มาตา ปิตา จะ ญาตะกา",
+      "สุริโย จันทิมา ราชา คุณะวันตา นะราปิ จะ",
+      "พรัหมะมารา จะ อินทา จะ โลกะปาลา จะ เทวะตา",
+      "ยะโม มิตตา มะนุสสา จะ มัชฌัตตา เวริกาปิ จะ",
+      "สัพเพ สัตตา สุขี โหนตุ ปุญญานิ ปะกะตานิ เม",
+      "สุขัง จะ ติวิธัง เทนตุ ขิปปัง ปาเปถะ โวมะตัง",
+      "อิมินา ปุญญะกัมเมนะ อิมินา อุททิเสนะ จะ",
+      "ขิปปาหัง สุละเภ เจวะ ตัณหุปาทานะเฉทะนัง",
+      "เย สันตาเน หีนา ธัมมา ยาวะ นิพพานะโต มะมัง",
+      "นัสสันตุ สัพพะทา เยวะ ยัตถะ ชาโต ภะเว ภะเว",
+      "อุชุจิตตัง สะติปัญญา สัลเลโข วิริยัมหินา",
+      "มารา ละภันตุ โนกาสัง กาตุญจะ วิริเยสุ เม",
+      "พุทธาธิปะวะโร นาโถ ธัมโม นาโถ วะรุตตะโม",
+      "นาโถ ปัจเจกะพุทโธ จะ สังโฆ นาโถตตะโร มะมัง",
+      "เตโสตตะมานุภาเวนะ มาโรกาสัง ละภันตุ มา",
       "อิทัง เม ญาตีนัง โหตุ สุขิตา โหนตุ ญาตะโย",
       "อิทัง เม ปุญญัง อาสะวักขะยาวะหัง โหตุ",
       "อิทัง เม ปุญญัง นิพพานัสสะ ปัจจะโย โหตุ",
@@ -1264,21 +1276,21 @@ const PRAYERS = [
     id:"abhaya-paritta",
     title:"อภยปริตร",
     category:"ขอพร",
-    icon:"assets/prayer-heart.png",
+    icon:"assets/prayer-heart.webp",
     duration:"2 นาที",
     popularity:0,
     desc:"พระปริตรเพื่อคลายความหวาดหวั่นและตั้งจิตให้มั่นคงเมื่อประสบเหตุไม่สบายใจ",
     lines:[
-      "ยันทุน นิมิตตัง อะวะมังคะลัญจะ โย จามะนาโป สะกุณัสสะ สัทโท ปาปัคคะโห ทุสสุปินัง อะกันตัง พุทธานุภาเวนะ วินาสะเมนตุ",
-      "ยันทุน นิมิตตัง อะวะมังคะลัญจะ โย จามะนาโป สะกุณัสสะ สัทโท ปาปัคคะโห ทุสสุปินัง อะกันตัง ธัมมานุภาเวนะ วินาสะเมนตุ",
-      "ยันทุน นิมิตตัง อะวะมังคะลัญจะ โย จามะนาโป สะกุณัสสะ สัทโท ปาปัคคะโห ทุสสุปินัง อะกันตัง สังฆานุภาเวนะ วินาสะเมนตุ"
+      "ยันทุนนิมิตตัง อะวะมังคะลัญจะ โย จามะนาโป สะกุณัสสะ สัทโท ปาปัคคะโห ทุสสุปินัง อะกันตัง พุทธานุภาเวนะ วินาสะเมนตุ",
+      "ยันทุนนิมิตตัง อะวะมังคะลัญจะ โย จามะนาโป สะกุณัสสะ สัทโท ปาปัคคะโห ทุสสุปินัง อะกันตัง ธัมมานุภาเวนะ วินาสะเมนตุ",
+      "ยันทุนนิมิตตัง อะวะมังคะลัญจะ โย จามะนาโป สะกุณัสสะ สัทโท ปาปัคคะโห ทุสสุปินัง อะกันตัง สังฆานุภาเวนะ วินาสะเมนตุ"
     ]
   },
   {
     id:"bhaddekaratta-gatha",
     title:"ภัทเทกรัตตคาถา",
     category:"ทำวัตรเช้า-เย็น",
-    icon:"assets/lamp.png",
+    icon:"assets/lamp.webp",
     duration:"2 นาที",
     popularity:0,
     desc:"พุทธพจน์เตือนให้ไม่อาลัยอดีต ไม่กังวลอนาคต และรู้สิ่งที่เกิดขึ้นในปัจจุบัน",
@@ -1297,10 +1309,10 @@ const PRAYERS = [
 ];
 
 const QUICK_TILES = [
-  {icon:"assets/tile1.png",label:"สวดมนต์วันเกิด",id:"birthday"},
-  {icon:"assets/tile2.png",label:"แผ่เมตตา",id:"metta-self"},
-  {icon:"assets/tile3.png",label:"ขอพร",id:"wish"},
-  {icon:"assets/tile4.png",label:"บทสวดที่บันทึก",id:"saved-prayers"}
+  {icon:"assets/tile1.webp",label:"สวดมนต์วันเกิด",id:"birthday"},
+  {icon:"assets/tile2.webp",label:"แผ่เมตตา",id:"metta-self"},
+  {icon:"assets/tile3.webp",label:"ขอพร",id:"wish"},
+  {icon:"assets/tile4.webp",label:"บทสวดที่บันทึก",id:"saved-prayers"}
 ];
 
 const QUOTES = [
@@ -1316,8 +1328,8 @@ const QUOTES = [
 const BADGES = [
   {id:"d1", icon:"🌱", label:"เริ่มต้นวันแรก", need:1, type:"total"},
   {id:"d7", icon:"🔥", label:"ต่อเนื่อง 7 วัน", need:7, type:"streak"},
-  {id:"d21", icon:'<img class="flower-icon" src="assets/flower-icon.png" alt="">', label:"ต่อเนื่อง 21 วัน", need:21, type:"streak"},
-  {id:"t10", icon:'<img class="flower-icon" src="assets/flower-icon.png" alt="">', label:"สวดครบ 10 ครั้ง", need:10, type:"total"},
+  {id:"d21", icon:'<img class="flower-icon" src="assets/flower-icon.webp" alt="">', label:"ต่อเนื่อง 21 วัน", need:21, type:"streak"},
+  {id:"t10", icon:'<img class="flower-icon" src="assets/flower-icon.webp" alt="">', label:"สวดครบ 10 ครั้ง", need:10, type:"total"},
   {id:"t50", icon:"✨", label:"สวดครบ 50 ครั้ง", need:50, type:"total"},
   {id:"fav3", icon:"💗", label:"บันทึกโปรด 3 บท", need:3, type:"fav"}
 ];
@@ -1657,10 +1669,10 @@ const PRAYER_ID_ALIASES={jinapanjara:"jinapanjara-full"}; // removed entries -> 
 function findPrayer(id){ const key=PRAYER_ID_ALIASES[id]||id; return PRAYERS.find(p=>p.id===key); }
 function getPrayerIcon(prayer){
   const iconsByCategory = {
-    "ทำวัตรเช้า-เย็น":"assets/lamp.png",
-    "สวดบูชาพระ":"assets/prayer-lotus.png",
-    "แผ่เมตตา":"assets/prayer-heart.png",
-    "เสริมดวง":"assets/prayer-hands.png"
+    "ทำวัตรเช้า-เย็น":"assets/lamp.webp",
+    "สวดบูชาพระ":"assets/prayer-lotus.webp",
+    "แผ่เมตตา":"assets/prayer-heart.webp",
+    "เสริมดวง":"assets/prayer-hands.webp"
   };
   return iconsByCategory[prayer.category] || prayer.icon;
 }
@@ -1678,16 +1690,16 @@ function renderHero(){
   else{ greet="ราตรีสวัสดิ์"; sub="สวดมนต์สักนิด แล้วหลับฝันดีนะคะ"; }
   const displayGreeting = state.profileName ? `${greet} คุณ${state.profileName}` : greet;
   const displaySub = state.profileMessage || sub;
-  document.getElementById("greetingText").innerHTML = `${displayGreeting} <span class="heart"><img src="assets/guide-heart.png" alt=""></span>`;
+  document.getElementById("greetingText").innerHTML = `${displayGreeting} <span class="heart"><img src="assets/guide-heart.webp" alt=""></span>`;
   document.getElementById("greetingSub").innerHTML = `${displaySub} <span>💛</span>`;
   const guestGreeting=document.getElementById("settingsGuestGreeting"),guestGreetingSub=document.getElementById("settingsGuestGreetingSub");
   if(guestGreeting) guestGreeting.textContent=greet;
   if(guestGreetingSub) guestGreetingSub.innerHTML=`นักสวดที่ดี แล้วมาสวดมนต์กันนะคะ <span>💛</span>`;
   const greetingIcon = document.querySelector(".hero-moon");
-  greetingIcon.src = isMorning ? "assets/assistant-morning.png"
-    : isAfternoon ? "assets/assistant-day.png"
-    : isEvening ? "assets/assistant-evening.png"
-    : "assets/moon.png";
+  greetingIcon.src = isMorning ? "assets/assistant-morning.webp"
+    : isAfternoon ? "assets/assistant-day.webp"
+    : isEvening ? "assets/assistant-evening.webp"
+    : "assets/moon.webp";
   greetingIcon.classList.toggle("hero-time-icon",isMorning || isAfternoon || isEvening);
 
   const dayOfYear = Math.floor((Date.now() - new Date(new Date().getFullYear(),0,0)) / 86400000);
@@ -1724,7 +1736,7 @@ function holyMoonMarkup(lunar=""){
   let phase=waning?8+Math.max(1,Math.round(day/monthEnd*9)):day<=8?Math.max(1,Math.round(day/8*3)):3+Math.round((day-8)/7*5);
   if(waning&&day>=monthEnd)phase=0;
   const [cx,cy,r]=discs[Math.min(16,phase)],pad=2;
-  return `<svg viewBox="${cx-r-pad} ${cy-r-pad} ${2*(r+pad)} ${2*(r+pad)}" width="100%" height="100%" role="img" aria-label="ดวงจันทร์ ${lunar}"><defs><clipPath id="holy-moon-disc"><circle cx="${cx}" cy="${cy}" r="${r}"/></clipPath></defs><circle cx="${cx}" cy="${cy}" r="${r}" fill="#211c17"/><image href="assets/holy-moon-sprite.png" width="1536" height="1024" clip-path="url(#holy-moon-disc)"/></svg>`;
+  return `<svg viewBox="${cx-r-pad} ${cy-r-pad} ${2*(r+pad)} ${2*(r+pad)}" width="100%" height="100%" role="img" aria-label="ดวงจันทร์ ${lunar}"><defs><clipPath id="holy-moon-disc"><circle cx="${cx}" cy="${cy}" r="${r}"/></clipPath></defs><circle cx="${cx}" cy="${cy}" r="${r}" fill="#211c17"/><image href="assets/holy-moon-sprite.webp" width="1536" height="1024" clip-path="url(#holy-moon-disc)"/></svg>`;
 }
 function currentLunarFromHoly(date){
   date=new Date(date.getFullYear(),date.getMonth(),date.getDate());
@@ -1750,7 +1762,7 @@ function renderHolyCalendar(month=holyCalendarMonth){
   for(let day=1;day<=daysInMonth;day++){const holy=entries.find(item=>item.day===day);cells.push(`<button type="button" class="${holy?"is-holy":""} ${holy?.event?"is-special":""} ${day===displayDay?"selected":""} ${day===today?"today":""}" data-holy-day="${day}" aria-pressed="${day===displayDay}" aria-label="${day} ${HOLY_MONTHS[holyCalendarMonth]} 2569${holy?` ${holy.event||"วันพระ"}`:""}">${day}${holy?"<i></i>":""}</button>`);}
   while(cells.length%7)cells.push(`<span class="outside">${cells.length-firstDay-daysInMonth+1}</span>`);
   const all=Object.keys(HOLY_DAYS_2569).flatMap(m=>holyEntries(Number(m)).map(item=>({...item,month:Number(m),date:new Date(2026,Number(m),item.day)}))),todayDate=new Date(now.getFullYear(),now.getMonth(),now.getDate()),next=all.find(item=>item.date>=todayDate)||all[all.length-1];
-  wrap.innerHTML=`<div class="holy-feature"><div class="holy-moon">${holyMoonMarkup(displayLunar)}</div><b>${displayLabel}</b><strong>${displayDay}</strong><span>${HOLY_MONTHS[holyCalendarMonth]} 2569</span><small>${displayLunar}</small></div><div class="holy-month"><header><button type="button" data-holy-nav="-1" aria-label="เดือนก่อน">‹</button><b>${HOLY_MONTHS[holyCalendarMonth]} 2569</b><button type="button" data-holy-nav="1" aria-label="เดือนถัดไป">›</button></header><div class="holy-week"><b>อา</b><b>จ</b><b>อ</b><b>พ</b><b>พฤ</b><b>ศ</b><b>ส</b></div><div class="holy-grid">${cells.join("")}</div></div><div class="holy-next"><img src="assets/reward-lotus-2.png" alt=""><span>วันพระถัดไป: ${next.day} ${HOLY_MONTHS[next.month]} 2569</span><b>›</b></div>`;
+  wrap.innerHTML=`<div class="holy-feature"><div class="holy-moon">${holyMoonMarkup(displayLunar)}</div><b>${displayLabel}</b><strong>${displayDay}</strong><span>${HOLY_MONTHS[holyCalendarMonth]} 2569</span><small>${displayLunar}</small></div><div class="holy-month"><header><button type="button" data-holy-nav="-1" aria-label="เดือนก่อน">‹</button><b>${HOLY_MONTHS[holyCalendarMonth]} 2569</b><button type="button" data-holy-nav="1" aria-label="เดือนถัดไป">›</button></header><div class="holy-week"><b>อา</b><b>จ</b><b>อ</b><b>พ</b><b>พฤ</b><b>ศ</b><b>ส</b></div><div class="holy-grid">${cells.join("")}</div></div><div class="holy-next"><img src="assets/reward-lotus-2.webp" alt=""><span>วันพระถัดไป: ${next.day} ${HOLY_MONTHS[next.month]} 2569</span><b>›</b></div>`;
   wrap.querySelectorAll("[data-holy-nav]").forEach(button=>button.addEventListener("click",()=>renderHolyCalendar(holyCalendarMonth+Number(button.dataset.holyNav))));
   wrap.querySelectorAll("[data-holy-day]").forEach(button=>button.addEventListener("click",()=>{
     const day=Number(button.dataset.holyDay),item=entries.find(entry=>entry.day===day);
@@ -1973,7 +1985,7 @@ function renderMyPrayerSets(){
   detail.classList.remove("open");
   wrap.style.display = sets.length ? "flex" : "none";
   empty.style.display = sets.length ? "none" : "block";
-  wrap.innerHTML = sets.map(set=>`<button class="my-set-card" data-set-id="${set.id}"><span class="my-set-icon"><img src="assets/assistant-calm.png" alt=""></span><span class="my-set-copy"><b>${set.name}</b><small>${set.prayerIds.length} บท · ใช้เวลาประมาณ ${set.totalMinutes || 0} นาที</small></span><span class="my-set-arrow">›</span></button>`).join("");
+  wrap.innerHTML = sets.map(set=>`<button class="my-set-card" data-set-id="${set.id}"><span class="my-set-icon"><img src="assets/assistant-calm.webp" alt=""></span><span class="my-set-copy"><b>${set.name}</b><small>${set.prayerIds.length} บท · ใช้เวลาประมาณ ${set.totalMinutes || 0} นาที</small></span><span class="my-set-arrow">›</span></button>`).join("");
   wrap.querySelectorAll("[data-set-id]").forEach(button=>button.addEventListener("click",()=>openMyPrayerSet(button.dataset.setId)));
 }
 
@@ -2083,7 +2095,7 @@ function prayerCardHTML(p){
   const prayerIcon = getPrayerIcon(p);
   return `
     <button class="prayer-card" data-open="${p.id}">
-      <div class="pc-icon-wrap ${prayerIcon === "assets/prayer-hands.png" ? "pc-icon-hands" : ""}" style="background-image:url('${prayerIcon}')"></div>
+      <div class="pc-icon-wrap ${prayerIcon === "assets/prayer-hands.webp" ? "pc-icon-hands" : ""}" style="background-image:url('${prayerIcon}')"></div>
       <div class="pc-body">
         <div class="pc-title-row">
           <h3>${p.title}</h3>
@@ -2628,10 +2640,10 @@ async function collectOfflineAssetUrls(){
   }
   // file names that are built at runtime
   ["female","male"].forEach(gender=>{
-    for(let tier=1;tier<=10;tier++)urls.add(`assets/community-characters/${gender}-${tier}.png`);
-    for(let tier=1;tier<=9;tier++)urls.add(`assets/community-ranking-characters/${gender}-${tier}.png`);
+    for(let tier=1;tier<=10;tier++)urls.add(`assets/community-characters/${gender}-${tier}.webp`);
+    for(let tier=1;tier<=9;tier++)urls.add(`assets/community-ranking-characters/${gender}-${tier}.webp`);
   });
-  for(let phase=0;phase<=17;phase++)urls.add(`assets/holy-moon-phases/phase-${phase}.png`);
+  for(let phase=0;phase<=17;phase++)urls.add(`assets/holy-moon-phases/phase-${phase}.webp`);
   return [...urls];
 }
 let offlineDownloadRunning=false;
@@ -2870,16 +2882,19 @@ function renderMembershipMenuItem(){
   const title=document.getElementById("membershipTitle"), sub=document.getElementById("membershipSubtitle"), icon=document.getElementById("membershipIcon");
   const signedIn=Boolean(authSession?.user);
   if(!signedIn){
+    btn.hidden=false;
     btn.dataset.nav="register";
     title.textContent="สมัครสมาชิก";
     sub.textContent="สำรองและซิงก์ข้อมูลของคุณ";
     icon.innerHTML='<svg viewBox="0 0 24 24"><path d="M5 7h14v13H5Z"/><path d="M9 7V5a3 3 0 0 1 6 0v2M9 11v5M15 11v5"/></svg>';
   }else if(state.isVip){
+    btn.hidden=false;
     btn.dataset.nav="vip";
     title.textContent="VIP ของฉัน";
     sub.textContent="คุณคือสมาชิก VIP แล้ว ✨";
     icon.textContent="👑";
   }else{
+    btn.hidden=true; // shown again once VIP can actually be bought
     btn.dataset.nav="vip";
     title.textContent="ซื้อ VIP";
     sub.textContent="ปลดล็อกสิทธิพิเศษสำหรับสมาชิก VIP";
@@ -3100,12 +3115,12 @@ function initSettings(){
     const isMale = ["ชาย","ผู้ชาย","male","m"].includes(String(gender||"").trim().toLowerCase());
     const characterLevel=gardenLevelInfo(getMeritPoints()).level;
     const characterTier=Math.max(1,Math.min(10,Math.floor((characterLevel-1)/10)+1));
-    const scoreCharacter=`assets/community-characters/${isMale?"male":"female"}-${characterTier}.png?v=ba3`;
+    const scoreCharacter=`assets/community-characters/${isMale?"male":"female"}-${characterTier}.webp?v=ba3`;
     const themeImages = {
-      pink:{female:"assets/hero-pink-female.png",male:"assets/hero-pink-male.png"},
-      purple:{female:"assets/hero-purple-female.png",male:"assets/hero-purple-male.png"},
-      blue:{female:"assets/hero-blue-female.png",male:"assets/hero-blue-male.png"},
-      green:{female:"assets/hero-green-female.png",male:"assets/hero-green-male.png"}
+      pink:{female:"assets/hero-pink-female.webp",male:"assets/hero-pink-male.webp"},
+      purple:{female:"assets/hero-purple-female.webp",male:"assets/hero-purple-male.webp"},
+      blue:{female:"assets/hero-blue-female.webp",male:"assets/hero-blue-male.webp"},
+      green:{female:"assets/hero-green-female.webp",male:"assets/hero-green-male.webp"}
     };
     const selectedImages = themeImages[profileTheme] || themeImages.pink;
     document.querySelectorAll("[data-profile-avatar]").forEach(image=>image.src=scoreCharacter);
@@ -3603,11 +3618,11 @@ function bindPrayerLibrary(){
 /* ---------------- MERIT GARDEN ---------------- */
 /* รูปของรางวัลแต่ละหมวด ใช้ไฟล์จริงในโฟลเดอร์ assets */
 const REWARD_ART={
-  lotus:i=>`assets/reward-lotus-${i}.png`,
-  scenes:i=>`assets/garden-scene-${Math.min(6,i+1)}.png`,
-  characters:i=>["assets/garden-female.png","assets/garden-male.png","assets/assistant-calm.png","assets/assistant-love.png","assets/assistant-luck.png"][i],
-  decor:i=>`assets/reward-decor-${i}.png`,
-  powerups:i=>["assets/lamp.png","assets/garden-lotus.png","assets/garden-fire.png","assets/prayer-star.png","assets/garden-gift.png"][i]
+  lotus:i=>`assets/reward-lotus-${i}.webp`,
+  scenes:i=>`assets/garden-scene-${Math.min(6,i+1)}.webp`,
+  characters:i=>["assets/garden-female.webp","assets/garden-male.webp","assets/assistant-calm.webp","assets/assistant-love.webp","assets/assistant-luck.webp"][i],
+  decor:i=>`assets/reward-decor-${i}.webp`,
+  powerups:i=>["assets/lamp.webp","assets/garden-lotus.webp","assets/garden-fire.webp","assets/prayer-star.png","assets/garden-gift.webp"][i]
 };
 const REWARD_CATEGORIES=[
   {id:"lotus",title:"ดอกบัวแห่งบุญ",desc:"ดอกบัวจะบานงดงามขึ้น เมื่อระดับบุญของคุณสูงขึ้น",items:[["ดอกบัวเริ่มต้น",1],["ดอกบัวแสงศรัทธา",5],["ดอกบัวรุ่งเรือง",10],["ดอกบัวปัญญา",15],["ดอกบัวนิรันดร์",20]]},
@@ -3676,8 +3691,8 @@ async function renderCommunity(){
   const streak=computeStreak()||completedDays;
   const remaining=info.need?Math.max(0,info.need-info.into):0;
   const isMaleGender=gender=>["ชาย","ผู้ชาย","male","m"].includes(String(gender||"").trim().toLowerCase());
-  const scoreAvatarSrc=(gender,level)=>{const tier=Math.max(1,Math.min(10,Math.floor((Number(level||1)-1)/10)+1)),genderKey=isMaleGender(gender)?"male":"female";return `assets/community-characters/${genderKey}-${tier}.png?v=ba2`;};
-  const rankingAvatarSrc=(gender,level)=>{const tier=Math.max(1,Math.min(9,Math.floor((Number(level||1)-11)/10)+1)),genderKey=isMaleGender(gender)?"male":"female";return `assets/community-ranking-characters/${genderKey}-${tier}.png?v=b470-3`;};
+  const scoreAvatarSrc=(gender,level)=>{const tier=Math.max(1,Math.min(10,Math.floor((Number(level||1)-1)/10)+1)),genderKey=isMaleGender(gender)?"male":"female";return `assets/community-characters/${genderKey}-${tier}.webp?v=ba2`;};
+  const rankingAvatarSrc=(gender,level)=>{const tier=Math.max(1,Math.min(9,Math.floor((Number(level||1)-11)/10)+1)),genderKey=isMaleGender(gender)?"male":"female";return `assets/community-ranking-characters/${genderKey}-${tier}.webp?v=b470-3`;};
   const setText=(id,value)=>{const el=document.getElementById(id);if(el)el.textContent=value;};
   setText("communityPoints",points.toLocaleString("th-TH"));
   setText("communityTablePoints",points.toLocaleString("th-TH"));
@@ -3744,7 +3759,7 @@ async function renderCommunity(){
 const ENCOURAGEMENT_MESSAGES=[
   {icon:"🌸",text:"ขอให้วันนี้เป็นวันที่ดีของคุณนะคะ",points:10,type:"general"},{icon:"🪔",text:"ขอส่งพลังบุญและกำลังใจให้เสมอค่ะ",points:10,type:"merit"},{icon:"💗",text:"เป็นกำลังใจให้เสมอ สู้ ๆ นะคะ ✨",points:15,type:"cheer"},{icon:"⭐",text:"อนุโมทนาบุญกับความดีของคุณนะคะ",points:15,type:"merit"},{icon:"🪷",text:"ขอให้เจอแต่สิ่งดี ๆ ในทุก ๆ วันค่ะ",points:10,type:"general"},{icon:"🎁",text:"ขอให้สมหวังในทุกสิ่งที่ตั้งใจ สุขใจ สุขกาย สุขบุญค่ะ",points:20,type:"cheer"}
 ];
-function encouragementAvatar(user){const male=["ชาย","ผู้ชาย","male","m"].includes(String(user?.gender||"").trim().toLowerCase()),tier=Math.max(1,Math.min(10,Math.floor((Number(user?.level||1)-1)/10)+1));return `assets/community-characters/${male?"male":"female"}-${tier}.png?v=ba3`;}
+function encouragementAvatar(user){const male=["ชาย","ผู้ชาย","male","m"].includes(String(user?.gender||"").trim().toLowerCase()),tier=Math.max(1,Math.min(10,Math.floor((Number(user?.level||1)-1)/10)+1));return `assets/community-characters/${male?"male":"female"}-${tier}.webp?v=ba3`;}
 async function renderEncouragement(){
   await refreshCommunityFriends();
   const friendsWrap=document.getElementById("encouragementFriends"),directoryWrap=document.getElementById("encouragementDirectory"),messagesWrap=document.getElementById("encouragementMessages");if(!friendsWrap||!directoryWrap||!messagesWrap)return;
@@ -3818,12 +3833,12 @@ function getLotusBalance(){
   return Math.max(0,getLotusEarned()-(Number(state.lotusSpent)||0));
 }
 const GARDEN_ITEMS = {
-  lotus:{label:"ดอกบัว",image:"assets/garden-unlock-lotus.png"},
-  scene:{label:"ฉากสวน",image:"assets/garden-unlock-scene.png"},
-  pavilion:{label:"ศาลา",image:"assets/garden-pavilion.png"},
-  decoration:{label:"ของตกแต่ง",image:"assets/garden-unlock-decoration.png"},
-  character:{label:"ตัวละคร",image:"assets/garden-female.png"},
-  lantern:{label:"ตะเกียง",image:"assets/garden-unlock-lantern.png"}
+  lotus:{label:"ดอกบัว",image:"assets/garden-unlock-lotus.webp"},
+  scene:{label:"ฉากสวน",image:"assets/garden-unlock-scene.webp"},
+  pavilion:{label:"ศาลา",image:"assets/garden-pavilion.webp"},
+  decoration:{label:"ของตกแต่ง",image:"assets/garden-unlock-decoration.webp"},
+  character:{label:"ตัวละคร",image:"assets/garden-female.webp"},
+  lantern:{label:"ตะเกียง",image:"assets/garden-unlock-lantern.webp"}
 };
 // จุดวางวงกลม "+" ในสวน (คิดเป็น % ของกรอบฉากสวน) แยกตามชิ้นที่จะวางต่อไป
 // ตราระดับสวน: ใช้ตราเดิมจนถึงเลเวล 19 แล้วเปลี่ยนตราที่ 20, 30, 40, ... (garden-level-1..10.png)
@@ -3840,11 +3855,11 @@ const GARDEN_DECOR_SPOTS = {
   6:{left:"52%",top:"34%"}                       // ศาลาไม้
 };
 const GARDEN_DECOR_ITEMS = [
-  {id:"lantern",name:"โคมหิน",category:"lantern",image:"assets/reward-decor-0.png",cost:60,stage:2,desc:"โคมหินริมทางเดิน จุดไฟอุ่น ๆ ให้สวนสว่างยามค่ำคืน"},
-  {id:"glow-lotus",name:"ดอกบัวเรืองแสง",category:"lotus",image:"assets/reward-lotus-2.png",cost:100,stage:3,desc:"ดอกบัวเรืองแสงกลางสระ แทนใจที่สงบและเบิกบาน"},
-  {id:"flower-arch",name:"ซุ้มดอกไม้",category:"special",image:"assets/decor-flower-arch.png",cost:160,stage:4,desc:"ซุ้มดอกไม้ตรงทางเข้า ต้อนรับทุกครั้งที่แวะมาสวดมนต์"},
-  {id:"bridge",name:"สะพานไม้",category:"special",image:"assets/reward-decor-1.png",cost:220,stage:5,desc:"สะพานไม้ข้ามลำธาร เชื่อมทางเดินให้ครบทั้งสวน"},
-  {id:"pavilion",name:"ศาลาไม้",category:"pavilion",image:"assets/garden-pavilion.png",cost:300,stage:6,desc:"ศาลาไม้ริมน้ำ มุมนั่งพักใจหลังสวดมนต์เสร็จ"}
+  {id:"lantern",name:"โคมหิน",category:"lantern",image:"assets/reward-decor-0.webp",cost:60,stage:2,desc:"โคมหินริมทางเดิน จุดไฟอุ่น ๆ ให้สวนสว่างยามค่ำคืน"},
+  {id:"glow-lotus",name:"ดอกบัวเรืองแสง",category:"lotus",image:"assets/reward-lotus-2.webp",cost:100,stage:3,desc:"ดอกบัวเรืองแสงกลางสระ แทนใจที่สงบและเบิกบาน"},
+  {id:"flower-arch",name:"ซุ้มดอกไม้",category:"special",image:"assets/decor-flower-arch.webp",cost:160,stage:4,desc:"ซุ้มดอกไม้ตรงทางเข้า ต้อนรับทุกครั้งที่แวะมาสวดมนต์"},
+  {id:"bridge",name:"สะพานไม้",category:"special",image:"assets/reward-decor-1.webp",cost:220,stage:5,desc:"สะพานไม้ข้ามลำธาร เชื่อมทางเดินให้ครบทั้งสวน"},
+  {id:"pavilion",name:"ศาลาไม้",category:"pavilion",image:"assets/garden-pavilion.webp",cost:300,stage:6,desc:"ศาลาไม้ริมน้ำ มุมนั่งพักใจหลังสวดมนต์เสร็จ"}
 ];
 let activeDecorItem="lantern";
 function gardenTotals(points,levelOverride){
@@ -3856,22 +3871,22 @@ function showGardenHelp(){
   const stage=Math.max(1,Math.min(6,Number(state.gardenDecorLevel)||1));
   const owned=GARDEN_DECOR_ITEMS.filter(item=>item.stage<=stage).length;
   const nextDecor=GARDEN_DECOR_ITEMS.find(item=>item.stage===stage+1);
-  showGardenModal("คู่มือสวนบุญ",`${guideHeroArt("assets/garden-female.png","a")}<div class="garden-guide">
+  showGardenModal("คู่มือสวนบุญ",`${guideHeroArt("assets/garden-female.webp","a")}<div class="garden-guide">
     <p class="garden-guide-lead">สวนบุญคือสวนประจำตัวคุณ ยิ่งสวดมนต์สม่ำเสมอ สวนยิ่งงอกงาม ได้แต้มบุญไว้ขึ้นระดับ และได้ดอกบัวไว้ซื้อของตกแต่ง</p>
 
     <h4>แถบข้อมูลด้านบน</h4>
     <ul class="garden-guide-list">
-      <li><img src="assets/garden-lotus.png" alt=""><div><b>ระดับสวนบุญ · Lv.${info.level}</b><small>คิดจากแต้มบุญสะสม เลเวลแรกใช้ ${GARDEN_LEVEL_STEP} แต้ม แล้วเพิ่มทีละ ${GARDEN_LEVEL_GROWTH} แต้มต่อเลเวล สูงสุด Lv.100${info.need?` — ตอนนี้อีก ${(info.need-info.into).toLocaleString("th-TH")} แต้มจะขึ้น Lv.${info.level+1}`:""}<br>ตราประจำระดับจะเปลี่ยนรูปเมื่อถึง Lv.20, 30 และ 40</small></div></li>
-      <li><img src="assets/wallet-points.png" alt=""><div><b>แต้มบุญสะสม · ${points.toLocaleString("th-TH")}</b><small>รวมแต้มจากทุกบทที่สวดจบ บวกกับแต้มจากกิจกรรมและภารกิจในสวน แต้มนี้ไม่ถูกใช้จ่าย เก็บสะสมเพื่อขึ้นระดับอย่างเดียว</small></div></li>
-      <li><img src="assets/wallet-flowers.png" alt=""><div><b>ดอกบัว · ${lotus.toLocaleString("th-TH")}</b><small>เงินของสวน ใช้ซื้อของตกแต่งในหน้า "ตกแต่งสวน" — สวดจบ 1 บทได้ ${LOTUS_PER_PRAYER} ดอกบัว, ทำกิจกรรมในสวน 1 อย่างได้ ${LOTUS_PER_ACTION} ดอกบัว, เลเวลขึ้น 1 ระดับได้ ${LOTUS_PER_LEVEL} ดอกบัว</small></div></li>
+      <li><img src="assets/garden-lotus.webp" alt=""><div><b>ระดับสวนบุญ · Lv.${info.level}</b><small>คิดจากแต้มบุญสะสม เลเวลแรกใช้ ${GARDEN_LEVEL_STEP} แต้ม แล้วเพิ่มทีละ ${GARDEN_LEVEL_GROWTH} แต้มต่อเลเวล สูงสุด Lv.100${info.need?` — ตอนนี้อีก ${(info.need-info.into).toLocaleString("th-TH")} แต้มจะขึ้น Lv.${info.level+1}`:""}<br>ตราประจำระดับจะเปลี่ยนรูปเมื่อถึง Lv.20, 30 และ 40</small></div></li>
+      <li><img src="assets/wallet-points.webp" alt=""><div><b>แต้มบุญสะสม · ${points.toLocaleString("th-TH")}</b><small>รวมแต้มจากทุกบทที่สวดจบ บวกกับแต้มจากกิจกรรมและภารกิจในสวน แต้มนี้ไม่ถูกใช้จ่าย เก็บสะสมเพื่อขึ้นระดับอย่างเดียว</small></div></li>
+      <li><img src="assets/wallet-flowers.webp" alt=""><div><b>ดอกบัว · ${lotus.toLocaleString("th-TH")}</b><small>เงินของสวน ใช้ซื้อของตกแต่งในหน้า "ตกแต่งสวน" — สวดจบ 1 บทได้ ${LOTUS_PER_PRAYER} ดอกบัว, ทำกิจกรรมในสวน 1 อย่างได้ ${LOTUS_PER_ACTION} ดอกบัว, เลเวลขึ้น 1 ระดับได้ ${LOTUS_PER_LEVEL} ดอกบัว</small></div></li>
     </ul>
 
     <h4>ทำได้ทุกวัน</h4>
     <ul class="garden-guide-list">
-      <li><img src="assets/garden-watering.png" alt=""><div><b>รดน้ำดอกบัว · +10 แต้ม</b><small>วันละครั้ง ช่วยให้ดอกบัวในสวนสดใส</small></div></li>
-      <li><img src="assets/lamp.png" alt=""><div><b>จุดตะเกียงบุญ · +5 แต้ม</b><small>วันละครั้ง จุดไฟให้สวนอบอุ่นยามค่ำ</small></div></li>
-      <li><img src="assets/garden-gift.png" alt=""><div><b>รับของขวัญประจำวัน · +15 แต้ม</b><small>แตะกล่องของขวัญมุมขวาของแถบระดับ วันละครั้ง</small></div></li>
-      <li><img src="assets/garden-fire.png" alt=""><div><b>สวดต่อเนื่อง</b><small>นับจำนวนวันที่สวดติดกัน ถ้าเว้นวันจะเริ่มนับใหม่ แตะเพื่อดูสถิติย้อนหลัง</small></div></li>
+      <li><img src="assets/garden-watering.webp" alt=""><div><b>รดน้ำดอกบัว · +10 แต้ม</b><small>วันละครั้ง ช่วยให้ดอกบัวในสวนสดใส</small></div></li>
+      <li><img src="assets/lamp.webp" alt=""><div><b>จุดตะเกียงบุญ · +5 แต้ม</b><small>วันละครั้ง จุดไฟให้สวนอบอุ่นยามค่ำ</small></div></li>
+      <li><img src="assets/garden-gift.webp" alt=""><div><b>รับของขวัญประจำวัน · +15 แต้ม</b><small>แตะกล่องของขวัญมุมขวาของแถบระดับ วันละครั้ง</small></div></li>
+      <li><img src="assets/garden-fire.webp" alt=""><div><b>สวดต่อเนื่อง</b><small>นับจำนวนวันที่สวดติดกัน ถ้าเว้นวันจะเริ่มนับใหม่ แตะเพื่อดูสถิติย้อนหลัง</small></div></li>
     </ul>
     <p class="garden-guide-note">ทุกกิจกรรมด้านบนได้ดอกบัวเพิ่มอย่างละ ${LOTUS_PER_ACTION} ดอกบัวด้วย</p>
 
@@ -3887,7 +3902,7 @@ function showGardenHelp(){
 }
 /* เนื้อหาคู่มือการใช้งาน (หน้าตั้งค่า > คู่มือการใช้งาน) */
 const GUIDE_TOPICS={
-  account:{art:"assets/garden-female.png",tint:"a",title:"บัญชีผู้ใช้และการตั้งค่า",body:`
+  account:{art:"assets/garden-female.webp",tint:"a",title:"บัญชีผู้ใช้และการตั้งค่า",body:`
     <p class="garden-guide-lead">แอปนี้ใช้ได้เลยโดยไม่ต้องสมัครสมาชิก ข้อมูลทั้งหมดเก็บอยู่ในเครื่องของคุณเอง</p>
     <h4>โปรไฟล์</h4>
     <p>ตั้งค่า → <b>แก้ไขโปรไฟล์</b> เปลี่ยนชื่อที่แสดง รูปตัวละคร และดูระดับของคุณได้ ระดับจะขึ้นเองตามการสวดมนต์สะสม</p>
@@ -3901,7 +3916,7 @@ const GUIDE_TOPICS={
     <h4>ข้อมูลของคุณ</h4>
     <p class="garden-guide-note">ประวัติการสวด บทโปรด แต้มบุญ และสวนบุญ เก็บไว้ในเครื่องนี้เท่านั้น ไม่ได้ส่งขึ้นเซิร์ฟเวอร์ — ถ้าล้างข้อมูลเบราว์เซอร์หรือเปลี่ยนเครื่อง ข้อมูลจะเริ่มใหม่</p>`},
 
-  prayers:{art:"assets/guide-lotus.png",tint:"b",title:"บทสวดและหมวดหมู่",body:`
+  prayers:{art:"assets/guide-lotus.webp",tint:"b",title:"บทสวดและหมวดหมู่",body:`
     <p class="garden-guide-lead">ในแอปมีบทสวดให้เลือกกว่า 40 บท ตั้งแต่บทสั้น ๆ ประจำวัน ไปจนถึงพระสูตรเต็ม</p>
     <h4>หาบทที่ต้องการ</h4>
     <ul class="garden-guide-bullets">
@@ -3915,7 +3930,7 @@ const GUIDE_TOPICS={
     <p>แท็บ "บทสวดของฉัน" ในหน้าบทสวด ใช้จัด<b>ชุดสวด</b>ของตัวเอง เลือกได้หลายบทเรียงต่อกัน เวลาสวดจะไล่ให้ทีละบทจนจบชุด</p>
     <p class="garden-guide-note">ถ้าไม่รู้จะเริ่มบทไหน ลองใช้ "ผู้ช่วย" ให้จัดชุดให้ตามสิ่งที่อยากโฟกัส</p>`},
 
-  chanting:{art:"assets/prayer-hands.png",tint:"c",title:"การสวดมนต์",body:`
+  chanting:{art:"assets/prayer-hands.webp",tint:"c",title:"การสวดมนต์",body:`
     <p class="garden-guide-lead">แตะที่บทสวดใดก็ได้เพื่อเข้าหน้าสวด ตัวบทจะแสดงเป็นบรรทัดใหญ่ อ่านตามได้สบาย</p>
     <h4>สามแท็บในหน้าสวด</h4>
     <ul class="garden-guide-bullets">
@@ -3932,7 +3947,7 @@ const GUIDE_TOPICS={
     <h4>สวดแล้วได้อะไร</h4>
     <p>ทุกบทที่สวดจบจะถูกบันทึกลงประวัติ ได้<b>แต้มบุญ</b>ไว้ขึ้นระดับสวน และได้ <b>2 ดอกบัว</b> ไว้ซื้อของตกแต่งในสวนบุญ</p>`},
 
-  merit:{art:"assets/guide-heart.png",tint:"d",title:"บุญของฉัน",body:`
+  merit:{art:"assets/guide-heart.webp",tint:"d",title:"บุญของฉัน",body:`
     <p class="garden-guide-lead">หน้า "บุญของฉัน" คือสมุดบันทึกการสวดมนต์ของคุณ</p>
     <ul class="garden-guide-bullets">
       <li><b>สวดมนต์ต่อเนื่อง</b> นับจำนวนวันที่สวดติดต่อกัน ถ้าเว้นไปหนึ่งวันจะเริ่มนับใหม่</li>
@@ -3943,7 +3958,7 @@ const GUIDE_TOPICS={
     <p>แต้มบุญที่สะสมจะไปโผล่ที่ <b>สวนบุญ</b> ใช้ไต่ระดับสวน ยิ่งระดับสูงยิ่งปลดล็อกฉากสวน ตัวละคร และของรางวัลใหม่ ๆ</p>
     <p class="garden-guide-note">การบันทึกเกิดขึ้นอัตโนมัติเมื่อสวดจบ ไม่ต้องกดบันทึกเอง</p>`},
 
-  stats:{art:"assets/reward-summary-all.png",tint:"e",title:"รายงานและสถิติ",body:`
+  stats:{art:"assets/reward-summary-all.webp",tint:"e",title:"รายงานและสถิติ",body:`
     <p class="garden-guide-lead">ตัวเลขทั้งหมดคำนวณจากประวัติการสวดจริงของคุณ ไม่ต้องกรอกเอง</p>
     <h4>ดูได้ที่ไหนบ้าง</h4>
     <ul class="garden-guide-bullets">
@@ -3960,7 +3975,7 @@ const GUIDE_TOPICS={
     </ul>
     <p class="garden-guide-note">อยากรู้รายละเอียดระบบสวนบุญเพิ่ม กดปุ่ม "คู่มือ" ที่หัวหน้าสวนบุญ หรือ "คัมภีร์สวนบุญ" ในหน้าตกแต่งสวน</p>`},
 
-  more:{art:"assets/garden-gift.png",tint:"f",title:"อื่น ๆ และการจัดการแอป",body:`
+  more:{art:"assets/garden-gift.webp",tint:"f",title:"อื่น ๆ และการจัดการแอป",body:`
     <h4>ติดตั้งเป็นแอปบนมือถือ</h4>
     <p>เปิดเว็บนี้ในเบราว์เซอร์แล้วเลือก <b>"เพิ่มไปยังหน้าจอโฮม"</b> จะได้ไอคอนเหมือนแอปจริง เปิดแบบเต็มจอ ไม่มีแถบเบราว์เซอร์</p>
     <h4>ถ้าหน้าจอยังเป็นแบบเดิมหลังอัปเดต</h4>
@@ -3990,15 +4005,15 @@ function showGardenGuide(){
   const rows=GARDEN_DECOR_ITEMS.map(item=>{
     const owned=item.stage<=stage, next=item.stage===stage+1;
     const status=owned?'<em class="ok">วางแล้ว</em>':next?(lotus>=item.cost?'<em class="ready">ซื้อได้เลย</em>':`<em class="wait">อีก ${(item.cost-lotus).toLocaleString("th-TH")} ดอกบัว</em>`):'<em>รอคิวถัดไป</em>';
-    return `<li><img src="${item.image}" alt=""><div><b>${item.name}</b><small>${item.desc||""}</small></div><span><img src="assets/garden-lotus.png" alt="">${item.cost}</span>${status}</li>`;
+    return `<li><img src="${item.image}" alt=""><div><b>${item.name}</b><small>${item.desc||""}</small></div><span><img src="assets/garden-lotus.webp" alt="">${item.cost}</span>${status}</li>`;
   }).join("");
-  showGardenModal("คัมภีร์สวนบุญ",`${guideHeroArt("assets/decorate-book.png","b")}<div class="garden-guide">
+  showGardenModal("คัมภีร์สวนบุญ",`${guideHeroArt("assets/decorate-book.webp","b")}<div class="garden-guide">
     <p class="garden-guide-lead">สวนบุญจะงอกงามตามการสวดมนต์ของคุณ ทุกบทที่สวดจะกลายเป็นแต้มบุญและดอกบัวสำหรับตกแต่งสวน</p>
     <h4>ค่าทั้ง 3 อย่างคืออะไร</h4>
     <ul class="garden-guide-list">
-      <li><img src="assets/wallet-points.png" alt=""><div><b>แต้มสวน · ${points.toLocaleString("th-TH")}</b><small>คือแต้มบุญสะสมของคุณ ได้จากการสวดมนต์ ภารกิจประจำวัน รดน้ำ จุดเทียน และรับของขวัญ ใช้สำหรับไต่เลเวลสวน</small></div></li>
-      <li><img src="assets/wallet-flowers.png" alt=""><div><b>ดอกบัว · ${lotus.toLocaleString("th-TH")}</b><small>เงินของสวน ใช้ซื้อของตกแต่ง — สวดจบ 1 บทได้ ${LOTUS_PER_PRAYER} ดอกบัว, ทำกิจกรรมในสวน 1 อย่างได้ ${LOTUS_PER_ACTION} ดอกบัว, เลเวลขึ้น 1 ระดับได้ ${LOTUS_PER_LEVEL} ดอกบัว</small></div></li>
-      <li><img src="assets/wallet-hearts.png" alt=""><div><b>หัวใจ · ${(state.favorites||[]).length.toLocaleString("th-TH")}</b><small>จำนวนบทสวดที่คุณกดถูกใจเก็บไว้ เป็นบทโปรดที่หยิบมาสวดได้เร็ว</small></div></li>
+      <li><img src="assets/wallet-points.webp" alt=""><div><b>แต้มสวน · ${points.toLocaleString("th-TH")}</b><small>คือแต้มบุญสะสมของคุณ ได้จากการสวดมนต์ ภารกิจประจำวัน รดน้ำ จุดเทียน และรับของขวัญ ใช้สำหรับไต่เลเวลสวน</small></div></li>
+      <li><img src="assets/wallet-flowers.webp" alt=""><div><b>ดอกบัว · ${lotus.toLocaleString("th-TH")}</b><small>เงินของสวน ใช้ซื้อของตกแต่ง — สวดจบ 1 บทได้ ${LOTUS_PER_PRAYER} ดอกบัว, ทำกิจกรรมในสวน 1 อย่างได้ ${LOTUS_PER_ACTION} ดอกบัว, เลเวลขึ้น 1 ระดับได้ ${LOTUS_PER_LEVEL} ดอกบัว</small></div></li>
+      <li><img src="assets/wallet-hearts.webp" alt=""><div><b>หัวใจ · ${(state.favorites||[]).length.toLocaleString("th-TH")}</b><small>จำนวนบทสวดที่คุณกดถูกใจเก็บไว้ เป็นบทโปรดที่หยิบมาสวดได้เร็ว</small></div></li>
     </ul>
     <h4>เลเวลสวน</h4>
     <p>ตอนนี้ <b>Lv.${info.level}</b>${info.need?` — อีก ${(info.need-info.into).toLocaleString("th-TH")} แต้มจะขึ้น Lv.${info.level+1}`:" (ระดับสูงสุดแล้ว)"}<br>
@@ -4096,7 +4111,7 @@ function renderMeritGarden(){
   }
   const nextDecor=GARDEN_DECOR_ITEMS.find(item=>item.stage===decorStage+1);
   const nextArt=document.getElementById("gardenNextRewardArt");
-  if(nextArt) nextArt.src=nextDecor?nextDecor.image:"assets/garden-reward-main.png";
+  if(nextArt) nextArt.src=nextDecor?nextDecor.image:"assets/garden-reward-main.webp";
   const nextText=document.getElementById("gardenNextRewardText");
   if(nextText) nextText.textContent=nextDecor
     ?(lotusLeft>=nextDecor.cost?`${nextDecor.name} · ซื้อได้เลย (${nextDecor.cost} ดอกบัว)`:`${nextDecor.name} · อีก ${(nextDecor.cost-lotusLeft).toLocaleString("th-TH")} ดอกบัว`)
@@ -4149,8 +4164,8 @@ function renderMeritGarden(){
   const activity=document.getElementById("gardenActivity");
   if(activity) activity.innerHTML=[...prayerActivity,...gardenActivity].sort((a,b)=>new Date(b.at)-new Date(a.at)).slice(0,5).map(item=>{
     const time=new Date(item.at).toLocaleTimeString("th-TH",{hour:"2-digit",minute:"2-digit"});
-    return `<p><img src="assets/flower-icon.png" alt="ดอกบัว"><b>${item.label}</b><span><strong>+${Number(item.points)||10}</strong> <small>${time}</small></span></p>`;
-  }).join("") || '<p><img src="assets/flower-icon.png" alt="ดอกบัว"><b>เริ่มสวดบทแรกเพื่อปลูกดอกบัว</b><small>วันนี้</small></p>';
+    return `<p><img src="assets/flower-icon.webp" alt="ดอกบัว"><b>${item.label}</b><span><strong>+${Number(item.points)||10}</strong> <small>${time}</small></span></p>`;
+  }).join("") || '<p><img src="assets/flower-icon.webp" alt="ดอกบัว"><b>เริ่มสวดบทแรกเพื่อปลูกดอกบัว</b><small>วันนี้</small></p>';
 }
 
 function renderGardenRewards(filter="all"){
@@ -4181,16 +4196,16 @@ function renderGardenRewards(filter="all"){
     const cards=(category.id==="decor"
       ? GARDEN_DECOR_ITEMS.map((item,index)=>{
           const owned=item.stage<=decorStage, selected=false;
-          return {index,name:item.name,art:item.image,need:`<img class="reward-cost-icon" src="assets/garden-lotus.png" alt=""> ${item.cost}`,
+          return {index,name:item.name,art:item.image,need:`<img class="reward-cost-icon" src="assets/garden-lotus.webp" alt=""> ${item.cost}`,
             unlocked:owned,selected,state:owned?"✓ วางในสวนแล้ว":(lotusLeft>=item.cost?"ซื้อได้เลย":"ยังไม่ได้รับ")};
         })
       : category.items.map(([name,need],index)=>{
           const unlocked=level>=need, selected=state.selectedRewards[category.id]===`${category.id}-${index}`;
-          return {index,name,art:category.id==="lotus"?`assets/reward-lotus-${index}.png`:"",need:`Lv.${need}`,unlocked,selected,
+          return {index,name,art:category.id==="lotus"?`assets/reward-lotus-${index}.webp`:"",need:`Lv.${need}`,unlocked,selected,
             state:selected?"เลือกใช้อยู่":unlocked?"✓ ได้รับแล้ว":"🔒 ยังไม่ได้รับ"};
         })
     ).map(card=>`<button class="reward-item ${card.unlocked?'unlocked':'locked'} ${card.selected?'selected':''}" type="button" data-reward-id="${category.id}-${card.index}" data-reward-category="${category.id}" ${card.unlocked?'':'disabled'}><span class="reward-art reward-art-${category.id} reward-art-${card.index}">${card.art?`<img src="${card.art}" alt="">`:""}</span><b>${card.name}</b><small>${card.need}</small><em>${card.selected?'เลือกใช้อยู่':card.state}</em></button>`).join("");
-    return `<section class="reward-group" data-reward-group="${category.id}"><header><span><img src="${category.id==='decor'?GARDEN_DECOR_ITEMS[0].image:(REWARD_ART[category.id]?.(0)||'assets/assistant-calm.png')}" alt=""></span><div><h3>${category.title}</h3><p>${category.desc}</p></div></header><div class="reward-row">${cards}</div></section>`;
+    return `<section class="reward-group" data-reward-group="${category.id}"><header><span><img src="${category.id==='decor'?GARDEN_DECOR_ITEMS[0].image:(REWARD_ART[category.id]?.(0)||'assets/assistant-calm.webp')}" alt=""></span><div><h3>${category.title}</h3><p>${category.desc}</p></div></header><div class="reward-row">${cards}</div></section>`;
   }).join("");
   catalog.querySelectorAll(".reward-item.unlocked").forEach(button=>button.addEventListener("click",()=>{
     const rewardCategory=button.dataset.rewardCategory;
@@ -4240,7 +4255,7 @@ function renderGardenDecorator(filter="all"){
   document.getElementById("decorateHearts").textContent=(state.favorites||[]).length.toLocaleString("th-TH");
   document.getElementById("decorateLevel").textContent=levelInfo.level;
   const levelImage=document.getElementById("decorateLevelImage");
-  if(levelImage) levelImage.src=`assets/garden-level-${gardenBadgeTier(levelInfo.level)}.png`;
+  if(levelImage) levelImage.src=`assets/garden-level-${gardenBadgeTier(levelInfo.level)}.webp`;
   const badgeText=document.getElementById("decorateLevelBadgeText");
   if(badgeText) badgeText.textContent=`Lv. ${levelInfo.level}`;
   document.getElementById("decorateProgress").style.width=`${levelInfo.percent}%`;
@@ -4248,14 +4263,14 @@ function renderGardenDecorator(filter="all"){
     ?`${levelInfo.into.toLocaleString("en-US")} / ${levelInfo.need.toLocaleString("en-US")}`
     :"ระดับสูงสุดแล้ว";
   const scene=document.getElementById("decorateScene");
-  if(scene){scene.style.backgroundImage=`url('assets/garden-scene-${decorStage}.png?v=20260819')`;scene.dataset.stage=decorStage;}
+  if(scene){scene.style.backgroundImage=`url('assets/garden-scene-${decorStage}.webp?v=20260819')`;scene.dataset.stage=decorStage;}
   const decoratePage=document.querySelector(".decorate-page");
-  if(decoratePage) decoratePage.style.setProperty("--decorate-scene",`url('assets/garden-scene-${decorStage}.png?v=20260819')`);
+  if(decoratePage) decoratePage.style.setProperty("--decorate-scene",`url('assets/garden-scene-${decorStage}.webp?v=20260819')`);
   const items=GARDEN_DECOR_ITEMS.filter(item=>filter==="all"||item.category===filter);
   wrap.innerHTML=items.map(item=>{
     const used=item.stage<=decorStage, available=item.stage===decorStage+1, locked=item.stage>decorStage+1;
     const poor=available&&lotus<item.cost;
-    return `<button class="decorate-item ${locked?'locked':''} ${available?'selected':''} ${used?'used':''} ${poor?'too-poor':''}" type="button" data-decor-item="${item.id}" data-decor-stage="${item.stage}" ${locked||used?'disabled':''}><i class="decorate-item-info" aria-hidden="true">i</i><span class="decorate-item-tip">${item.desc||item.name}</span><span class="decorate-item-art"><img src="${item.image}" alt=""></span><b>${item.name}</b><small><img src="assets/garden-lotus.png" alt=""> ${item.cost}</small><em>${used?'✓ ใช้แล้ว':poor?'ดอกบัวไม่พอ':available?'วาง':`🔒 ขั้น ${item.stage}`}</em></button>`;
+    return `<button class="decorate-item ${locked?'locked':''} ${available?'selected':''} ${used?'used':''} ${poor?'too-poor':''}" type="button" data-decor-item="${item.id}" data-decor-stage="${item.stage}" ${locked||used?'disabled':''}><i class="decorate-item-info" aria-hidden="true">i</i><span class="decorate-item-tip">${item.desc||item.name}</span><span class="decorate-item-art"><img src="${item.image}" alt=""></span><b>${item.name}</b><small><img src="assets/garden-lotus.webp" alt=""> ${item.cost}</small><em>${used?'✓ ใช้แล้ว':poor?'ดอกบัวไม่พอ':available?'วาง':`🔒 ขั้น ${item.stage}`}</em></button>`;
   }).join("");
   wrap.querySelectorAll("[data-decor-item]").forEach(button=>button.addEventListener("click",()=>{
     const nextStage=Number(button.dataset.decorStage);
@@ -4336,7 +4351,7 @@ function bindMeritGarden(){
   document.querySelector('[data-garden-action="water"]')?.addEventListener("click",()=>addGardenAction("water","รดน้ำดอกบัว",10));
   document.querySelector('[data-garden-action="candle"]')?.addEventListener("click",()=>addGardenAction("candle","จุดตะเกียงบุญ",5));
   document.querySelector('[data-garden-action="gift"]')?.addEventListener("click",()=>{
-    if(addGardenAction("gift","รับของขวัญประจำวัน",15)) showGardenModal("ของขวัญประจำวัน",'<div class="garden-modal-message"><img src="assets/garden-gift.png" alt=""><b>รับแต้มบุญแล้ว +15</b><p>กลับมารับของขวัญใหม่ได้พรุ่งนี้นะคะ</p></div>');
+    if(addGardenAction("gift","รับของขวัญประจำวัน",15)) showGardenModal("ของขวัญประจำวัน",'<div class="garden-modal-message"><img src="assets/garden-gift.webp" alt=""><b>รับแต้มบุญแล้ว +15</b><p>กลับมารับของขวัญใหม่ได้พรุ่งนี้นะคะ</p></div>');
   });
   document.querySelector('[data-garden-action="decorate"]')?.addEventListener("click",()=>showScreen("garden-decorate"));
   document.querySelectorAll("[data-garden-item]").forEach(card=>card.addEventListener("click",()=>{if(!card.classList.contains("locked")){state.selectedGardenItem=card.dataset.gardenItem;saveState();renderMeritGarden();}}));

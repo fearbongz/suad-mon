@@ -302,8 +302,8 @@ body.signed-in .hero-account span{display:none;}
 .assistant-entry>i{font-style:normal;font-size:1.4rem;color:#a98bd8;}
 .assistant-entry:active{scale:.98;}
 /* compact header: icon only, and the illustration steps aside for it */
-body:is([data-screen="prayers"],[data-screen="assistant"],[data-screen="reader"],[data-screen="about"],[data-screen="profile"]) .hero-account span{display:none;}
-body:is([data-screen="prayers"],[data-screen="assistant"],[data-screen="reader"],[data-screen="about"],[data-screen="profile"]) .hero .hero-illust{right:54px;width:80px;}
+body:is([data-screen="prayers"],[data-screen="merit"],[data-screen="assistant"],[data-screen="reader"],[data-screen="about"],[data-screen="profile"],[data-screen="vip"]) .hero-account span{display:none;}
+body:is([data-screen="prayers"],[data-screen="merit"],[data-screen="assistant"],[data-screen="reader"],[data-screen="about"],[data-screen="profile"],[data-screen="vip"]) .hero .hero-illust{right:54px;width:80px;}
 /* short phones: keep the welcome screen's log-in link above the bottom nav */
 @media (max-height:700px){
   body #screen-settings.guest-mode .settings-guest{gap:8px;padding-top:16px;}
@@ -312,9 +312,17 @@ body:is([data-screen="prayers"],[data-screen="assistant"],[data-screen="reader"]
   body #screen-settings.guest-mode .settings-guest>#settingsGuestRegisterBtn{height:48px;flex-basis:48px;}
 }
 @media (max-width:380px){
-  body:is([data-screen="prayers"],[data-screen="assistant"],[data-screen="reader"],[data-screen="about"],[data-screen="profile"]) .hero .hero-illust{display:none;}
+  body:is([data-screen="prayers"],[data-screen="merit"],[data-screen="assistant"],[data-screen="reader"],[data-screen="about"],[data-screen="profile"],[data-screen="vip"]) .hero .hero-illust{display:none;}
 }
 
 /* help screen: policy rows are real links now */
 .help-app-info p>a{flex:1;display:flex;justify-content:space-between;color:inherit;text-decoration:none;}
 .register-consent a{text-decoration:underline;text-underline-offset:2px;}
+
+/* community: a single action left (the unbuilt ones were removed) -> one wide row */
+.community-actions:has(>button:only-child){display:block!important;}
+.community-actions>button:only-child{width:100%!important;display:flex!important;flex-direction:row!important;align-items:center;gap:12px;text-align:left;padding:12px 16px!important;height:auto!important;min-height:0!important;aspect-ratio:auto!important;}
+.community-actions>button:only-child>span{flex:0 0 48px;width:48px!important;margin:0!important;}
+.community-actions>button:only-child>b{flex:0 0 auto;width:auto!important;}
+.community-actions>button:only-child>small{flex:1;width:auto!important;margin:0!important;text-align:right;}
+.community-actions>button:only-child>small br{display:none;}

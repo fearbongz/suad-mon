@@ -1,5 +1,5 @@
 #screen-garden-character{margin:0 -18px;padding:0;background:#fff5fb}
-.character-page{min-height:100vh;padding:24px 28px 34px;box-sizing:border-box;color:#6e459b;background:linear-gradient(180deg,rgba(255,234,245,.2),rgba(255,247,251,.08) 63%,#fff7fb 82%),url('assets/garden-scene-6.png') center top/cover no-repeat}
+.character-page{min-height:100vh;padding:24px 28px 34px;box-sizing:border-box;color:#6e459b;background:linear-gradient(180deg,rgba(255,234,245,.2),rgba(255,247,251,.08) 63%,#fff7fb 82%),url('assets/garden-scene-6.webp') center top/cover no-repeat}
 .character-head,.character-title-row{display:flex;align-items:center;justify-content:space-between;gap:18px}
 .character-head>button{width:52px;height:52px;border:1px solid #fff;border-radius:19px;background:#ffffffe8;box-shadow:0 7px 20px #5b377b29;color:#eb6098;font:300 2.2rem/1 Arial}
 .character-wallet{display:flex;min-width:310px;padding:7px 12px;border:1px solid #efd8e7;border-radius:25px;background:#ffffffe8;box-shadow:0 8px 22px #69447b21;backdrop-filter:blur(8px)}

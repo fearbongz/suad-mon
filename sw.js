@@ -10,8 +10,8 @@ const SHELL_FILES = [
   "./", "index.html", "legal.html", "style.css", "character.css", "polish.css",
   "app.js", "supabase-config.js", "manifest.webmanifest",
   "assets/favicon.png", "assets/icons/icon-192.png", "assets/icons/apple-touch-icon.png",
-  "assets/hero-bg.jpg", "assets/hero-pink-female.png", "assets/moon.png",
-  "assets/navlotus.png", "assets/guide-heart.png", "assets/flower-icon.png"
+  "assets/hero-bg.jpg", "assets/hero-pink-female.webp", "assets/moon.webp",
+  "assets/navlotus.webp", "assets/guide-heart.webp", "assets/flower-icon.webp"
 ];
 const CDN_HOSTS = ["fonts.googleapis.com", "fonts.gstatic.com", "cdn.jsdelivr.net"];
 
