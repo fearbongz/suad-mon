@@ -7,30 +7,11 @@ const CATEGORIES = ["ทั้งหมด","ทำวัตรเช้า-เ�
 
 const PRAYERS = [
   {
-    id:"jinapanjara",
-    title:"บทสวดชินบัญชร (ฉบับย่อ)",
-    readerHeading:"บทสวดชินบัญชร (ฉบับย่อ)",
-    category:"เสริมดวง",
-    icon:"assets/lamp.png",
-    badge:"แนะนำวันนี้",
-    duration:"15 นาที",
-    popularity:12345,
-    desc:"เสริมดวง เสริมสิริมงคล ป้องกันภัยอันตราย แคล้วคลาดปลอดภัย",
-    lines:[
-      "นะโม ตัสสะ ภะคะวะโต อะระหะโต สัมมาสัมพุทธัสสะ (3 จบ)",
-      "ชะยาสะนากะตา พุทธา เชตวา มารัง สะวาหะนัง",
-      "จะตุสัจจาสะภัง ระสัง เย ปิวิงสุ นะราสะภา",
-      "(บทสวดฉบับเต็มมี 15 บท แนะนำสวดตามหนังสือสวดมนต์ฉบับสมบูรณ์)",
-      "ขอให้การสวดมนต์บทนี้ เสริมสิริมงคล คุ้มครองภัย",
-      "แคล้วคลาดปลอดภัยแด่ท่านและครอบครัวทุกท่านเทอญ สาธุ"
-    ]
-  },
-  {
     id:"metta-self",
     title:"แผ่เมตตาให้ตนเอง",
     category:"แผ่เมตตา",
     icon:"assets/prayer-hands.png",
-    duration:"2 นาที",
+    duration:"1 นาที",
     popularity:8210,
     desc:"ตั้งจิตให้อภัยและรักตัวเอง ก่อนแผ่เมตตาให้ผู้อื่น",
     lines:[
@@ -51,7 +32,7 @@ const PRAYERS = [
     title:"คำอธิษฐานขอพร",
     category:"ขอพร",
     icon:"assets/prayer-heart.png",
-    duration:"2 นาที",
+    duration:"1 นาที",
     popularity:5432,
     desc:"ตั้งจิตอธิษฐานขอพรสิ่งศักดิ์สิทธิ์ให้ชีวิตราบรื่น",
     lines:[
@@ -67,7 +48,7 @@ const PRAYERS = [
     title:"บทสวดมนต์วันเกิด",
     category:"โอกาสพิเศษ",
     icon:"assets/prayer-lotus.png",
-    duration:"5 นาที",
+    duration:"1 นาที",
     popularity:3210,
     desc:"ตั้งจิตอธิษฐานในวันคล้ายวันเกิด ระลึกถึงบุญคุณและตั้งเป้าหมายใหม่",
     lines:[
@@ -83,7 +64,7 @@ const PRAYERS = [
     title:"บทพุทธคุณ (อิติปิโส)",
     category:"สวดบูชาพระ",
     icon:"assets/lamp.png",
-    duration:"2 นาที",
+    duration:"1 นาที",
     popularity:9876,
     desc:"สรรเสริญพระคุณของพระพุทธเจ้า นิยมสวดก่อนทำสมาธิ",
     lines:[
@@ -99,7 +80,7 @@ const PRAYERS = [
     title:"บทไตรสรณคมน์",
     category:"ทำวัตรเช้า-เย็น",
     icon:"assets/lamp.png",
-    duration:"2 นาที",
+    duration:"1 นาที",
     popularity:7654,
     desc:"การถึงพระพุทธ พระธรรม พระสงฆ์ เป็นที่พึ่งที่ระลึก",
     lines:[
@@ -119,7 +100,7 @@ const PRAYERS = [
     title:"แผ่เมตตาให้สรรพสัตว์",
     category:"แผ่เมตตา",
     icon:"assets/prayer-hands.png",
-    duration:"3 นาที",
+    duration:"1 นาที",
     popularity:6543,
     desc:"แผ่ความปรารถนาดีให้สรรพสัตว์ทั้งหลายพ้นทุกข์",
     lines:[
@@ -163,7 +144,7 @@ const PRAYERS = [
     readerHeading:"บทกราบพระรัตนตรัย",
     category:"ทำวัตรเช้า-เย็น",
     icon:"assets/lamp.png",
-    duration:"2 นาที",
+    duration:"1 นาที",
     popularity:0,
     desc:"ใช้สวดหลังนะโม 3 จบ ก่อนเข้าสู่บทไตรสรณคมน์ เพื่อตั้งจิตนอบน้อมต่อพระรัตนตรัย",
     lines:[
@@ -188,7 +169,7 @@ const PRAYERS = [
     readerHeading:"บทสรรเสริญพระรัตนตรัย",
     category:"สวดบูชาพระ",
     icon:"assets/prayer-lotus.png",
-    duration:"5 นาที",
+    duration:"3 นาที",
     popularity:0,
     desc:"บทสรรเสริญคุณของพระพุทธ พระธรรม และพระสงฆ์",
     lines:[
@@ -224,7 +205,7 @@ const PRAYERS = [
     readerHeading:"บทพาหุง — พุทธชัยมงคลคาถา",
     category:"สวดบูชาพระ",
     icon:"assets/lamp.png",
-    duration:"10 นาที",
+    duration:"6 นาที",
     popularity:0,
     desc:"พระคาถาว่าด้วยชัยชนะอันเป็นมงคลของพระพุทธเจ้า พร้อมบทมหาการุณิโก",
     youtubeId:"jpT56xydgxE",
@@ -308,8 +289,9 @@ const PRAYERS = [
     readerHeading:"คาถาชินบัญชร",
     category:"เสริมดวง",
     icon:"assets/lamp.png",
-    duration:"15 นาที",
-    popularity:0,
+    badge:"แนะนำวันนี้",
+    duration:"5 นาที",
+    popularity:12345,
     desc:"นิยมสวดเพื่อความเป็นสิริมงคลและความอุ่นใจ",
     youtubeId:"dXWCFSMMepc",
     lines:[
@@ -410,7 +392,7 @@ const PRAYERS = [
     category:"เสริมดวง",
     icon:"assets/lamp.png",
     badge:"แนะนำ 9 จบ",
-    duration:"5 นาที",
+    duration:"1 นาที",
     popularity:0,
     desc:"ใช้เป็นบทภาวนา ตั้งจิต และระลึกถึงคุณพระรัตนตรัยและครูบาอาจารย์",
     youtubeId:"iydv6HE4_bo",
@@ -437,7 +419,7 @@ const PRAYERS = [
     readerHeading:"กรณียเมตตสูตร",
     category:"แผ่เมตตา",
     icon:"assets/prayer-hands.png",
-    duration:"7 นาที",
+    duration:"4 นาที",
     popularity:0,
     desc:"พระสูตรสำคัญสำหรับแผ่เมตตาและเจริญเมตตาภาวนา ช่วยให้จิตใจสงบ ลดความโกรธและความหวาดกลัว",
     youtubeId:"mS0_n5pesHA",
@@ -493,7 +475,7 @@ const PRAYERS = [
     category:"เสริมดวง",
     icon:"assets/prayer-star.png",
     badge:"1 หรือ 3 จบ",
-    duration:"3 นาที",
+    duration:"2 นาที",
     popularity:0,
     desc:"ตามคติไทยนิยมบูชาเกี่ยวกับลาภ ความอุดมสมบูรณ์ และความคล่องตัว",
     youtubeId:"HdwQv0G_3cY",
@@ -531,7 +513,7 @@ const PRAYERS = [
     category:"สวดบูชาพระ",
     icon:"assets/prayer-star.png",
     badge:"1 หรือ 9 จบ",
-    duration:"4 นาที",
+    duration:"2 นาที",
     popularity:0,
     desc:"นิยมบูชาเพื่อความคุ้มครอง ความเป็นสิริมงคล และโภคทรัพย์",
     lines:[
@@ -569,7 +551,7 @@ const PRAYERS = [
     category:"ขอพร",
     icon:"assets/prayer-star.png",
     badge:"3 จบ",
-    duration:"7 นาที",
+    duration:"2 นาที",
     popularity:0,
     desc:"บทสวดบูชาพระโพธิสัตว์กวนอิมปางตะกร้าปลา เพื่อความคุ้มครอง แคล้วคลาด และมีสติในการรักษาทรัพย์",
     youtubeId:"jj9aLNNCjIU",
@@ -603,7 +585,7 @@ const PRAYERS = [
     category:"ขอพร",
     icon:"assets/prayer-star.png",
     badge:"3 จบ",
-    duration:"5 นาที",
+    duration:"2 นาที",
     popularity:0,
     desc:"ตามคติฮินดู พระแม่ลักษมีเกี่ยวข้องกับความอุดมสมบูรณ์ ความรุ่งเรือง โชคลาภ และความเป็นมงคล",
     lines:[
@@ -635,7 +617,7 @@ const PRAYERS = [
     category:"เสริมดวง",
     icon:"assets/prayer-star.png",
     badge:"9 จบ",
-    duration:"5 นาที",
+    duration:"2 นาที",
     popularity:0,
     desc:"บทภาวนาที่นิยมสืบเนื่องจากหลวงพ่อฤๅษีลิงดำ (พระราชพรหมยาน)",
     youtubeId:"ivSxi0isgOg",
@@ -663,7 +645,7 @@ const PRAYERS = [
     readerHeading:"อุทิศส่วนกุศล",
     category:"แผ่เมตตา",
     icon:"assets/prayer-hands.png",
-    duration:"2 นาที",
+    duration:"1 นาที",
     popularity:0,
     desc:"อุทิศส่วนกุศลแก่บิดามารดา ครูอาจารย์ ญาติ เทวดา ผู้ล่วงลับ เจ้ากรรมนายเวร และสรรพสัตว์",
     lines:[
@@ -747,7 +729,7 @@ const PRAYERS = [
     title:"รัตนสูตร",
     category:"สวดบูชาพระ",
     icon:"assets/prayer-lotus.png",
-    duration:"7 นาที",
+    duration:"5 นาที",
     popularity:0,
     desc:"พระปริตรสรรเสริญคุณพระพุทธ พระธรรม และพระสงฆ์",
     lines:[
@@ -769,7 +751,7 @@ const PRAYERS = [
     title:"ขันธปริตร",
     category:"แผ่เมตตา",
     icon:"assets/prayer-heart.png",
-    duration:"3 นาที",
+    duration:"2 นาที",
     popularity:0,
     desc:"บทแผ่เมตตาแก่พญางูและสรรพสัตว์ เพื่ออยู่ร่วมกันโดยไม่เบียดเบียน",
     lines:[
@@ -786,7 +768,7 @@ const PRAYERS = [
     title:"โมรปริตร",
     category:"ทำวัตรเช้า-เย็น",
     icon:"assets/lamp.png",
-    duration:"3 นาที",
+    duration:"2 นาที",
     popularity:0,
     desc:"คาถานกยูงทองสำหรับระลึกถึงพระพุทธคุณในเวลาเช้าและเย็น",
     lines:[
@@ -801,7 +783,7 @@ const PRAYERS = [
     title:"ธชัคคปริตร",
     category:"สวดบูชาพระ",
     icon:"assets/prayer-lotus.png",
-    duration:"4 นาที",
+    duration:"2 นาที",
     popularity:0,
     desc:"บทระลึกถึงคุณพระรัตนตรัยเพื่อทำใจให้มั่นคงเมื่อเกิดความกลัว",
     lines:[
@@ -816,7 +798,7 @@ const PRAYERS = [
     title:"อาฏานาฏิยปริตร (ฉบับย่อ)",
     category:"สวดบูชาพระ",
     icon:"assets/prayer-lotus.png",
-    duration:"5 นาที",
+    duration:"3 นาที",
     popularity:0,
     desc:"บทคุ้มครองที่กล่าวนอบน้อมพระพุทธเจ้าทั้งหลายในอดีต",
     lines:[
@@ -836,7 +818,7 @@ const PRAYERS = [
     title:"โพชฌังคปริตร",
     category:"สวดบูชาพระ",
     icon:"assets/prayer-lotus.png",
-    duration:"4 นาที",
+    duration:"3 นาที",
     popularity:0,
     desc:"พระปริตรระลึกถึงองค์ธรรมแห่งการตรัสรู้ นิยมสวดแก่ผู้เจ็บป่วย",
     lines:[
@@ -870,7 +852,7 @@ const PRAYERS = [
     readerHeading:"บทธรรมจักร (ธัมมจักกัปปวัตตนสูตร ฉบับเต็ม)",
     category:"สวดบูชาพระ",
     icon:"assets/prayer-lotus.png",
-    duration:"15 นาที",
+    duration:"17 นาที",
     popularity:0,
     desc:"ปฐมเทศนาว่าด้วยทางสายกลาง อริยมรรคมีองค์แปด และอริยสัจสี่",
     youtubeId:"rLkngZWy2r8",
@@ -1133,7 +1115,7 @@ const PRAYERS = [
     title:"บทชุมนุมเทวดา",
     category:"ทำวัตรเช้า-เย็น",
     icon:"assets/lamp.png",
-    duration:"3 นาที",
+    duration:"2 นาที",
     popularity:0,
     desc:"บทอัญเชิญเทวดามาร่วมสดับพระธรรมก่อนเริ่มเจริญพระพุทธมนต์",
     lines:[
@@ -1150,7 +1132,7 @@ const PRAYERS = [
     title:"บททำวัตรเช้า",
     category:"ทำวัตรเช้า-เย็น",
     icon:"assets/lamp.png",
-    duration:"10 นาที",
+    duration:"4 นาที",
     popularity:0,
     desc:"ลำดับสวดทำวัตรเช้าฉบับใช้งานทั่วไป เพื่อเริ่มวันด้วยการระลึกถึงพระรัตนตรัย",
     lines:[
@@ -1181,7 +1163,7 @@ const PRAYERS = [
     title:"บททำวัตรเย็น",
     category:"ทำวัตรเช้า-เย็น",
     icon:"assets/lamp.png",
-    duration:"10 นาที",
+    duration:"3 นาที",
     popularity:0,
     desc:"ลำดับสวดทำวัตรเย็นฉบับใช้งานทั่วไป เพื่อทบทวนตนและระลึกถึงพระรัตนตรัย",
     lines:[
@@ -1208,7 +1190,7 @@ const PRAYERS = [
     title:"คำบูชาพระรัตนตรัย",
     category:"สวดบูชาพระ",
     icon:"assets/prayer-lotus.png",
-    duration:"2 นาที",
+    duration:"1 นาที",
     popularity:0,
     desc:"คำบูชาพระพุทธ พระธรรม และพระสงฆ์ ก่อนเริ่มทำวัตรหรือสวดบทอื่น",
     lines:[
@@ -1225,7 +1207,7 @@ const PRAYERS = [
     title:"คำอาราธนาและสมาทานศีล 5",
     category:"สวดบูชาพระ",
     icon:"assets/prayer-hands.png",
-    duration:"4 นาที",
+    duration:"2 นาที",
     popularity:0,
     desc:"คำขอศีลและคำตั้งใจรักษาศีลห้าเพื่อเป็นหลักในการดำเนินชีวิต",
     lines:[
@@ -1247,7 +1229,7 @@ const PRAYERS = [
     title:"คำขอขมาพระรัตนตรัย",
     category:"สวดบูชาพระ",
     icon:"assets/prayer-hands.png",
-    duration:"3 นาที",
+    duration:"2 นาที",
     popularity:0,
     desc:"บทตั้งใจขอขมาต่อพระรัตนตรัยในสิ่งที่อาจล่วงเกินด้วยกาย วาจา หรือใจ",
     lines:[
@@ -1264,7 +1246,7 @@ const PRAYERS = [
     title:"บทกรวดน้ำและอุทิศส่วนกุศล",
     category:"แผ่เมตตา",
     icon:"assets/prayer-heart.png",
-    duration:"4 นาที",
+    duration:"2 นาที",
     popularity:0,
     desc:"บทอุทิศบุญกุศลแก่ญาติ ผู้มีพระคุณ เจ้ากรรมนายเวร และสรรพสัตว์",
     lines:[
@@ -1297,7 +1279,7 @@ const PRAYERS = [
     title:"ภัทเทกรัตตคาถา",
     category:"ทำวัตรเช้า-เย็น",
     icon:"assets/lamp.png",
-    duration:"3 นาที",
+    duration:"2 นาที",
     popularity:0,
     desc:"พุทธพจน์เตือนให้ไม่อาลัยอดีต ไม่กังวลอนาคต และรู้สิ่งที่เกิดขึ้นในปัจจุบัน",
     lines:[
@@ -1537,7 +1519,7 @@ function initAuth(){
   document.getElementById("settingsDailyQuote").textContent=dailyQuote;
   document.getElementById("settingsDailyQuoteSource").textContent=`– ${dailyQuoteSource} –`;
   const editProfileButton=document.getElementById("editProfileBtn"),logoutRow=document.getElementById("logoutRow"),settingsScreen=document.getElementById("screen-settings"),settingsGuestPanel=document.getElementById("settingsGuestPanel");
-  const updateSettingsAuth=session=>{authSession=session||null;const signedIn=Boolean(session?.user);if(editProfileButton)editProfileButton.hidden=!signedIn;if(logoutRow)logoutRow.hidden=!signedIn;if(settingsGuestPanel)settingsGuestPanel.hidden=signedIn;if(settingsScreen)settingsScreen.classList.toggle("guest-mode",!signedIn);renderMembershipMenuItem();};
+  const updateSettingsAuth=session=>{authSession=session||null;const signedIn=Boolean(session?.user);if(editProfileButton)editProfileButton.hidden=!signedIn;if(logoutRow)logoutRow.hidden=!signedIn;if(settingsGuestPanel)settingsGuestPanel.hidden=signedIn;if(settingsScreen)settingsScreen.classList.toggle("guest-mode",!signedIn);document.body.classList.toggle("signed-in",signedIn);renderMembershipMenuItem();};
   document.getElementById("settingsGuestRegisterBtn")?.addEventListener("click",event=>{event.preventDefault();event.stopPropagation();showScreen("register");});
   const password=document.getElementById("registerPassword"),confirmPassword=document.getElementById("registerPasswordConfirm"),message=document.getElementById("registerMessage"),submit=form.querySelector(".register-submit");
   const birthDate=document.getElementById("registerBirthDate");
@@ -1671,7 +1653,8 @@ function computeStreak(){
   return longest;
 }
 
-function findPrayer(id){ return PRAYERS.find(p=>p.id===id); }
+const PRAYER_ID_ALIASES={jinapanjara:"jinapanjara-full"}; // removed entries -> their replacement
+function findPrayer(id){ const key=PRAYER_ID_ALIASES[id]||id; return PRAYERS.find(p=>p.id===key); }
 function getPrayerIcon(prayer){
   const iconsByCategory = {
     "ทำวัตรเช้า-เย็น":"assets/lamp.png",
@@ -1787,7 +1770,7 @@ function renderHolyCalendar(month=holyCalendarMonth){
 function renderCarousel(){
   renderHolyCalendar();const todayButton=document.getElementById("holyCalendarToday");if(todayButton)todayButton.onclick=()=>renderHolyCalendar(new Date().getMonth());return;
   const featured = [
-    findPrayer("jinapanjara"),
+    findPrayer("jinapanjara-full"),
     findPrayer("itipiso"),
     findPrayer("metta-self"),
     findPrayer("wish")
@@ -1805,7 +1788,6 @@ function renderCarousel(){
         <p class="ti-desc">${p.desc}</p>
         <div class="ti-meta">
           <span><svg class="meta-icon" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg>${p.duration}</span>
-          <span><svg class="meta-icon meta-person" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="8" r="4"/><path d="M5 21a7 7 0 0 1 14 0Z"/></svg>${p.popularity.toLocaleString()} ครั้ง</span>
         </div>
         <button class="go-btn" data-open="${p.id}">สวดเลย <span class="circle"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5v14l11-7Z"/></svg></span></button>
       </div>
@@ -2110,7 +2092,6 @@ function prayerCardHTML(p){
         <p class="pc-desc">${p.desc || ""}</p>
         <div class="pc-meta">
           <span class="pc-time"><svg class="meta-icon" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg>${p.duration}</span>
-          <span class="pc-popularity"><svg class="meta-icon meta-person" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="8" r="4"/><path d="M5 21a7 7 0 0 1 14 0Z"/></svg>ยอดสวด ${p.popularity.toLocaleString()} ครั้ง</span>
         </div>
       </div>
       <span class="pc-actions">
@@ -2305,10 +2286,12 @@ function resetReaderRoundCounter(){
   document.getElementById("readerRoundTarget").textContent=target ? ` / ${target}` : "";
 }
 
+const LAST_PRAYER_KEY="suadmon:lastPrayerId";
 function openReader(id,options={}){
   if(!options.preserveSequence){ activeReaderSequence=[]; activeReaderSequenceIndex=-1; }
   currentPrayer = findPrayer(id);
   if(!currentPrayer) return;
+  try{ localStorage.setItem(LAST_PRAYER_KEY,currentPrayer.id); }catch(error){}
   currentLine = 0;
   isPlaying = false;
   clearInterval(readerTimer);
@@ -2319,7 +2302,6 @@ function openReader(id,options={}){
   document.getElementById("readerPrayerHeading").textContent = currentPrayer.readerHeading || currentPrayer.title;
   document.getElementById("readerDesc").textContent = currentPrayer.desc || "";
   document.getElementById("readerDuration").textContent = currentPrayer.duration;
-  document.getElementById("readerPop").textContent = currentPrayer.popularity.toLocaleString();
   setupReaderYoutube();
   document.querySelector('[data-reader-tab="advice"]')?.classList.toggle("has-closing-prayer",getReaderClosingPrayerLines().length>0);
   resetReaderRoundCounter();
@@ -2622,6 +2604,86 @@ function markComplete(){
   document.getElementById("completeModal").classList.add("open");
 }
 
+/* ---------------- OFFLINE SUPPORT ---------------- */
+const OFFLINE_ASSET_CACHE="suadmon-assets"; // must match ASSET_CACHE in sw.js
+const OFFLINE_READY_KEY="suadmon:offlineReady";
+if("serviceWorker" in navigator){
+  window.addEventListener("load",()=>{ navigator.serviceWorker.register("sw.js").catch(error=>console.warn("Service worker registration failed:",error)); });
+}
+function setOfflineDownloadStatus(text){
+  const status=document.getElementById("offlineDownloadStatus");
+  if(status)status.textContent=text;
+}
+/* every image/sound the app can show: read the paths out of the app's own
+   files so this list never goes stale when assets are added */
+async function collectOfflineAssetUrls(){
+  const urls=new Set();
+  const pattern=/(?:assets|img)\/[A-Za-z0-9_.\/-]+\.(?:png|jpe?g|webp|gif|svg|mp3|ogg)/g;
+  const sources=["index.html","style.css","character.css","polish.css","app.js"];
+  for(const source of sources){
+    try{
+      const text=await (await fetch(source,{cache:"no-cache"})).text();
+      (text.match(pattern)||[]).forEach(path=>urls.add(path));
+    }catch(error){}
+  }
+  // file names that are built at runtime
+  ["female","male"].forEach(gender=>{
+    for(let tier=1;tier<=10;tier++)urls.add(`assets/community-characters/${gender}-${tier}.png`);
+    for(let tier=1;tier<=9;tier++)urls.add(`assets/community-ranking-characters/${gender}-${tier}.png`);
+  });
+  for(let phase=0;phase<=17;phase++)urls.add(`assets/holy-moon-phases/phase-${phase}.png`);
+  return [...urls];
+}
+let offlineDownloadRunning=false;
+async function downloadForOffline(){
+  if(offlineDownloadRunning)return;
+  if(!("caches" in window)||!("serviceWorker" in navigator)){ showToast("เบราว์เซอร์นี้ยังไม่รองรับการใช้งานออฟไลน์ค่ะ"); return; }
+  if(!navigator.onLine){ showToast("ต้องเชื่อมต่ออินเทอร์เน็ตก่อนดาวน์โหลดนะคะ"); return; }
+  offlineDownloadRunning=true;
+  const button=document.getElementById("offlineDownloadBtn");
+  button?.classList.add("is-busy");
+  try{
+    setOfflineDownloadStatus("กำลังเตรียมรายการไฟล์...");
+    const urls=await collectOfflineAssetUrls();
+    const cache=await caches.open(OFFLINE_ASSET_CACHE);
+    let done=0,failed=0,next=0;
+    const worker=async()=>{
+      while(next<urls.length){
+        const url=urls[next++];
+        try{
+          if(!(await cache.match(url,{ignoreSearch:true}))){
+            const response=await fetch(url);
+            if(response.ok)await cache.put(url,response); else failed++;
+          }
+        }catch(error){ failed++; }
+        done++;
+        setOfflineDownloadStatus(`กำลังดาวน์โหลด ${done} / ${urls.length} ไฟล์...`);
+      }
+    };
+    await Promise.all(Array.from({length:6},worker));
+    if(failed){
+      setOfflineDownloadStatus(`ดาวน์โหลดไม่ครบ ขาด ${failed} ไฟล์ แตะเพื่อลองอีกครั้ง`);
+      showToast("ดาวน์โหลดไม่ครบ ลองอีกครั้งนะคะ");
+    }else{
+      try{ localStorage.setItem(OFFLINE_READY_KEY,new Date().toISOString()); }catch(error){}
+      setOfflineDownloadStatus("พร้อมใช้งานออฟไลน์แล้ว ✓ แตะเพื่ออัปเดตไฟล์");
+      showToast("พร้อมใช้งานออฟไลน์แล้วค่ะ 🌸");
+    }
+  }catch(error){
+    console.warn("Offline download failed:",error);
+    setOfflineDownloadStatus("ดาวน์โหลดไม่สำเร็จ แตะเพื่อลองอีกครั้ง");
+  }finally{
+    offlineDownloadRunning=false;
+    button?.classList.remove("is-busy");
+  }
+}
+document.addEventListener("DOMContentLoaded",()=>{
+  document.getElementById("offlineDownloadBtn")?.addEventListener("click",downloadForOffline);
+  let ready=null;
+  try{ ready=localStorage.getItem(OFFLINE_READY_KEY); }catch(error){}
+  if(ready)setOfflineDownloadStatus("พร้อมใช้งานออฟไลน์แล้ว ✓ แตะเพื่ออัปเดตไฟล์");
+});
+
 /* ---------------- TOAST + "COMING SOON" ---------------- */
 function showToast(message){
   let toast=document.getElementById("appToast");
@@ -2915,12 +2977,8 @@ function bindVipScreen(){
     document.querySelectorAll("#vipPlans [data-vip-plan]").forEach(b=>b.classList.toggle("active",b===button));
   }));
   document.getElementById("vipBuyBtn")?.addEventListener("click",()=>{
-    const selected=document.querySelector("#vipPlans [data-vip-plan].active")?.dataset.vipPlan||"yearly";
-    state.isVip=true; state.vipPlan=selected;
-    saveState();
-    renderVipScreen();
-    renderMembershipMenuItem();
-    spawnBurst();
+    // payments are not connected yet: say so instead of handing out VIP for free
+    showToast("VIP ยังไม่เปิดให้สมัครค่ะ จะแจ้งให้ทราบเมื่อพร้อมนะคะ 🌸");
   });
   document.getElementById("vipCancelBtn")?.addEventListener("click",()=>{
     state.isVip=false; state.vipPlan="";
@@ -2951,7 +3009,7 @@ function showScreen(name){
   document.querySelectorAll(".nav-item").forEach(b=>b.classList.remove("active"));
   document.querySelectorAll(`.nav-item[data-nav="${name}"]`).forEach(b=>b.classList.add("active"));
   if(name==="encouragement")document.querySelector('.nav-item[data-nav="community"]')?.classList.add("active");
-  if(name==="register") document.querySelector('.nav-item[data-nav="settings"]')?.classList.add("active");
+  if(name==="assistant")document.querySelector('.nav-item[data-nav="prayers"]')?.classList.add("active");
   window.scrollTo({top:0, behavior:name==="register"?"auto":"smooth"});
   if(name==="register"){
     document.documentElement.scrollTop=0;
@@ -3221,7 +3279,11 @@ function bindNav(){
     }
   });
   document.getElementById("mainPrayerBtn").addEventListener("click", ()=>{
-    openReader("jinapanjara");
+    // continue with the prayer opened last; first-timers get today's suggestion
+    let lastId=null;
+    try{ lastId=localStorage.getItem(LAST_PRAYER_KEY); }catch(error){}
+    const target=findPrayer(lastId)||getDailyPrayer()||PRAYERS[0];
+    openReader(target.id);
   });
 }
 

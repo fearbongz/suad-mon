@@ -22,7 +22,7 @@
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Sarabun:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800&amp;display=swap">
 <link rel="stylesheet" href="style.css?v=20260913-1">
 <link rel="stylesheet" href="character.css?v=20260826-7">
-<link rel="stylesheet" href="polish.css?v=20261114-2">
+<link rel="stylesheet" href="polish.css?v=20261117-1">
 </head>
 <body>
 
@@ -37,6 +37,8 @@
     </div>
 
     <img class="hero-moon" src="assets/moon.png" alt="" aria-hidden="true">
+
+    <button class="hero-account" id="heroAccountBtn" type="button" data-nav="settings" aria-label="ตั้งค่าและบัญชี"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="3.2"/><path d="M19.4 13.5a7.6 7.6 0 0 0 0-3l2-1.5-2-3.5-2.4 1a7.6 7.6 0 0 0-2.6-1.5L14 2.5h-4l-.4 2.5A7.6 7.6 0 0 0 7 6.5l-2.4-1-2 3.5 2 1.5a7.6 7.6 0 0 0 0 3l-2 1.5 2 3.5 2.4-1a7.6 7.6 0 0 0 2.6 1.5l.4 2.5h4l.4-2.5a7.6 7.6 0 0 0 2.6-1.5l2.4 1 2-3.5Z"/></svg><span>เข้าสู่ระบบ</span></button>
 
     <img class="hero-illust" data-gender-hero src="assets/hero-pink-female.png" alt="น้องพนมมือสวดมนต์บนดอกบัว">
 
@@ -113,6 +115,7 @@
         <button class="active" data-library-tab="all">บทสวดทั้งหมด</button>
         <button data-library-tab="mine">บทสวดของฉัน</button>
       </div>
+      <button class="assistant-entry" type="button" data-nav="assistant"><span aria-hidden="true">✨</span><span class="assistant-entry-copy"><b>ผู้ช่วยจัดชุดสวดมนต์</b><small>ให้เราช่วยจัดชุดบทสวดที่เหมาะกับคุณ</small></span><i aria-hidden="true">›</i></button>
       <div id="allPrayersPanel">
         <div class="search-wrap">
           <span class="search-icon">🔍</span>
@@ -123,7 +126,7 @@
       </div>
       <div class="my-prayer-panel" id="myPrayersPanel">
         <div class="my-prayer-sets" id="myPrayerSets"></div>
-        <p class="my-prayer-empty" id="myPrayerEmpty">ยังไม่มีชุดสวดของฉัน<br><small>สร้างชุดสวดจากเมนูผู้ช่วยได้เลยค่ะ</small></p>
+        <p class="my-prayer-empty" id="myPrayerEmpty">ยังไม่มีชุดสวดของฉัน<br><small>แตะ “ผู้ช่วยจัดชุดสวดมนต์” ด้านบนเพื่อสร้างชุดแรกได้เลยค่ะ</small></p>
         <div class="my-prayer-detail" id="myPrayerDetail">
           <button class="my-prayer-back" id="myPrayerBack" type="button">‹ กลับไปชุดสวดของฉัน</button>
           <div class="my-prayer-detail-actions"><button type="button" id="myPrayerRenameSet" aria-label="เปลี่ยนชื่อชุดสวด" title="เปลี่ยนชื่อชุดสวด">Aa</button><button type="button" id="myPrayerShareSet" aria-label="แชร์ชุดสวดให้เพื่อน" title="แชร์ชุดสวดให้เพื่อน">↗</button><button type="button" id="myPrayerDeleteSet" aria-label="ลบชุดสวด" title="ลบชุดสวด"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 7h16M9 7V4h6v3m3 0-1 13H7L6 7m4 4v5m4-5v5"/></svg></button><button type="button" id="myPrayerEditSet" aria-label="แก้ไขชุดสวด" title="แก้ไขชุดสวด"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m4 20 4.2-1 10.7-10.7a2.1 2.1 0 0 0-3-3L5.2 16 4 20Zm10.5-13.2 3 3"/></svg></button></div>
@@ -222,7 +225,7 @@
       <div class="settings-group">
         <button class="settings-item" data-nav="merit"><span class="settings-icon">♡</span><span class="settings-copy"><b>บุญของฉัน</b><small>ดูประวัติการทำบุญและคะแนนบุญสะสม</small></span><span class="settings-arrow">›</span></button>
         <button class="settings-item" data-nav="merit" data-scroll-target="favoritesSection"><span class="settings-icon"><svg viewBox="0 0 24 24"><path d="M6 4h12v17l-6-4-6 4Z"/></svg></span><span class="settings-copy"><b>รายการโปรด</b><small>ดูบทสวดและกิจกรรมที่บันทึกไว้</small></span><span class="settings-arrow">›</span></button>
-        <div class="settings-item" data-soon role="button" tabindex="0"><span class="settings-icon"><svg viewBox="0 0 24 24"><path d="M12 3v12m0 0 4-4m-4 4-4-4M5 19h14"/></svg></span><span class="settings-copy"><b>ดาวน์โหลดบทสวด</b><small>ดาวน์โหลดบทสวดไว้ใช้งานแบบออฟไลน์</small></span></div>
+        <button class="settings-item" type="button" id="offlineDownloadBtn"><span class="settings-icon"><svg viewBox="0 0 24 24"><path d="M12 3v12m0 0 4-4m-4 4-4-4M5 19h14"/></svg></span><span class="settings-copy"><b>ดาวน์โหลดไว้ใช้ออฟไลน์</b><small id="offlineDownloadStatus">บันทึกบทสวดและรูปภาพไว้ในเครื่อง (ประมาณ 35 MB)</small></span><span class="settings-arrow">›</span></button>
         <div class="settings-item settings-danger"><span class="settings-icon">⌫</span><button id="resetBtn">ล้างข้อมูลการสวดมนต์ทั้งหมด</button></div>
       </div>
 
@@ -309,7 +312,7 @@
           <article><i>✉️</i><div><b>ส่งคำถาม / ข้อเสนอแนะ</b><small>เรายินดีรับฟังทุกความคิดเห็น<br>เพื่อพัฒนาแอปให้ดียิ่งขึ้น</small></div><button type="button" data-soon>ส่งข้อความ　›</button></article>
         </section>
         <section class="help-card help-manual"><img src="assets/decorate-book.png" alt="" loading="lazy" decoding="async"><div><b>คู่มือการใช้งาน</b><small>เรียนรู้การใช้งานแอปอย่างละเอียด<br>พร้อมเทคนิคการสะสมแต้มบุญ</small></div><button type="button" data-guide-topic="account">ดูคู่มือ　›</button></section>
-        <section class="help-card help-app-info"><h2>ข้อมูลแอป</h2><div><p><span>ⓘ　เวอร์ชันแอป</span><b>1.2.0　›</b></p><p><span>♧　นโยบายความเป็นส่วนตัว</span><b>›</b></p><p><span>♢　ข้อกำหนดการให้บริการ</span><b>›</b></p></div><img src="assets/reward-lotus-2.png" alt="ดอกบัว" loading="lazy" decoding="async"></section>
+        <section class="help-card help-app-info"><h2>ข้อมูลแอป</h2><div><p><span>ⓘ　เวอร์ชันแอป</span><b>1.2.0　›</b></p><p><a href="legal.html#privacy" target="_blank" rel="noopener"><span>♧　นโยบายความเป็นส่วนตัว</span><b>›</b></a></p><p><a href="legal.html#terms" target="_blank" rel="noopener"><span>♢　ข้อตกลงการใช้งาน</span><b>›</b></a></p></div><img src="assets/reward-lotus-2.png" alt="ดอกบัว" loading="lazy" decoding="async"></section>
       </div>
       <h3 class="guide-heading"><img class="flower-icon" src="assets/flower-icon.png" alt="" loading="lazy" decoding="async"> การเริ่มต้นใช้งาน</h3>
       <div class="guide-steps">
@@ -341,12 +344,12 @@
         <div><span class="about-list-icon icon-heart"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20.8 5.8c-2.2-2.2-5.8-1.9-7.8.5L12 7.5l-1-1.2c-2-2.4-5.6-2.7-7.8-.5-2.3 2.3-2.1 6 .3 8.2L12 21l8.5-7c2.4-2.2 2.6-5.9.3-8.2Z"/></svg></span><p><b>วัตถุประสงค์</b><small>ส่งเสริมการสวดมนต์ การทำบุญ และการฝึกใจเป็นชีวิตประจำวัน</small></p></div>
         <div><span class="about-list-icon icon-target"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="13" r="8"/><circle cx="11" cy="13" r="4"/><path d="m13 11 7-7M16 4h4v4"/></svg></span><p><b>เหมาะสำหรับใคร?</b><small>ทุกคนที่ต้องการเสริมสิริมงคล พัฒนาจิตใจ และใช้ชีวิตอย่างมีสติ</small></p></div>
         <div><span class="about-list-icon icon-shield"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3 5 6v5c0 4.7 2.8 8.1 7 10 4.2-1.9 7-5.3 7-10V6Z"/><path d="m9 12 2 2 4-5"/></svg></span><p><b>ความปลอดภัยของข้อมูล</b><small>เราให้ความสำคัญกับความปลอดภัยของข้อมูลของคุณเป็นอย่างยิ่ง</small></p></div>
-        <div><span class="about-list-icon icon-lock"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="5" y="10" width="14" height="11" rx="2"/><path d="M8 10V7a4 4 0 0 1 8 0v3M12 14v3"/></svg></span><p><b>การใช้งานแบบออฟไลน์</b><small>สามารถดาวน์โหลดบทสวดบางส่วนไว้ใช้งานได้แม้ไม่มีอินเทอร์เน็ต</small></p></div>
+        <div><span class="about-list-icon icon-lock"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="5" y="10" width="14" height="11" rx="2"/><path d="M8 10V7a4 4 0 0 1 8 0v3M12 14v3"/></svg></span><p><b>การใช้งานแบบออฟไลน์</b><small>เปิดอ่านบทสวดได้แม้ไม่มีอินเทอร์เน็ต ส่วนอันดับชุมชน การซิงก์ข้อมูล และวิดีโอ YouTube ต้องออนไลน์</small></p></div>
       </div>
       <h3 class="about-heading"><img class="flower-icon" src="assets/flower-icon.png" alt="" loading="lazy" decoding="async"> ข้อมูลแอป</h3>
       <div class="about-info">
         <p><span><i class="about-info-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="8"/><path d="M12 11v5M12 8h.01"/></svg></i>เวอร์ชัน</span><b>1.2.0</b></p>
-        <p><span><i class="about-info-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="4" y="6" width="16" height="14" rx="2"/><path d="M8 4v4M16 4v4M4 10h16"/></svg></i>อัปเดตล่าสุด</span><b>14 พฤศจิกายน 2569</b></p>
+        <p><span><i class="about-info-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="4" y="6" width="16" height="14" rx="2"/><path d="M8 4v4M16 4v4M4 10h16"/></svg></i>อัปเดตล่าสุด</span><b>17 พฤศจิกายน 2569</b></p>
         <p><span><i class="about-info-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3c3 3 3 15 0 18M12 3c-3 3-3 15 0 18"/></svg></i>รูปแบบ</span><b>เว็บแอป ติดตั้งบนหน้าจอหลักได้</b></p>
         <p><span><i class="about-info-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="7" y="3" width="10" height="18" rx="2"/><path d="M10 6h4M11 18h2"/></svg></i>รองรับ</span><b>เบราว์เซอร์บนมือถือและคอมพิวเตอร์</b></p>
       </div>
@@ -495,7 +498,7 @@
             <label><span class="register-field-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M7.2 3.5 10 8 7.8 9.8c1.3 2.8 3.6 5.1 6.4 6.4L16 14l4.5 2.8v2.7c0 .8-.7 1.5-1.5 1.5C10.2 21 3 13.8 3 5c0-.8.7-1.5 1.5-1.5Z"></path></svg></span><b>เบอร์โทรศัพท์<small>กรอกเบอร์โทรศัพท์</small></b><input id="registerPhone" type="tel" placeholder="กรอกเบอร์โทรศัพท์" autocomplete="tel" inputmode="numeric" pattern="[0-9]{1,15}" maxlength="15"></label>
             <small class="register-phone-note">ใช้สำหรับยืนยันตัวตนและรับการแจ้งเตือน</small>
           </fieldset>
-          <label class="register-consent"><input id="registerConsent" type="checkbox" required><span>ยินยอมรับ <a href="#">ข้อตกลงการใช้งาน</a> และ <a href="#">นโยบายความเป็นส่วนตัว</a></span></label>
+          <label class="register-consent"><input id="registerConsent" type="checkbox" required><span>ยินยอมรับ <a href="legal.html#terms" target="_blank" rel="noopener">ข้อตกลงการใช้งาน</a> และ <a href="legal.html#privacy" target="_blank" rel="noopener">นโยบายความเป็นส่วนตัว</a></span></label>
           <p class="register-message" id="registerMessage" role="status"></p>
           <button class="register-submit" type="submit"><img src="assets/lotus.png" alt="" loading="lazy" decoding="async"> สมัครสมาชิก</button>
           <p class="register-login"><span id="authSwitchPrompt">มีบัญชีอยู่แล้ว?</span> <button type="button" id="showLogin">เข้าสู่ระบบ</button></p>
@@ -525,13 +528,13 @@
         <button type="button" class="vip-plan" data-vip-plan="monthly"><b>รายเดือน</b><strong>59 บาท<small>/เดือน</small></strong></button>
         <button type="button" class="vip-plan active" data-vip-plan="yearly"><span class="vip-plan-badge">คุ้มสุด</span><b>รายปี</b><strong>499 บาท<small>/ปี</small></strong></button>
       </div>
-      <button type="button" class="register-submit" id="vipBuyBtn">✨ สมัคร VIP</button>
+      <button type="button" class="register-submit" id="vipBuyBtn">✨ สมัคร VIP (เร็ว ๆ นี้)</button>
       <div class="vip-active" id="vipActiveView" hidden>
         <div class="vip-active-badge">👑 คุณคือสมาชิก VIP แล้ว</div>
         <p id="vipActivePlan">แพ็กเกจ: รายปี</p>
-        <button type="button" id="vipCancelBtn">ยกเลิก VIP (โหมดทดสอบ)</button>
+        <button type="button" id="vipCancelBtn">ยกเลิกสถานะ VIP ทดลอง</button>
       </div>
-      <p class="vip-note">โหมดทดสอบ — ยังไม่เชื่อมระบบชำระเงินจริง ไม่มีการตัดบัตร</p>
+      <p class="vip-note">VIP ยังไม่เปิดให้สมัคร ราคาและสิทธิพิเศษด้านบนเป็นแผนที่วางไว้ และยังไม่มีการเก็บเงินใด ๆ</p>
     </section>
 
     <section class="screen" id="screen-garden-character">
@@ -703,7 +706,6 @@
           <p class="reader-desc" id="readerDesc"></p>
           <div class="reader-meta">
             <span><svg class="meta-icon" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg><span id="readerDuration">-</span></span>
-            <span><svg class="meta-icon meta-person" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="8" r="4"/><path d="M5 21a7 7 0 0 1 14 0Z"/></svg>ยอดสวด <span id="readerPop">-</span> ครั้ง</span>
           </div>
         </div>
         <button class="reader-summary-fav" id="readerFav" aria-label="บันทึกบทสวดโปรด"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20.8 4.6a5.5 5.5 0 0 0-7.8 0L12 5.7l-1.1-1.1a5.5 5.5 0 0 0-7.8 7.8l1.1 1.1L12 21l7.8-7.5 1.1-1.1a5.5 5.5 0 0 0-.1-7.8Z"/></svg><span>ยอดนิยม</span></button>
@@ -796,10 +798,6 @@
       <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 5.5S4 4 8 4s6 1.5 6 1.5v14S12 18 8 18s-6 1.5-6 1.5v-14Z"/><path d="M22 5.5S20 4 16 4s-6 1.5-6 1.5v14S12 18 16 18s6 1.5 6 1.5v-14Z"/></svg>
       <span>บทสวด</span>
     </button>
-    <button class="nav-item" data-nav="assistant">
-      <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m12 3 1.2 3.8L17 8l-3.8 1.2L12 13l-1.2-3.8L7 8l3.8-1.2Z"/><path d="m18 14 .8 2.2L21 17l-2.2.8L18 20l-.8-2.2L15 17l2.2-.8Z"/><path d="M4 16h7M7.5 12.5v7"/></svg>
-      <span>ผู้ช่วย</span>
-    </button>
     <button class="nav-item nav-main active" id="mainPrayerBtn">
       <span class="nav-main-circle"><img src="assets/navlotus.png" alt="" loading="lazy" decoding="async"></span>
       <span>สวดมนต์</span>
@@ -812,16 +810,12 @@
       <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="8" r="3"/><circle cx="17" cy="9" r="2.5"/><path d="M3 20a6 6 0 0 1 12 0M14 15.5a5 5 0 0 1 7 4.5"/></svg>
       <span>ชุมชน</span>
     </button>
-    <button class="nav-item" data-nav="settings">
-      <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.7 1.7 0 0 0 .3 1.9l.1.1a2 2 0 1 1-2.8 2.8l-.1-.1a1.7 1.7 0 0 0-1.9-.3 1.7 1.7 0 0 0-1 1.5V21a2 2 0 1 1-4 0v-.1a1.7 1.7 0 0 0-1-1.6 1.7 1.7 0 0 0-1.9.3l-.1.1a2 2 0 1 1-2.8-2.8l.1-.1a1.7 1.7 0 0 0 .3-1.9 1.7 1.7 0 0 0-1.5-1H3a2 2 0 1 1 0-4h.1a1.7 1.7 0 0 0 1.6-1 1.7 1.7 0 0 0-.3-1.9l-.1-.1a2 2 0 1 1 2.8-2.8l.1.1a1.7 1.7 0 0 0 1.9.3H9a1.7 1.7 0 0 0 1-1.5V3a2 2 0 1 1 4 0v.1a1.7 1.7 0 0 0 1 1.5 1.7 1.7 0 0 0 1.9-.3l.1-.1a2 2 0 1 1 2.8 2.8l-.1.1a1.7 1.7 0 0 0-.3 1.9V9a1.7 1.7 0 0 0 1.5 1H21a2 2 0 1 1 0 4h-.1a1.7 1.7 0 0 0-1.5 1z"/></svg>
-      <span>ตั้งค่า</span>
-    </button>
   </nav>
 
 </div>
 
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script src="supabase-config.js"></script>
-<script src="app.js?v=20261114-2"></script>
+<script src="app.js?v=20261117-2"></script>
 </body>
 </html>

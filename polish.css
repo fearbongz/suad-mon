@@ -225,3 +225,96 @@ body:is([data-screen="prayers"],[data-screen="merit"],[data-screen="assistant"],
 .settings-item[data-soon]>:is(.settings-icon,.settings-copy){opacity:.6;}
 .help-faq-empty{padding:14px 6px 4px;text-align:center;font-size:.86rem;color:var(--ink-soft);}
 .help-faq-empty[hidden]{display:none;}
+
+/* ---------- prayer cards: a slightly smaller picture gives long titles room ---------- */
+.prayer-card .pc-icon-wrap{width:88px;height:88px;flex:0 0 88px;}
+
+/* ---------- touch feedback on garden / community (uses `scale`, so existing transforms are untouched) ---------- */
+:is(.garden-quick-stack button,.garden-side-actions button,.garden-heading-actions button,.garden-gift,.community-tabs button,
+   .community-personal header button,.encouragement-main-tabs button,.rewards-page-head button,.character-collect,.decorate-tabs button){
+  transition:scale .16s var(--ease-out);-webkit-tap-highlight-color:transparent;
+}
+:is(.garden-quick-stack button,.garden-side-actions button,.garden-heading-actions button,.garden-gift,.community-tabs button,
+   .community-personal header button,.encouragement-main-tabs button,.rewards-page-head button,.character-collect,.decorate-tabs button):active{scale:.95;}
+#offlineDownloadBtn.is-busy{pointer-events:none;}
+#offlineDownloadBtn.is-busy .settings-icon{animation:float 1.2s ease-in-out infinite;}
+
+/* ---- welcome screen (settings tab, signed out) ----
+   The original layout pinned every piece at a fixed % of a tall fixed-ratio
+   box, which left large gaps and pushed the sign-up button under the bottom
+   nav on shorter phones. Lay it out as a normal column that fits the viewport. */
+body:has(#screen-settings.active.guest-mode) .app-shell{padding-bottom:96px!important;}
+body:has(#screen-settings.active.guest-mode) #screen-settings.guest-mode{aspect-ratio:auto!important;overflow:visible;}
+body #screen-settings.guest-mode .settings-guest{
+  position:static;inset:auto;display:flex!important;flex-direction:column;align-items:center;
+  justify-content:space-between;gap:12px;box-sizing:border-box;
+  min-height:calc(100dvh - 96px);padding:clamp(20px,4.5vh,44px) 18px 10px;pointer-events:auto;
+}
+body #screen-settings.guest-mode .settings-guest-greeting{position:static;width:100%;}
+body #screen-settings.guest-mode .settings-guest-greeting h2{font-size:clamp(2rem,9.5vw,2.7rem);}
+body #screen-settings.guest-mode .settings-guest-greeting p{margin-top:6px;font-size:.82rem;}
+body #screen-settings.guest-mode .settings-guest-character{
+  position:static;transform:none;width:auto;max-width:78%;height:clamp(150px,30vh,290px);flex:0 1 auto;min-height:0;
+}
+body #screen-settings.guest-mode .settings-daily-quote{
+  position:relative;left:auto;top:auto;width:100%;max-width:360px;height:auto;padding:14px 18px 12px 46px;
+  align-items:flex-start;text-align:left;border-radius:20px;
+  border:1px solid rgba(255,255,255,.85)!important;background:rgba(255,255,255,.66)!important;
+  box-shadow:0 8px 22px rgba(129,82,160,.10)!important;
+}
+body #screen-settings.guest-mode .settings-daily-quote i{left:14px;top:8px;transform:none;font-size:2.4rem;}
+body #screen-settings.guest-mode .settings-daily-quote p{max-width:none;margin:0;transform:none;font-size:1.02rem!important;line-height:1.5;color:#6f5f80;}
+body #screen-settings.guest-mode .settings-daily-quote small{margin-top:4px;transform:none;font-size:.72rem;}
+body #screen-settings.guest-mode .settings-guest-features{display:grid!important;max-width:380px;}
+body #screen-settings.guest-mode .settings-guest-features article>span{width:50px;height:50px;margin-bottom:7px;}
+body #screen-settings.guest-mode .settings-guest-features img,
+body #screen-settings.guest-mode .settings-guest-features svg{width:27px;height:27px;}
+body #screen-settings.guest-mode .settings-guest-features b{font-size:.76rem;}
+body #screen-settings.guest-mode .settings-guest-features small{font-size:.6rem;}
+body #screen-settings.guest-mode .settings-guest>#settingsGuestRegisterBtn{
+  position:static;width:min(100%,330px);height:54px;flex:0 0 54px;margin-top:4px;
+}
+body #screen-settings.guest-mode .settings-guest>#settingsGuestRegisterBtn:active{scale:.97;}
+body #screen-settings.guest-mode .settings-guest>.settings-guest-login{position:static;width:auto;padding:0;}
+
+/* ---- header account/settings button (settings left the bottom nav) ---- */
+.hero-account{
+  position:absolute;z-index:6;top:14px;right:14px;height:38px;min-width:38px;padding:0 9px;
+  display:inline-flex;align-items:center;justify-content:center;gap:6px;border:1px solid rgba(255,255,255,.8);
+  border-radius:999px;background:rgba(255,255,255,.72);backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px);
+  color:#7a55c7;font:inherit;font-size:.78rem;font-weight:700;box-shadow:0 4px 12px rgba(120,80,170,.16);cursor:pointer;
+}
+.hero-account svg{width:20px;height:20px;fill:none;stroke:currentColor;stroke-width:1.7;stroke-linejoin:round;}
+.hero-account span{padding-right:3px;white-space:nowrap;}
+body.signed-in .hero-account span{display:none;}
+.hero-account:active{scale:.94;}
+
+/* ---- assistant entry on the prayers page (assistant left the bottom nav) ---- */
+.assistant-entry{
+  width:100%;margin:12px 0 2px;padding:11px 14px;display:flex;align-items:center;gap:11px;text-align:left;
+  border:1px solid rgba(255,255,255,.9);border-radius:18px;cursor:pointer;font:inherit;color:#5b3f9c;
+  background:linear-gradient(100deg,#f6ecff,#ffeef7);box-shadow:0 6px 16px rgba(132,92,186,.10);
+}
+.assistant-entry>span:first-child{width:38px;height:38px;flex:0 0 38px;display:grid;place-items:center;border-radius:50%;background:#fff;font-size:1.15rem;}
+.assistant-entry-copy{flex:1;min-width:0;display:flex;flex-direction:column;}
+.assistant-entry-copy b{font-size:.95rem;}
+.assistant-entry-copy small{color:#9482ad;font-size:.74rem;}
+.assistant-entry>i{font-style:normal;font-size:1.4rem;color:#a98bd8;}
+.assistant-entry:active{scale:.98;}
+/* compact header: icon only, and the illustration steps aside for it */
+body:is([data-screen="prayers"],[data-screen="assistant"],[data-screen="reader"],[data-screen="about"],[data-screen="profile"]) .hero-account span{display:none;}
+body:is([data-screen="prayers"],[data-screen="assistant"],[data-screen="reader"],[data-screen="about"],[data-screen="profile"]) .hero .hero-illust{right:54px;width:80px;}
+/* short phones: keep the welcome screen's log-in link above the bottom nav */
+@media (max-height:700px){
+  body #screen-settings.guest-mode .settings-guest{gap:8px;padding-top:16px;}
+  body #screen-settings.guest-mode .settings-guest-character{height:clamp(110px,21vh,160px);}
+  body #screen-settings.guest-mode .settings-guest-features small{display:none;}
+  body #screen-settings.guest-mode .settings-guest>#settingsGuestRegisterBtn{height:48px;flex-basis:48px;}
+}
+@media (max-width:380px){
+  body:is([data-screen="prayers"],[data-screen="assistant"],[data-screen="reader"],[data-screen="about"],[data-screen="profile"]) .hero .hero-illust{display:none;}
+}
+
+/* help screen: policy rows are real links now */
+.help-app-info p>a{flex:1;display:flex;justify-content:space-between;color:inherit;text-decoration:none;}
+.register-consent a{text-decoration:underline;text-underline-offset:2px;}
